@@ -13,7 +13,7 @@ docker compose up --build
 ```
 
 - Backend API: `http://localhost:3000`
-- Frontend UI: `http://localhost:8080`
+- Frontend UI: `http://localhost:3000` (served statically by backend)
 
 Stop stack:
 
@@ -84,6 +84,7 @@ See `.env.example` (use `.env` in production):
 - `MAX_IMAGE_PIXELS` (default 25,000,000) — reject oversized images by pixel count
 - `IMAGE_MAX_WIDTH` (default 1920) — server resize width for full image
 - `THUMB_WIDTH` (default 400) — server resize width for thumbnail
+- `DB_PATH` (default `./backend/data.db` when running locally)
 
 ## Development
 
@@ -107,9 +108,7 @@ See `.env.example` (use `.env` in production):
   - `MAX_UPLOAD_MB` (optional, default 5)
   - `MAX_IMAGE_PIXELS` (optional)
   - `IMAGE_MAX_WIDTH`, `THUMB_WIDTH` (optional)
-- Static frontend: Add a second Static Site on Render pointing to `frontend/`.
-  - Publish directory: `frontend`
-  - Or rely on backend static serving (already enabled) by copying `frontend` into the build image.
+- Static frontend: not required; backend already serves `frontend/`.
 
 #### One-click with Blueprint
 
@@ -135,7 +134,7 @@ Note: This repo already serves `frontend/` statically from the backend if presen
 
 - Meta tags and Open Graph added to `frontend/index.html` with dynamic canonical URL.
 - Backend serves `robots.txt` and `sitemap.xml` (includes homepage and up to 50 latest listings).
-- Static assets served with cache headers from Express; consider CDN for production.
+- Static assets served with cache headers from Express; consider CDN for production. A dynamic `sitemap.xml` and `robots.txt` are available at the root.
 
 ## Notes
 

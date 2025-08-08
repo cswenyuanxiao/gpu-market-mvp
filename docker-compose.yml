@@ -14,14 +14,15 @@ services:
       - "3000:3000"
     command: sh -c "node seed.js && node index.js"
 
-  frontend:
-    image: nginx:alpine
-    container_name: gpu-market-frontend
-    depends_on:
-      - backend
-    ports:
-      - "8080:80"
-    volumes:
-      - ./frontend:/usr/share/nginx/html:ro
-      - ./frontend/nginx.conf:/etc/nginx/conf.d/default.conf:ro
+  # Frontend is served by backend container now. Uncomment below to serve via nginx instead.
+  # frontend:
+  #   image: nginx:alpine
+  #   container_name: gpu-market-frontend
+  #   depends_on:
+  #     - backend
+  #   ports:
+  #     - "8080:80"
+  #   volumes:
+  #     - ./frontend:/usr/share/nginx/html:ro
+  #     - ./frontend/nginx.conf:/etc/nginx/conf.d/default.conf:ro
 
