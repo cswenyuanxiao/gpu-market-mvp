@@ -24,7 +24,9 @@ export default function App() {
     }
     window.addEventListener('app-toast', onToast as any);
     return () => window.removeEventListener('app-toast', onToast as any);
-  }, [api, init]);
+    // Run once on mount to avoid re-registering and re-calling init()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   return (
     <>
       <nav className="navbar navbar-expand navbar-light bg-light">
