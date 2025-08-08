@@ -13,10 +13,12 @@ import Sell from './pages/Sell';
 import Edit from './pages/Edit';
 import NotFound from './pages/NotFound';
 import ProfileEdit from './pages/ProfileEdit';
+import { useScrollRestoration } from './lib/useScrollRestoration';
 
 export default function App() {
   const { api, messages } = useToast();
   const { user, init, logout } = useAuth();
+  useScrollRestoration();
   useEffect(() => {
     init();
     function onToast(e: Event) {

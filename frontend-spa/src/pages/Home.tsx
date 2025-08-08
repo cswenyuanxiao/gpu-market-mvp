@@ -158,6 +158,11 @@ export default function Home() {
                 </div>
               </div>
             ))}
+            {!loading && items.length === 0 && (
+              <div className="col-12">
+                <div className="alert alert-info">No results. Try adjusting filters.</div>
+              </div>
+            )}
           </div>
           <div className="d-flex justify-content-center mt-3">
             <Pagination page={page} per={per} total={total} onChange={(p) => setPage(p)} />
