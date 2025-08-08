@@ -30,6 +30,7 @@ export default function DetailsModal({ item, onClose }: { item: Gpu | null; onCl
                       src={im.thumb_path || im.image_path}
                       style={{ width: 72, height: 72, objectFit: 'cover' }}
                       className="rounded border"
+                      loading="lazy"
                     />
                   ))}
                 </div>

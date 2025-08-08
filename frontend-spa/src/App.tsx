@@ -12,6 +12,7 @@ import Detail from './pages/Detail';
 import Sell from './pages/Sell';
 import Edit from './pages/Edit';
 import NotFound from './pages/NotFound';
+import ProfileEdit from './pages/ProfileEdit';
 
 export default function App() {
   const { api, messages } = useToast();
@@ -51,6 +52,14 @@ export default function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/profile" element={<Profile />} />
+        <Route
+          path="/profile/edit"
+          element={
+            <AuthGuard>
+              <ProfileEdit />
+            </AuthGuard>
+          }
+        />
         <Route path="/g/:id" element={<Detail />} />
         <Route
           path="/sell"

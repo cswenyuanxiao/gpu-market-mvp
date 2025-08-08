@@ -91,12 +91,13 @@ export default function Home() {
               <div className="col-md-6" key={gpu.id}>
                 <div className="card mb-3">
                   <div className="row g-0">
-                    {gpu.image_path && (
+                        {gpu.image_path && (
                       <div className="col-4">
                         <img
                           src={gpu.image_path}
                           className="img-fluid rounded-start"
-                          style={{ height: 160, objectFit: 'cover' }}
+                              style={{ height: 160, objectFit: 'cover' }}
+                              loading="lazy"
                         />
                       </div>
                     )}
