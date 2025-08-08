@@ -302,10 +302,12 @@ function authenticateToken(req, res, next) {
 app.use('/uploads', express.static(uploadDir, { maxAge: '7d', immutable: true }));
 
 // Serve frontend statically when available (for deployment)
-const frontendDir = path.join(__dirname, '..', 'frontend');
-if (fs.existsSync(frontendDir)) {
+const frontendRoot = path.join(__dirname, '..', 'frontend');
+const frontendDist = path.join(frontendRoot, 'dist');
+const staticDir = fs.existsSync(frontendDist) ? frontendDist : frontendRoot;
+if (fs.existsSync(staticDir)) {
   app.use(
-    express.static(frontendDir, {
+    express.static(staticDir, {
       setHeaders: (res, filePath) => {
         if (filePath.endsWith('.html')) {
           res.setHeader('Cache-Control', 'no-cache');
@@ -315,7 +317,7 @@ if (fs.existsSync(frontendDir)) {
       },
     }),
   );
-  app.get('/', (req, res) => res.sendFile(path.join(frontendDir, 'index.html')));
+  app.get('/', (req, res) => res.sendFile(path.join(staticDir, 'index.html')));
 }
 
 // Rate limit for auth endpoints

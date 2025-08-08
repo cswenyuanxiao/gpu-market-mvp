@@ -91,6 +91,11 @@ See `.env.example` (use `.env` in production):
 - Tests: `cd backend && npm test`
 - CI: GitHub Actions runs on push/PR
 
+### Frontend (React + Vite + TS) — Phase 11
+
+- Dev: `cd frontend-spa && npm install && npm run dev` (proxy 到 `http://localhost:3000`)
+- Build: `npm run build`（产出到 `frontend/dist/`，由后端静态托管）
+
 ## Free Deploy (Render or Railway)
 
 ### Option A: Render (Free Web Service)
