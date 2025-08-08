@@ -318,6 +318,9 @@ if (fs.existsSync(staticDir)) {
     }),
   );
   app.get('/', (req, res) => res.sendFile(path.join(staticDir, 'index.html')));
+  // SPA routes fallback
+  const spaRoutes = ['/login', '/register', '/my', '/profile'];
+  app.get(spaRoutes, (req, res) => res.sendFile(path.join(staticDir, 'index.html')));
 }
 
 // Rate limit for auth endpoints
