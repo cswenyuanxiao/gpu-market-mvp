@@ -97,6 +97,12 @@ const uploadFailures = new client.Counter({
   help: 'Failed image uploads due to validation',
 });
 register.registerMetric(uploadFailures);
+
+function getBaseUrl(req) {
+  const proto = req.headers['x-forwarded-proto'] || req.protocol || 'http';
+  const host = req.get('host');
+  return `${proto}://${host}`;
+}
 app.use((req, res, next) => {
   const start = process.hrtime.bigint();
   res.on('finish', () => {
@@ -724,6 +730,35 @@ app.get('/health', (req, res) => res.json({ status: 'ok', uptime: process.uptime
 app.get('/metrics', async (req, res) => {
   res.set('Content-Type', register.contentType);
   res.end(await register.metrics());
+});
+
+// SEO: robots.txt and sitemap.xml
+app.get('/robots.txt', (req, res) => {
+  const base = getBaseUrl(req);
+  res.type('text/plain').send(`User-agent: *\nAllow: /\nSitemap: ${base}/sitemap.xml\n`);
+});
+
+app.get('/sitemap.xml', (req, res) => {
+  const base = getBaseUrl(req);
+  // Include homepage and latest listings (up to 50)
+  const urls = [];
+  urls.push({ loc: `${base}/`, lastmod: new Date().toISOString() });
+  try {
+    const rows = db
+      .prepare('SELECT id, created_at FROM gpus ORDER BY datetime(created_at) DESC LIMIT 50')
+      .all();
+    for (const r of rows) {
+      urls.push({ loc: `${base}/?id=${r.id}`, lastmod: r.created_at || new Date().toISOString() });
+    }
+  } catch (e) {
+    // ignore
+  }
+  const xml =
+    `<?xml version="1.0" encoding="UTF-8"?>\n` +
+    `<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">` +
+    urls.map((u) => `\n  <url><loc>${u.loc}</loc><lastmod>${u.lastmod}</lastmod></url>`).join('') +
+    `\n</urlset>`;
+  res.type('application/xml').send(xml);
 });
 
 // My listings endpoint

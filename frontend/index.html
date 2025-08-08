@@ -1,10 +1,30 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>GPU Market</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>GPU Market — Buy & Sell Used GPUs</title>
+    <meta
+      name="description"
+      content="Find and sell used NVIDIA and AMD graphics cards. Filter by brand, VRAM, condition and price. Secure, fast, and simple GPU marketplace."
+    />
+    <link rel="canonical" id="canonicalLink" href="/" />
+    <meta property="og:title" content="GPU Market" />
+    <meta
+      property="og:description"
+      content="Buy & sell used GPUs with filters, images, and seller info."
+    />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" id="ogUrl" content="/" />
+    <meta
+      property="og:image"
+      content="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/svg/1f579.svg"
+    />
+    <meta name="twitter:card" content="summary_large_image" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
     <style>
       .skeleton {
         position: relative;
@@ -18,10 +38,22 @@
         left: -150px;
         height: 100%;
         width: 150px;
-        background: linear-gradient(90deg, rgba(255,255,255,0) 0%, rgba(255,255,255,.6) 50%, rgba(255,255,255,0) 100%);
+        background: linear-gradient(
+          90deg,
+          rgba(255, 255, 255, 0) 0%,
+          rgba(255, 255, 255, 0.6) 50%,
+          rgba(255, 255, 255, 0) 100%
+        );
         animation: loading 1.2s infinite;
       }
-      @keyframes loading { 0% { left: -150px; } 100% { left: 100%; } }
+      @keyframes loading {
+        0% {
+          left: -150px;
+        }
+        100% {
+          left: 100%;
+        }
+      }
     </style>
   </head>
   <body>
@@ -40,14 +72,16 @@
         <div class="container-fluid py-2">
           <h1 class="display-6">Find your next GPU</h1>
           <form id="heroForm" class="d-flex gap-2 mt-2">
-            <input class="form-control form-control-lg" name="q" placeholder="Search GPUs...">
+            <input class="form-control form-control-lg" name="q" placeholder="Search GPUs..." />
             <select class="form-select form-select-lg" id="sortSelect">
               <option value="newest">Newest</option>
               <option value="price_asc">Price ↑</option>
               <option value="price_desc">Price ↓</option>
             </select>
             <button class="btn btn-primary btn-lg" id="heroSearchBtn">Search</button>
-            <button class="btn btn-outline-secondary btn-lg" id="myListingsBtn" type="button">My Listings</button>
+            <button class="btn btn-outline-secondary btn-lg" id="myListingsBtn" type="button">
+              My Listings
+            </button>
           </form>
         </div>
       </div>
@@ -57,16 +91,35 @@
           <h5>Search & Filters</h5>
           <form id="searchForm" class="mb-2">
             <div id="searchError" class="alert alert-danger d-none"></div>
-            <input class="form-control mb-2" name="q" placeholder="Search title or description">
+            <input class="form-control mb-2" name="q" placeholder="Search title or description" />
             <div class="d-flex gap-2 mb-2">
-              <input class="form-control" name="min" placeholder="Min price">
-              <input class="form-control" name="max" placeholder="Max price">
+              <input class="form-control" name="min" placeholder="Min price" />
+              <input class="form-control" name="max" placeholder="Max price" />
             </div>
             <div class="mb-2">
-              <label class="form-label d-flex justify-content-between"><span>Price range</span><span><small id="priceRangeLabel" class="text-muted"></small></span></label>
+              <label class="form-label d-flex justify-content-between"
+                ><span>Price range</span
+                ><span><small id="priceRangeLabel" class="text-muted"></small></span
+              ></label>
               <div class="d-flex align-items-center gap-2">
-                <input type="range" id="priceMinRange" min="0" max="5000" step="10" class="form-range" style="width:50%">
-                <input type="range" id="priceMaxRange" min="0" max="5000" step="10" class="form-range" style="width:50%">
+                <input
+                  type="range"
+                  id="priceMinRange"
+                  min="0"
+                  max="5000"
+                  step="10"
+                  class="form-range"
+                  style="width: 50%"
+                />
+                <input
+                  type="range"
+                  id="priceMaxRange"
+                  min="0"
+                  max="5000"
+                  step="10"
+                  class="form-range"
+                  style="width: 50%"
+                />
               </div>
             </div>
             <div class="d-flex gap-2 mb-2">
@@ -91,7 +144,9 @@
             </select>
             <div class="d-flex gap-2 align-items-center">
               <button class="btn btn-primary" id="searchBtn">Search</button>
-              <button class="btn btn-outline-secondary" id="clearAllBtn" type="button">Clear all</button>
+              <button class="btn btn-outline-secondary" id="clearAllBtn" type="button">
+                Clear all
+              </button>
             </div>
           </form>
 
@@ -100,25 +155,51 @@
           <h5>Create listing</h5>
           <form id="createForm">
             <div id="createError" class="alert alert-danger d-none"></div>
-            <input class="form-control mb-2" name="title" placeholder="Title" required>
-            <input class="form-control mb-2" name="price" placeholder="Price" required>
-            <select class="form-select mb-2" name="condition"><option>New</option><option>Used</option></select>
+            <input class="form-control mb-2" name="title" placeholder="Title" required />
+            <input class="form-control mb-2" name="price" placeholder="Price" required />
+            <select class="form-select mb-2" name="condition">
+              <option>New</option>
+              <option>Used</option>
+            </select>
             <div class="d-flex gap-2 mb-2">
               <select class="form-select" name="brand">
                 <option value="">Brand</option>
                 <option>NVIDIA</option>
                 <option>AMD</option>
               </select>
-              <input class="form-control" name="vram_gb" placeholder="VRAM (GB)">
+              <input class="form-control" name="vram_gb" placeholder="VRAM (GB)" />
             </div>
-            <textarea class="form-control mb-2" name="description" placeholder="Description"></textarea>
+            <textarea
+              class="form-control mb-2"
+              name="description"
+              placeholder="Description"
+            ></textarea>
             <div class="mb-2">
-              <div id="dropZone" class="border rounded p-3 text-center text-muted">Drag & drop image here or click to select</div>
-              <input type="file" name="image" id="imageInput" class="form-control mt-2" accept="image/*" hidden>
-              <img id="previewImg" class="img-fluid mt-2 d-none" alt="preview">
+              <div id="dropZone" class="border rounded p-3 text-center text-muted">
+                Drag & drop image here or click to select
+              </div>
+              <input
+                type="file"
+                name="image"
+                id="imageInput"
+                class="form-control mt-2"
+                accept="image/*"
+                hidden
+              />
+              <img id="previewImg" class="img-fluid mt-2 d-none" alt="preview" />
               <div class="d-flex flex-wrap gap-2 mt-2" id="multiPreview"></div>
-              <small class="text-muted">You can also select multiple images below (max 10). Large images will be resized.</small>
-              <input type="file" name="images" id="imagesInput" class="form-control mt-2" accept="image/*" multiple>
+              <small class="text-muted"
+                >You can also select multiple images below (max 10). Large images will be
+                resized.</small
+              >
+              <input
+                type="file"
+                name="images"
+                id="imagesInput"
+                class="form-control mt-2"
+                accept="image/*"
+                multiple
+              />
             </div>
             <button class="btn btn-success" type="submit">Create</button>
           </form>
@@ -131,9 +212,23 @@
             </div>
             <div>
               <form id="authForm" class="d-inline">
-                <div id="authError" class="alert alert-danger d-inline-block py-1 px-2 me-2 d-none"></div>
-                <input class="form-control d-inline-block" style="width:150px" name="username" placeholder="Username">
-                <input class="form-control d-inline-block" style="width:150px" name="password" type="password" placeholder="Password">
+                <div
+                  id="authError"
+                  class="alert alert-danger d-inline-block py-1 px-2 me-2 d-none"
+                ></div>
+                <input
+                  class="form-control d-inline-block"
+                  style="width: 150px"
+                  name="username"
+                  placeholder="Username"
+                />
+                <input
+                  class="form-control d-inline-block"
+                  style="width: 150px"
+                  name="password"
+                  type="password"
+                  placeholder="Password"
+                />
                 <button class="btn btn-secondary" id="loginBtn">Login</button>
                 <button class="btn btn-link" id="registerBtn">Register</button>
               </form>
@@ -155,12 +250,15 @@
           <div class="modal-header"><h5 class="modal-title">Edit Listing</h5></div>
           <div class="modal-body">
             <form id="editForm">
-              <input class="form-control mb-2" name="title">
-              <input class="form-control mb-2" name="price">
-              <select class="form-select mb-2" name="condition"><option>New</option><option>Used</option></select>
+              <input class="form-control mb-2" name="title" />
+              <input class="form-control mb-2" name="price" />
+              <select class="form-select mb-2" name="condition">
+                <option>New</option>
+                <option>Used</option>
+              </select>
               <textarea class="form-control mb-2" name="description"></textarea>
-              <input type="file" name="image" class="form-control mb-2" accept="image/*">
-              <input type="hidden" name="id">
+              <input type="file" name="image" class="form-control mb-2" accept="image/*" />
+              <input type="hidden" name="id" />
             </form>
           </div>
           <div class="modal-footer">
@@ -177,12 +275,17 @@
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title" id="detailsTitle">Listing Details</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            <button
+              type="button"
+              class="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"
+            ></button>
           </div>
           <div class="modal-body">
             <div class="row g-3">
               <div class="col-md-6">
-                <img id="detailsImage" class="img-fluid rounded mb-2" alt="preview">
+                <img id="detailsImage" class="img-fluid rounded mb-2" alt="preview" />
                 <div id="thumbGallery" class="d-flex flex-wrap gap-2"></div>
               </div>
               <div class="col-md-6">
@@ -190,11 +293,18 @@
                 <p class="mb-2"><span class="badge bg-secondary" id="detailsCondition"></span></p>
                 <p class="mb-2"><strong>Price:</strong> <span id="detailsPrice"></span></p>
                 <div class="d-flex align-items-center gap-2 mb-3">
-                  <img id="detailsSellerAvatar" class="rounded-circle" style="width:32px;height:32px;object-fit:cover" alt="avatar">
+                  <img
+                    id="detailsSellerAvatar"
+                    class="rounded-circle"
+                    style="width: 32px; height: 32px; object-fit: cover"
+                    alt="avatar"
+                  />
                   <span id="detailsSellerName"></span>
                 </div>
                 <div class="d-flex gap-2">
-                  <button id="copyLinkBtn" class="btn btn-outline-primary" type="button">Copy Link</button>
+                  <button id="copyLinkBtn" class="btn btn-outline-primary" type="button">
+                    Copy Link
+                  </button>
                 </div>
               </div>
             </div>
@@ -208,106 +318,164 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <script>
-    const API = location.origin.includes('render.com') ? location.origin : 'http://localhost:3000';
-    function getToken(){return localStorage.getItem('token');}
-    function parseJwt(token){ try{const p = token.split('.')[1]; return JSON.parse(atob(p)); }catch(e){return null;} }
-
-    let currentPage = 1, currentQuery = {};
-    let myListingsMode = false;
-    const priceFormatter = new Intl.NumberFormat('en-GB', { style: 'currency', currency: 'GBP', maximumFractionDigits: 0 });
-    function formatPrice(n){ const num = Number(n||0); return priceFormatter.format(num); }
-    function formatDate(iso){ try{ const d = new Date(iso); return d.toLocaleDateString(); }catch(_){ return ''; } }
-
-    function showToast(message, type='info'){
-      const container = document.getElementById('toastContainer');
-      const id = 't' + Date.now();
-      const bg = type==='success'?'text-bg-success': type==='error'?'text-bg-danger': type==='warning'?'text-bg-warning':'text-bg-primary';
-      const el = document.createElement('div');
-      el.className = `toast align-items-center ${bg}`;
-      el.id = id;
-      el.role = 'alert';
-      el.ariaLive = 'assertive';
-      el.ariaAtomic = 'true';
-      el.innerHTML = `<div class="d-flex"><div class="toast-body">${message}</div><button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button></div>`;
-      container.appendChild(el);
-      const t = new bootstrap.Toast(el, { delay: 3000 });
-      t.show();
-      el.addEventListener('hidden.bs.toast', ()=> el.remove());
-    }
-
-    async function apiFetch(input, init={}){
-      const headers = new Headers(init.headers || {});
-      const token = getToken();
-      if (token && !headers.has('Authorization')) headers.set('Authorization','Bearer '+token);
-      const res = await fetch(input, { ...init, headers });
-      const reqId = res.headers.get('x-request-id');
-      if (reqId) document.getElementById('reqIdBadge').textContent = reqId;
-      if ((res.status === 401 || res.status === 403) && token){
-        localStorage.removeItem('token');
-        showToast('Session expired, please log in again', 'warning');
+      const API = location.origin.includes('render.com')
+        ? location.origin
+        : 'http://localhost:3000';
+      // Set canonical/og:url dynamically
+      (function setCanonical() {
+        const url = location.origin + location.pathname + location.search;
+        const c = document.getElementById('canonicalLink');
+        if (c) c.href = url;
+        const og = document.getElementById('ogUrl');
+        if (og) og.setAttribute('content', url);
+      })();
+      function getToken() {
+        return localStorage.getItem('token');
       }
-      return res;
-    }
-
-    function updateQueryString(){
-      const qs = new URLSearchParams();
-      for (const [k,v] of Object.entries(currentQuery)) if (v!==undefined && v!=='' && v!==null) qs.set(k, v);
-      if (myListingsMode) qs.set('my','1'); else qs.delete('my');
-      if (!qs.get('page')) qs.set('page', String(currentPage)); else qs.set('page', String(currentPage));
-      history.replaceState({}, '', '?' + qs.toString());
-    }
-
-    function syncFormFromQuery(){
-      const form = document.getElementById('searchForm');
-      form.q.value = currentQuery.q || '';
-      form.min.value = currentQuery.min || '';
-      form.max.value = currentQuery.max || '';
-      form.brand.value = currentQuery.brand || '';
-      form.vram.value = currentQuery.vram_min || '';
-      form.condition.value = currentQuery.condition || '';
-      // ranges
-      const minRange = document.getElementById('priceMinRange');
-      const maxRange = document.getElementById('priceMaxRange');
-      const minVal = Number(currentQuery.min || 0);
-      const maxVal = Number(currentQuery.max || 0);
-      minRange.value = String(isNaN(minVal)?0:minVal);
-      maxRange.value = String(isNaN(maxVal)||maxVal===0? (minRange.max): maxVal);
-      updatePriceRangeLabel();
-    }
-
-    function renderChips(){
-      const holder = document.getElementById('activeChips');
-      holder.innerHTML = '';
-      const map = { q:'Query', min:'Min', max:'Max', condition:'Condition', brand:'Brand', vram_min:'VRAM≥', sort:'Sort' };
-      const entries = Object.entries(currentQuery).filter(([k,v])=> v!==undefined && v!=='' && v!==null && k in map);
-      for (const [k,v] of entries){
-        const chip = document.createElement('span');
-        chip.className = 'badge rounded-pill text-bg-secondary me-2';
-        chip.innerHTML = `${map[k]}: ${v} <button type="button" class="btn-close btn-close-white btn-sm ms-1" aria-label="Remove"></button>`;
-        chip.querySelector('button').addEventListener('click', ()=>{
-          delete currentQuery[k];
-          if (k==='vram_min') document.getElementById('searchForm').vram.value='';
-          if (k==='min') document.getElementById('searchForm').min.value='';
-          if (k==='max') document.getElementById('searchForm').max.value='';
-          if (k==='brand') document.getElementById('searchForm').brand.value='';
-          if (k==='condition') document.getElementById('searchForm').condition.value='';
-          currentPage=1; updateQueryString(); doSearch();
-        });
-        holder.appendChild(chip);
+      function parseJwt(token) {
+        try {
+          const p = token.split('.')[1];
+          return JSON.parse(atob(p));
+        } catch (e) {
+          return null;
+        }
       }
-      if (entries.length){
-        const clr = document.getElementById('clearAllBtn');
-        clr.disabled = false;
-      } else {
-        document.getElementById('clearAllBtn').disabled = true;
-      }
-    }
 
-    function renderSkeleton(n=6){
-      const container = document.getElementById('listings'); container.innerHTML='';
-      for (let i=0;i<n;i++){
-        const col = document.createElement('div'); col.className='col-md-6';
-        col.innerHTML = `
+      let currentPage = 1,
+        currentQuery = {};
+      let myListingsMode = false;
+      const priceFormatter = new Intl.NumberFormat('en-GB', {
+        style: 'currency',
+        currency: 'GBP',
+        maximumFractionDigits: 0,
+      });
+      function formatPrice(n) {
+        const num = Number(n || 0);
+        return priceFormatter.format(num);
+      }
+      function formatDate(iso) {
+        try {
+          const d = new Date(iso);
+          return d.toLocaleDateString();
+        } catch (_) {
+          return '';
+        }
+      }
+
+      function showToast(message, type = 'info') {
+        const container = document.getElementById('toastContainer');
+        const id = 't' + Date.now();
+        const bg =
+          type === 'success'
+            ? 'text-bg-success'
+            : type === 'error'
+              ? 'text-bg-danger'
+              : type === 'warning'
+                ? 'text-bg-warning'
+                : 'text-bg-primary';
+        const el = document.createElement('div');
+        el.className = `toast align-items-center ${bg}`;
+        el.id = id;
+        el.role = 'alert';
+        el.ariaLive = 'assertive';
+        el.ariaAtomic = 'true';
+        el.innerHTML = `<div class="d-flex"><div class="toast-body">${message}</div><button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast"></button></div>`;
+        container.appendChild(el);
+        const t = new bootstrap.Toast(el, { delay: 3000 });
+        t.show();
+        el.addEventListener('hidden.bs.toast', () => el.remove());
+      }
+
+      async function apiFetch(input, init = {}) {
+        const headers = new Headers(init.headers || {});
+        const token = getToken();
+        if (token && !headers.has('Authorization')) headers.set('Authorization', 'Bearer ' + token);
+        const res = await fetch(input, { ...init, headers });
+        const reqId = res.headers.get('x-request-id');
+        if (reqId) document.getElementById('reqIdBadge').textContent = reqId;
+        if ((res.status === 401 || res.status === 403) && token) {
+          localStorage.removeItem('token');
+          showToast('Session expired, please log in again', 'warning');
+        }
+        return res;
+      }
+
+      function updateQueryString() {
+        const qs = new URLSearchParams();
+        for (const [k, v] of Object.entries(currentQuery))
+          if (v !== undefined && v !== '' && v !== null) qs.set(k, v);
+        if (myListingsMode) qs.set('my', '1');
+        else qs.delete('my');
+        if (!qs.get('page')) qs.set('page', String(currentPage));
+        else qs.set('page', String(currentPage));
+        history.replaceState({}, '', '?' + qs.toString());
+      }
+
+      function syncFormFromQuery() {
+        const form = document.getElementById('searchForm');
+        form.q.value = currentQuery.q || '';
+        form.min.value = currentQuery.min || '';
+        form.max.value = currentQuery.max || '';
+        form.brand.value = currentQuery.brand || '';
+        form.vram.value = currentQuery.vram_min || '';
+        form.condition.value = currentQuery.condition || '';
+        // ranges
+        const minRange = document.getElementById('priceMinRange');
+        const maxRange = document.getElementById('priceMaxRange');
+        const minVal = Number(currentQuery.min || 0);
+        const maxVal = Number(currentQuery.max || 0);
+        minRange.value = String(isNaN(minVal) ? 0 : minVal);
+        maxRange.value = String(isNaN(maxVal) || maxVal === 0 ? minRange.max : maxVal);
+        updatePriceRangeLabel();
+      }
+
+      function renderChips() {
+        const holder = document.getElementById('activeChips');
+        holder.innerHTML = '';
+        const map = {
+          q: 'Query',
+          min: 'Min',
+          max: 'Max',
+          condition: 'Condition',
+          brand: 'Brand',
+          vram_min: 'VRAM≥',
+          sort: 'Sort',
+        };
+        const entries = Object.entries(currentQuery).filter(
+          ([k, v]) => v !== undefined && v !== '' && v !== null && k in map,
+        );
+        for (const [k, v] of entries) {
+          const chip = document.createElement('span');
+          chip.className = 'badge rounded-pill text-bg-secondary me-2';
+          chip.innerHTML = `${map[k]}: ${v} <button type="button" class="btn-close btn-close-white btn-sm ms-1" aria-label="Remove"></button>`;
+          chip.querySelector('button').addEventListener('click', () => {
+            delete currentQuery[k];
+            if (k === 'vram_min') document.getElementById('searchForm').vram.value = '';
+            if (k === 'min') document.getElementById('searchForm').min.value = '';
+            if (k === 'max') document.getElementById('searchForm').max.value = '';
+            if (k === 'brand') document.getElementById('searchForm').brand.value = '';
+            if (k === 'condition') document.getElementById('searchForm').condition.value = '';
+            currentPage = 1;
+            updateQueryString();
+            doSearch();
+          });
+          holder.appendChild(chip);
+        }
+        if (entries.length) {
+          const clr = document.getElementById('clearAllBtn');
+          clr.disabled = false;
+        } else {
+          document.getElementById('clearAllBtn').disabled = true;
+        }
+      }
+
+      function renderSkeleton(n = 6) {
+        const container = document.getElementById('listings');
+        container.innerHTML = '';
+        for (let i = 0; i < n; i++) {
+          const col = document.createElement('div');
+          col.className = 'col-md-6';
+          col.innerHTML = `
           <div class="card mb-3">
             <div class="row g-0">
               <div class="col-4"><div class="skeleton" style="height:160px;"></div></div>
@@ -318,49 +486,54 @@
               </div></div>
             </div>
           </div>`;
-        container.appendChild(col);
+          container.appendChild(col);
+        }
       }
-    }
 
-    async function doSearch(params={}){
-      currentQuery = { ...currentQuery, ...params };
-      updateQueryString();
-      renderSkeleton(6);
-      const url = myListingsMode ? new URL(API + '/api/my/gpus') : new URL(API + '/api/search');
-      if(!myListingsMode){
-        url.search = new URLSearchParams({ ...currentQuery, page: currentPage }).toString();
+      async function doSearch(params = {}) {
+        currentQuery = { ...currentQuery, ...params };
+        updateQueryString();
+        renderSkeleton(6);
+        const url = myListingsMode ? new URL(API + '/api/my/gpus') : new URL(API + '/api/search');
+        if (!myListingsMode) {
+          url.search = new URLSearchParams({ ...currentQuery, page: currentPage }).toString();
+        }
+        const res = await apiFetch(url.toString());
+        const j = await res.json();
+        const results = myListingsMode ? j : j.results;
+        renderListings(results);
+        if (!myListingsMode) renderPagination(j.total, j.page, j.per);
+        else {
+          document.getElementById('pagination').innerHTML = '';
+        }
+        renderChips();
       }
-      const res = await apiFetch(url.toString());
-      const j = await res.json();
-      const results = myListingsMode ? j : j.results;
-      renderListings(results);
-      if(!myListingsMode) renderPagination(j.total, j.page, j.per); else { document.getElementById('pagination').innerHTML=''; }
-      renderChips();
-    }
 
-    function renderListings(items){
-      const container = document.getElementById('listings'); container.innerHTML='';
-      const me = parseJwt(getToken());
-      for(const gpu of items){
-        const col = document.createElement('div'); col.className='col-md-6';
-        col.innerHTML = `
+      function renderListings(items) {
+        const container = document.getElementById('listings');
+        container.innerHTML = '';
+        const me = parseJwt(getToken());
+        for (const gpu of items) {
+          const col = document.createElement('div');
+          col.className = 'col-md-6';
+          col.innerHTML = `
           <div class="card mb-3">
             <div class="row g-0">
-              ${gpu.image_path?`<div class=\"col-4\"><img src=\"${API}${gpu.image_path}\" class=\"img-fluid rounded-start\" style=\"height:160px;object-fit:cover\" data-detailsid=\"${gpu.id}\"></div>`:''}
+              ${gpu.image_path ? `<div class=\"col-4\"><img src=\"${API}${gpu.image_path}\" class=\"img-fluid rounded-start\" style=\"height:160px;object-fit:cover\" data-detailsid=\"${gpu.id}\"></div>` : ''}
               <div class="col"><div class="card-body" data-detailsid="${gpu.id}">
                 <div class="d-flex justify-content-between align-items-center">
                   <h5 class="card-title mb-0">${gpu.title}</h5>
                   <div class="d-flex gap-1">
-                    ${gpu.brand?`<span class=\"badge bg-info text-dark\">${gpu.brand}</span>`:''}
-                    ${Number(gpu.vram_gb)>0?`<span class=\"badge bg-warning text-dark\">${gpu.vram_gb}GB</span>`:''}
-                    <span class="badge ${gpu.condition==='New'?'bg-success':'bg-secondary'}">${gpu.condition}</span>
+                    ${gpu.brand ? `<span class=\"badge bg-info text-dark\">${gpu.brand}</span>` : ''}
+                    ${Number(gpu.vram_gb) > 0 ? `<span class=\"badge bg-warning text-dark\">${gpu.vram_gb}GB</span>` : ''}
+                    <span class="badge ${gpu.condition === 'New' ? 'bg-success' : 'bg-secondary'}">${gpu.condition}</span>
                   </div>
                 </div>
-                <p class="card-text mt-2">${gpu.description||''}</p>
+                <p class="card-text mt-2">${gpu.description || ''}</p>
                 <p class="card-text d-flex align-items-center gap-2"><small class="text-muted">${formatPrice(gpu.price)}</small>
-                  ${gpu.seller_avatar?`<img src="${API}${gpu.seller_avatar}" class="rounded-circle" style="width:24px;height:24px;object-fit:cover">`:''}
-                  <small class="text-muted">Seller: ${gpu.seller_name||''}</small>
-                  <small class="text-muted ms-auto">${gpu.created_at?`Added: ${formatDate(gpu.created_at)}`:''}</small>
+                  ${gpu.seller_avatar ? `<img src="${API}${gpu.seller_avatar}" class="rounded-circle" style="width:24px;height:24px;object-fit:cover">` : ''}
+                  <small class="text-muted">Seller: ${gpu.seller_name || ''}</small>
+                  <small class="text-muted ms-auto">${gpu.created_at ? `Added: ${formatDate(gpu.created_at)}` : ''}</small>
                 </p>
                 <div class="d-flex gap-2">
                   <button class="btn btn-sm btn-outline-primary" data-detailsid="${gpu.id}">Details</button>
@@ -368,166 +541,379 @@
                 </div>
               </div></div>
             </div></div>`;
-        container.appendChild(col);
+          container.appendChild(col);
+        }
+        document
+          .querySelectorAll('[data-editid]')
+          .forEach((b) => b.addEventListener('click', openEdit));
+        document
+          .querySelectorAll('[data-delid]')
+          .forEach((b) => b.addEventListener('click', delListing));
+        document
+          .querySelectorAll('[data-detailsid]')
+          .forEach((b) => b.addEventListener('click', openDetails));
       }
-      document.querySelectorAll('[data-editid]').forEach(b=>b.addEventListener('click', openEdit));
-      document.querySelectorAll('[data-delid]').forEach(b=>b.addEventListener('click', delListing));
-      document.querySelectorAll('[data-detailsid]').forEach(b=>b.addEventListener('click', openDetails));
-    }
 
-    function renderPagination(total, page, per){
-      const ul = document.getElementById('pagination'); ul.innerHTML='';
-      const pages = Math.ceil(total/per);
-      for(let i=1;i<=pages;i++){
-        const li = document.createElement('li'); li.className='page-item'+(i===page?' active':'');
-        li.innerHTML = `<a class="page-link" href="#">${i}</a>`;
-        if(i===page){ li.classList.add('disabled'); }
-        li.addEventListener('click', (e)=>{ e.preventDefault(); if(i===page) return; currentPage=i; doSearch(); });
-        ul.appendChild(li);
+      function renderPagination(total, page, per) {
+        const ul = document.getElementById('pagination');
+        ul.innerHTML = '';
+        const pages = Math.ceil(total / per);
+        for (let i = 1; i <= pages; i++) {
+          const li = document.createElement('li');
+          li.className = 'page-item' + (i === page ? ' active' : '');
+          li.innerHTML = `<a class="page-link" href="#">${i}</a>`;
+          if (i === page) {
+            li.classList.add('disabled');
+          }
+          li.addEventListener('click', (e) => {
+            e.preventDefault();
+            if (i === page) return;
+            currentPage = i;
+            doSearch();
+          });
+          ul.appendChild(li);
+        }
       }
-    }
 
-    async function openEdit(e){
-      const id = e.currentTarget.dataset.editid;
-      const res = await apiFetch(API + '/api/gpus/' + id); const j = await res.json();
-      const form = document.getElementById('editForm'); form.title.value=j.title; form.price.value=j.price; form.condition.value=j.condition; form.description.value=j.description; form.id.value=j.id;
-      const modal = new bootstrap.Modal(document.getElementById('editModal'));
-      modal.show();
-      document.getElementById('saveEdit').onclick = async ()=>{
-        const fd = new FormData(form);
-        const r = await apiFetch(API + '/api/gpus/' + id, { method:'PUT', body: fd });
-        if (r.ok){ modal.hide(); showToast('Saved', 'success'); doSearch(); } else { showToast('Save failed', 'error'); }
-      };
-      document.getElementById('closeEdit').onclick = ()=> modal.hide();
-    }
+      async function openEdit(e) {
+        const id = e.currentTarget.dataset.editid;
+        const res = await apiFetch(API + '/api/gpus/' + id);
+        const j = await res.json();
+        const form = document.getElementById('editForm');
+        form.title.value = j.title;
+        form.price.value = j.price;
+        form.condition.value = j.condition;
+        form.description.value = j.description;
+        form.id.value = j.id;
+        const modal = new bootstrap.Modal(document.getElementById('editModal'));
+        modal.show();
+        document.getElementById('saveEdit').onclick = async () => {
+          const fd = new FormData(form);
+          const r = await apiFetch(API + '/api/gpus/' + id, { method: 'PUT', body: fd });
+          if (r.ok) {
+            modal.hide();
+            showToast('Saved', 'success');
+            doSearch();
+          } else {
+            showToast('Save failed', 'error');
+          }
+        };
+        document.getElementById('closeEdit').onclick = () => modal.hide();
+      }
 
-    async function delListing(e){
-      if(!confirm('Delete?')) return; const id = e.currentTarget.dataset.delid;
-      const r = await apiFetch(API + '/api/gpus/' + id, { method:'DELETE' });
-      if (r.ok) { showToast('Deleted', 'success'); doSearch(); } else showToast('Delete failed', 'error');
-    }
+      async function delListing(e) {
+        if (!confirm('Delete?')) return;
+        const id = e.currentTarget.dataset.delid;
+        const r = await apiFetch(API + '/api/gpus/' + id, { method: 'DELETE' });
+        if (r.ok) {
+          showToast('Deleted', 'success');
+          doSearch();
+        } else showToast('Delete failed', 'error');
+      }
 
-    document.getElementById('searchForm').addEventListener('submit', (e)=>{ e.preventDefault(); const data=Object.fromEntries(new FormData(e.target)); if(data.vram){ data.vram_min=data.vram; delete data.vram; } currentPage=1; myListingsMode=false; document.getElementById('searchError').classList.add('d-none'); doSearch(data).catch(err=>{ const el=document.getElementById('searchError'); el.textContent=err.message||'Search failed'; el.classList.remove('d-none'); }); });
-    document.getElementById('heroForm').addEventListener('submit', (e)=>{ e.preventDefault(); const q=e.target.q.value; const sort=document.getElementById('sortSelect').value; currentPage=1; myListingsMode=false; doSearch({ q, sort }); });
-    document.getElementById('sortSelect').addEventListener('change', ()=>{ const sort=document.getElementById('sortSelect').value; doSearch({ sort }); });
-    document.getElementById('myListingsBtn').addEventListener('click', ()=>{ myListingsMode=true; currentPage=1; updateQueryString(); doSearch({}); });
-    document.getElementById('clearAllBtn').addEventListener('click', ()=>{ currentQuery={}; myListingsMode=false; currentPage=1; document.getElementById('searchForm').reset(); doSearch({}); });
+      document.getElementById('searchForm').addEventListener('submit', (e) => {
+        e.preventDefault();
+        const data = Object.fromEntries(new FormData(e.target));
+        if (data.vram) {
+          data.vram_min = data.vram;
+          delete data.vram;
+        }
+        currentPage = 1;
+        myListingsMode = false;
+        document.getElementById('searchError').classList.add('d-none');
+        doSearch(data).catch((err) => {
+          const el = document.getElementById('searchError');
+          el.textContent = err.message || 'Search failed';
+          el.classList.remove('d-none');
+        });
+      });
+      document.getElementById('heroForm').addEventListener('submit', (e) => {
+        e.preventDefault();
+        const q = e.target.q.value;
+        const sort = document.getElementById('sortSelect').value;
+        currentPage = 1;
+        myListingsMode = false;
+        doSearch({ q, sort });
+      });
+      document.getElementById('sortSelect').addEventListener('change', () => {
+        const sort = document.getElementById('sortSelect').value;
+        doSearch({ sort });
+      });
+      document.getElementById('myListingsBtn').addEventListener('click', () => {
+        myListingsMode = true;
+        currentPage = 1;
+        updateQueryString();
+        doSearch({});
+      });
+      document.getElementById('clearAllBtn').addEventListener('click', () => {
+        currentQuery = {};
+        myListingsMode = false;
+        currentPage = 1;
+        document.getElementById('searchForm').reset();
+        doSearch({});
+      });
 
-    document.getElementById('authForm').addEventListener('submit', async (e)=>{ e.preventDefault(); const data=Object.fromEntries(new FormData(e.target)); const r=await apiFetch(API+'/api/login', { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(data)}); const j=await r.json(); const errEl=document.getElementById('authError'); if(j.token){localStorage.setItem('token', j.token); errEl.classList.add('d-none'); showToast('Logged in', 'success');} else { errEl.textContent=j.error||'Login failed'; errEl.classList.remove('d-none'); } });
-    document.getElementById('registerBtn').addEventListener('click', async ()=>{ const u=prompt('username'); const p=prompt('password'); if(!u||!p) return; const r=await apiFetch(API+'/api/register', { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify({username:u,password:p})}); if(r.status===201) showToast('Registered', 'success'); else {const j=await r.json().catch(()=>({})); showToast(j.error||'Register failed', 'error');} });
+      document.getElementById('authForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const data = Object.fromEntries(new FormData(e.target));
+        const r = await apiFetch(API + '/api/login', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data),
+        });
+        const j = await r.json();
+        const errEl = document.getElementById('authError');
+        if (j.token) {
+          localStorage.setItem('token', j.token);
+          errEl.classList.add('d-none');
+          showToast('Logged in', 'success');
+        } else {
+          errEl.textContent = j.error || 'Login failed';
+          errEl.classList.remove('d-none');
+        }
+      });
+      document.getElementById('registerBtn').addEventListener('click', async () => {
+        const u = prompt('username');
+        const p = prompt('password');
+        if (!u || !p) return;
+        const r = await apiFetch(API + '/api/register', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ username: u, password: p }),
+        });
+        if (r.status === 201) showToast('Registered', 'success');
+        else {
+          const j = await r.json().catch(() => ({}));
+          showToast(j.error || 'Register failed', 'error');
+        }
+      });
 
-    // Drag & drop + preview
-    const dz=document.getElementById('dropZone'); const input=document.getElementById('imageInput'); const preview=document.getElementById('previewImg'); const imagesInput=document.getElementById('imagesInput'); const multiPreview=document.getElementById('multiPreview');
-    dz.addEventListener('click', ()=> input.click());
-    dz.addEventListener('dragover', e=>{ e.preventDefault(); dz.classList.add('bg-light'); });
-    dz.addEventListener('dragleave', ()=> dz.classList.remove('bg-light'));
-    dz.addEventListener('drop', e=>{ e.preventDefault(); dz.classList.remove('bg-light'); if(e.dataTransfer.files[0]) { input.files=e.dataTransfer.files; const f=e.dataTransfer.files[0]; const url=URL.createObjectURL(f); preview.src=url; preview.classList.remove('d-none'); }});
-    input.addEventListener('change', e=>{ const f=e.target.files[0]; if(f){ const url=URL.createObjectURL(f); preview.src=url; preview.classList.remove('d-none'); }});
-    imagesInput.addEventListener('change', e=>{ multiPreview.innerHTML=''; const files=[...e.target.files]; files.slice(0,10).forEach(f=>{ const im=document.createElement('img'); im.src=URL.createObjectURL(f); im.style.width='72px'; im.style.height='72px'; im.style.objectFit='cover'; im.className='rounded border'; multiPreview.appendChild(im); }); });
+      // Drag & drop + preview
+      const dz = document.getElementById('dropZone');
+      const input = document.getElementById('imageInput');
+      const preview = document.getElementById('previewImg');
+      const imagesInput = document.getElementById('imagesInput');
+      const multiPreview = document.getElementById('multiPreview');
+      dz.addEventListener('click', () => input.click());
+      dz.addEventListener('dragover', (e) => {
+        e.preventDefault();
+        dz.classList.add('bg-light');
+      });
+      dz.addEventListener('dragleave', () => dz.classList.remove('bg-light'));
+      dz.addEventListener('drop', (e) => {
+        e.preventDefault();
+        dz.classList.remove('bg-light');
+        if (e.dataTransfer.files[0]) {
+          input.files = e.dataTransfer.files;
+          const f = e.dataTransfer.files[0];
+          const url = URL.createObjectURL(f);
+          preview.src = url;
+          preview.classList.remove('d-none');
+        }
+      });
+      input.addEventListener('change', (e) => {
+        const f = e.target.files[0];
+        if (f) {
+          const url = URL.createObjectURL(f);
+          preview.src = url;
+          preview.classList.remove('d-none');
+        }
+      });
+      imagesInput.addEventListener('change', (e) => {
+        multiPreview.innerHTML = '';
+        const files = [...e.target.files];
+        files.slice(0, 10).forEach((f) => {
+          const im = document.createElement('img');
+          im.src = URL.createObjectURL(f);
+          im.style.width = '72px';
+          im.style.height = '72px';
+          im.style.objectFit = 'cover';
+          im.className = 'rounded border';
+          multiPreview.appendChild(im);
+        });
+      });
 
-    document.getElementById('createForm').addEventListener('submit', async (e)=>{
-      e.preventDefault(); const fd=new FormData(e.target); const token=getToken(); const errEl=document.getElementById('createError'); if(!token){ errEl.textContent='Please login first'; errEl.classList.remove('d-none'); return; } const r = await apiFetch(API+'/api/gpus',{ method:'POST', body:fd }); if(r.status===201){ e.target.reset(); errEl.classList.add('d-none'); preview.classList.add('d-none'); multiPreview.innerHTML=''; showToast('Created', 'success'); doSearch(); } else { const j=await r.json().catch(()=>({})); errEl.textContent=j.error||'Failed'; errEl.classList.remove('d-none'); }
-    });
+      document.getElementById('createForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
+        const fd = new FormData(e.target);
+        const token = getToken();
+        const errEl = document.getElementById('createError');
+        if (!token) {
+          errEl.textContent = 'Please login first';
+          errEl.classList.remove('d-none');
+          return;
+        }
+        const r = await apiFetch(API + '/api/gpus', { method: 'POST', body: fd });
+        if (r.status === 201) {
+          e.target.reset();
+          errEl.classList.add('d-none');
+          preview.classList.add('d-none');
+          multiPreview.innerHTML = '';
+          showToast('Created', 'success');
+          doSearch();
+        } else {
+          const j = await r.json().catch(() => ({}));
+          errEl.textContent = j.error || 'Failed';
+          errEl.classList.remove('d-none');
+        }
+      });
 
-    document.getElementById('profileBtn').addEventListener('click', async ()=>{
-      const token = getToken(); if(!token){ showToast('Please login first', 'warning'); return;} const me = parseJwt(token); window.location.hash = 'profile';
-      const res = await apiFetch(API + '/api/users/' + me.id); const profile = await res.json();
-      const html = `
+      document.getElementById('profileBtn').addEventListener('click', async () => {
+        const token = getToken();
+        if (!token) {
+          showToast('Please login first', 'warning');
+          return;
+        }
+        const me = parseJwt(token);
+        window.location.hash = 'profile';
+        const res = await apiFetch(API + '/api/users/' + me.id);
+        const profile = await res.json();
+        const html = `
         <div class="container mt-4">
           <h3>Profile: ${profile.display_name}</h3>
-          <img src="${profile.avatar_path?API+profile.avatar_path:''}" style="max-width:120px" class="img-thumbnail mb-2">
+          <img src="${profile.avatar_path ? API + profile.avatar_path : ''}" style="max-width:120px" class="img-thumbnail mb-2">
           <div><input type="file" id="avatarInput"></div>
           <button id="uploadAvatar" class="btn btn-sm btn-primary mt-2">Upload avatar</button>
           <button id="backBtn" class="btn btn-sm btn-secondary mt-2">Back</button>
         </div>`;
-      document.body.innerHTML = html;
-      document.getElementById('backBtn').addEventListener('click', ()=> location.reload());
-      document.getElementById('uploadAvatar').addEventListener('click', async ()=>{
-        const f = document.getElementById('avatarInput').files[0]; if(!f){ showToast('Please pick a file', 'warning'); return;} const fd = new FormData(); fd.append('avatar', f);
-        const r = await apiFetch(API + '/api/users/me/avatar', { method:'POST', body: fd }); if(r.ok) showToast('Avatar uploaded', 'success'); else showToast('Upload failed', 'error');
+        document.body.innerHTML = html;
+        document.getElementById('backBtn').addEventListener('click', () => location.reload());
+        document.getElementById('uploadAvatar').addEventListener('click', async () => {
+          const f = document.getElementById('avatarInput').files[0];
+          if (!f) {
+            showToast('Please pick a file', 'warning');
+            return;
+          }
+          const fd = new FormData();
+          fd.append('avatar', f);
+          const r = await apiFetch(API + '/api/users/me/avatar', { method: 'POST', body: fd });
+          if (r.ok) showToast('Avatar uploaded', 'success');
+          else showToast('Upload failed', 'error');
+        });
       });
-    });
 
-    function updatePriceRangeLabel(){
-      const minRange = document.getElementById('priceMinRange');
-      const maxRange = document.getElementById('priceMaxRange');
-      const min = Number(minRange.value);
-      const max = Number(maxRange.value);
-      const label = document.getElementById('priceRangeLabel');
-      const fmt = (n)=> '£'+n.toLocaleString();
-      label.textContent = `${fmt(min)} - ${fmt(max)}`;
-    }
-
-    // price range sync
-    (function(){
-      const minRange = document.getElementById('priceMinRange');
-      const maxRange = document.getElementById('priceMaxRange');
-      const form = document.getElementById('searchForm');
-      function clamp(){
-        let a = Number(minRange.value), b = Number(maxRange.value);
-        if (a > b) { const t = a; a = b; b = t; minRange.value = a; maxRange.value = b; }
-        form.min.value = a || '';
-        form.max.value = b && b !== Number(maxRange.max) ? b : '';
-        currentQuery.min = form.min.value;
-        currentQuery.max = form.max.value;
-        updatePriceRangeLabel();
+      function updatePriceRangeLabel() {
+        const minRange = document.getElementById('priceMinRange');
+        const maxRange = document.getElementById('priceMaxRange');
+        const min = Number(minRange.value);
+        const max = Number(maxRange.value);
+        const label = document.getElementById('priceRangeLabel');
+        const fmt = (n) => '£' + n.toLocaleString();
+        label.textContent = `${fmt(min)} - ${fmt(max)}`;
       }
-      minRange.addEventListener('input', clamp);
-      maxRange.addEventListener('input', clamp);
-      form.min.addEventListener('input', ()=>{ const v = Number(form.min.value||0); minRange.value = String(isNaN(v)?0:v); updatePriceRangeLabel(); });
-      form.max.addEventListener('input', ()=>{ const v = Number(form.max.value||maxRange.max); maxRange.value = String(isNaN(v)?maxRange.max:v); updatePriceRangeLabel(); });
-    })();
 
-    async function openDetails(e){
-      const id = e.currentTarget.dataset.detailsid;
-      currentQuery.id = id; updateQueryString();
-      const res = await apiFetch(API + '/api/gpus/' + id);
-      if (!res.ok) { showToast('Failed to load details', 'error'); return; }
-      const j = await res.json();
-      document.getElementById('detailsTitle').textContent = j.title;
-      const img = document.getElementById('detailsImage'); img.src = j.image_path? (API + j.image_path): '';
-      const gallery = document.getElementById('thumbGallery'); gallery.innerHTML = '';
-      if (j.images && j.images.length) {
-        for (const im of j.images){
-          const t = document.createElement('img');
-          t.src = (im.thumb_path || im.image_path) ? API + (im.thumb_path || im.image_path) : '';
-          t.alt = 'thumb'; t.style.width='72px'; t.style.height='72px'; t.style.objectFit='cover'; t.className='rounded border';
-          t.addEventListener('click', ()=>{ img.src = API + im.image_path; });
-          gallery.appendChild(t);
+      // price range sync
+      (function () {
+        const minRange = document.getElementById('priceMinRange');
+        const maxRange = document.getElementById('priceMaxRange');
+        const form = document.getElementById('searchForm');
+        function clamp() {
+          let a = Number(minRange.value),
+            b = Number(maxRange.value);
+          if (a > b) {
+            const t = a;
+            a = b;
+            b = t;
+            minRange.value = a;
+            maxRange.value = b;
+          }
+          form.min.value = a || '';
+          form.max.value = b && b !== Number(maxRange.max) ? b : '';
+          currentQuery.min = form.min.value;
+          currentQuery.max = form.max.value;
+          updatePriceRangeLabel();
+        }
+        minRange.addEventListener('input', clamp);
+        maxRange.addEventListener('input', clamp);
+        form.min.addEventListener('input', () => {
+          const v = Number(form.min.value || 0);
+          minRange.value = String(isNaN(v) ? 0 : v);
+          updatePriceRangeLabel();
+        });
+        form.max.addEventListener('input', () => {
+          const v = Number(form.max.value || maxRange.max);
+          maxRange.value = String(isNaN(v) ? maxRange.max : v);
+          updatePriceRangeLabel();
+        });
+      })();
+
+      async function openDetails(e) {
+        const id = e.currentTarget.dataset.detailsid;
+        currentQuery.id = id;
+        updateQueryString();
+        const res = await apiFetch(API + '/api/gpus/' + id);
+        if (!res.ok) {
+          showToast('Failed to load details', 'error');
+          return;
+        }
+        const j = await res.json();
+        document.getElementById('detailsTitle').textContent = j.title;
+        const img = document.getElementById('detailsImage');
+        img.src = j.image_path ? API + j.image_path : '';
+        const gallery = document.getElementById('thumbGallery');
+        gallery.innerHTML = '';
+        if (j.images && j.images.length) {
+          for (const im of j.images) {
+            const t = document.createElement('img');
+            t.src = im.thumb_path || im.image_path ? API + (im.thumb_path || im.image_path) : '';
+            t.alt = 'thumb';
+            t.style.width = '72px';
+            t.style.height = '72px';
+            t.style.objectFit = 'cover';
+            t.className = 'rounded border';
+            t.addEventListener('click', () => {
+              img.src = API + im.image_path;
+            });
+            gallery.appendChild(t);
+          }
+        }
+        document.getElementById('detailsDesc').textContent = j.description || '';
+        document.getElementById('detailsCondition').textContent = j.condition;
+        document.getElementById('detailsPrice').textContent =
+          typeof formatPrice === 'function' ? formatPrice(j.price) : '£' + j.price;
+        const av = document.getElementById('detailsSellerAvatar');
+        if (j.seller_avatar) {
+          av.src = API + j.seller_avatar;
+          av.classList.remove('d-none');
+        } else {
+          av.classList.add('d-none');
+        }
+        document.getElementById('detailsSellerName').textContent = j.seller_name || '';
+        document.getElementById('copyLinkBtn').onclick = () => {
+          const url = new URL(location.href);
+          url.searchParams.set('id', String(j.id));
+          navigator.clipboard.writeText(url.toString());
+          showToast('Link copied', 'success');
+        };
+        new bootstrap.Modal(document.getElementById('detailsModal')).show();
+      }
+
+      function tryOpenDetailsFromQuery() {
+        const params = new URLSearchParams(location.search);
+        const id = params.get('id');
+        if (id) {
+          const fakeEvt = { currentTarget: { dataset: { detailsid: id } } };
+          openDetails(fakeEvt);
         }
       }
-      document.getElementById('detailsDesc').textContent = j.description || '';
-      document.getElementById('detailsCondition').textContent = j.condition;
-      document.getElementById('detailsPrice').textContent = (typeof formatPrice === 'function') ? formatPrice(j.price) : ('£' + j.price);
-      const av = document.getElementById('detailsSellerAvatar'); if (j.seller_avatar) { av.src = API + j.seller_avatar; av.classList.remove('d-none'); } else { av.classList.add('d-none'); }
-      document.getElementById('detailsSellerName').textContent = j.seller_name || '';
-      document.getElementById('copyLinkBtn').onclick = ()=>{
-        const url = new URL(location.href); url.searchParams.set('id', String(j.id)); navigator.clipboard.writeText(url.toString()); showToast('Link copied', 'success');
-      };
-      new bootstrap.Modal(document.getElementById('detailsModal')).show();
-    }
 
-    function tryOpenDetailsFromQuery(){
-      const params = new URLSearchParams(location.search);
-      const id = params.get('id'); if (id) {
-        const fakeEvt = { currentTarget: { dataset: { detailsid: id } } };
-        openDetails(fakeEvt);
-      }
-    }
-
-    // initial load with querystring state
-    (function initFromQuery(){
-      const params = new URLSearchParams(location.search);
-      currentPage = Number(params.get('page') || '1');
-      myListingsMode = params.get('my') === '1';
-      const fields = ['q','min','max','condition','brand','vram_min','sort'];
-      for (const k of fields){ const v = params.get(k); if (v !== null) currentQuery[k]=v; }
-      syncFormFromQuery();
-      doSearch({}).then(()=> tryOpenDetailsFromQuery());
-    })();
+      // initial load with querystring state
+      (function initFromQuery() {
+        const params = new URLSearchParams(location.search);
+        currentPage = Number(params.get('page') || '1');
+        myListingsMode = params.get('my') === '1';
+        const fields = ['q', 'min', 'max', 'condition', 'brand', 'vram_min', 'sort'];
+        for (const k of fields) {
+          const v = params.get(k);
+          if (v !== null) currentQuery[k] = v;
+        }
+        syncFormFromQuery();
+        doSearch({}).then(() => tryOpenDetailsFromQuery());
+      })();
     </script>
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><text y='14'>🎮</text></svg>">
+    <link
+      rel="icon"
+      href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><text y='14'>🎮</text></svg>"
+    />
   </body>
-  </html>
-
-
+</html>

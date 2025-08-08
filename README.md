@@ -55,6 +55,8 @@ Local dev notes:
 - `GET /api/users/:id` — user profile
 - `POST /api/users/me/avatar` — upload avatar (JWT; multipart)
 - `GET /health` — health check
+- `GET /robots.txt` — SEO robots file
+- `GET /sitemap.xml` — dynamic sitemap including recent listings
 
 ## API Docs
 
@@ -128,6 +130,12 @@ Deploy button (manually copy into your org if desired):
 - Create a `railway.json` template and connect; for now manual setup above is enough for demo.
 
 Note: This repo already serves `frontend/` statically from the backend if present on the same server. Deploying just the backend will work for both API and UI.
+
+## SEO & Performance (Phase 7)
+
+- Meta tags and Open Graph added to `frontend/index.html` with dynamic canonical URL.
+- Backend serves `robots.txt` and `sitemap.xml` (includes homepage and up to 50 latest listings).
+- Static assets served with cache headers from Express; consider CDN for production.
 
 ## Notes
 
