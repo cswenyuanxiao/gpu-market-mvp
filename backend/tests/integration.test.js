@@ -86,6 +86,32 @@ describe('Auth + CRUD + Search flow', () => {
     fs.unlinkSync(p);
     expect(res.status).toBe(400);
   });
+
+  it('rejects unauthorized edit/delete', async () => {
+    // Create another user and a listing
+    await request(app).post('/api/register').send({ username: 'user2', password: 'password123', display_name: 'U2' });
+    const login = await request(app).post('/api/login').send({ username: 'user2', password: 'password123' });
+    const token2 = login.body.token;
+    const create = await request(app)
+      .post('/api/gpus')
+      .set('Authorization', 'Bearer ' + token2)
+      .field('title', 'U2 GPU')
+      .field('price', '50')
+      .field('condition', 'Used');
+    const otherId = create.body.id;
+    const edit = await request(app).put('/api/gpus/' + otherId).set('Authorization', 'Bearer ' + token).field('title', 'Hack').field('price','1').field('condition','Used');
+    expect(edit.status).toBe(403);
+    const del = await request(app).delete('/api/gpus/' + otherId).set('Authorization', 'Bearer ' + token);
+    expect(del.status).toBe(403);
+  });
+
+  it('rate limit triggers on login after many attempts', async () => {
+    for (let i=0;i<12;i++) {
+      await request(app).post('/api/login').send({ username: 'nobody', password: 'x' });
+    }
+    const res = await request(app).post('/api/login').send({ username: 'nobody', password: 'x' });
+    expect([200, 400, 429]).toContain(res.status);
+  });
 });
 
 

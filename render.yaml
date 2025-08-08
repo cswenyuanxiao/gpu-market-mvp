@@ -1,0 +1,26 @@
+services:
+  - type: web
+    name: gpu-market
+    env: node
+    plan: free
+    branch: master
+    autoDeploy: true
+    healthCheckPath: /health
+    buildCommand: cd backend && npm install --omit=dev
+    startCommand: cd backend && node index.js
+    envVars:
+      - key: NODE_VERSION
+        value: 18
+      - key: JWT_SECRET
+        generateValue: true
+      - key: CORS_ORIGIN
+        value: "*"
+      - key: MAX_UPLOAD_MB
+        value: "5"
+      - key: MAX_IMAGE_PIXELS
+        value: "25000000"
+      - key: IMAGE_MAX_WIDTH
+        value: "1920"
+      - key: THUMB_WIDTH
+        value: "400"
+

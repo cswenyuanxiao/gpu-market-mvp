@@ -6,7 +6,9 @@
     "start": "node index.js",
     "seed": "node seed.js",
     "test": "jest --runInBand",
-    "test:ci": "jest --coverage --maxWorkers=2 --coverageThreshold '{\"global\":{\"branches\":80,\"functions\":80,\"lines\":80,\"statements\":80}}'"
+    "test:ci": "jest --coverage --maxWorkers=2 --coverageThreshold '{\"global\":{\"branches\":80,\"functions\":80,\"lines\":80,\"statements\":80}}'",
+    "render-build": "npm install",
+    "render-start": "node index.js"
   },
   "dependencies": {
     "better-sqlite3": "^8.0.0",
@@ -24,7 +26,8 @@
     "image-size": "^1.1.1",
     "uuid": "^9.0.1",
     "node-cron": "^3.0.3",
-    "compression": "^1.7.4"
+    "compression": "^1.7.4",
+    "sharp": "^0.33.3"
   },
   "devDependencies": {
     "jest": "^29.7.0",

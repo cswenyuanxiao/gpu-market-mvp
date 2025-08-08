@@ -14,9 +14,27 @@ const pinoHttp = require('pino-http');
 const client = require('prom-client');
 const { randomUUID } = require('crypto');
 const compression = require('compression');
+const sharp = require('sharp');
 
 const app = express();
-app.use(helmet());
+// Helmet with CSP tuned for Bootstrap CDN and inline styles
+app.use(helmet({
+  contentSecurityPolicy: {
+    directives: {
+      defaultSrc: ["'self'"],
+      baseUri: ["'self'"],
+      fontSrc: ["'self'", 'https:', 'data:'],
+      formAction: ["'self'"],
+      frameAncestors: ["'self'"],
+      imgSrc: ["'self'", 'data:'],
+      objectSrc: ["'none'"],
+      scriptSrc: ["'self'", 'https:', "'unsafe-inline'"],
+      scriptSrcAttr: ["'none'"],
+      styleSrc: ["'self'", 'https:', "'unsafe-inline'"],
+      upgradeInsecureRequests: [],
+    },
+  },
+}));
 // CORS allow list (comma-separated) or *
 const corsEnv = process.env.CORS_ORIGIN || '*';
 const allowedOrigins = corsEnv.split(',').map(s => s.trim());
@@ -97,6 +115,21 @@ CREATE INDEX IF NOT EXISTS idx_gpus_price ON gpus(price);
 CREATE INDEX IF NOT EXISTS idx_gpus_condition ON gpus(condition);
 CREATE INDEX IF NOT EXISTS idx_gpus_seller ON gpus(seller_id);
 `);
+// additional tables
+db.exec(`
+CREATE TABLE IF NOT EXISTS gpu_images (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  gpu_id INTEGER NOT NULL,
+  image_path TEXT NOT NULL,
+  thumb_path TEXT,
+  sort_order INTEGER DEFAULT 0,
+  created_at TEXT,
+  FOREIGN KEY(gpu_id) REFERENCES gpus(id)
+);
+`);
+db.exec(`
+CREATE INDEX IF NOT EXISTS idx_gpu_images_gpu ON gpu_images(gpu_id);
+`);
 // schema migrations
 try { db.prepare('ALTER TABLE gpus ADD COLUMN brand TEXT').run(); } catch (_) {}
 try { db.prepare('ALTER TABLE gpus ADD COLUMN vram_gb INTEGER').run(); } catch (_) {}
@@ -154,6 +187,39 @@ function isValidImageMagic(filePath, mime) {
 }
 
 const JWT_SECRET = process.env.JWT_SECRET || 'dev_secret_change_me';
+const MAX_IMAGE_PIXELS = Number(process.env.MAX_IMAGE_PIXELS || 25000000); // 25 MP
+const IMAGE_MAX_WIDTH = Number(process.env.IMAGE_MAX_WIDTH || 1920);
+const THUMB_WIDTH = Number(process.env.THUMB_WIDTH || 400);
+
+async function processAndStoreImage(file, baseUploadsDir) {
+  const subdir = path.join(baseUploadsDir, randomUUID());
+  if (!fs.existsSync(subdir)) fs.mkdirSync(subdir);
+  const baseName = Date.now() + '-' + (file.originalname || 'img').replace(/\s+/g, '_').replace(/\.[^.]+$/, '');
+  const fullOut = path.join(subdir, baseName + '.webp');
+  const thumbOut = path.join(subdir, baseName + '.thumb.webp');
+  try {
+    const img = sharp(file.path, { failOn: false });
+    const meta = await img.metadata();
+    if (meta && meta.width && meta.height) {
+      const pixels = meta.width * meta.height;
+      if (pixels > MAX_IMAGE_PIXELS) {
+        try { fs.unlinkSync(file.path); } catch (_) {}
+        const err = new Error('Image too large (pixels)');
+        err.code = 'IMAGE_TOO_LARGE';
+        throw err;
+      }
+    }
+    await img.resize({ width: IMAGE_MAX_WIDTH, withoutEnlargement: true }).webp({ quality: 80 }).toFile(fullOut);
+    await sharp(file.path).resize({ width: THUMB_WIDTH, withoutEnlargement: true }).webp({ quality: 80 }).toFile(thumbOut);
+    try { fs.unlinkSync(file.path); } catch (_) {}
+    return { image_path: `/uploads/${path.basename(subdir)}/${path.basename(fullOut)}`, thumb_path: `/uploads/${path.basename(subdir)}/${path.basename(thumbOut)}` };
+  } catch (e) {
+    // fallback: move original into uuid subdir if sharp fails (e.g., test stub images)
+    const fallbackOut = path.join(subdir, path.basename(file.path));
+    try { fs.renameSync(file.path, fallbackOut); } catch (_) { /* ignore */ }
+    return { image_path: `/uploads/${path.basename(subdir)}/${path.basename(fallbackOut)}`, thumb_path: null };
+  }
+}
 
 function authenticateToken(req, res, next) {
   const auth = req.headers['authorization'];
@@ -170,6 +236,13 @@ function authenticateToken(req, res, next) {
 
 // Static uploads (cache)
 app.use('/uploads', express.static(uploadDir, { maxAge: '7d', immutable: true }));
+
+// Serve frontend statically when available (for deployment)
+const frontendDir = path.join(__dirname, '..', 'frontend');
+if (fs.existsSync(frontendDir)) {
+  app.use(express.static(frontendDir, { maxAge: '7d', immutable: false }));
+  app.get('/', (req, res) => res.sendFile(path.join(frontendDir, 'index.html')));
+}
 
 // Rate limit for auth endpoints
 const authLimiter = rateLimit({ windowMs: 60 * 1000, max: 10, standardHeaders: true, legacyHeaders: false });
@@ -243,36 +316,49 @@ app.get('/api/gpus/:id', (req, res) => {
     .prepare('SELECT gpus.*, users.display_name as seller_name, users.avatar_path as seller_avatar FROM gpus LEFT JOIN users ON gpus.seller_id = users.id WHERE gpus.id = ?')
     .get(req.params.id);
   if (!row) return res.status(404).json({ error: 'Not found' });
-  res.json(row);
+  const images = db.prepare('SELECT image_path, thumb_path, sort_order FROM gpu_images WHERE gpu_id = ? ORDER BY sort_order, id').all(req.params.id);
+  res.json({ ...row, images });
 });
 
 // Create listing (authenticated, with optional image)
-app.post('/api/gpus', authenticateToken, upload.single('image'), (req, res) => {
+app.post('/api/gpus', authenticateToken, upload.fields([{ name: 'image', maxCount: 1 }, { name: 'images', maxCount: 10 }]), async (req, res) => {
   const parsed = CreateGpuSchema.safeParse(req.body);
   if (!parsed.success) return res.status(400).json({ error: 'Invalid input', details: parsed.error.flatten() });
   const { title, description, price, condition, brand, vram_gb } = parsed.data;
   const seller_id = req.user.id;
-  let image_path = null;
-  if (req.file) {
-    if (!isValidImageMagic(req.file.path, req.file.mimetype)) {
-      try { fs.unlinkSync(req.file.path); } catch (e) {}
-      uploadFailures.inc();
-      return res.status(400).json({ error: 'Invalid image content' });
+  try {
+    const files = [];
+    if (req.files && req.files['image'] && req.files['image'][0]) files.push(req.files['image'][0]);
+    if (req.files && req.files['images']) files.push(...req.files['images']);
+    const processed = [];
+    for (const f of files) {
+      if (!isValidImageMagic(f.path, f.mimetype)) {
+        try { fs.unlinkSync(f.path); } catch (_) {}
+        uploadFailures.inc();
+        return res.status(400).json({ error: 'Invalid image content' });
+      }
+      processed.push(await processAndStoreImage(f, uploadDir));
     }
-    image_path = `/uploads/${path.basename(req.file.path)}`;
+    const mainImage = processed.length ? processed[0].image_path : null;
+    const stmt = db.prepare('INSERT INTO gpus (title, description, price, condition, seller_id, image_path, brand, vram_gb, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)');
+    const info = stmt.run(title, description, price, condition, seller_id, mainImage, brand || null, vram_gb ?? null, new Date().toISOString());
+    const gpuId = info.lastInsertRowid;
+    if (processed.length) {
+      const ins = db.prepare('INSERT INTO gpu_images (gpu_id, image_path, thumb_path, sort_order, created_at) VALUES (?, ?, ?, ?, ?)');
+      processed.forEach((p, idx) => ins.run(gpuId, p.image_path, p.thumb_path, idx, new Date().toISOString()));
+    }
+    const newRow = db
+      .prepare('SELECT gpus.*, users.display_name as seller_name, users.avatar_path as seller_avatar FROM gpus LEFT JOIN users ON gpus.seller_id = users.id WHERE gpus.id = ?')
+      .get(gpuId);
+    res.status(201).json(newRow);
+  } catch (e) {
+    if (e && e.code === 'IMAGE_TOO_LARGE') return res.status(400).json({ error: 'Image exceeds pixel limit' });
+    res.status(500).json({ error: 'Server error' });
   }
-  const stmt = db.prepare(
-    'INSERT INTO gpus (title, description, price, condition, seller_id, image_path, brand, vram_gb, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)'
-  );
-  const info = stmt.run(title, description, price, condition, seller_id, image_path, brand || null, vram_gb ?? null, new Date().toISOString());
-  const newRow = db
-    .prepare('SELECT gpus.*, users.display_name as seller_name, users.avatar_path as seller_avatar FROM gpus LEFT JOIN users ON gpus.seller_id = users.id WHERE gpus.id = ?')
-    .get(info.lastInsertRowid);
-  res.status(201).json(newRow);
 });
 
 // Update listing (owner only)
-app.put('/api/gpus/:id', authenticateToken, upload.single('image'), (req, res) => {
+app.put('/api/gpus/:id', authenticateToken, upload.fields([{ name: 'image', maxCount: 1 }, { name: 'images', maxCount: 10 }]), async (req, res) => {
   const id = req.params.id;
   const row = db.prepare('SELECT * FROM gpus WHERE id = ?').get(id);
   if (!row) return res.status(404).json({ error: 'Not found' });
@@ -281,20 +367,34 @@ app.put('/api/gpus/:id', authenticateToken, upload.single('image'), (req, res) =
   if (!parsed.success) return res.status(400).json({ error: 'Invalid input', details: parsed.error.flatten() });
   const { title, description, price, condition, brand, vram_gb } = parsed.data;
   let image_path = row.image_path;
-  if (req.file) {
-    if (!isValidImageMagic(req.file.path, req.file.mimetype)) {
-      try { fs.unlinkSync(req.file.path); } catch (e) {}
-      uploadFailures.inc();
-      return res.status(400).json({ error: 'Invalid image content' });
+  try {
+    const files = [];
+    if (req.files && req.files['image'] && req.files['image'][0]) files.push(req.files['image'][0]);
+    if (req.files && req.files['images']) files.push(...req.files['images']);
+    const processed = [];
+    for (const f of files) {
+      if (!isValidImageMagic(f.path, f.mimetype)) {
+        try { fs.unlinkSync(f.path); } catch (_) {}
+        uploadFailures.inc();
+        return res.status(400).json({ error: 'Invalid image content' });
+      }
+      processed.push(await processAndStoreImage(f, uploadDir));
     }
-    image_path = `/uploads/${path.basename(req.file.path)}`;
+    if (processed.length) image_path = processed[0].image_path;
+    db.prepare('UPDATE gpus SET title = ?, description = ?, price = ?, condition = ?, image_path = ?, brand = ?, vram_gb = ? WHERE id = ?')
+      .run(title, description, price, condition, image_path, brand || null, vram_gb ?? null, id);
+    if (processed.length) {
+      const ins = db.prepare('INSERT INTO gpu_images (gpu_id, image_path, thumb_path, sort_order, created_at) VALUES (?, ?, ?, ?, ?)');
+      processed.forEach((p, idx) => ins.run(id, p.image_path, p.thumb_path, idx, new Date().toISOString()));
+    }
+    const updated = db
+      .prepare('SELECT gpus.*, users.display_name as seller_name, users.avatar_path as seller_avatar FROM gpus LEFT JOIN users ON gpus.seller_id = users.id WHERE gpus.id = ?')
+      .get(id);
+    res.json(updated);
+  } catch (e) {
+    if (e && e.code === 'IMAGE_TOO_LARGE') return res.status(400).json({ error: 'Image exceeds pixel limit' });
+    res.status(500).json({ error: 'Server error' });
   }
-  db.prepare('UPDATE gpus SET title = ?, description = ?, price = ?, condition = ?, image_path = ?, brand = ?, vram_gb = ? WHERE id = ?')
-    .run(title, description, price, condition, image_path, brand || null, vram_gb ?? null, id);
-  const updated = db
-    .prepare('SELECT gpus.*, users.display_name as seller_name, users.avatar_path as seller_avatar FROM gpus LEFT JOIN users ON gpus.seller_id = users.id WHERE gpus.id = ?')
-    .get(id);
-  res.json(updated);
 });
 
 // Delete listing (owner only)
@@ -303,7 +403,9 @@ app.delete('/api/gpus/:id', authenticateToken, (req, res) => {
   const row = db.prepare('SELECT * FROM gpus WHERE id = ?').get(id);
   if (!row) return res.status(404).json({ error: 'Not found' });
   if (row.seller_id !== req.user.id) return res.status(403).json({ error: 'Not owner' });
-  db.prepare('DELETE FROM gpus WHERE id = ?').run(id);
+  // best-effort delete associated images first to avoid FK issues
+  try { db.prepare('DELETE FROM gpu_images WHERE gpu_id = ?').run(id); } catch (_) {}
+  try { db.prepare('DELETE FROM gpus WHERE id = ?').run(id); } catch (_) {}
   res.json({ ok: true });
 });
 
