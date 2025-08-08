@@ -15,39 +15,48 @@ const client = require('prom-client');
 const { randomUUID } = require('crypto');
 const compression = require('compression');
 const sharp = require('sharp');
+const swaggerUi = require('swagger-ui-express');
 
 const app = express();
 // Helmet with CSP tuned for Bootstrap CDN and inline styles
-app.use(helmet({
-  contentSecurityPolicy: {
-    directives: {
-      defaultSrc: ["'self'"],
-      baseUri: ["'self'"],
-      fontSrc: ["'self'", 'https:', 'data:'],
-      formAction: ["'self'"],
-      frameAncestors: ["'self'"],
-      imgSrc: ["'self'", 'data:'],
-      objectSrc: ["'none'"],
-      scriptSrc: ["'self'", 'https:', "'unsafe-inline'"],
-      scriptSrcAttr: ["'none'"],
-      styleSrc: ["'self'", 'https:', "'unsafe-inline'"],
-      upgradeInsecureRequests: [],
+app.use(
+  helmet({
+    contentSecurityPolicy: {
+      directives: {
+        defaultSrc: ["'self'"],
+        baseUri: ["'self'"],
+        fontSrc: ["'self'", 'https:', 'data:'],
+        formAction: ["'self'"],
+        frameAncestors: ["'self'"],
+        imgSrc: ["'self'", 'data:', 'https:'],
+        objectSrc: ["'none'"],
+        scriptSrc: ["'self'", 'https:', "'unsafe-inline'"],
+        scriptSrcAttr: ["'none'"],
+        styleSrc: ["'self'", 'https:', "'unsafe-inline'"],
+        upgradeInsecureRequests: [],
+      },
     },
-  },
-}));
+  }),
+);
 // CORS allow list (comma-separated) or *
 const corsEnv = process.env.CORS_ORIGIN || '*';
-const allowedOrigins = corsEnv.split(',').map(s => s.trim());
-app.use(cors({
-  origin: (origin, cb) => {
-    if (!origin || allowedOrigins.includes('*') || allowedOrigins.includes(origin)) return cb(null, true);
-    return cb(new Error('CORS not allowed'));
-  },
-}));
+const allowedOrigins = corsEnv.split(',').map((s) => s.trim());
+app.use(
+  cors({
+    origin: (origin, cb) => {
+      if (!origin || allowedOrigins.includes('*') || allowedOrigins.includes(origin))
+        return cb(null, true);
+      return cb(new Error('CORS not allowed'));
+    },
+  }),
+);
 app.use(compression());
 app.use(express.json());
 app.use(pinoHttp({ genReqId: (req) => req.headers['x-request-id'] || randomUUID() }));
-app.use((req, res, next) => { if (req.id) res.set('X-Request-ID', req.id); next(); });
+app.use((req, res, next) => {
+  if (req.id) res.set('X-Request-ID', req.id);
+  next();
+});
 
 // Prometheus metrics
 const register = new client.Registry();
@@ -65,6 +74,24 @@ const httpResponses = new client.Counter({
   labelNames: ['method', 'route', 'status_code'],
 });
 register.registerMetric(httpResponses);
+const httpRequests = new client.Counter({
+  name: 'http_requests_total',
+  help: 'HTTP requests by route',
+  labelNames: ['method', 'route'],
+});
+register.registerMetric(httpRequests);
+const httpResponses4xx = new client.Counter({
+  name: 'http_responses_4xx_total',
+  help: 'HTTP 4xx responses by route',
+  labelNames: ['method', 'route'],
+});
+register.registerMetric(httpResponses4xx);
+const httpResponses5xx = new client.Counter({
+  name: 'http_responses_5xx_total',
+  help: 'HTTP 5xx responses by route',
+  labelNames: ['method', 'route'],
+});
+register.registerMetric(httpResponses5xx);
 const uploadFailures = new client.Counter({
   name: 'upload_failures_total',
   help: 'Failed image uploads due to validation',
@@ -77,6 +104,12 @@ app.use((req, res, next) => {
     const route = (req.route && req.route.path) || req.path || 'unknown';
     httpRequestDuration.observe({ method: req.method, route, status_code: res.statusCode }, delta);
     httpResponses.inc({ method: req.method, route, status_code: res.statusCode });
+    httpRequests.inc({ method: req.method, route });
+    if (res.statusCode >= 400 && res.statusCode < 500) {
+      httpResponses4xx.inc({ method: req.method, route });
+    } else if (res.statusCode >= 500) {
+      httpResponses5xx.inc({ method: req.method, route });
+    }
   });
   next();
 });
@@ -131,8 +164,12 @@ db.exec(`
 CREATE INDEX IF NOT EXISTS idx_gpu_images_gpu ON gpu_images(gpu_id);
 `);
 // schema migrations
-try { db.prepare('ALTER TABLE gpus ADD COLUMN brand TEXT').run(); } catch (_) {}
-try { db.prepare('ALTER TABLE gpus ADD COLUMN vram_gb INTEGER').run(); } catch (_) {}
+try {
+  db.prepare('ALTER TABLE gpus ADD COLUMN brand TEXT').run();
+} catch (_) {}
+try {
+  db.prepare('ALTER TABLE gpus ADD COLUMN vram_gb INTEGER').run();
+} catch (_) {}
 
 // uploads
 const uploadDir = path.join(__dirname, 'uploads');
@@ -194,7 +231,8 @@ const THUMB_WIDTH = Number(process.env.THUMB_WIDTH || 400);
 async function processAndStoreImage(file, baseUploadsDir) {
   const subdir = path.join(baseUploadsDir, randomUUID());
   if (!fs.existsSync(subdir)) fs.mkdirSync(subdir);
-  const baseName = Date.now() + '-' + (file.originalname || 'img').replace(/\s+/g, '_').replace(/\.[^.]+$/, '');
+  const baseName =
+    Date.now() + '-' + (file.originalname || 'img').replace(/\s+/g, '_').replace(/\.[^.]+$/, '');
   const fullOut = path.join(subdir, baseName + '.webp');
   const thumbOut = path.join(subdir, baseName + '.thumb.webp');
   try {
@@ -203,21 +241,41 @@ async function processAndStoreImage(file, baseUploadsDir) {
     if (meta && meta.width && meta.height) {
       const pixels = meta.width * meta.height;
       if (pixels > MAX_IMAGE_PIXELS) {
-        try { fs.unlinkSync(file.path); } catch (_) {}
+        try {
+          fs.unlinkSync(file.path);
+        } catch (_) {}
         const err = new Error('Image too large (pixels)');
         err.code = 'IMAGE_TOO_LARGE';
         throw err;
       }
     }
-    await img.resize({ width: IMAGE_MAX_WIDTH, withoutEnlargement: true }).webp({ quality: 80 }).toFile(fullOut);
-    await sharp(file.path).resize({ width: THUMB_WIDTH, withoutEnlargement: true }).webp({ quality: 80 }).toFile(thumbOut);
-    try { fs.unlinkSync(file.path); } catch (_) {}
-    return { image_path: `/uploads/${path.basename(subdir)}/${path.basename(fullOut)}`, thumb_path: `/uploads/${path.basename(subdir)}/${path.basename(thumbOut)}` };
+    await img
+      .resize({ width: IMAGE_MAX_WIDTH, withoutEnlargement: true })
+      .webp({ quality: 80 })
+      .toFile(fullOut);
+    await sharp(file.path)
+      .resize({ width: THUMB_WIDTH, withoutEnlargement: true })
+      .webp({ quality: 80 })
+      .toFile(thumbOut);
+    try {
+      fs.unlinkSync(file.path);
+    } catch (_) {}
+    return {
+      image_path: `/uploads/${path.basename(subdir)}/${path.basename(fullOut)}`,
+      thumb_path: `/uploads/${path.basename(subdir)}/${path.basename(thumbOut)}`,
+    };
   } catch (e) {
     // fallback: move original into uuid subdir if sharp fails (e.g., test stub images)
     const fallbackOut = path.join(subdir, path.basename(file.path));
-    try { fs.renameSync(file.path, fallbackOut); } catch (_) { /* ignore */ }
-    return { image_path: `/uploads/${path.basename(subdir)}/${path.basename(fallbackOut)}`, thumb_path: null };
+    try {
+      fs.renameSync(file.path, fallbackOut);
+    } catch (_) {
+      /* ignore */
+    }
+    return {
+      image_path: `/uploads/${path.basename(subdir)}/${path.basename(fallbackOut)}`,
+      thumb_path: null,
+    };
   }
 }
 
@@ -245,7 +303,96 @@ if (fs.existsSync(frontendDir)) {
 }
 
 // Rate limit for auth endpoints
-const authLimiter = rateLimit({ windowMs: 60 * 1000, max: 10, standardHeaders: true, legacyHeaders: false });
+const authLimiter = rateLimit({
+  windowMs: 60 * 1000,
+  max: 10,
+  standardHeaders: true,
+  legacyHeaders: false,
+});
+
+// OpenAPI (minimal) and Swagger UI
+const openApi = {
+  openapi: '3.0.3',
+  info: { title: 'GPU Market API', version: '1.0.0' },
+  servers: [{ url: '' }],
+  paths: {
+    '/health': { get: { summary: 'Health check', responses: { 200: { description: 'OK' } } } },
+    '/api/register': {
+      post: {
+        summary: 'Register',
+        responses: { 201: { description: 'Created' }, 400: { description: 'Invalid' } },
+      },
+    },
+    '/api/login': {
+      post: {
+        summary: 'Login',
+        responses: { 200: { description: 'OK' }, 400: { description: 'Invalid' } },
+      },
+    },
+    '/api/search': {
+      get: {
+        summary: 'Search listings',
+        responses: { 200: { description: 'OK' }, 400: { description: 'Invalid' } },
+      },
+    },
+    '/api/gpus': {
+      post: {
+        summary: 'Create listing',
+        responses: {
+          201: { description: 'Created' },
+          400: { description: 'Invalid' },
+          401: { description: 'Auth' },
+        },
+      },
+    },
+    '/api/gpus/{id}': {
+      get: {
+        summary: 'Get listing',
+        parameters: [{ name: 'id', in: 'path', required: true }],
+        responses: { 200: { description: 'OK' }, 404: { description: 'Not found' } },
+      },
+      put: {
+        summary: 'Update listing',
+        parameters: [{ name: 'id', in: 'path', required: true }],
+        responses: {
+          200: { description: 'OK' },
+          400: { description: 'Invalid' },
+          403: { description: 'Forbidden' },
+        },
+      },
+      delete: {
+        summary: 'Delete listing',
+        parameters: [{ name: 'id', in: 'path', required: true }],
+        responses: {
+          200: { description: 'OK' },
+          403: { description: 'Forbidden' },
+          404: { description: 'Not found' },
+        },
+      },
+    },
+    '/api/users/{id}': {
+      get: {
+        summary: 'Get user',
+        parameters: [{ name: 'id', in: 'path', required: true }],
+        responses: { 200: { description: 'OK' }, 404: { description: 'Not found' } },
+      },
+    },
+    '/api/users/me/avatar': {
+      post: {
+        summary: 'Upload avatar',
+        responses: {
+          200: { description: 'OK' },
+          400: { description: 'Invalid' },
+          401: { description: 'Auth' },
+        },
+      },
+    },
+    '/metrics': {
+      get: { summary: 'Prometheus metrics', responses: { 200: { description: 'OK' } } },
+    },
+  },
+};
+app.use('/docs', swaggerUi.serve, swaggerUi.setup(openApi));
 
 // Validation schemas
 const RegisterSchema = z.object({
@@ -257,7 +404,11 @@ const LoginSchema = z.object({ username: z.string(), password: z.string() });
 const ConditionEnum = z.enum(['New', 'Used']);
 const CreateGpuSchema = z.object({
   title: z.string().min(1).max(120),
-  description: z.string().max(2000).optional().or(z.literal('').transform(() => undefined)),
+  description: z
+    .string()
+    .max(2000)
+    .optional()
+    .or(z.literal('').transform(() => undefined)),
   price: z.coerce.number().positive(),
   condition: ConditionEnum,
   brand: z.string().max(50).optional(),
@@ -273,17 +424,22 @@ const SearchSchema = z.object({
   brand: z.string().max(50).optional(),
   vram_min: z.coerce.number().int().nonnegative().optional(),
   vram_max: z.coerce.number().int().nonnegative().optional(),
-  sort: z.enum(['newest','price_asc','price_desc']).optional(),
+  sort: z.enum(['newest', 'price_asc', 'price_desc']).optional(),
 });
 
 // Auth: register
 app.post('/api/register', authLimiter, (req, res) => {
   const parsed = RegisterSchema.safeParse(req.body);
-  if (!parsed.success) return res.status(400).json({ error: 'Invalid input', details: parsed.error.flatten() });
+  if (!parsed.success)
+    return res.status(400).json({ error: 'Invalid input', details: parsed.error.flatten() });
   const { username, password, display_name } = parsed.data;
   const hash = bcrypt.hashSync(password, 8);
   try {
-    db.prepare('INSERT INTO users (username, password_hash, display_name) VALUES (?, ?, ?)').run(username, hash, display_name || username);
+    db.prepare('INSERT INTO users (username, password_hash, display_name) VALUES (?, ?, ?)').run(
+      username,
+      hash,
+      display_name || username,
+    );
     res.status(201).json({ message: 'ok' });
   } catch (e) {
     res.status(400).json({ error: 'User exists' });
@@ -299,103 +455,166 @@ app.post('/api/login', authLimiter, (req, res) => {
   if (!row) return res.status(400).json({ error: 'Invalid credentials' });
   const ok = bcrypt.compareSync(password, row.password_hash);
   if (!ok) return res.status(400).json({ error: 'Invalid credentials' });
-  const token = jwt.sign({ id: row.id, username: row.username, display_name: row.display_name }, JWT_SECRET, { expiresIn: '7d' });
+  const token = jwt.sign(
+    { id: row.id, username: row.username, display_name: row.display_name },
+    JWT_SECRET,
+    { expiresIn: '7d' },
+  );
   res.json({ token });
 });
 
 // List GPUs (simple)
 app.get('/api/gpus', (req, res) => {
   const rows = db
-    .prepare('SELECT gpus.*, users.display_name as seller_name, users.avatar_path as seller_avatar FROM gpus LEFT JOIN users ON gpus.seller_id = users.id ORDER BY created_at DESC')
+    .prepare(
+      'SELECT gpus.*, users.display_name as seller_name, users.avatar_path as seller_avatar FROM gpus LEFT JOIN users ON gpus.seller_id = users.id ORDER BY created_at DESC',
+    )
     .all();
   res.json(rows);
 });
 
 app.get('/api/gpus/:id', (req, res) => {
   const row = db
-    .prepare('SELECT gpus.*, users.display_name as seller_name, users.avatar_path as seller_avatar FROM gpus LEFT JOIN users ON gpus.seller_id = users.id WHERE gpus.id = ?')
+    .prepare(
+      'SELECT gpus.*, users.display_name as seller_name, users.avatar_path as seller_avatar FROM gpus LEFT JOIN users ON gpus.seller_id = users.id WHERE gpus.id = ?',
+    )
     .get(req.params.id);
   if (!row) return res.status(404).json({ error: 'Not found' });
-  const images = db.prepare('SELECT image_path, thumb_path, sort_order FROM gpu_images WHERE gpu_id = ? ORDER BY sort_order, id').all(req.params.id);
+  const images = db
+    .prepare(
+      'SELECT image_path, thumb_path, sort_order FROM gpu_images WHERE gpu_id = ? ORDER BY sort_order, id',
+    )
+    .all(req.params.id);
   res.json({ ...row, images });
 });
 
 // Create listing (authenticated, with optional image)
-app.post('/api/gpus', authenticateToken, upload.fields([{ name: 'image', maxCount: 1 }, { name: 'images', maxCount: 10 }]), async (req, res) => {
-  const parsed = CreateGpuSchema.safeParse(req.body);
-  if (!parsed.success) return res.status(400).json({ error: 'Invalid input', details: parsed.error.flatten() });
-  const { title, description, price, condition, brand, vram_gb } = parsed.data;
-  const seller_id = req.user.id;
-  try {
-    const files = [];
-    if (req.files && req.files['image'] && req.files['image'][0]) files.push(req.files['image'][0]);
-    if (req.files && req.files['images']) files.push(...req.files['images']);
-    const processed = [];
-    for (const f of files) {
-      if (!isValidImageMagic(f.path, f.mimetype)) {
-        try { fs.unlinkSync(f.path); } catch (_) {}
-        uploadFailures.inc();
-        return res.status(400).json({ error: 'Invalid image content' });
+app.post(
+  '/api/gpus',
+  authenticateToken,
+  upload.fields([
+    { name: 'image', maxCount: 1 },
+    { name: 'images', maxCount: 10 },
+  ]),
+  async (req, res) => {
+    const parsed = CreateGpuSchema.safeParse(req.body);
+    if (!parsed.success)
+      return res.status(400).json({ error: 'Invalid input', details: parsed.error.flatten() });
+    const { title, description, price, condition, brand, vram_gb } = parsed.data;
+    const seller_id = req.user.id;
+    try {
+      const files = [];
+      if (req.files && req.files['image'] && req.files['image'][0])
+        files.push(req.files['image'][0]);
+      if (req.files && req.files['images']) files.push(...req.files['images']);
+      const processed = [];
+      for (const f of files) {
+        if (!isValidImageMagic(f.path, f.mimetype)) {
+          try {
+            fs.unlinkSync(f.path);
+          } catch (_) {}
+          uploadFailures.inc();
+          return res.status(400).json({ error: 'Invalid image content' });
+        }
+        processed.push(await processAndStoreImage(f, uploadDir));
       }
-      processed.push(await processAndStoreImage(f, uploadDir));
+      const mainImage = processed.length ? processed[0].image_path : null;
+      const stmt = db.prepare(
+        'INSERT INTO gpus (title, description, price, condition, seller_id, image_path, brand, vram_gb, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)',
+      );
+      const info = stmt.run(
+        title,
+        description,
+        price,
+        condition,
+        seller_id,
+        mainImage,
+        brand || null,
+        vram_gb ?? null,
+        new Date().toISOString(),
+      );
+      const gpuId = info.lastInsertRowid;
+      if (processed.length) {
+        const ins = db.prepare(
+          'INSERT INTO gpu_images (gpu_id, image_path, thumb_path, sort_order, created_at) VALUES (?, ?, ?, ?, ?)',
+        );
+        processed.forEach((p, idx) =>
+          ins.run(gpuId, p.image_path, p.thumb_path, idx, new Date().toISOString()),
+        );
+      }
+      const newRow = db
+        .prepare(
+          'SELECT gpus.*, users.display_name as seller_name, users.avatar_path as seller_avatar FROM gpus LEFT JOIN users ON gpus.seller_id = users.id WHERE gpus.id = ?',
+        )
+        .get(gpuId);
+      res.status(201).json(newRow);
+    } catch (e) {
+      if (e && e.code === 'IMAGE_TOO_LARGE')
+        return res.status(400).json({ error: 'Image exceeds pixel limit' });
+      res.status(500).json({ error: 'Server error' });
     }
-    const mainImage = processed.length ? processed[0].image_path : null;
-    const stmt = db.prepare('INSERT INTO gpus (title, description, price, condition, seller_id, image_path, brand, vram_gb, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)');
-    const info = stmt.run(title, description, price, condition, seller_id, mainImage, brand || null, vram_gb ?? null, new Date().toISOString());
-    const gpuId = info.lastInsertRowid;
-    if (processed.length) {
-      const ins = db.prepare('INSERT INTO gpu_images (gpu_id, image_path, thumb_path, sort_order, created_at) VALUES (?, ?, ?, ?, ?)');
-      processed.forEach((p, idx) => ins.run(gpuId, p.image_path, p.thumb_path, idx, new Date().toISOString()));
-    }
-    const newRow = db
-      .prepare('SELECT gpus.*, users.display_name as seller_name, users.avatar_path as seller_avatar FROM gpus LEFT JOIN users ON gpus.seller_id = users.id WHERE gpus.id = ?')
-      .get(gpuId);
-    res.status(201).json(newRow);
-  } catch (e) {
-    if (e && e.code === 'IMAGE_TOO_LARGE') return res.status(400).json({ error: 'Image exceeds pixel limit' });
-    res.status(500).json({ error: 'Server error' });
-  }
-});
+  },
+);
 
 // Update listing (owner only)
-app.put('/api/gpus/:id', authenticateToken, upload.fields([{ name: 'image', maxCount: 1 }, { name: 'images', maxCount: 10 }]), async (req, res) => {
-  const id = req.params.id;
-  const row = db.prepare('SELECT * FROM gpus WHERE id = ?').get(id);
-  if (!row) return res.status(404).json({ error: 'Not found' });
-  if (row.seller_id !== req.user.id) return res.status(403).json({ error: 'Not owner' });
-  const parsed = CreateGpuSchema.safeParse(req.body);
-  if (!parsed.success) return res.status(400).json({ error: 'Invalid input', details: parsed.error.flatten() });
-  const { title, description, price, condition, brand, vram_gb } = parsed.data;
-  let image_path = row.image_path;
-  try {
-    const files = [];
-    if (req.files && req.files['image'] && req.files['image'][0]) files.push(req.files['image'][0]);
-    if (req.files && req.files['images']) files.push(...req.files['images']);
-    const processed = [];
-    for (const f of files) {
-      if (!isValidImageMagic(f.path, f.mimetype)) {
-        try { fs.unlinkSync(f.path); } catch (_) {}
-        uploadFailures.inc();
-        return res.status(400).json({ error: 'Invalid image content' });
+app.put(
+  '/api/gpus/:id',
+  authenticateToken,
+  upload.fields([
+    { name: 'image', maxCount: 1 },
+    { name: 'images', maxCount: 10 },
+  ]),
+  async (req, res) => {
+    const id = req.params.id;
+    const row = db.prepare('SELECT * FROM gpus WHERE id = ?').get(id);
+    if (!row) return res.status(404).json({ error: 'Not found' });
+    if (row.seller_id !== req.user.id) return res.status(403).json({ error: 'Not owner' });
+    const parsed = CreateGpuSchema.safeParse(req.body);
+    if (!parsed.success)
+      return res.status(400).json({ error: 'Invalid input', details: parsed.error.flatten() });
+    const { title, description, price, condition, brand, vram_gb } = parsed.data;
+    let image_path = row.image_path;
+    try {
+      const files = [];
+      if (req.files && req.files['image'] && req.files['image'][0])
+        files.push(req.files['image'][0]);
+      if (req.files && req.files['images']) files.push(...req.files['images']);
+      const processed = [];
+      for (const f of files) {
+        if (!isValidImageMagic(f.path, f.mimetype)) {
+          try {
+            fs.unlinkSync(f.path);
+          } catch (_) {}
+          uploadFailures.inc();
+          return res.status(400).json({ error: 'Invalid image content' });
+        }
+        processed.push(await processAndStoreImage(f, uploadDir));
       }
-      processed.push(await processAndStoreImage(f, uploadDir));
+      if (processed.length) image_path = processed[0].image_path;
+      db.prepare(
+        'UPDATE gpus SET title = ?, description = ?, price = ?, condition = ?, image_path = ?, brand = ?, vram_gb = ? WHERE id = ?',
+      ).run(title, description, price, condition, image_path, brand || null, vram_gb ?? null, id);
+      if (processed.length) {
+        const ins = db.prepare(
+          'INSERT INTO gpu_images (gpu_id, image_path, thumb_path, sort_order, created_at) VALUES (?, ?, ?, ?, ?)',
+        );
+        processed.forEach((p, idx) =>
+          ins.run(id, p.image_path, p.thumb_path, idx, new Date().toISOString()),
+        );
+      }
+      const updated = db
+        .prepare(
+          'SELECT gpus.*, users.display_name as seller_name, users.avatar_path as seller_avatar FROM gpus LEFT JOIN users ON gpus.seller_id = users.id WHERE gpus.id = ?',
+        )
+        .get(id);
+      res.json(updated);
+    } catch (e) {
+      if (e && e.code === 'IMAGE_TOO_LARGE')
+        return res.status(400).json({ error: 'Image exceeds pixel limit' });
+      res.status(500).json({ error: 'Server error' });
     }
-    if (processed.length) image_path = processed[0].image_path;
-    db.prepare('UPDATE gpus SET title = ?, description = ?, price = ?, condition = ?, image_path = ?, brand = ?, vram_gb = ? WHERE id = ?')
-      .run(title, description, price, condition, image_path, brand || null, vram_gb ?? null, id);
-    if (processed.length) {
-      const ins = db.prepare('INSERT INTO gpu_images (gpu_id, image_path, thumb_path, sort_order, created_at) VALUES (?, ?, ?, ?, ?)');
-      processed.forEach((p, idx) => ins.run(id, p.image_path, p.thumb_path, idx, new Date().toISOString()));
-    }
-    const updated = db
-      .prepare('SELECT gpus.*, users.display_name as seller_name, users.avatar_path as seller_avatar FROM gpus LEFT JOIN users ON gpus.seller_id = users.id WHERE gpus.id = ?')
-      .get(id);
-    res.json(updated);
-  } catch (e) {
-    if (e && e.code === 'IMAGE_TOO_LARGE') return res.status(400).json({ error: 'Image exceeds pixel limit' });
-    res.status(500).json({ error: 'Server error' });
-  }
-});
+  },
+);
 
 // Delete listing (owner only)
 app.delete('/api/gpus/:id', authenticateToken, (req, res) => {
@@ -404,8 +623,12 @@ app.delete('/api/gpus/:id', authenticateToken, (req, res) => {
   if (!row) return res.status(404).json({ error: 'Not found' });
   if (row.seller_id !== req.user.id) return res.status(403).json({ error: 'Not owner' });
   // best-effort delete associated images first to avoid FK issues
-  try { db.prepare('DELETE FROM gpu_images WHERE gpu_id = ?').run(id); } catch (_) {}
-  try { db.prepare('DELETE FROM gpus WHERE id = ?').run(id); } catch (_) {}
+  try {
+    db.prepare('DELETE FROM gpu_images WHERE gpu_id = ?').run(id);
+  } catch (_) {}
+  try {
+    db.prepare('DELETE FROM gpus WHERE id = ?').run(id);
+  } catch (_) {}
   res.json({ ok: true });
 });
 
@@ -413,7 +636,18 @@ app.delete('/api/gpus/:id', authenticateToken, (req, res) => {
 app.get('/api/search', (req, res) => {
   const parsed = SearchSchema.safeParse(req.query);
   if (!parsed.success) return res.status(400).json({ error: 'Invalid query' });
-  const { q = '', min = null, max = null, condition = null, page = 1, per = 12, brand = undefined, vram_min = undefined, vram_max = undefined, sort = 'newest' } = parsed.data;
+  const {
+    q = '',
+    min = null,
+    max = null,
+    condition = null,
+    page = 1,
+    per = 12,
+    brand = undefined,
+    vram_min = undefined,
+    vram_max = undefined,
+    sort = 'newest',
+  } = parsed.data;
 
   let where = 'WHERE 1=1';
   const params = [];
@@ -433,9 +667,18 @@ app.get('/api/search', (req, res) => {
     where += ' AND gpus.price <= ?';
     params.push(max);
   }
-  if (brand) { where += ' AND gpus.brand = ?'; params.push(brand); }
-  if (vram_min !== undefined) { where += ' AND COALESCE(gpus.vram_gb,0) >= ?'; params.push(vram_min); }
-  if (vram_max !== undefined) { where += ' AND COALESCE(gpus.vram_gb,0) <= ?'; params.push(vram_max); }
+  if (brand) {
+    where += ' AND gpus.brand = ?';
+    params.push(brand);
+  }
+  if (vram_min !== undefined) {
+    where += ' AND COALESCE(gpus.vram_gb,0) >= ?';
+    params.push(vram_min);
+  }
+  if (vram_max !== undefined) {
+    where += ' AND COALESCE(gpus.vram_gb,0) <= ?';
+    params.push(vram_max);
+  }
 
   const total = db.prepare('SELECT COUNT(*) as c FROM gpus ' + where).get(...params).c;
   const offset = (page - 1) * per;
@@ -446,7 +689,7 @@ app.get('/api/search', (req, res) => {
     .prepare(
       'SELECT gpus.*, users.display_name as seller_name, users.avatar_path as seller_avatar FROM gpus LEFT JOIN users ON gpus.seller_id = users.id ' +
         where +
-        ` ORDER BY ${order} LIMIT ? OFFSET ?`
+        ` ORDER BY ${order} LIMIT ? OFFSET ?`,
     )
     .all(...params, per, offset);
   res.json({ total, page, per, results: rows });
@@ -455,7 +698,9 @@ app.get('/api/search', (req, res) => {
 // User profile & avatar upload
 app.get('/api/users/:id', (req, res) => {
   const id = req.params.id;
-  const row = db.prepare('SELECT id, username, display_name, avatar_path FROM users WHERE id = ?').get(id);
+  const row = db
+    .prepare('SELECT id, username, display_name, avatar_path FROM users WHERE id = ?')
+    .get(id);
   if (!row) return res.status(404).json({ error: 'Not found' });
   res.json(row);
 });
@@ -463,7 +708,9 @@ app.get('/api/users/:id', (req, res) => {
 app.post('/api/users/me/avatar', authenticateToken, upload.single('avatar'), (req, res) => {
   if (!req.file) return res.status(400).json({ error: 'Missing file' });
   if (!isValidImageMagic(req.file.path, req.file.mimetype)) {
-    try { fs.unlinkSync(req.file.path); } catch (e) {}
+    try {
+      fs.unlinkSync(req.file.path);
+    } catch (e) {}
     uploadFailures.inc();
     return res.status(400).json({ error: 'Invalid image content' });
   }
@@ -482,11 +729,11 @@ app.get('/metrics', async (req, res) => {
 // My listings endpoint
 app.get('/api/my/gpus', authenticateToken, (req, res) => {
   const rows = db
-    .prepare('SELECT gpus.*, users.display_name as seller_name, users.avatar_path as seller_avatar FROM gpus LEFT JOIN users ON gpus.seller_id = users.id WHERE seller_id = ? ORDER BY created_at DESC')
+    .prepare(
+      'SELECT gpus.*, users.display_name as seller_name, users.avatar_path as seller_avatar FROM gpus LEFT JOIN users ON gpus.seller_id = users.id WHERE seller_id = ? ORDER BY created_at DESC',
+    )
     .all(req.user.id);
   res.json(rows);
 });
 
 module.exports = { app };
-
-

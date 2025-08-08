@@ -39,10 +39,12 @@ Frontend:
 - Open `frontend/index.html` or serve the folder (e.g. `npx serve frontend`)
 
 Local dev notes:
+
 - Use Node 18 LTS (recommended): `nvm install 18 && nvm use 18`
 - Avoid spaces in the project path when building native modules (e.g., `~/gpu-market` instead of `~/untitled folder`)
 
 ## API Overview
+
 - `POST /api/register` — create user
 - `POST /api/login` — get JWT
 - `GET /api/search` — listings with pagination/filters
@@ -54,7 +56,12 @@ Local dev notes:
 - `POST /api/users/me/avatar` — upload avatar (JWT; multipart)
 - `GET /health` — health check
 
+## API Docs
+
+- Swagger UI: visit `/docs` on your deployed service (e.g., `https://gpu-market.onrender.com/docs`).
+
 ## Frontend UX (Phase 1 additions)
+
 - Details modal: large image, seller avatar/name, price, condition, copy-link button. You can deep-link a listing with `?id=123`.
 - Price range slider: dual sliders synced with min/max inputs.
 - Filter chips: show active filters and allow one-click removal; "Clear all" resets filters.
@@ -65,6 +72,7 @@ Local dev notes:
 - X-Request-ID surfaced in navbar for easier troubleshooting.
 
 ## Env Vars
+
 See `.env.example` (use `.env` in production):
 
 - `PORT` (default 3000)
@@ -76,12 +84,14 @@ See `.env.example` (use `.env` in production):
 - `THUMB_WIDTH` (default 400) — server resize width for thumbnail
 
 ## Development
+
 - Tests: `cd backend && npm test`
 - CI: GitHub Actions runs on push/PR
 
 ## Free Deploy (Render or Railway)
 
 ### Option A: Render (Free Web Service)
+
 - Create a new Web Service from your GitHub repo.
 - Root directory: `/` (monorepo).
 - Build Command:
@@ -108,17 +118,21 @@ Deploy button (manually copy into your org if desired):
 `https://render.com/deploy?repo=<your_repo_url>`
 
 ### Option B: Railway (Free Tier)
+
 - Create a new project → Service → Deploy from GitHub.
 - Variables same as above.
 - Start command: `cd backend && node index.js`
 
 ### One-Click alternative (Railway Template)
+
 - Create a `railway.json` template and connect; for now manual setup above is enough for demo.
 
 Note: This repo already serves `frontend/` statically from the backend if present on the same server. Deploying just the backend will work for both API and UI.
 
 ## Notes
+
 - The frontend now uses a thin `apiFetch` wrapper to automatically attach JWT, surface `X-Request-ID`, and handle expired sessions.
 
 ## License
+
 MIT
