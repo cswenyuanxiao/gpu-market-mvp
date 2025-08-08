@@ -1,0 +1,26 @@
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: gpu-market-backend
+    environment:
+      - APP_ENV=local
+      - PORT=3000
+      - JWT_SECRET=please_change_me
+      - CORS_ORIGIN=http://localhost:8080
+      - MAX_UPLOAD_MB=5
+    ports:
+      - "3000:3000"
+    command: sh -c "node seed.js && node index.js"
+
+  frontend:
+    image: nginx:alpine
+    container_name: gpu-market-frontend
+    depends_on:
+      - backend
+    ports:
+      - "8080:80"
+    volumes:
+      - ./frontend:/usr/share/nginx/html:ro
+

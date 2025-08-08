@@ -1,0 +1,47 @@
+# GPU Market — GPU buying/selling marketplace (prototype)
+
+This repository is a small, opinionated starter for a GPU buy/sell marketplace inspired by `gpused.co.uk`.
+
+Features:
+- Simple REST API (Express + SQLite)
+- Static Bootstrap frontend that consumes the API
+- Seed data and instructions to run locally or with Docker
+
+This is a prototype skeleton intended as a starting point for a full project.
+
+## Quick start (local)
+
+Prerequisites: Node.js 18+, npm
+
+1. Start the backend and seed the database:
+
+```bash
+cd backend
+npm install
+npm run seed
+npm start
+```
+
+2. Open the frontend:
+
+Open `frontend/index.html` in your browser (it talks to `http://localhost:3000`). For full CORS-free experience, serve the `frontend` folder with a simple static server or let Docker serve it.
+
+## Docker
+
+Build and run:
+
+```bash
+docker build -t gpu-market .
+docker run -p 3000:3000 gpu-market
+```
+
+## Project layout
+
+- `backend/` — Express API and SQLite database
+- `frontend/` — Static Bootstrap + JS frontend
+
+## License
+
+MIT
+
+

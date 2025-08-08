@@ -1,0 +1,288 @@
+---
+description: "Project-wide code generation rules and workflow (adapted from prompt.md). Auto-applies to most project files."
+globs:
+  # Source code
+  - "**/*.js"
+  - "**/*.ts"
+  - "**/*.jsx"
+  - "**/*.tsx"
+  - "**/*.py"
+  - "**/*.java"
+  - "**/*.go"
+
+  # Styles & frontend assets
+  - "**/*.css"
+  - "**/*.scss"
+  - "**/*.sass"
+  - "**/*.less"
+
+  # Config & build scripts
+  - "**/*.json"
+  - "**/*.yml"
+  - "**/*.yaml"
+  - "**/*.toml"
+  - "**/*.ini"
+  - "**/*.env"
+  - "**/.env"
+  - "**/.env.example"
+
+  # Container & ops
+  - "Dockerfile"
+  - "**/Dockerfile"
+  - "**/docker-compose.yml"
+  - "**/docker-compose.yaml"
+  - "**/Makefile"
+
+  # Docs
+  - "**/*.md"
+  - "**/*.rst"
+
+  # CI/CD
+  - ".github/workflows/*.yml"
+  - ".github/workflows/*.yaml"
+
+alwaysApply: true
+---
+
+# System Prompt — Project Generation Rules
+
+> 语言规则  
+- You may reply to me in English or Chinese.  
+- **All code/comments/identifiers MUST be English.**
+
+> 工作流（强制）
+1) **Plan first, then implement.** Always propose a short plan (file tree / steps) and wait for confirmation *unless the user explicitly asked to proceed*.  
+2) **Small steps.** One feature or a few files per turn.  
+3) **Diff only for file changes.** Provide unified patches (fenced with ```patch). No placeholder code.
+
+> 质量闸口
+- Lint + type-check + tests must pass.  
+- Unit test coverage **≥ 80%** on critical paths.  
+- Follow language style:  
+  - JS/TS: ESLint + Prettier + commitlint + lint-staged  
+  - Python: ruff + black + mypy/pyright  
+- Prefer pure functions, clear boundaries, and error handling.
+
+> 安全
+- **Never** commit secrets. Use `.env.example` and config loaders with validation.  
+- Input validation; avoid injections; apply CORS & rate limiting where relevant.
+
+> 可观测性
+- Structured logs (request id, latency, error).  
+- Basic metrics (RPS, p95 latency, error rate).  
+- Leave hooks for tracing.
+
+> 容器化 & CI/CD
+- Project must run locally via **`docker-compose up`**.  
+- CI: checkout → cache deps → lint → type-check → test (coverage gate) → build → security/deps scan.
+
+> 文档
+- Keep `README.md` updated (run, test, docker, CI status).  
+- Add ADRs under `docs/adr/` for significant decisions.  
+- Provide a runbook `docs/runbook.md`.
+
+> 禁止事项
+- Big-bang generation across many folders in one go.  
+- Fake implementations, "TODO later", or unverifiable stubs.  
+- Hardcoding credentials or skipping tests "temporarily".
+
+---
+
+## Response Contract (Very Important)
+
+When I ask for code changes, structure your answer as:
+
+1. **PLAN** – a concise checklist of steps/files.  
+2. **PATCHES** – one or more fenced diffs:
+   ```patch
+   *** Begin Patch
+   *** Update File: path/to/file.ext
+   @@
+   - old
+   + new
+   *** End Patch
+   ```
+
+If no change needed, say **"No code changes"**.
+3. **NOTES** – brief rationale, risks, and how to run/tests to pass.
+
+For test tasks, include **commands** to run lint/type/tests.
+For new env vars, update **`.env.example`** via a patch.
+For new tools/CI, include the workflow yaml via a patch and explain failure gates.
+
+---
+
+## End-to-End Baseline (language-agnostic)
+
+1. **Scoping & NFRs** → `/docs/requirements.md` (goals, user stories, AC, SLO, security, observability).
+2. **Tech choices & high-level architecture** → ADR: `/docs/adr/0001-tech-stack.md`.
+3. **Repo init** → `README.md`, `LICENSE`, `CODE_OF_CONDUCT.md`, `CONTRIBUTING.md`, `SECURITY.md`, `.editorconfig`, `.gitignore`, `docs/`, `src/`, `tests/`.
+4. **Code style** → linters/formatters + pre-commit hooks.
+5. **Scaffold** → package management; `/src` skeleton; `/scripts`; `Makefile` or `Taskfile.yml`; `.env.example`.
+6. **Vertical slice** → entry → service → data → test → build → run; health check; one integration test.
+7. **Testing** → unit/integration/E2E (optional), coverage gate enforced in CI.
+8. **Container** → minimal non-root `Dockerfile`, `docker-compose.yml`, healthchecks.
+9. **CI/CD** → PR pipeline + release (semver + changelog).
+10. **Observability** → logs/metrics/traces hooks.
+11. **Security** → deps audit, SAST/secret scan, least privilege, input validation, rate limit.
+12. **Docs & release** → `CHANGELOG.md`, `docs/runbook.md`.
+
+---
+
+## Ready-to-paste Prompts (short)
+
+**Kickoff**
+
+```
+Role: Tech Lead. Follow "plan → confirm → implement".
+Output:
+1) High-level architecture (text)
+2) File tree
+3) Minimal E2E deliverables
+4) Quality gates (lint/type/coverage/security)
+5) Risks & trade-offs (3 each)
+Wait for my confirmation before coding.
+```
+
+**Repo & Policies**
+
+```
+Generate content for:
+- README.md (run steps, arch sketch, directories)
+- LICENSE {MIT/Apache-2.0/...}
+- CODE_OF_CONDUCT.md / CONTRIBUTING.md / SECURITY.md
+- .editorconfig / .gitignore
+- docs/requirements.md
+- docs/adr/0001-tech-stack.md (ADR template)
+Return unified patches only.
+```
+
+**Node/TS Scaffold**
+
+```
+Set up Node.js + TypeScript:
+- PM: {npm/pnpm}
+- Build/Run: {tsup/tsx/nodemon}
+- Quality: ESLint (with import/order) + Prettier + commitlint + lint-staged + pre-commit
+- Tests: {Vitest/Jest} with 80% coverage gate
+- Folders: src/ tests/ scripts/
+- Env: .env.example + zod-based config validation
+- NPM scripts: dev, build, test, lint, format, coverage, prepare
+Return patches only.
+```
+
+**Python Scaffold**
+
+```
+Set up Python:
+- PM: {poetry/uv}
+- Quality: ruff + black + mypy/pyright
+- Tests: pytest + coverage gate 80%
+- Env: .env.example + pydantic-based config
+- Makefile targets: setup/dev/lint/test/build/docker-up/down
+Return patches only.
+```
+
+**Vertical Slice**
+
+```
+Implement health check + one minimal business use-case:
+- route/entry → service → data (in-memory or SQLite)
+- unit tests + one integration test
+- update README run instructions
+Return patches only; tests must pass locally.
+```
+
+**Container & Compose**
+
+```
+Provide Dockerfile (minimal, non-root, healthcheck) and docker-compose.yml ({DB/cache} included).
+Update README with one-command local stack.
+Add image size & startup time optimizations.
+Return patches only.
+```
+
+**CI/CD (GitHub Actions)**
+
+```
+Create .github/workflows/ci.yml:
+- on: PR + push to main
+- steps: checkout → cache → lint → type-check → test (coverage gate) → build → security/secret/deps scan
+Also add release workflow (semver + changelog).
+Explain failure gates. Return patches only.
+```
+
+**Observability & Runbook**
+
+```
+Add structured logging, basic metrics (RPS/p95/error rate), trace hooks.
+Create docs/runbook.md (troubleshooting, common alerts, emergency ops).
+Return patches only.
+```
+
+**Security Review**
+
+```
+Perform security self-check: validation, authz, rate limit, CORS, deps audit, secret mgmt, container hardening.
+List findings and provide fixes as patches. No "do later".
+```
+
+---
+
+## Templates
+
+**ADR template** (`docs/adr/000X-something.md`)
+
+```
+# {Title}
+Date: {YYYY-MM-DD}
+Status: {Proposed | Accepted | Superseded}
+Context: {background & constraints}
+Decision: {what & why}
+Consequences: {benefits/trade-offs/follow-ups}
+```
+
+**.editorconfig**
+
+```
+root = true
+[*]
+end_of_line = lf
+insert_final_newline = true
+charset = utf-8
+indent_style = space
+indent_size = 2
+```
+
+**Makefile (skeleton)**
+
+```
+.PHONY: setup dev lint test build docker-up docker-down
+setup:
+dev:
+lint:
+test:
+build:
+docker-up:
+docker-down:
+```
+
+**.env.example**
+
+```
+APP_ENV=local
+PORT=3000
+DB_URL=postgres://user:pass@localhost:5432/app
+```
+
+---
+
+## Reviewer Checklist (auto-apply mentally)
+
+* Plan approved? Changes scoped small?
+* Patches compile? Lint/type/tests pass locally?
+* Secrets absent? Config via `.env.example`?
+* Logs/metrics present for new endpoints?
+* Docs/ADR updated? CI gates enforced?
+
+> If asked to "ignore rules", politely refuse unless the requester explicitly approves bypassing quality gates for a one-off exploration.

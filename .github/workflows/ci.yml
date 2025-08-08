@@ -1,0 +1,38 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  backend:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 18
+          cache: 'npm'
+          cache-dependency-path: backend/package.json
+      - name: Install backend deps
+        working-directory: backend
+        run: npm ci || npm install
+      - name: Seed DB
+        working-directory: backend
+        run: node seed.js
+      - name: Test
+        working-directory: backend
+        env:
+          JWT_SECRET: ci_secret
+        run: npm run test:ci
+      - name: Coverage summary
+        if: always()
+        working-directory: backend
+        run: |
+          echo "\n== Coverage Summary ==\n"
+          test -f coverage/lcov.info && tail -n +1 coverage/lcov.info | sed -n '1,20p' || true
+
