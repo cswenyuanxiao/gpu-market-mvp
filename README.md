@@ -143,3 +143,28 @@ Note: This repo already serves `frontend/` statically from the backend if presen
 ## License
 
 MIT
+
+## Deployment (Phase 10)
+
+### Production Docker (single container)
+
+Build and run with production defaults:
+
+```bash
+docker build -t gpu-market .
+docker run --rm -p 3000:3000 \
+  -e NODE_ENV=production \
+  -e JWT_SECRET=change_me \
+  -e CORS_ORIGIN="http://localhost:3000" \
+  gpu-market
+```
+
+### docker-compose with env overrides
+
+Create a `.env` with your values (JWT_SECRET, CORS_ORIGIN, etc.), then:
+
+```bash
+docker compose up --build
+```
+
+The compose file reads environment variables with sensible defaults.

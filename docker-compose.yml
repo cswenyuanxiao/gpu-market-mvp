@@ -5,11 +5,11 @@ services:
       dockerfile: Dockerfile
     container_name: gpu-market-backend
     environment:
-      - APP_ENV=local
-      - PORT=3000
-      - JWT_SECRET=please_change_me
-      - CORS_ORIGIN=http://localhost:8080
-      - MAX_UPLOAD_MB=5
+      - APP_ENV=${APP_ENV:-local}
+      - PORT=${PORT:-3000}
+      - JWT_SECRET=${JWT_SECRET:-please_change_me}
+      - CORS_ORIGIN=${CORS_ORIGIN:-http://localhost:3000}
+      - MAX_UPLOAD_MB=${MAX_UPLOAD_MB:-5}
     ports:
       - "3000:3000"
     command: sh -c "node seed.js && node index.js"
