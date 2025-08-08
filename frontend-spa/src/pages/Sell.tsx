@@ -1,7 +1,8 @@
-import { FormEvent, useState } from 'react';
+import { FormEvent, useMemo, useState } from 'react';
 import { apiFetch } from '../lib/api';
 import ImageUploader, { LocalImage } from '../components/ImageUploader';
 import { useNavigate } from 'react-router-dom';
+import { z } from 'zod';
 
 export default function Sell() {
   const [title, setTitle] = useState('');
@@ -16,17 +17,26 @@ export default function Sell() {
 
   async function onSubmit(e: FormEvent) {
     e.preventDefault();
-    if (!title || !price) {
-      window.dispatchEvent(new CustomEvent('app-toast', { detail: { text: 'Missing required fields', type: 'warning' } }));
+    const schema = z.object({
+      title: z.string().min(1),
+      price: z.coerce.number().positive(),
+      condition: z.enum(['New', 'Used']),
+      brand: z.string().max(50).optional(),
+      vram: z.coerce.number().int().nonnegative().max(64).optional(),
+      desc: z.string().max(2000).optional(),
+    });
+    const parsed = schema.safeParse({ title, price, condition, brand, vram, desc });
+    if (!parsed.success) {
+      window.dispatchEvent(new CustomEvent('app-toast', { detail: { text: 'Invalid form input', type: 'warning' } }));
       return;
     }
     const fd = new FormData();
-    fd.set('title', title);
-    fd.set('price', price);
+    fd.set('title', parsed.data.title);
+    fd.set('price', String(parsed.data.price));
     fd.set('condition', condition);
-    if (brand) fd.set('brand', brand);
-    if (vram) fd.set('vram_gb', vram);
-    if (desc) fd.set('description', desc);
+    if (parsed.data.brand) fd.set('brand', parsed.data.brand);
+    if (parsed.data.vram !== undefined) fd.set('vram_gb', String(parsed.data.vram));
+    if (parsed.data.desc) fd.set('description', parsed.data.desc);
     files.slice(0, 10).forEach((f) => fd.append('images', f));
     setLoading(true);
     try {

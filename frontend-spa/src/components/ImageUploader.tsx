@@ -21,6 +21,7 @@ export default function ImageUploader({
 }) {
   const [images, setImages] = useState<LocalImage[]>([]);
   const inputRef = useRef<HTMLInputElement>(null);
+  const [dragOver, setDragOver] = useState(false);
 
   useEffect(() => {
     onChange(images.map((i) => i.file));
@@ -70,6 +71,43 @@ export default function ImageUploader({
     setImages((curr) => curr.filter((_, i) => i !== idx));
   }
 
+  function move(idx: number, dir: -1 | 1) {
+    setImages((curr) => {
+      const next = curr.slice();
+      const j = idx + dir;
+      if (j < 0 || j >= next.length) return curr;
+      const t = next[idx];
+      next[idx] = next[j];
+      next[j] = t;
+      return next;
+    });
+  }
+
+  function setAsCover(idx: number) {
+    setImages((curr) => {
+      if (idx <= 0) return curr;
+      const next = curr.slice();
+      const [img] = next.splice(idx, 1);
+      next.unshift(img);
+      return next;
+    });
+  }
+
+  function onDrop(e: React.DragEvent<HTMLDivElement>) {
+    e.preventDefault();
+    setDragOver(false);
+    handleFiles(e.dataTransfer.files);
+  }
+
+  function onDragOver(e: React.DragEvent<HTMLDivElement>) {
+    e.preventDefault();
+    setDragOver(true);
+  }
+
+  function onDragLeave() {
+    setDragOver(false);
+  }
+
   return (
     <div>
       <input
@@ -86,7 +124,14 @@ export default function ImageUploader({
         </button>
         <small className="text-muted">Up to {maxImages} images, ≤ {maxSizeMb}MB, ≤ {pixelLimit.toLocaleString()} px</small>
       </div>
-      <div className="d-flex flex-wrap gap-2">
+      <div
+        className={`p-3 border rounded ${dragOver ? 'border-primary bg-light' : 'border-secondary-subtle'}`}
+        onDrop={onDrop}
+        onDragOver={onDragOver}
+        onDragLeave={onDragLeave}
+      >
+        <div className="text-muted mb-2">Drag & drop images here</div>
+        <div className="d-flex flex-wrap gap-2">
         {images.map((img, idx) => (
           <div key={idx} className="position-relative">
             <img
@@ -97,15 +142,25 @@ export default function ImageUploader({
               loading="lazy"
               className={`rounded border ${img.tooLarge ? 'border-danger' : ''}`}
             />
-            <button
-              type="button"
-              className="btn btn-sm btn-danger position-absolute top-0 end-0"
-              onClick={() => removeAt(idx)}
-            >
-              ×
-            </button>
+              <div className="position-absolute top-0 start-0 d-flex gap-1 p-1">
+                <span className="badge text-bg-dark">{idx === 0 ? 'Cover' : idx + 1}</span>
+              </div>
+              <div className="position-absolute bottom-0 start-0 d-flex gap-1 p-1">
+                <button type="button" className="btn btn-sm btn-light" onClick={() => move(idx, -1)} disabled={idx === 0} title="Move left">←</button>
+                <button type="button" className="btn btn-sm btn-light" onClick={() => move(idx, 1)} disabled={idx === images.length - 1} title="Move right">→</button>
+                <button type="button" className="btn btn-sm btn-warning" onClick={() => setAsCover(idx)} disabled={idx === 0} title="Set as cover">★</button>
+              </div>
+              <button
+                type="button"
+                className="btn btn-sm btn-danger position-absolute top-0 end-0"
+                onClick={() => removeAt(idx)}
+                title="Remove"
+              >
+                ×
+              </button>
           </div>
         ))}
+        </div>
       </div>
     </div>
   );

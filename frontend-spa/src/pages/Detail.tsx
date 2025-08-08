@@ -14,6 +14,12 @@ export default function Detail() {
       setItem(await r.json());
     })();
   }, [id]);
+  useEffect(() => {
+    if (item?.title) document.title = `${item.title} — GPU Market`;
+    return () => {
+      document.title = 'GPU Market — Buy & Sell Used GPUs';
+    };
+  }, [item?.title]);
   if (!id) return null;
   return <DetailsModal item={item} onClose={() => { /* noop for page */ }} />;
 }

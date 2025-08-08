@@ -40,6 +40,7 @@ export default function App() {
             <Link to="/sell" className="btn btn-outline-success btn-sm">Sell</Link>
             <Link to="/my" className="btn btn-outline-primary btn-sm">My Listings</Link>
             <Link to="/profile" className="btn btn-outline-secondary btn-sm">My Profile</Link>
+            {user && <Link to="/profile/edit" className="btn btn-outline-secondary btn-sm">Edit Profile</Link>}
             {!user && <Link to="/login" className="btn btn-primary btn-sm">Login</Link>}
             {!user && <Link to="/register" className="btn btn-success btn-sm">Register</Link>}
             {user && <span className="align-self-center small text-muted">{user.display_name || user.username}</span>}

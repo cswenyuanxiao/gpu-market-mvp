@@ -5,14 +5,17 @@ import DetailsModal from '../components/DetailsModal';
 import SearchFilters from '../components/SearchFilters';
 import type { Gpu, SearchQuery } from '../types';
 import Pagination from '../components/Pagination';
+import { useQueryState } from '../lib/useQueryState';
 
 export default function Home() {
-  const [q, setQ] = useState('');
-  const [sort, setSort] = useState<'newest' | 'price_asc' | 'price_desc'>('newest');
+  const { getAll, setAll } = useQueryState<{ q?: string; sort?: string; page?: string }>();
+  const init = getAll();
+  const [q, setQ] = useState(init.q || '');
+  const [sort, setSort] = useState<'newest' | 'price_asc' | 'price_desc'>((init.sort as any) || 'newest');
   const [items, setItems] = useState<Gpu[]>([]);
   const [loading, setLoading] = useState(false);
   const [selected, setSelected] = useState<Gpu | null>(null);
-  const [page, setPage] = useState(1);
+  const [page, setPage] = useState(Number(init.page || '1'));
   const [per] = useState(12);
   const [total, setTotal] = useState(0);
 
@@ -25,6 +28,7 @@ export default function Home() {
         if (v === undefined || v === '') p.delete(k);
         else p.set(k, String(v));
       });
+    setAll({ q, sort, page: String(page) } as any);
     p.set('page', String(page));
     p.set('per', String(per));
     const url = '/api/search?' + p.toString();
