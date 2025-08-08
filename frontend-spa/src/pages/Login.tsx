@@ -1,6 +1,7 @@
 import { FormEvent, useState } from 'react';
 import { apiFetch } from '../lib/api';
 import { useNavigate, useLocation, Link } from 'react-router-dom';
+import { useAuth } from '../store/auth';
 
 export default function Login() {
   const [username, setUsername] = useState('');
@@ -8,6 +9,7 @@ export default function Login() {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const location = useLocation() as any;
+  const { login } = useAuth();
 
   async function onSubmit(e: FormEvent) {
     e.preventDefault();
@@ -28,7 +30,7 @@ export default function Login() {
         return;
       }
       const data = await res.json();
-      localStorage.setItem('token', data.token || '');
+      login(data.token || '');
       window.dispatchEvent(new CustomEvent('app-toast', { detail: { text: 'Logged in', type: 'success' } }));
       const from = location?.state?.from || '/my';
       navigate(from, { replace: true });

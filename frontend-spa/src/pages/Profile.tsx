@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { apiFetch } from '../lib/api';
+import { useAuth } from '../store/auth';
 
 export default function Profile() {
   const [me, setMe] = useState<{ id: number; display_name: string; avatar_path?: string } | null>(
