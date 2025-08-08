@@ -132,9 +132,9 @@ Note: This repo already serves `frontend/` statically from the backend if presen
 
 ## SEO & Performance (Phase 7)
 
-- Meta tags and Open Graph added to `frontend/index.html` with dynamic canonical URL.
+- Meta tags and Open Graph added to `frontend/index.html` with dynamic canonical URL. Added `keywords` and `theme-color`.
 - Backend serves `robots.txt` and `sitemap.xml` (includes homepage and up to 50 latest listings).
-- Static assets served with cache headers from Express; consider CDN for production. A dynamic `sitemap.xml` and `robots.txt` are available at the root.
+- Static assets served with cache headers from Express (immutable year-long for non-HTML, no-cache for HTML). Consider a CDN for production.
 
 ## Notes
 

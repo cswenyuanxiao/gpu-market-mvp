@@ -304,7 +304,17 @@ app.use('/uploads', express.static(uploadDir, { maxAge: '7d', immutable: true })
 // Serve frontend statically when available (for deployment)
 const frontendDir = path.join(__dirname, '..', 'frontend');
 if (fs.existsSync(frontendDir)) {
-  app.use(express.static(frontendDir, { maxAge: '7d', immutable: false }));
+  app.use(
+    express.static(frontendDir, {
+      setHeaders: (res, filePath) => {
+        if (filePath.endsWith('.html')) {
+          res.setHeader('Cache-Control', 'no-cache');
+        } else {
+          res.setHeader('Cache-Control', 'public, max-age=31536000, immutable');
+        }
+      },
+    }),
+  );
   app.get('/', (req, res) => res.sendFile(path.join(frontendDir, 'index.html')));
 }
 
