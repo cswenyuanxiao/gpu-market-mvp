@@ -40,15 +40,16 @@ export default function ImageUploader({
     const urlsToRevoke: string[] = [];
     try {
       for (let i = 0; i < files.length; i++) {
-        const f = files[i];
+        const f: File = files.item(i)!;
+        if (!f) continue;
         if (!f.type.startsWith('image/')) continue;
         if (images.length + toAdd.length >= maxImages) break;
         const tooBig = f.size > maxSizeMb * 1024 * 1024;
-        const url = URL.createObjectURL(f);
+        const url = URL.createObjectURL(f as Blob);
         urlsToRevoke.push(url);
         const dims = await readImageDims(url).catch(() => ({ width: 0, height: 0 }));
         const tooLarge = dims.width * dims.height > pixelLimit;
-        toAdd.push({ file: f, url, width: dims.width, height: dims.height, tooLarge: tooBig || tooLarge });
+        toAdd.push({ file: f as File, url, width: dims.width, height: dims.height, tooLarge: tooBig || tooLarge });
       }
       if (toAdd.some((x) => x.tooLarge)) {
         window.dispatchEvent(
