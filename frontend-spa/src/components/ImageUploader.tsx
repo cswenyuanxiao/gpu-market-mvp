@@ -76,8 +76,8 @@ export default function ImageUploader({
       const next = curr.slice();
       const j = idx + dir;
       if (j < 0 || j >= next.length) return curr;
-      const t = next[idx];
-      next[idx] = next[j];
+      const t = next[idx]!;
+      next[idx] = next[j]!;
       next[j] = t;
       return next;
     });
@@ -88,6 +88,7 @@ export default function ImageUploader({
       if (idx <= 0) return curr;
       const next = curr.slice();
       const [img] = next.splice(idx, 1);
+      if (!img) return curr;
       next.unshift(img);
       return next;
     });
