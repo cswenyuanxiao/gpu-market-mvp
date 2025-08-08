@@ -9,6 +9,9 @@ import MyListings from './pages/MyListings';
 import { AuthGuard } from './components/AuthGuard';
 import { useAuth } from './store/auth';
 import Detail from './pages/Detail';
+import Sell from './pages/Sell';
+import Edit from './pages/Edit';
+import NotFound from './pages/NotFound';
 
 export default function App() {
   const { api, messages } = useToast();
@@ -31,6 +34,7 @@ export default function App() {
           </Link>
           <div className="ms-auto d-flex gap-2">
             <Link to="/" className="btn btn-link btn-sm">Home</Link>
+            <Link to="/sell" className="btn btn-outline-success btn-sm">Sell</Link>
             <Link to="/my" className="btn btn-outline-primary btn-sm">My Listings</Link>
             <Link to="/profile" className="btn btn-outline-secondary btn-sm">My Profile</Link>
             {!user && <Link to="/login" className="btn btn-primary btn-sm">Login</Link>}
@@ -46,6 +50,23 @@ export default function App() {
         <Route path="/" element={<Home />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="/g/:id" element={<Detail />} />
+        <Route
+          path="/sell"
+          element={
+            <AuthGuard>
+              <Sell />
+            </AuthGuard>
+          }
+        />
+        <Route
+          path="/edit/:id"
+          element={
+            <AuthGuard>
+              <Edit />
+            </AuthGuard>
+          }
+        />
+        <Route path="*" element={<NotFound />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route

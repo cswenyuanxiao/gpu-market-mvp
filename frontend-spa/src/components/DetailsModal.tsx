@@ -60,9 +60,9 @@ export default function DetailsModal({ item, onClose }: { item: Gpu | null; onCl
                   <button
                     className="btn btn-outline-primary"
                     onClick={() => {
-                      const url = new URL(location.href);
-                      url.searchParams.set('id', String(item.id));
-                      navigator.clipboard.writeText(url.toString());
+                      const href = `${location.origin}/g/${item.id}`;
+                      navigator.clipboard.writeText(href);
+                      window.dispatchEvent(new CustomEvent('app-toast', { detail: { text: 'Link copied', type: 'success' } }));
                     }}
                   >
                     Copy Link

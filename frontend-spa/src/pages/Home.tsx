@@ -4,6 +4,7 @@ import { formatDate, formatPrice } from '../lib/format';
 import DetailsModal from '../components/DetailsModal';
 import SearchFilters from '../components/SearchFilters';
 import type { Gpu, SearchQuery } from '../types';
+import Pagination from '../components/Pagination';
 
 export default function Home() {
   const [q, setQ] = useState('');
@@ -11,6 +12,9 @@ export default function Home() {
   const [items, setItems] = useState<Gpu[]>([]);
   const [loading, setLoading] = useState(false);
   const [selected, setSelected] = useState<Gpu | null>(null);
+  const [page, setPage] = useState(1);
+  const [per] = useState(12);
+  const [total, setTotal] = useState(0);
 
   const params = useMemo(() => new URLSearchParams({ q, sort }), [q, sort]);
 
@@ -21,17 +25,22 @@ export default function Home() {
         if (v === undefined || v === '') p.delete(k);
         else p.set(k, String(v));
       });
+    p.set('page', String(page));
+    p.set('per', String(per));
     const url = '/api/search?' + p.toString();
     setLoading(true);
     apiFetch(url)
       .then((r) => r.json())
-      .then((j) => setItems(j.results || []))
+      .then((j) => {
+        setItems(j.results || []);
+        setTotal(j.total || 0);
+      })
       .finally(() => setLoading(false));
   }
 
   useEffect(() => {
     fetchList();
-  }, [params]);
+  }, [params, page, per]);
 
   return (
     <div className="container py-3">
@@ -144,6 +153,9 @@ export default function Home() {
                 </div>
               </div>
             ))}
+          </div>
+          <div className="d-flex justify-content-center mt-3">
+            <Pagination page={page} per={per} total={total} onChange={(p) => setPage(p)} />
           </div>
         </div>
       </div>

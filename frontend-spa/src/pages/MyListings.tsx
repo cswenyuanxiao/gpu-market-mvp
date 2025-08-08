@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { apiFetch } from '../lib/api';
+import { useNavigate } from 'react-router-dom';
 
 export default function MyListings() {
   const [items, setItems] = useState<any[]>([]);
@@ -19,6 +20,19 @@ export default function MyListings() {
       mounted = false;
     };
   }, []);
+  const navigate = useNavigate();
+  async function onDelete(id: number) {
+    if (!confirm('Delete this listing?')) return;
+    const r = await apiFetch(`/api/gpus/${id}`, { method: 'DELETE' });
+    if (!r.ok) {
+      const msg = (await r.json().catch(() => ({})))?.error || 'Delete failed';
+      window.dispatchEvent(new CustomEvent('app-toast', { detail: { text: msg, type: 'error' } }));
+      return;
+    }
+    window.dispatchEvent(new CustomEvent('app-toast', { detail: { text: 'Deleted', type: 'success' } }));
+    setItems((curr) => curr.filter((x) => x.id !== id));
+  }
+
   return (
     <div className="container py-3">
       <h3>My Listings</h3>
@@ -41,6 +55,10 @@ export default function MyListings() {
                 <div className="col">
                   <div className="card-body">
                     <h5 className="card-title">{gpu.title}</h5>
+                    <div className="d-flex gap-2">
+                      <button className="btn btn-sm btn-outline-secondary" onClick={() => navigate(`/edit/${gpu.id}`)}>Edit</button>
+                      <button className="btn btn-sm btn-outline-danger" onClick={() => onDelete(gpu.id)}>Delete</button>
+                    </div>
                   </div>
                 </div>
               </div>
