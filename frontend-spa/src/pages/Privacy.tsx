@@ -35,6 +35,17 @@ export default function Privacy() {
       <p>
         Questions? <a href="/contact">Contact us</a>.
       </p>
+      <ul>
+        <li>
+          WhatsApp:{' '}
+          <a href="https://wa.me/447747310027" target="_blank" rel="noreferrer">
+            +44 7747310027
+          </a>
+        </li>
+        <li>
+          Email: <a href="mailto:x1657217402@gmail.com">x1657217402@gmail.com</a>
+        </li>
+      </ul>
     </div>
   );
 }

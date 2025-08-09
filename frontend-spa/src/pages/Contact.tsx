@@ -50,6 +50,18 @@ export default function Contact() {
           Have a question about a listing, pricing, or trade-ins? Send us a message and we’ll get
           back within 1–2 business days.
         </p>
+        <p className="mb-1">Prefer WhatsApp or email? Reach us at:</p>
+        <ul className="mb-0">
+          <li>
+            WhatsApp:{' '}
+            <a href="https://wa.me/447747310027" target="_blank" rel="noreferrer">
+              +44 7747310027
+            </a>
+          </li>
+          <li>
+            Email: <a href="mailto:x1657217402@gmail.com">x1657217402@gmail.com</a>
+          </li>
+        </ul>
       </div>
       <form onSubmit={handleSubmit(onSubmit)}>
         <FormField label="Your Name" htmlFor="name" error={errors.name?.message}>

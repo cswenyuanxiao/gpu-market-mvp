@@ -55,6 +55,17 @@ export default function Terms() {
       <p>
         For questions about these Terms, please <a href="/contact">contact us</a>.
       </p>
+      <ul>
+        <li>
+          WhatsApp:{' '}
+          <a href="https://wa.me/447747310027" target="_blank" rel="noreferrer">
+            +44 7747310027
+          </a>
+        </li>
+        <li>
+          Email: <a href="mailto:x1657217402@gmail.com">x1657217402@gmail.com</a>
+        </li>
+      </ul>
     </div>
   );
 }
