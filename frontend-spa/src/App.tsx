@@ -69,6 +69,7 @@ export default function App() {
       {/* Center logo row with search and cart */}
       <div className="container py-3 d-none d-md-flex justify-content-between align-items-center">
         <Button
+          className="nav-icon-btn"
           type="text"
           aria-label="Search"
           icon={<SearchOutlined style={{ fontSize: 22, color: '#111' }} />}
@@ -89,6 +90,7 @@ export default function App() {
           <span className="h4 mb-0 text-dark">GPU Market</span>
         </Link>
         <Button
+          className="nav-icon-btn"
           type="text"
           aria-label="Cart"
           icon={<ShoppingOutlined style={{ fontSize: 22, color: '#111' }} />}

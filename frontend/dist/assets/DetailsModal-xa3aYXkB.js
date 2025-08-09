@@ -1,8 +1,8 @@
 import { j as t } from './react-query-BGeIQRPr.js';
-import { D as l } from './DetailsView-BmDVwFjn.js';
+import { D as l } from './DetailsView-D62KsYcS.js';
 import { M as i } from './antd-mcI3qWux.js';
 import './react-CTDr35rJ.js';
-import './index-C09nFs0H.js';
+import './index-BeDCfxxE.js';
 function f({ item: o, onClose: r }) {
   return o
     ? t.jsx(i, {

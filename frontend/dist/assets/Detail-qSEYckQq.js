@@ -1,7 +1,7 @@
 import { j as r } from './react-query-BGeIQRPr.js';
 import { i as n, r as s } from './react-CTDr35rJ.js';
-import { a as o } from './index-C09nFs0H.js';
-import { D as l } from './DetailsView-BmDVwFjn.js';
+import { a as o } from './index-BeDCfxxE.js';
+import { D as l } from './DetailsView-D62KsYcS.js';
 import { B as u } from './antd-mcI3qWux.js';
 function x() {
   const { id: e } = n(),

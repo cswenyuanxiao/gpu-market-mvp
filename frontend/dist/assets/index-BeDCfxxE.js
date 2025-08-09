@@ -3,25 +3,25 @@ const __vite__mapDeps = (
   m = __vite__mapDeps,
   d = m.f ||
     (m.f = [
-      'assets/DetailsModal-lC04LiNd.js',
+      'assets/DetailsModal-xa3aYXkB.js',
       'assets/react-query-BGeIQRPr.js',
       'assets/react-CTDr35rJ.js',
-      'assets/DetailsView-BmDVwFjn.js',
+      'assets/DetailsView-D62KsYcS.js',
       'assets/antd-mcI3qWux.js',
       'assets/ImageUploader-DWnjEkzb.js',
-      'assets/Profile-DWRGJ9dJ.js',
-      'assets/Login-DPcYcF4n.js',
+      'assets/Profile-DU7xPSDC.js',
+      'assets/Login-DJIIG9Zw.js',
       'assets/FormField-iyrhpl26.js',
       'assets/zod-SQF3v9p3.js',
-      'assets/Register-1E2c2CZA.js',
-      'assets/MyListings-CS_qDScW.js',
-      'assets/Detail-DOjQl86v.js',
-      'assets/Sell-CwgXdUZP.js',
-      'assets/Edit-9_Y8cFyg.js',
+      'assets/Register-DAzWGkjY.js',
+      'assets/MyListings-NrWAzQUX.js',
+      'assets/Detail-qSEYckQq.js',
+      'assets/Sell-CgtVsc_N.js',
+      'assets/Edit-DMDqF-DV.js',
       'assets/NotFound-DjWoEur9.js',
-      'assets/ProfileEdit-CxJUTsmt.js',
-      'assets/SellToUs-Bn5qSNzK.js',
-      'assets/Contact-BTLTTHD0.js',
+      'assets/ProfileEdit-Bm_ug-0s.js',
+      'assets/SellToUs-COnZW7gN.js',
+      'assets/Contact-BGfX_8pS.js',
       'assets/Returns-CybxWZqr.js',
       'assets/B2B--j3nffuu.js',
       'assets/Raffles-DRqVSoUK.js',
@@ -528,7 +528,7 @@ function Ve(t, s = 'GPU Market — Buy & Sell Used GPUs') {
   );
 }
 const ze = c.lazy(() =>
-  b(() => import('./DetailsModal-lC04LiNd.js'), __vite__mapDeps([0, 1, 2, 3, 4])),
+  b(() => import('./DetailsModal-xa3aYXkB.js'), __vite__mapDeps([0, 1, 2, 3, 4])),
 );
 function H() {
   var z;
@@ -598,7 +598,7 @@ function H() {
   function je() {
     V.current ||
       ((V.current = !0),
-      b(() => import('./DetailsModal-lC04LiNd.js'), __vite__mapDeps([0, 1, 2, 3, 4])),
+      b(() => import('./DetailsModal-xa3aYXkB.js'), __vite__mapDeps([0, 1, 2, 3, 4])),
       b(() => import('./ImageUploader-DWnjEkzb.js'), __vite__mapDeps([5, 1, 2])));
   }
   return e.jsxs('div', {
@@ -1414,23 +1414,23 @@ function _t() {
         }),
       }));
 }
-const wt = c.lazy(() => b(() => import('./Profile-DWRGJ9dJ.js'), __vite__mapDeps([6, 1, 2, 4]))),
-  St = c.lazy(() => b(() => import('./Login-DPcYcF4n.js'), __vite__mapDeps([7, 1, 2, 8, 9, 4]))),
+const wt = c.lazy(() => b(() => import('./Profile-DU7xPSDC.js'), __vite__mapDeps([6, 1, 2, 4]))),
+  St = c.lazy(() => b(() => import('./Login-DJIIG9Zw.js'), __vite__mapDeps([7, 1, 2, 8, 9, 4]))),
   kt = c.lazy(() =>
-    b(() => import('./Register-1E2c2CZA.js'), __vite__mapDeps([10, 1, 2, 8, 9, 4])),
+    b(() => import('./Register-DAzWGkjY.js'), __vite__mapDeps([10, 1, 2, 8, 9, 4])),
   ),
-  Et = c.lazy(() => b(() => import('./MyListings-CS_qDScW.js'), __vite__mapDeps([11, 1, 2, 4]))),
-  Nt = c.lazy(() => b(() => import('./Detail-DOjQl86v.js'), __vite__mapDeps([12, 1, 2, 3, 4]))),
-  At = c.lazy(() => b(() => import('./Sell-CwgXdUZP.js'), __vite__mapDeps([13, 1, 2, 8, 9, 4]))),
-  Ct = c.lazy(() => b(() => import('./Edit-9_Y8cFyg.js'), __vite__mapDeps([14, 1, 2, 8, 9, 4]))),
+  Et = c.lazy(() => b(() => import('./MyListings-NrWAzQUX.js'), __vite__mapDeps([11, 1, 2, 4]))),
+  Nt = c.lazy(() => b(() => import('./Detail-qSEYckQq.js'), __vite__mapDeps([12, 1, 2, 3, 4]))),
+  At = c.lazy(() => b(() => import('./Sell-CgtVsc_N.js'), __vite__mapDeps([13, 1, 2, 8, 9, 4]))),
+  Ct = c.lazy(() => b(() => import('./Edit-DMDqF-DV.js'), __vite__mapDeps([14, 1, 2, 8, 9, 4]))),
   It = c.lazy(() => b(() => import('./NotFound-DjWoEur9.js'), __vite__mapDeps([15, 1, 2, 4]))),
   Dt = c.lazy(() =>
-    b(() => import('./ProfileEdit-CxJUTsmt.js'), __vite__mapDeps([16, 1, 2, 8, 4])),
+    b(() => import('./ProfileEdit-Bm_ug-0s.js'), __vite__mapDeps([16, 1, 2, 8, 4])),
   ),
   Pt = c.lazy(() =>
-    b(() => import('./SellToUs-Bn5qSNzK.js'), __vite__mapDeps([17, 1, 2, 9, 8, 4])),
+    b(() => import('./SellToUs-COnZW7gN.js'), __vite__mapDeps([17, 1, 2, 9, 8, 4])),
   ),
-  Rt = c.lazy(() => b(() => import('./Contact-BTLTTHD0.js'), __vite__mapDeps([18, 1, 2, 9, 8, 4]))),
+  Rt = c.lazy(() => b(() => import('./Contact-BGfX_8pS.js'), __vite__mapDeps([18, 1, 2, 9, 8, 4]))),
   Mt = c.lazy(() => b(() => import('./Returns-CybxWZqr.js'), __vite__mapDeps([19, 1, 2]))),
   Tt = c.lazy(() => b(() => import('./B2B--j3nffuu.js'), __vite__mapDeps([20, 1, 2]))),
   Lt = c.lazy(() => b(() => import('./Raffles-DRqVSoUK.js'), __vite__mapDeps([21, 1, 2]))),
@@ -1471,6 +1471,7 @@ function qt() {
         className: 'container py-3 d-none d-md-flex justify-content-between align-items-center',
         children: [
           e.jsx(p, {
+            className: 'nav-icon-btn',
             type: 'text',
             'aria-label': 'Search',
             icon: e.jsx(Ae, { style: { fontSize: 22, color: '#111' } }),
@@ -1499,6 +1500,7 @@ function qt() {
             ],
           }),
           e.jsx(p, {
+            className: 'nav-icon-btn',
             type: 'text',
             'aria-label': 'Cart',
             icon: e.jsx(Ce, { style: { fontSize: 22, color: '#111' } }),
