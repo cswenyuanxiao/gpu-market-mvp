@@ -26,7 +26,9 @@ CREATE TABLE IF NOT EXISTS gpus (
 );
 `);
 
-const insertUser = db.prepare('INSERT OR IGNORE INTO users (username, password_hash, display_name) VALUES (?, ?, ?)');
+const insertUser = db.prepare(
+  'INSERT OR IGNORE INTO users (username, password_hash, display_name) VALUES (?, ?, ?)',
+);
 const pwHash = (pw) => bcrypt.hashSync(pw, 8);
 insertUser.run('alice', pwHash('password'), 'Alice');
 insertUser.run('bob', pwHash('password'), 'Bob');
@@ -37,11 +39,36 @@ const aliceId = getUserId.get('alice').id;
 const bobId = getUserId.get('bob').id;
 const charlieId = getUserId.get('charlie').id;
 
-const insert = db.prepare('INSERT INTO gpus (title, description, price, condition, seller_id, image_path, created_at) VALUES (?, ?, ?, ?, ?, ?, ?)');
-insert.run('NVIDIA RTX 3080 Ti', 'Good condition, minor cosmetic wear', 650, 'Used', aliceId, null, new Date().toISOString());
-insert.run('AMD Radeon RX 6800 XT', 'Like new, low hours', 600, 'Used', bobId, null, new Date().toISOString());
-insert.run('NVIDIA RTX 4090', 'Factory sealed', 2000, 'New', charlieId, null, new Date().toISOString());
+const insert = db.prepare(
+  'INSERT INTO gpus (title, description, price, condition, seller_id, image_path, created_at) VALUES (?, ?, ?, ?, ?, ?, ?)',
+);
+const now = Date.now();
+const items = [
+  ['NVIDIA RTX 3080 Ti', 'Good condition, minor cosmetic wear', 650, 'Used', aliceId],
+  ['AMD Radeon RX 6800 XT', 'Like new, low hours', 600, 'Used', bobId],
+  ['NVIDIA RTX 4090', 'Factory sealed', 2000, 'New', charlieId],
+];
+// add many filler items to enable scroll testing
+for (let i = 0; i < 40; i++) {
+  const seller = i % 3 === 0 ? aliceId : i % 3 === 1 ? bobId : charlieId;
+  items.push([
+    `Demo GPU ${i + 1}`,
+    `This is a demo listing used for long-page scroll testing. Index ${i + 1}.`,
+    100 + (i % 10) * 25,
+    i % 2 === 0 ? 'Used' : 'New',
+    seller,
+  ]);
+}
+for (const [title, desc, price, cond, uid] of items) {
+  insert.run(
+    title,
+    desc,
+    price,
+    cond,
+    uid,
+    null,
+    new Date(now - Math.floor(Math.random() * 1e9)).toISOString(),
+  );
+}
 
 console.log('Seeded database at', path.join(__dirname, 'data.db'));
-
-
