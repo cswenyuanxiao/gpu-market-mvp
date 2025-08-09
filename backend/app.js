@@ -514,6 +514,18 @@ const openApi = {
     '/api/users/me/avatar': {
       post: {
         summary: 'Upload avatar',
+        requestBody: {
+          required: true,
+          content: {
+            'multipart/form-data': {
+              schema: {
+                type: 'object',
+                properties: { avatar: { type: 'string', format: 'binary' } },
+                required: ['avatar'],
+              },
+            },
+          },
+        },
         responses: {
           200: { description: 'OK' },
           400: { description: 'Invalid' },
