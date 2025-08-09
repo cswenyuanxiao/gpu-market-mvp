@@ -1,9 +1,9 @@
 import { j as t } from './react-query-BGeIQRPr.js';
-import { D as l } from './DetailsView-D3r_n-T0.js';
-import { f as i } from './antd-n40S5sxn.js';
+import { D as l } from './DetailsView-CKZ09Ubv.js';
+import { M as i } from './antd-BEXrTnZz.js';
 import './react-CTDr35rJ.js';
-import './index-aktKGDxK.js';
-function p({ item: o, onClose: r }) {
+import './index-aQ7CPAsT.js';
+function f({ item: o, onClose: r }) {
   return o
     ? t.jsx(i, {
         open: !!o,
@@ -15,4 +15,4 @@ function p({ item: o, onClose: r }) {
       })
     : null;
 }
-export { p as default };
+export { f as default };

@@ -1,4 +1,4 @@
-import { Link, Route, Routes, useNavigate } from 'react-router-dom';
+import { Link, Route, Routes, useLocation, useNavigate } from 'react-router-dom';
 import { lazy, Suspense, useState } from 'react';
 import Home from './pages/Home';
 import { ToastContainer, useToast } from './components/Toast';
@@ -21,6 +21,11 @@ import About from './pages/About';
 import Privacy from './pages/Privacy';
 import Terms from './pages/Terms';
 const Returns = lazy(() => import('./pages/Returns'));
+const B2B = lazy(() => import('./pages/B2B'));
+const Raffles = lazy(() => import('./pages/Raffles'));
+const RaffleInfo = lazy(() => import('./pages/RaffleInfo'));
+const RaffleWinners = lazy(() => import('./pages/RaffleWinners'));
+const Cart = lazy(() => import('./pages/Cart'));
 import ServerError from './pages/ServerError';
 import { Button, Dropdown, Drawer, Menu } from 'antd';
 import type { MenuProps } from 'antd';
@@ -29,6 +34,7 @@ import FloatingWhatsApp from './components/ui/FloatingWhatsApp';
 export default function App() {
   const { api, messages } = useToast();
   const navigate = useNavigate();
+  const location = useLocation();
   const { user, init, logout } = useAuth();
   useScrollRestoration();
   useEffect(() => {
@@ -59,51 +65,159 @@ export default function App() {
           See Our Excellent Reviews →
         </a>
       </div>
+      {/* Center logo row with search and cart */}
+      <div className="container py-3 d-none d-md-flex justify-content-between align-items-center">
+        <Button
+          type="text"
+          onClick={() => {
+            if (location.pathname !== '/' && location.pathname !== '/everything') {
+              navigate('/everything');
+              setTimeout(() => document.getElementById('globalSearchInput')?.focus(), 0);
+            } else {
+              document.getElementById('globalSearchInput')?.focus();
+            }
+          }}
+        >
+          🔍
+        </Button>
+        <Link to="/" className="d-flex align-items-center gap-2 text-decoration-none">
+          <span
+            className="rounded"
+            style={{ width: 64, height: 64, background: '#2f7f82', display: 'inline-block' }}
+          />
+          <span className="h4 mb-0 text-dark">GPU Market</span>
+        </Link>
+        <Button type="text" onClick={() => navigate('/cart')} aria-label="Cart">
+          🛒
+        </Button>
+      </div>
       <nav className="navbar navbar-expand navbar-light bg-light">
         <div className="container-fluid">
-          <Link to="/" className="navbar-brand d-flex align-items-center gap-2">
-            <span
-              className="rounded"
-              style={{ width: 32, height: 32, background: '#2f7f82', display: 'inline-block' }}
-            />
-            <span>GPU Market</span>
-          </Link>
-          <div className="ms-auto d-none d-md-flex gap-2">
-            <Button
-              type="text"
-              size="small"
-              onClick={() => document.getElementById('globalSearchInput')?.focus()}
-            >
-              🔍
-            </Button>
+          <div className="mx-auto d-none d-md-flex gap-3">
             <Link to="/">
-              <Button type="text" size="small">
+              <Button
+                type="text"
+                size="small"
+                style={{ borderBottom: location.pathname === '/' ? '2px solid #222' : 'none' }}
+              >
                 Home
-              </Button>
-            </Link>
-            <Link to="/everything?sort=price_desc">
-              <Button type="text" size="small">
-                Shop Everything
               </Button>
             </Link>
             <Dropdown
               trigger={['click']}
               menu={{
                 items: [
-                  { key: 'nvidia-40', label: 'NVIDIA 40 Series' },
-                  { key: 'nvidia-30', label: 'NVIDIA 30 Series' },
-                  { key: 'amd-7000', label: 'AMD 7000 Series' },
-                  { key: 'amd-6000', label: 'AMD 6000 Series' },
+                  { key: 'everything', label: 'Shop Everything' },
+                  {
+                    type: 'group',
+                    label: 'Computer Components',
+                    children: [
+                      { key: 'q:Graphics Cards (GPUs)', label: 'Graphics Cards (GPUs)' },
+                      { key: 'q:RAM', label: 'RAM' },
+                      { key: 'q:Processors (CPUs)', label: 'Processors (CPUs)' },
+                      { key: 'q:Storage', label: 'Storage' },
+                      { key: 'q:Motherboards', label: 'Motherboards' },
+                      { key: 'q:PSUs', label: 'PSUs' },
+                    ],
+                  },
+                  {
+                    type: 'group',
+                    label: 'Other Electronics',
+                    children: [
+                      { key: 'q:Smart Watches', label: 'Smart Watches' },
+                      { key: 'q:Phones', label: 'Phones' },
+                      { key: 'q:Laptops', label: 'Laptops' },
+                      { key: 'q:Cameras', label: 'Cameras' },
+                      { key: 'q:Home Tech', label: 'Home Tech' },
+                      { key: 'q:Monitors', label: 'Monitors' },
+                      { key: 'q:Tablets', label: 'Tablets' },
+                      { key: 'q:Faulty Stock', label: 'Faulty Stock' },
+                    ],
+                  },
                 ],
                 onClick: (info) => {
-                  if (info.key === 'nvidia-40') navigate('/?brand=NVIDIA&vram_min=12');
-                  if (info.key === 'nvidia-30') navigate('/?brand=NVIDIA&vram_min=8');
-                  if (info.key === 'amd-7000') navigate('/?brand=AMD&vram_min=12');
-                  if (info.key === 'amd-6000') navigate('/?brand=AMD&vram_min=8');
+                  if (info.key === 'everything') {
+                    navigate('/everything?sort=price_desc');
+                    return;
+                  }
+                  if (info.key.startsWith('q:')) {
+                    const q = encodeURIComponent(info.key.slice(2));
+                    navigate(`/everything?sort=price_desc&q=${q}`);
+                  }
                 },
               }}
             >
-              <Button size="small">Shop Graphics Cards</Button>
+              <Button
+                type="text"
+                size="small"
+                style={{
+                  borderBottom: location.pathname === '/everything' ? '2px solid #222' : 'none',
+                }}
+              >
+                Shop Everything
+              </Button>
+            </Dropdown>
+            <Dropdown
+              trigger={['click']}
+              menu={{
+                items: [
+                  { key: 'all-gpus', label: 'All Graphics Cards' },
+                  {
+                    type: 'group',
+                    label: 'Nvidia Graphics Cards',
+                    children: [
+                      { key: 'nv-all', label: 'All Nvidia Graphics Cards' },
+                      { key: 'nv-40', label: 'Nvidia 40 Series' },
+                      { key: 'nv-30', label: 'Nvidia 30 Series' },
+                      { key: 'nv-20', label: 'Nvidia 20 Series' },
+                      { key: 'nv-16', label: 'Nvidia 16 Series' },
+                      { key: 'nv-10', label: 'Nvidia 10 Series' },
+                      { key: 'nv-other', label: 'Other Nvidia Graphics Cards' },
+                      { key: 'nv-faulty', label: 'Faulty Stock' },
+                    ],
+                  },
+                  {
+                    type: 'group',
+                    label: 'AMD Graphics Cards',
+                    children: [
+                      { key: 'amd-all', label: 'All AMD Graphics Cards' },
+                      { key: 'amd-7000', label: 'AMD Radeon 7000 Series' },
+                      { key: 'amd-6000', label: 'AMD Radeon 6000 Series' },
+                      { key: 'amd-5000', label: 'AMD Radeon 5000 Series' },
+                      { key: 'amd-500', label: 'AMD Radeon 500 Series' },
+                      { key: 'amd-400', label: 'AMD Radeon 400 Series' },
+                      { key: 'amd-vega', label: 'AMD Radeon Vega Series' },
+                      { key: 'amd-other', label: 'Other AMD Graphics Cards' },
+                      { key: 'amd-faulty', label: 'Faulty Stock' },
+                    ],
+                  },
+                ],
+                onClick: (info) => {
+                  const go = (qs: string) => navigate(qs);
+                  if (info.key === 'all-gpus') return go('/');
+                  if (info.key === 'nv-all') return go('/?brand=NVIDIA');
+                  if (info.key === 'nv-40') return go('/?brand=NVIDIA&vram_min=12');
+                  if (info.key === 'nv-30') return go('/?brand=NVIDIA&vram_min=8');
+                  if (info.key === 'nv-20') return go('/?brand=NVIDIA&q=20 Series');
+                  if (info.key === 'nv-16') return go('/?brand=NVIDIA&q=16 Series');
+                  if (info.key === 'nv-10') return go('/?brand=NVIDIA&q=10 Series');
+                  if (info.key === 'nv-other') return go('/?brand=NVIDIA&q=Other');
+                  if (info.key === 'nv-faulty') return go('/?brand=NVIDIA&q=Faulty');
+                  if (info.key === 'amd-all') return go('/?brand=AMD');
+                  if (info.key === 'amd-7000') return go('/?brand=AMD&vram_min=12');
+                  if (info.key === 'amd-6000') return go('/?brand=AMD&vram_min=8');
+                  if (info.key === 'amd-5000') return go('/?brand=AMD&q=5000 Series');
+                  if (info.key === 'amd-500') return go('/?brand=AMD&q=500 Series');
+                  if (info.key === 'amd-400') return go('/?brand=AMD&q=400 Series');
+                  if (info.key === 'amd-vega') return go('/?brand=AMD&q=Vega');
+                  if (info.key === 'amd-other') return go('/?brand=AMD&q=Other');
+                  if (info.key === 'amd-faulty') return go('/?brand=AMD&q=Faulty');
+                },
+              }}
+            >
+              <Button type="text" size="small">
+                Shop Graphics Cards
+              </Button>
             </Dropdown>
             <Link to="/sell">
               <Button size="small" type="default">
@@ -113,6 +227,11 @@ export default function App() {
             <Link to="/sell-to-us">
               <Button size="small" type="default">
                 Sell to us
+              </Button>
+            </Link>
+            <Link to="/b2b">
+              <Button size="small" type="text">
+                Enterprise Hardware (B2B)
               </Button>
             </Link>
             <Link to="/my">
@@ -125,9 +244,25 @@ export default function App() {
                 My Profile
               </Button>
             </Link>
-            <Button type="text" size="small" onClick={() => navigate('/cart')}>
-              🛒
-            </Button>
+            <Dropdown
+              trigger={['click']}
+              menu={{
+                items: [
+                  { key: 'raffles', label: 'Current Raffle' },
+                  { key: 'raffle-info', label: 'Raffle Information' },
+                  { key: 'raffle-winners', label: 'Raffle Winners' },
+                ],
+                onClick: (info) => {
+                  if (info.key === 'raffles') navigate('/raffles');
+                  if (info.key === 'raffle-info') navigate('/raffles/info');
+                  if (info.key === 'raffle-winners') navigate('/raffles/winners');
+                },
+              }}
+            >
+              <Button type="text" size="small">
+                Raffles
+              </Button>
+            </Dropdown>
             {user && (
               <Link to="/profile/edit">
                 <Button size="small" type="default">
@@ -261,6 +396,11 @@ export default function App() {
           />
           <Route path="/sell-to-us" element={<SellToUs />} />
           <Route path="/contact" element={<Contact />} />
+          <Route path="/b2b" element={<B2B />} />
+          <Route path="/raffles" element={<Raffles />} />
+          <Route path="/raffles/info" element={<RaffleInfo />} />
+          <Route path="/raffles/winners" element={<RaffleWinners />} />
+          <Route path="/cart" element={<Cart />} />
           <Route
             path="/edit/:id"
             element={

@@ -1,0 +1,12 @@
+import { j as r } from './react-query-BGeIQRPr.js';
+import './react-CTDr35rJ.js';
+function o() {
+  return r.jsxs('div', {
+    className: 'container py-4',
+    children: [
+      r.jsx('h1', { children: 'Enterprise Hardware (B2B)' }),
+      r.jsx('p', { children: 'Placeholder page for B2B offerings. Content coming soon.' }),
+    ],
+  });
+}
+export { o as default };
