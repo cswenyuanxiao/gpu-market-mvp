@@ -3,25 +3,25 @@ const __vite__mapDeps = (
   m = __vite__mapDeps,
   d = m.f ||
     (m.f = [
-      'assets/DetailsModal-BsbBkjZl.js',
+      'assets/DetailsModal-Bqglgl39.js',
       'assets/react-query-BGeIQRPr.js',
       'assets/react-CTDr35rJ.js',
-      'assets/DetailsView-CPbx5VIf.js',
+      'assets/DetailsView-CU_xOeC5.js',
       'assets/antd-CoNf2jvZ.js',
       'assets/ImageUploader-DWnjEkzb.js',
-      'assets/Profile-D-Vcucg7.js',
-      'assets/Login-BbY9XQcb.js',
+      'assets/Profile-BP4DlbHL.js',
+      'assets/Login-BRgZFRtk.js',
       'assets/FormField-iyrhpl26.js',
       'assets/zod-SQF3v9p3.js',
-      'assets/Register-oU4pjEcK.js',
-      'assets/MyListings-DPTjW7fL.js',
-      'assets/Detail-qATmmswP.js',
-      'assets/Sell-Cr9FZaJz.js',
-      'assets/Edit-poVb_EaI.js',
+      'assets/Register-B0M7pvPN.js',
+      'assets/MyListings-JmAGQorP.js',
+      'assets/Detail-BUkZC1zH.js',
+      'assets/Sell-DoEt0m7A.js',
+      'assets/Edit-kAcN9D9k.js',
       'assets/NotFound-Cq2vGEz7.js',
-      'assets/ProfileEdit-B9KegWCJ.js',
-      'assets/SellToUs-CHNVQZlQ.js',
-      'assets/Contact-BtRQUzkA.js',
+      'assets/ProfileEdit-ChPxS-zR.js',
+      'assets/SellToUs-BSw_5dIt.js',
+      'assets/Contact-PPO_jUi6.js',
       'assets/Returns-CybxWZqr.js',
       'assets/B2B--j3nffuu.js',
       'assets/Raffles-DRqVSoUK.js',
@@ -30,31 +30,31 @@ const __vite__mapDeps = (
       'assets/Cart-CvewBWYk.js',
     ]),
 ) => i.map((i) => d[i]);
-import { j as e, u as be, Q as we, a as Se } from './react-query-BGeIQRPr.js';
+import { j as e, u as be, Q as Se, a as we } from './react-query-BGeIQRPr.js';
 import {
-  c as ne,
-  r as o,
-  u as ae,
+  c as ae,
+  r as c,
+  u as ie,
   e as I,
   g as _e,
-  R as ie,
-  L as f,
-  f as Ne,
-  h as g,
-  B as ke,
+  R as le,
+  L as x,
+  f as ke,
+  h as v,
+  B as Ne,
 } from './react-CTDr35rJ.js';
 import {
-  I as le,
-  T as U,
-  S as C,
-  B as x,
-  R as W,
-  a as oe,
+  I as oe,
+  T as W,
+  S as A,
+  B as y,
+  R as F,
+  a as ce,
   P as Ee,
-  D as ce,
-  s as Ae,
-  b as de,
-  c as Ce,
+  D as de,
+  s as Ce,
+  b as L,
+  c as Ae,
   d as Ie,
   e as T,
 } from './antd-CoNf2jvZ.js';
@@ -87,15 +87,15 @@ import {
     fetch(n.href, i);
   }
 })();
-var M = {},
-  F = ne;
-((M.createRoot = F.createRoot), (M.hydrateRoot = F.hydrateRoot));
+var z = {},
+  B = ae;
+((z.createRoot = B.createRoot), (z.hydrateRoot = B.hydrateRoot));
 const Pe = 'modulepreload',
   De = function (t) {
     return '/' + t;
   },
-  B = {},
-  w = function (s, r, d) {
+  $ = {},
+  S = function (s, r, d) {
     let n = Promise.resolve();
     if (r && r.length > 0) {
       document.getElementsByTagName('link');
@@ -103,23 +103,23 @@ const Pe = 'modulepreload',
         a = (i == null ? void 0 : i.nonce) || (i == null ? void 0 : i.getAttribute('nonce'));
       n = Promise.all(
         r.map((p) => {
-          if (((p = De(p)), p in B)) return;
-          B[p] = !0;
+          if (((p = De(p)), p in $)) return;
+          $[p] = !0;
           const u = p.endsWith('.css'),
             j = u ? '[rel="stylesheet"]' : '';
           if (document.querySelector(`link[href="${p}"]${j}`)) return;
-          const h = document.createElement('link');
+          const m = document.createElement('link');
           if (
-            ((h.rel = u ? 'stylesheet' : Pe),
-            u || ((h.as = 'script'), (h.crossOrigin = '')),
-            (h.href = p),
-            a && h.setAttribute('nonce', a),
-            document.head.appendChild(h),
+            ((m.rel = u ? 'stylesheet' : Pe),
+            u || ((m.as = 'script'), (m.crossOrigin = '')),
+            (m.href = p),
+            a && m.setAttribute('nonce', a),
+            document.head.appendChild(m),
             u)
           )
-            return new Promise((l, c) => {
-              (h.addEventListener('load', l),
-                h.addEventListener('error', () => c(new Error(`Unable to preload CSS for ${p}`))));
+            return new Promise((o, l) => {
+              (m.addEventListener('load', o),
+                m.addEventListener('error', () => l(new Error(`Unable to preload CSS for ${p}`))));
             });
         }),
       );
@@ -131,10 +131,10 @@ const Pe = 'modulepreload',
         if (((a.payload = i), window.dispatchEvent(a), !a.defaultPrevented)) throw i;
       });
   };
-var Z, X;
+var X, ee;
 const Re =
   (typeof import.meta < 'u' &&
-    ((X = (Z = import.meta) == null ? void 0 : Z.env) == null ? void 0 : X.VITE_API_BASE)) ||
+    ((ee = (X = import.meta) == null ? void 0 : X.env) == null ? void 0 : ee.VITE_API_BASE)) ||
   window.location.origin;
 async function O(t, s = {}) {
   const r = new Headers(s.headers || {}),
@@ -173,11 +173,11 @@ async function O(t, s = {}) {
       const { pathname: a, search: p } = window.location;
       if (
         [
-          (l) => l === '/sell',
-          (l) => l.startsWith('/edit/'),
-          (l) => l === '/my',
-          (l) => l === '/profile/edit',
-        ].some((l) => l(a)) &&
+          (o) => o === '/sell',
+          (o) => o.startsWith('/edit/'),
+          (o) => o === '/my',
+          (o) => o === '/profile/edit',
+        ].some((o) => o(a)) &&
         !(a === '/login')
       ) {
         try {
@@ -190,9 +190,9 @@ async function O(t, s = {}) {
   return n;
 }
 function ue() {
-  const t = o.useMemo(() => new URLSearchParams(location.search), [location.search]),
-    s = o.useCallback(() => Object.fromEntries(t.entries()), [t]),
-    r = o.useCallback((d) => {
+  const t = c.useMemo(() => new URLSearchParams(location.search), [location.search]),
+    s = c.useCallback(() => Object.fromEntries(t.entries()), [t]),
+    r = c.useCallback((d) => {
       const n = new URLSearchParams(location.search);
       (Object.entries(d).forEach(([i, a]) => {
         a === void 0 || a === '' ? n.delete(i) : n.set(i, String(a));
@@ -201,22 +201,22 @@ function ue() {
     }, []);
   return { getAll: s, setAll: r };
 }
-function $({ onApply: t }) {
+function H({ onApply: t }) {
   const { getAll: s, setAll: r } = ue(),
     d = s(),
-    [n, i] = o.useState(d.q || ''),
-    [a, p] = o.useState(d.min || ''),
-    [u, j] = o.useState(d.max || ''),
-    [h, l] = o.useState(d.brand || ''),
-    [c, m] = o.useState(d.vram_min || ''),
-    [y, S] = o.useState(d.condition || '');
+    [n, i] = c.useState(d.q || ''),
+    [a, p] = c.useState(d.min || ''),
+    [u, j] = c.useState(d.max || ''),
+    [m, o] = c.useState(d.brand || ''),
+    [l, h] = c.useState(d.vram_min || ''),
+    [f, w] = c.useState(d.condition || '');
   return (
-    o.useEffect(() => {
-      r({ q: n, min: a, max: u, brand: h, vram_min: c, condition: y });
-    }, [n, a, u, h, c, y, r]),
+    c.useEffect(() => {
+      r({ q: n, min: a, max: u, brand: m, vram_min: l, condition: f });
+    }, [n, a, u, m, l, f, r]),
     e.jsxs('div', {
       children: [
-        e.jsx(le, {
+        e.jsx(oe, {
           className: 'mb-2',
           placeholder: 'Search title or description',
           value: n,
@@ -225,14 +225,14 @@ function $({ onApply: t }) {
         e.jsxs('div', {
           className: 'd-flex gap-2 mb-2',
           children: [
-            e.jsx(U, {
+            e.jsx(W, {
               placeholder: 'Min price',
               value: a === '' ? void 0 : Number(a),
               onChange: (b) => p(b == null ? '' : String(b)),
               min: 0,
               style: { width: '100%' },
             }),
-            e.jsx(U, {
+            e.jsx(W, {
               placeholder: 'Max price',
               value: u === '' ? void 0 : Number(u),
               onChange: (b) => j(b == null ? '' : String(b)),
@@ -244,20 +244,20 @@ function $({ onApply: t }) {
         e.jsxs('div', {
           className: 'd-flex gap-2 mb-2',
           children: [
-            e.jsx(C, {
-              value: h,
+            e.jsx(A, {
+              value: m,
               style: { minWidth: 140 },
-              onChange: (b) => l(b),
+              onChange: (b) => o(b),
               options: [
                 { value: '', label: 'Any brand' },
                 { value: 'NVIDIA', label: 'NVIDIA' },
                 { value: 'AMD', label: 'AMD' },
               ],
             }),
-            e.jsx(C, {
-              value: c,
+            e.jsx(A, {
+              value: l,
               style: { minWidth: 140 },
-              onChange: (b) => m(String(b)),
+              onChange: (b) => h(String(b)),
               options: [
                 { value: '', label: 'Any VRAM' },
                 { value: '4', label: '≥ 4GB' },
@@ -269,10 +269,10 @@ function $({ onApply: t }) {
             }),
           ],
         }),
-        e.jsx(C, {
+        e.jsx(A, {
           className: 'mb-2',
-          value: y,
-          onChange: (b) => S(b),
+          value: f,
+          onChange: (b) => w(b),
           options: [
             { value: '', label: 'Any condition' },
             { value: 'New', label: 'New' },
@@ -282,20 +282,20 @@ function $({ onApply: t }) {
         e.jsxs('div', {
           className: 'd-flex gap-2 align-items-center',
           children: [
-            e.jsx(x, {
+            e.jsx(y, {
               type: 'primary',
               onClick: () =>
-                t({ q: n, min: a, max: u, brand: h, vram_min: c, condition: y, page: '1' }),
+                t({ q: n, min: a, max: u, brand: m, vram_min: l, condition: f, page: '1' }),
               children: 'Search',
             }),
-            e.jsx(x, {
+            e.jsx(y, {
               onClick: () => {
                 (i(''),
                   p(''),
                   j(''),
-                  l(''),
-                  m(''),
-                  S(''),
+                  o(''),
+                  h(''),
+                  w(''),
                   t({
                     q: '',
                     min: '',
@@ -319,11 +319,11 @@ const Te = new Intl.NumberFormat('en-GB', {
   currency: 'GBP',
   maximumFractionDigits: 0,
 });
-function Le(t) {
+function Me(t) {
   const s = Number(t || 0);
   return Te.format(s);
 }
-function Me(t) {
+function Le(t) {
   if (!t) return '';
   try {
     return new Date(t).toLocaleDateString();
@@ -331,7 +331,7 @@ function Me(t) {
     return '';
   }
 }
-function Oe({
+function ze({
   src: t,
   alt: s = '',
   className: r,
@@ -342,41 +342,41 @@ function Oe({
   sizes: p,
   fallbackSrc: u,
 }) {
-  const j = o.useRef(null),
-    [h, l] = o.useState(!1),
-    [c, m] = o.useState(!1);
-  o.useEffect(() => {
-    const S = j.current;
-    if (!S) return;
+  const j = c.useRef(null),
+    [m, o] = c.useState(!1),
+    [l, h] = c.useState(!1);
+  c.useEffect(() => {
+    const w = j.current;
+    if (!w) return;
     if (!('IntersectionObserver' in window)) {
-      l(!0);
+      o(!0);
       return;
     }
     const b = new IntersectionObserver(
       (D) => {
-        const N = D[0];
-        N && N.isIntersecting && (l(!0), b.disconnect());
+        const k = D[0];
+        k && k.isIntersecting && (o(!0), b.disconnect());
       },
       { rootMargin: '200px' },
     );
-    return (b.observe(S), () => b.disconnect());
+    return (b.observe(w), () => b.disconnect());
   }, []);
-  const y = c && u ? u : t;
+  const f = l && u ? u : t;
   return e.jsx('img', {
     ref: j,
-    src: h ? y : void 0,
-    srcSet: h ? a : void 0,
-    sizes: h ? p : void 0,
+    src: m ? f : void 0,
+    srcSet: m ? a : void 0,
+    sizes: m ? p : void 0,
     alt: s,
     className: r,
     style: { backgroundColor: '#f5f5f5', ...d },
     width: n,
     height: i,
     loading: 'lazy',
-    onError: () => m(!0),
+    onError: () => h(!0),
   });
 }
-function Ve({ gpu: t, onDetails: s }) {
+function Oe({ gpu: t, onDetails: s }) {
   const r = (() => {
     if (!t.created_at) return !1;
     const d = new Date(t.created_at).getTime();
@@ -390,7 +390,7 @@ function Ve({ gpu: t, onDetails: s }) {
         t.image_path &&
           e.jsx('div', {
             className: 'col-4',
-            children: e.jsx(Oe, {
+            children: e.jsx(ze, {
               src: t.image_path,
               fallbackSrc: t.seller_avatar || void 0,
               srcSet: `${t.image_path} 1x, ${t.image_path} 2x`,
@@ -450,7 +450,7 @@ function Ve({ gpu: t, onDetails: s }) {
                   e.jsx('div', {
                     className: 'ms-2 text-end',
                     style: { minWidth: 90 },
-                    children: e.jsx('strong', { className: 'text-dark', children: Le(t.price) }),
+                    children: e.jsx('strong', { className: 'text-dark', children: Me(t.price) }),
                   }),
                 ],
               }),
@@ -492,7 +492,7 @@ function Ve({ gpu: t, onDetails: s }) {
                   t.created_at &&
                     e.jsxs('small', {
                       className: 'text-muted ms-auto',
-                      children: ['Added: ', Me(t.created_at)],
+                      children: ['Added: ', Le(t.created_at)],
                     }),
                 ],
               }),
@@ -518,7 +518,7 @@ function Ve({ gpu: t, onDetails: s }) {
     }),
   });
 }
-function ze(t, s = 'GPU Market — Buy & Sell Used GPUs') {
+function Ve(t, s = 'GPU Market — Buy & Sell Used GPUs') {
   if (typeof document > 'u') return;
   const r = document.title;
   return (
@@ -528,79 +528,79 @@ function ze(t, s = 'GPU Market — Buy & Sell Used GPUs') {
     }
   );
 }
-const qe = o.lazy(() =>
-  w(() => import('./DetailsModal-BsbBkjZl.js'), __vite__mapDeps([0, 1, 2, 3, 4])),
+const qe = c.lazy(() =>
+  S(() => import('./DetailsModal-Bqglgl39.js'), __vite__mapDeps([0, 1, 2, 3, 4])),
 );
-function H() {
-  var q;
+function Q() {
+  var G;
   const { getAll: t, setAll: s } = ue(),
     r = t(),
     d = typeof location < 'u' && location.pathname === '/everything',
-    [n, i] = o.useState(r.q || ''),
-    [a, p] = o.useState(r.sort || (d ? 'price_desc' : 'date_new')),
-    [u, j] = o.useState({
+    [n, i] = c.useState(r.q || ''),
+    [a, p] = c.useState(r.sort || (d ? 'price_desc' : 'date_new')),
+    [u, j] = c.useState({
       min: r.min || '',
       max: r.max || '',
       brand: r.brand || '',
       vram_min: r.vram_min || '',
       condition: r.condition || '',
     }),
-    [h, l] = o.useState(null),
-    [c, m] = o.useState(!1),
-    [y, S] = o.useState(Number(r.page || '1')),
-    [b] = o.useState(12);
-  o.useEffect(() => ze('GPU Market — Shop Graphics Cards'), []);
-  const D = o.useMemo(() => {
-      let v = 'newest';
+    [m, o] = c.useState(null),
+    [l, h] = c.useState(!1),
+    [f, w] = c.useState(Number(r.page || '1')),
+    [b] = c.useState(12);
+  c.useEffect(() => Ve('GPU Market — Shop Graphics Cards'), []);
+  const D = c.useMemo(() => {
+      let g = 'newest';
       a === 'price_asc'
-        ? (v = 'price_asc')
+        ? (g = 'price_asc')
         : a === 'price_desc'
-          ? (v = 'price_desc')
+          ? (g = 'price_desc')
           : (a === 'date_new' ||
               a === 'featured' ||
               a === 'best' ||
               a === 'alpha_asc' ||
               a === 'alpha_desc' ||
               a === 'date_old') &&
-            (v = 'newest');
+            (g = 'newest');
       const _ = new URLSearchParams();
       return (
         n && _.set('q', n),
-        _.set('sort', v),
-        Object.entries(u).forEach(([G, E]) => {
-          E && _.set(G, String(E));
+        _.set('sort', g),
+        Object.entries(u).forEach(([U, E]) => {
+          E && _.set(U, String(E));
         }),
-        _.set('page', String(y)),
+        _.set('page', String(f)),
         _.set('per', String(b)),
         _
       );
-    }, [n, a, u, y, b]),
+    }, [n, a, u, f, b]),
     {
-      data: N,
+      data: k,
       isLoading: R,
-      isError: je,
-      refetch: ye,
-      isFetching: ve,
+      isError: ye,
+      refetch: je,
+      isFetching: ge,
     } = be({
-      queryKey: ['search', n, a, u, y, b],
+      queryKey: ['search', n, a, u, f, b],
       queryFn: async () => (
-        s({ q: n, sort: a, page: String(y), ...u }),
+        s({ q: n, sort: a, page: String(f), ...u }),
         (await O('/api/search?' + D.toString())).json()
       ),
-      placeholderData: (v) => v,
+      placeholderData: (g) => g,
       staleTime: 3e4,
       retry: 2,
     });
-  o.useEffect(() => {
-    const v = document.querySelector('.container');
-    v && v.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  }, [y]);
-  const z = o.useRef(!1);
-  function ge() {
-    z.current ||
-      ((z.current = !0),
-      w(() => import('./DetailsModal-BsbBkjZl.js'), __vite__mapDeps([0, 1, 2, 3, 4])),
-      w(() => import('./ImageUploader-DWnjEkzb.js'), __vite__mapDeps([5, 1, 2])));
+  c.useEffect(() => {
+    const g = document.querySelector('.container');
+    g && g.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }, [f]);
+  const q = c.useRef(!1);
+  function ve() {
+    q.current ||
+      ((q.current = !0),
+      S(() => import('./DetailsModal-Bqglgl39.js'), __vite__mapDeps([0, 1, 2, 3, 4])),
+      S(() => import('./ImageUploader-DWnjEkzb.js'), __vite__mapDeps([5, 1, 2])));
   }
   return e.jsxs('div', {
     className: 'container py-3',
@@ -629,16 +629,16 @@ function H() {
       e.jsxs('div', {
         className: 'd-flex gap-2 my-3',
         children: [
-          e.jsx(le, {
+          e.jsx(oe, {
             id: 'globalSearchInput',
             placeholder: 'Search GPUs...',
             value: n,
-            onChange: (v) => i(v.target.value),
+            onChange: (g) => i(g.target.value),
           }),
-          e.jsx(C, {
+          e.jsx(A, {
             value: a,
             style: { width: 220 },
-            onChange: (v) => p(v),
+            onChange: (g) => p(g),
             options: [
               { value: 'featured', label: 'Featured' },
               { value: 'best', label: 'Best selling' },
@@ -650,14 +650,14 @@ function H() {
               { value: 'date_new', label: 'Date, new to old' },
             ],
           }),
-          e.jsx(x, {
+          e.jsx(y, {
             onClick: () => {
               p(d ? 'price_desc' : 'date_new');
             },
             children: 'Reset sort',
           }),
-          e.jsx(x, { type: 'primary', onClick: () => ye(), children: 'Search' }),
-          e.jsx(x, { onClick: () => m(!0), className: 'd-md-none', children: 'Filters' }),
+          e.jsx(y, { type: 'primary', onClick: () => je(), children: 'Search' }),
+          e.jsx(y, { onClick: () => h(!0), className: 'd-md-none', children: 'Filters' }),
         ],
       }),
       e.jsxs('div', {
@@ -667,9 +667,9 @@ function H() {
             className: 'col-md-4',
             children: [
               e.jsx('h5', { children: 'Search & Filters' }),
-              e.jsx($, {
-                onApply: (v) => {
-                  (j((_) => ({ ..._, ...v })), S(1));
+              e.jsx(H, {
+                onApply: (g) => {
+                  (j((_) => ({ ..._, ...g })), w(1));
                 },
               }),
             ],
@@ -677,10 +677,10 @@ function H() {
           e.jsxs('div', {
             className: 'col-md-8',
             children: [
-              je &&
+              ye &&
                 e.jsx('div', {
                   className: 'my-4',
-                  children: e.jsx(W, {
+                  children: e.jsx(F, {
                     status: 'error',
                     title: 'Failed to load list',
                     subTitle: 'Please try again later.',
@@ -688,18 +688,18 @@ function H() {
                 }),
               e.jsxs('div', {
                 className: 'row',
-                onMouseEnter: ge,
+                onMouseEnter: ve,
                 children: [
-                  (R || ve) &&
+                  (R || ge) &&
                     e.jsx(e.Fragment, {
-                      children: Array.from({ length: 4 }).map((v, _) =>
+                      children: Array.from({ length: 4 }).map((g, _) =>
                         e.jsx(
                           'div',
                           {
                             className: 'col-md-6 mb-3',
                             children: e.jsx('div', {
                               className: 'card p-3',
-                              children: e.jsx(oe, {}),
+                              children: e.jsx(ce, {}),
                             }),
                           },
                           _,
@@ -707,30 +707,30 @@ function H() {
                       ),
                     }),
                   !R &&
-                    ((N == null ? void 0 : N.results) || []).map((v) =>
+                    ((k == null ? void 0 : k.results) || []).map((g) =>
                       e.jsx(
                         'div',
                         {
                           className: 'col-md-6',
-                          children: e.jsx(Ve, {
-                            gpu: v,
+                          children: e.jsx(Oe, {
+                            gpu: g,
                             onDetails: async (_) => {
                               const E = await (await O(`/api/gpus/${_}`)).json();
-                              l(E);
+                              o(E);
                             },
                           }),
                         },
-                        v.id,
+                        g.id,
                       ),
                     ),
                   !R &&
-                    (((q = N == null ? void 0 : N.results) == null ? void 0 : q.length) || 0) ===
+                    (((G = k == null ? void 0 : k.results) == null ? void 0 : G.length) || 0) ===
                       0 &&
                     e.jsx('div', {
                       className: 'col-12',
                       children: e.jsx('div', {
                         className: 'my-4',
-                        children: e.jsx(W, {
+                        children: e.jsx(F, {
                           status: 'info',
                           title: 'No results',
                           subTitle:
@@ -741,7 +741,7 @@ function H() {
                             n || u.min || u.max || u.brand || u.vram_min || u.condition
                               ? e.jsx('div', {
                                   className: 'd-flex gap-2 justify-content-center',
-                                  children: e.jsx(x, {
+                                  children: e.jsx(y, {
                                     onClick: () => {
                                       (i(''),
                                         j({
@@ -751,7 +751,7 @@ function H() {
                                           vram_min: '',
                                           condition: '',
                                         }),
-                                        S(1));
+                                        w(1));
                                     },
                                     children: 'Clear all filters',
                                   }),
@@ -759,19 +759,19 @@ function H() {
                               : e.jsxs('div', {
                                   className: 'd-flex gap-2 justify-content-center',
                                   children: [
-                                    e.jsx(x, {
+                                    e.jsx(y, {
                                       href: '/?brand=NVIDIA&vram_min=12',
                                       children: 'NVIDIA 40 Series',
                                     }),
-                                    e.jsx(x, {
+                                    e.jsx(y, {
                                       href: '/?brand=NVIDIA&vram_min=8',
                                       children: 'NVIDIA 30 Series',
                                     }),
-                                    e.jsx(x, {
+                                    e.jsx(y, {
                                       href: '/?brand=AMD&vram_min=12',
                                       children: 'AMD 7000 Series',
                                     }),
-                                    e.jsx(x, {
+                                    e.jsx(y, {
                                       href: '/?brand=AMD&vram_min=8',
                                       children: 'AMD 6000 Series',
                                     }),
@@ -785,10 +785,10 @@ function H() {
               e.jsx('div', {
                 className: 'd-flex justify-content-center mt-3',
                 children: e.jsx(Ee, {
-                  current: y,
+                  current: f,
                   pageSize: b,
-                  total: (N == null ? void 0 : N.total) || 0,
-                  onChange: (v) => S(v),
+                  total: (k == null ? void 0 : k.total) || 0,
+                  onChange: (g) => w(g),
                   showSizeChanger: !1,
                 }),
               }),
@@ -796,27 +796,27 @@ function H() {
           }),
         ],
       }),
-      e.jsxs(ce, {
-        open: c,
-        onClose: () => m(!1),
+      e.jsxs(de, {
+        open: l,
+        onClose: () => h(!1),
         children: [
           e.jsx('h5', { className: 'mb-3', children: 'Filters' }),
-          e.jsx($, {
-            onApply: (v) => {
-              (m(!1), j((_) => ({ ..._, ...v })), S(1));
+          e.jsx(H, {
+            onApply: (g) => {
+              (h(!1), j((_) => ({ ..._, ...g })), w(1));
             },
           }),
         ],
       }),
-      e.jsx(o.Suspense, {
+      e.jsx(c.Suspense, {
         fallback: null,
-        children: e.jsx(qe, { item: h, onClose: () => l(null) }),
+        children: e.jsx(qe, { item: m, onClose: () => o(null) }),
       }),
     ],
   });
 }
 function Ge() {
-  const [t, s] = Ae.useMessage();
+  const [t, s] = Ce.useMessage();
   function r(n, i = 'info') {
     const a =
       i === 'error' ? 'error' : i === 'warning' ? 'warning' : i === 'success' ? 'success' : 'info';
@@ -827,11 +827,11 @@ function Ge() {
 function Ue({ messages: t }) {
   return e.jsx(e.Fragment, { children: t });
 }
-function A({ children: t }) {
-  const s = ae(),
+function C({ children: t }) {
+  const s = ie(),
     r = I();
   return (
-    o.useEffect(() => {
+    c.useEffect(() => {
       if (!localStorage.getItem('token')) {
         const n = r.pathname + (r.search || '');
         s('/login', { replace: !0, state: { from: n } });
@@ -841,15 +841,15 @@ function A({ children: t }) {
   );
 }
 var We = {};
-const Q = (t) => {
+const Y = (t) => {
     let s;
     const r = new Set(),
-      d = (h, l) => {
-        const c = typeof h == 'function' ? h(s) : h;
-        if (!Object.is(c, s)) {
-          const m = s;
-          ((s = (l ?? (typeof c != 'object' || c === null)) ? c : Object.assign({}, s, c)),
-            r.forEach((y) => y(s, m)));
+      d = (m, o) => {
+        const l = typeof m == 'function' ? m(s) : m;
+        if (!Object.is(l, s)) {
+          const h = s;
+          ((s = (o ?? (typeof l != 'object' || l === null)) ? l : Object.assign({}, s, l)),
+            r.forEach((f) => f(s, h)));
         }
       },
       n = () => s,
@@ -857,7 +857,7 @@ const Q = (t) => {
         setState: d,
         getState: n,
         getInitialState: () => j,
-        subscribe: (h) => (r.add(h), () => r.delete(h)),
+        subscribe: (m) => (r.add(m), () => r.delete(m)),
         destroy: () => {
           ((We ? 'production' : void 0) !== 'production' &&
             console.warn(
@@ -869,7 +869,7 @@ const Q = (t) => {
       j = (s = t(d, n, u));
     return u;
   },
-  Fe = (t) => (t ? Q(t) : Q);
+  Fe = (t) => (t ? Y(t) : Y);
 var he = { exports: {} },
   me = {},
   pe = { exports: {} },
@@ -882,15 +882,15 @@ var he = { exports: {} },
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
- */ var k = o;
+ */ var N = c;
 function Be(t, s) {
   return (t === s && (t !== 0 || 1 / t === 1 / s)) || (t !== t && s !== s);
 }
 var $e = typeof Object.is == 'function' ? Object.is : Be,
-  He = k.useState,
-  Qe = k.useEffect,
-  Ye = k.useLayoutEffect,
-  Ke = k.useDebugValue;
+  He = N.useState,
+  Qe = N.useEffect,
+  Ye = N.useLayoutEffect,
+  Ke = N.useDebugValue;
 function Je(t, s) {
   var r = s(),
     d = He({ inst: { value: r, getSnapshot: s } }),
@@ -899,16 +899,16 @@ function Je(t, s) {
   return (
     Ye(
       function () {
-        ((n.value = r), (n.getSnapshot = s), L(n) && i({ inst: n }));
+        ((n.value = r), (n.getSnapshot = s), M(n) && i({ inst: n }));
       },
       [t, r, s],
     ),
     Qe(
       function () {
         return (
-          L(n) && i({ inst: n }),
+          M(n) && i({ inst: n }),
           t(function () {
-            L(n) && i({ inst: n });
+            M(n) && i({ inst: n });
           })
         );
       },
@@ -918,7 +918,7 @@ function Je(t, s) {
     r
   );
 }
-function L(t) {
+function M(t) {
   var s = t.getSnapshot;
   t = t.value;
   try {
@@ -935,7 +935,7 @@ var Xe =
   typeof window > 'u' || typeof window.document > 'u' || typeof window.document.createElement > 'u'
     ? Ze
     : Je;
-fe.useSyncExternalStore = k.useSyncExternalStore !== void 0 ? k.useSyncExternalStore : Xe;
+fe.useSyncExternalStore = N.useSyncExternalStore !== void 0 ? N.useSyncExternalStore : Xe;
 pe.exports = fe;
 var et = pe.exports;
 /**
@@ -946,7 +946,7 @@ var et = pe.exports;
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
- */ var P = o,
+ */ var P = c,
   tt = et;
 function st(t, s) {
   return (t === s && (t !== 0 || 1 / t === 1 / s)) || (t !== t && s !== s);
@@ -965,30 +965,30 @@ me.useSyncExternalStoreWithSelector = function (t, s, r, d, n) {
   } else a = i.current;
   i = lt(
     function () {
-      function u(m) {
+      function u(h) {
         if (!j) {
-          if (((j = !0), (h = m), (m = d(m)), n !== void 0 && a.hasValue)) {
-            var y = a.value;
-            if (n(y, m)) return (l = y);
+          if (((j = !0), (m = h), (h = d(h)), n !== void 0 && a.hasValue)) {
+            var f = a.value;
+            if (n(f, h)) return (o = f);
           }
-          return (l = m);
+          return (o = h);
         }
-        if (((y = l), rt(h, m))) return y;
-        var S = d(m);
-        return n !== void 0 && n(y, S) ? ((h = m), y) : ((h = m), (l = S));
+        if (((f = o), rt(m, h))) return f;
+        var w = d(h);
+        return n !== void 0 && n(f, w) ? ((m = h), f) : ((m = h), (o = w));
       }
       var j = !1,
-        h,
-        l,
-        c = r === void 0 ? null : r;
+        m,
+        o,
+        l = r === void 0 ? null : r;
       return [
         function () {
           return u(s());
         },
-        c === null
+        l === null
           ? void 0
           : function () {
-              return u(c());
+              return u(l());
             },
       ];
     },
@@ -1010,22 +1010,22 @@ he.exports = me;
 var ct = he.exports;
 const dt = _e(ct);
 var xe = {};
-const { useDebugValue: ut } = ie,
+const { useDebugValue: ut } = le,
   { useSyncExternalStoreWithSelector: ht } = dt;
-let Y = !1;
+let K = !1;
 const mt = (t) => t;
 function pt(t, s = mt, r) {
   (xe ? 'production' : void 0) !== 'production' &&
     r &&
-    !Y &&
+    !K &&
     (console.warn(
       "[DEPRECATED] Use `createWithEqualityFn` instead of `create` or use `useStoreWithEqualityFn` instead of `useStore`. They can be imported from 'zustand/traditional'. https://github.com/pmndrs/zustand/discussions/1937",
     ),
-    (Y = !0));
+    (K = !0));
   const d = ht(t.subscribe, t.getState, t.getServerState || t.getInitialState, s, r);
   return (ut(d), d);
 }
-const K = (t) => {
+const J = (t) => {
     (xe ? 'production' : void 0) !== 'production' &&
       typeof t != 'function' &&
       console.warn(
@@ -1035,8 +1035,8 @@ const K = (t) => {
       r = (d, n) => pt(s, d, n);
     return (Object.assign(r, s), r);
   },
-  ft = (t) => (t ? K(t) : K);
-function J(t) {
+  ft = (t) => (t ? J(t) : J);
+function Z(t) {
   try {
     const s = t.split('.')[1] || '';
     return JSON.parse(atob(s));
@@ -1050,7 +1050,7 @@ const xt = ft((t) => ({
   init: () => {
     const s = localStorage.getItem('token');
     if (s) {
-      const r = J(s);
+      const r = Z(s);
       t({
         token: s,
         user: r ? { id: r.id, username: r.username, display_name: r.display_name } : null,
@@ -1059,7 +1059,7 @@ const xt = ft((t) => ({
   },
   login: (s) => {
     localStorage.setItem('token', s);
-    const r = J(s);
+    const r = Z(s);
     t({
       token: s,
       user: r ? { id: r.id, username: r.username, display_name: r.display_name } : null,
@@ -1069,13 +1069,13 @@ const xt = ft((t) => ({
     (localStorage.removeItem('token'), t({ token: null, user: null }));
   },
 }));
-function jt(t, s) {
+function yt(t, s) {
   return `scroll:${t}${s}`;
 }
-function yt() {
+function jt() {
   const t = I();
-  o.useEffect(() => {
-    const s = jt(t.pathname, t.search),
+  c.useEffect(() => {
+    const s = yt(t.pathname, t.search),
       r = sessionStorage.getItem(s);
     if (r) {
       const i = parseInt(r, 10);
@@ -1100,22 +1100,22 @@ function yt() {
     );
   }, [t.pathname, t.search]);
 }
-var ee, te, se, re;
+var te, se, re, ne;
 const V = {
   contactWhatsApp:
     (typeof import.meta < 'u' &&
-      ((te = (ee = import.meta) == null ? void 0 : ee.env) == null
+      ((se = (te = import.meta) == null ? void 0 : te.env) == null
         ? void 0
-        : te.VITE_CONTACT_WHATSAPP)) ||
+        : se.VITE_CONTACT_WHATSAPP)) ||
     null,
   contactEmail:
     (typeof import.meta < 'u' &&
-      ((re = (se = import.meta) == null ? void 0 : se.env) == null
+      ((ne = (re = import.meta) == null ? void 0 : re.env) == null
         ? void 0
-        : re.VITE_CONTACT_EMAIL)) ||
+        : ne.VITE_CONTACT_EMAIL)) ||
     null,
 };
-function vt() {
+function gt() {
   return (
     (document.title = 'About Us — GPU Market'),
     e.jsxs('div', {
@@ -1184,7 +1184,7 @@ function vt() {
     })
   );
 }
-function gt() {
+function vt() {
   return (
     (document.title = 'Privacy Policy — GPU Market'),
     e.jsxs('div', {
@@ -1355,7 +1355,7 @@ function bt() {
     })
   );
 }
-function wt() {
+function St() {
   return e.jsxs('div', {
     className: 'container py-5 text-center',
     children: [
@@ -1365,12 +1365,12 @@ function wt() {
     ],
   });
 }
-function St() {
+function wt() {
   const s = `https://wa.me/${V.contactWhatsApp || '447747310027'}?text=Hi%20:)`,
     { pathname: r } = I();
   return ['/login', '/register', '/500'].includes(r)
     ? null
-    : (o.useEffect(() => {
+    : (c.useEffect(() => {
         const n = (p) => {
           document.documentElement.style.setProperty('--fab-bottom', `${p}px`);
         };
@@ -1416,169 +1416,216 @@ function St() {
       }));
 }
 function _t({ open: t, onClose: s }) {
-  const [r, d] = o.useState(''),
-    [n, i] = o.useState([]),
-    [a, p] = o.useState(!1),
-    u = o.useRef(null),
-    [j, h] = o.useState(t);
-  (o.useEffect(() => h(t), [t]),
-    o.useEffect(() => {
+  const [r, d] = c.useState(''),
+    [n, i] = c.useState([]),
+    [a, p] = c.useState(!1),
+    u = c.useRef(null),
+    [j, m] = c.useState(t);
+  (c.useEffect(() => m(t), [t]),
+    c.useEffect(() => {
       if (!j) return;
-      const c = (m) => {
-        m.key === 'Escape' && s();
+      const l = (h) => {
+        h.key === 'Escape' && s();
       };
       return (
-        window.addEventListener('keydown', c),
+        window.addEventListener('keydown', l),
         (document.body.style.overflow = 'hidden'),
         setTimeout(() => {
-          var m;
-          return (m = u.current) == null ? void 0 : m.focus();
+          var h;
+          return (h = u.current) == null ? void 0 : h.focus();
         }, 0),
         () => {
-          (window.removeEventListener('keydown', c), (document.body.style.overflow = ''));
+          (window.removeEventListener('keydown', l), (document.body.style.overflow = ''));
         }
       );
     }, [j, s]),
-    o.useEffect(() => {
+    c.useEffect(() => {
       if (!j) return;
-      const c = setTimeout(async () => {
+      const l = setTimeout(async () => {
         if (!r) {
           i([]);
           return;
         }
         p(!0);
         try {
-          const m = new URLSearchParams({ q: r, sort: 'newest', page: '1', per: '10' }),
-            S = await (await O('/api/search?' + m.toString())).json();
-          i(S.results || []);
+          const h = new URLSearchParams({ q: r, sort: 'newest', page: '1', per: '10' }),
+            w = await (await O('/api/search?' + h.toString())).json();
+          i(w.results || []);
         } finally {
           p(!1);
         }
       }, 300);
-      return () => clearTimeout(c);
+      return () => clearTimeout(l);
     }, [r, j]));
-  const l = o.useMemo(() => {
-    const c = n.slice(0, 5).map((y) => y.title);
-    return Array.from(new Set(c));
+  const o = c.useMemo(() => {
+    const l = n.slice(0, 5).map((f) => f.title);
+    return Array.from(new Set(l));
   }, [n]);
   return j
-    ? ne.createPortal(
+    ? ae.createPortal(
         e.jsx('div', {
           role: 'dialog',
           'aria-modal': 'true',
-          className: 'position-fixed top-0 start-0 end-0 bottom-0',
-          style: { background: 'rgba(0,0,0,0.35)', zIndex: 1050 },
+          className: 'position-fixed start-0 end-0 bottom-0',
+          style: { background: 'rgba(0,0,0,0.4)', zIndex: 1050, top: '35px' },
           onClick: s,
           children: e.jsxs('div', {
-            className: 'bg-white rounded-3',
+            className: 'bg-white',
             style: {
               width: 'calc(100% - 48px)',
-              margin: '24px auto',
-              padding: '12px 12px 0 12px',
-              boxShadow: '0 0 0 1px rgba(0,0,0,0.08)',
+              margin: '16px auto 0',
+              borderRadius: '16px',
+              padding: '16px',
+              boxShadow: '0 8px 32px rgba(0,0,0,0.12), 0 0 0 1px rgba(0,0,0,0.04)',
+              maxHeight: 'calc(100vh - 80px)',
+              overflow: 'auto',
             },
-            onClick: (c) => c.stopPropagation(),
+            onClick: (l) => l.stopPropagation(),
             children: [
               e.jsxs('div', {
-                className: 'd-flex align-items-center border rounded px-2',
-                style: { height: 56 },
+                className: 'd-flex align-items-center rounded-pill px-3',
+                style: {
+                  height: 56,
+                  backgroundColor: '#f8f9fa',
+                  border: '2px solid transparent',
+                  transition: 'border-color 0.2s ease',
+                },
                 children: [
-                  e.jsx(de, { style: { fontSize: 18 } }),
+                  e.jsx(L, { style: { fontSize: 20, color: '#6c757d', marginRight: 12 } }),
                   e.jsx('input', {
                     ref: u,
                     value: r,
-                    onChange: (c) => d(c.target.value),
-                    placeholder: 'Search',
-                    className: 'form-control border-0 shadow-0',
-                    style: { fontSize: 18 },
+                    onChange: (l) => d(l.target.value),
+                    placeholder: 'Search products...',
+                    className: 'form-control border-0 bg-transparent',
+                    style: { fontSize: 16, fontWeight: 400, boxShadow: 'none', outline: 'none' },
                   }),
                   r &&
                     e.jsx('button', {
-                      className: 'btn btn-link',
+                      className: 'btn p-1 ms-2',
                       onClick: () => d(''),
                       'aria-label': 'Clear',
+                      style: {
+                        backgroundColor: 'transparent',
+                        border: 'none',
+                        color: '#6c757d',
+                        fontSize: 18,
+                        lineHeight: 1,
+                      },
                       children: '×',
                     }),
                   e.jsx('button', {
-                    className: 'btn btn-link',
+                    className: 'btn p-1 ms-2',
                     onClick: s,
                     'aria-label': 'Close',
-                    children: e.jsx(Ce, {}),
+                    style: { backgroundColor: 'transparent', border: 'none', color: '#6c757d' },
+                    children: e.jsx(Ae, { style: { fontSize: 16 } }),
                   }),
                 ],
               }),
               e.jsxs('div', {
-                className: 'row py-3',
+                className: 'py-3',
                 style: { minHeight: 180 },
                 children: [
                   a &&
                     e.jsx('div', {
                       className: 'd-flex justify-content-center align-items-center',
                       style: { minHeight: 160 },
-                      children: e.jsx(oe, {}),
+                      children: e.jsx(ce, {}),
                     }),
                   !a &&
-                    e.jsxs(e.Fragment, {
+                    e.jsxs('div', {
+                      className: 'row g-0',
                       children: [
                         e.jsxs('div', {
-                          className: 'col-6 border-end',
+                          className: 'col-12 col-md-6 pe-md-3',
                           children: [
                             e.jsx('div', {
-                              className: 'text-muted small mb-2',
+                              className: 'text-uppercase fw-semibold mb-3',
+                              style: { fontSize: 12, color: '#6c757d', letterSpacing: '0.5px' },
                               children: 'SUGGESTIONS',
                             }),
-                            l.map((c, m) =>
-                              e.jsx(
+                            o.map((l, h) =>
+                              e.jsxs(
                                 'a',
                                 {
-                                  href: `/everything?sort=price_desc&q=${encodeURIComponent(c)}`,
-                                  className: 'd-block py-2 text-decoration-none',
-                                  children: c,
+                                  href: `/everything?sort=price_desc&q=${encodeURIComponent(l)}`,
+                                  className: 'd-block py-2 px-3 mb-1 text-decoration-none rounded',
+                                  style: {
+                                    color: '#212529',
+                                    backgroundColor: 'transparent',
+                                    transition: 'background-color 0.15s ease',
+                                  },
+                                  onMouseEnter: (f) =>
+                                    (f.currentTarget.style.backgroundColor = '#f8f9fa'),
+                                  onMouseLeave: (f) =>
+                                    (f.currentTarget.style.backgroundColor = 'transparent'),
+                                  children: [
+                                    e.jsx(L, {
+                                      style: { fontSize: 14, marginRight: 8, color: '#6c757d' },
+                                    }),
+                                    l,
+                                  ],
                                 },
-                                m,
+                                h,
                               ),
                             ),
-                            !l.length &&
+                            !o.length &&
                               e.jsx('div', {
-                                className: 'text-muted',
+                                className: 'text-muted px-3 py-4 text-center',
                                 children: 'Type to see suggestions…',
                               }),
                           ],
                         }),
                         e.jsxs('div', {
-                          className: 'col-6',
+                          className: 'col-12 col-md-6 ps-md-3 mt-4 mt-md-0',
                           children: [
                             e.jsx('div', {
-                              className: 'text-muted small mb-2',
+                              className: 'text-uppercase fw-semibold mb-3',
+                              style: { fontSize: 12, color: '#6c757d', letterSpacing: '0.5px' },
                               children: 'PRODUCTS',
                             }),
-                            n
-                              .slice(0, 5)
-                              .map((c) =>
-                                e.jsxs(
-                                  'a',
-                                  {
-                                    href: `/g/${c.id}`,
-                                    className:
-                                      'd-flex align-items-center gap-2 py-2 text-decoration-none',
-                                    children: [
-                                      e.jsx('img', {
-                                        alt: c.title,
-                                        src: c.image_path || '/placeholder.webp',
-                                        width: 48,
-                                        height: 48,
-                                        style: { objectFit: 'cover', borderRadius: 4 },
-                                      }),
-                                      e.jsx('span', { children: c.title }),
-                                    ],
+                            n.slice(0, 5).map((l) =>
+                              e.jsxs(
+                                'a',
+                                {
+                                  href: `/g/${l.id}`,
+                                  className:
+                                    'd-flex align-items-center gap-3 py-2 px-3 mb-1 text-decoration-none rounded',
+                                  style: {
+                                    color: '#212529',
+                                    backgroundColor: 'transparent',
+                                    transition: 'background-color 0.15s ease',
                                   },
-                                  c.id,
-                                ),
+                                  onMouseEnter: (h) =>
+                                    (h.currentTarget.style.backgroundColor = '#f8f9fa'),
+                                  onMouseLeave: (h) =>
+                                    (h.currentTarget.style.backgroundColor = 'transparent'),
+                                  children: [
+                                    e.jsx('img', {
+                                      alt: l.title,
+                                      src: l.image_path || '/placeholder.webp',
+                                      width: 40,
+                                      height: 40,
+                                      style: {
+                                        objectFit: 'cover',
+                                        borderRadius: 8,
+                                        flexShrink: 0,
+                                      },
+                                    }),
+                                    e.jsx('span', {
+                                      style: { fontSize: 14, lineHeight: 1.4 },
+                                      children: l.title,
+                                    }),
+                                  ],
+                                },
+                                l.id,
                               ),
+                            ),
                             !n.length &&
                               e.jsx('div', {
-                                className: 'text-muted',
-                                children: 'No products yet.',
+                                className: 'text-muted px-3 py-4 text-center',
+                                children: 'No products found.',
                               }),
                           ],
                         }),
@@ -1586,19 +1633,35 @@ function _t({ open: t, onClose: s }) {
                     }),
                 ],
               }),
-              e.jsxs('div', {
-                className: 'border-top py-2 d-flex justify-content-between align-items-center',
-                children: [
-                  e.jsxs('span', {
-                    className: 'text-muted',
-                    children: ['Search for “', r || '…', '”'],
-                  }),
-                  e.jsx('a', {
-                    className: 'text-decoration-none',
-                    href: `/everything?sort=price_desc&q=${encodeURIComponent(r)}`,
-                    children: '→',
-                  }),
-                ],
+              e.jsx('div', {
+                className: 'border-top pt-3 pb-1',
+                children: e.jsxs('a', {
+                  className:
+                    'btn w-100 text-decoration-none d-flex justify-content-between align-items-center',
+                  href: `/everything?sort=price_desc&q=${encodeURIComponent(r)}`,
+                  style: {
+                    backgroundColor: '#f8f9fa',
+                    border: '1px solid #dee2e6',
+                    borderRadius: '8px',
+                    padding: '12px 16px',
+                    color: '#495057',
+                    fontSize: '14px',
+                    fontWeight: 500,
+                    transition: 'all 0.15s ease',
+                  },
+                  onMouseEnter: (l) => {
+                    ((l.currentTarget.style.backgroundColor = '#e9ecef'),
+                      (l.currentTarget.style.borderColor = '#adb5bd'));
+                  },
+                  onMouseLeave: (l) => {
+                    ((l.currentTarget.style.backgroundColor = '#f8f9fa'),
+                      (l.currentTarget.style.borderColor = '#dee2e6'));
+                  },
+                  children: [
+                    e.jsxs('span', { children: ['Search for "', r || 'all products', '"'] }),
+                    e.jsx('span', { style: { fontSize: '16px' }, children: '→' }),
+                  ],
+                }),
               }),
             ],
           }),
@@ -1607,48 +1670,48 @@ function _t({ open: t, onClose: s }) {
       )
     : null;
 }
-const Nt = o.lazy(() => w(() => import('./Profile-D-Vcucg7.js'), __vite__mapDeps([6, 1, 2, 4]))),
-  kt = o.lazy(() => w(() => import('./Login-BbY9XQcb.js'), __vite__mapDeps([7, 1, 2, 8, 9, 4]))),
-  Et = o.lazy(() =>
-    w(() => import('./Register-oU4pjEcK.js'), __vite__mapDeps([10, 1, 2, 8, 9, 4])),
+const kt = c.lazy(() => S(() => import('./Profile-BP4DlbHL.js'), __vite__mapDeps([6, 1, 2, 4]))),
+  Nt = c.lazy(() => S(() => import('./Login-BRgZFRtk.js'), __vite__mapDeps([7, 1, 2, 8, 9, 4]))),
+  Et = c.lazy(() =>
+    S(() => import('./Register-B0M7pvPN.js'), __vite__mapDeps([10, 1, 2, 8, 9, 4])),
   ),
-  At = o.lazy(() => w(() => import('./MyListings-DPTjW7fL.js'), __vite__mapDeps([11, 1, 2, 4]))),
-  Ct = o.lazy(() => w(() => import('./Detail-qATmmswP.js'), __vite__mapDeps([12, 1, 2, 3, 4]))),
-  It = o.lazy(() => w(() => import('./Sell-Cr9FZaJz.js'), __vite__mapDeps([13, 1, 2, 8, 9, 4]))),
-  Pt = o.lazy(() => w(() => import('./Edit-poVb_EaI.js'), __vite__mapDeps([14, 1, 2, 8, 9, 4]))),
-  Dt = o.lazy(() => w(() => import('./NotFound-Cq2vGEz7.js'), __vite__mapDeps([15, 1, 2, 4]))),
-  Rt = o.lazy(() =>
-    w(() => import('./ProfileEdit-B9KegWCJ.js'), __vite__mapDeps([16, 1, 2, 8, 4])),
+  Ct = c.lazy(() => S(() => import('./MyListings-JmAGQorP.js'), __vite__mapDeps([11, 1, 2, 4]))),
+  At = c.lazy(() => S(() => import('./Detail-BUkZC1zH.js'), __vite__mapDeps([12, 1, 2, 3, 4]))),
+  It = c.lazy(() => S(() => import('./Sell-DoEt0m7A.js'), __vite__mapDeps([13, 1, 2, 8, 9, 4]))),
+  Pt = c.lazy(() => S(() => import('./Edit-kAcN9D9k.js'), __vite__mapDeps([14, 1, 2, 8, 9, 4]))),
+  Dt = c.lazy(() => S(() => import('./NotFound-Cq2vGEz7.js'), __vite__mapDeps([15, 1, 2, 4]))),
+  Rt = c.lazy(() =>
+    S(() => import('./ProfileEdit-ChPxS-zR.js'), __vite__mapDeps([16, 1, 2, 8, 4])),
   ),
-  Tt = o.lazy(() =>
-    w(() => import('./SellToUs-CHNVQZlQ.js'), __vite__mapDeps([17, 1, 2, 9, 8, 4])),
+  Tt = c.lazy(() =>
+    S(() => import('./SellToUs-BSw_5dIt.js'), __vite__mapDeps([17, 1, 2, 9, 8, 4])),
   ),
-  Lt = o.lazy(() => w(() => import('./Contact-BtRQUzkA.js'), __vite__mapDeps([18, 1, 2, 9, 8, 4]))),
-  Mt = o.lazy(() => w(() => import('./Returns-CybxWZqr.js'), __vite__mapDeps([19, 1, 2]))),
-  Ot = o.lazy(() => w(() => import('./B2B--j3nffuu.js'), __vite__mapDeps([20, 1, 2]))),
-  Vt = o.lazy(() => w(() => import('./Raffles-DRqVSoUK.js'), __vite__mapDeps([21, 1, 2]))),
-  zt = o.lazy(() => w(() => import('./RaffleInfo-C2TNDJrv.js'), __vite__mapDeps([22, 1, 2]))),
-  qt = o.lazy(() => w(() => import('./RaffleWinners-D816uTx1.js'), __vite__mapDeps([23, 1, 2]))),
-  Gt = o.lazy(() => w(() => import('./Cart-CvewBWYk.js'), __vite__mapDeps([24, 1, 2])));
+  Mt = c.lazy(() => S(() => import('./Contact-PPO_jUi6.js'), __vite__mapDeps([18, 1, 2, 9, 8, 4]))),
+  Lt = c.lazy(() => S(() => import('./Returns-CybxWZqr.js'), __vite__mapDeps([19, 1, 2]))),
+  zt = c.lazy(() => S(() => import('./B2B--j3nffuu.js'), __vite__mapDeps([20, 1, 2]))),
+  Ot = c.lazy(() => S(() => import('./Raffles-DRqVSoUK.js'), __vite__mapDeps([21, 1, 2]))),
+  Vt = c.lazy(() => S(() => import('./RaffleInfo-C2TNDJrv.js'), __vite__mapDeps([22, 1, 2]))),
+  qt = c.lazy(() => S(() => import('./RaffleWinners-D816uTx1.js'), __vite__mapDeps([23, 1, 2]))),
+  Gt = c.lazy(() => S(() => import('./Cart-CvewBWYk.js'), __vite__mapDeps([24, 1, 2])));
 function Ut() {
   const { api: t, messages: s } = Ge(),
-    r = ae(),
+    r = ie(),
     d = I(),
     { user: n, init: i, logout: a } = xt();
-  (yt(),
-    o.useEffect(() => {
+  (jt(),
+    c.useEffect(() => {
       i();
-      function l(c) {
-        const m = c.detail || {};
-        t.push(m.text || '', m.type || 'info');
+      function o(l) {
+        const h = l.detail || {};
+        t.push(h.text || '', h.type || 'info');
       }
       return (
-        window.addEventListener('app-toast', l),
-        () => window.removeEventListener('app-toast', l)
+        window.addEventListener('app-toast', o),
+        () => window.removeEventListener('app-toast', o)
       );
     }, []));
-  const [p, u] = o.useState(!1),
-    [j, h] = o.useState(!1);
+  const [p, u] = c.useState(!1),
+    [j, m] = c.useState(!1);
   return e.jsxs(e.Fragment, {
     children: [
       e.jsx('a', { href: '#main', className: 'skip-link', children: 'Skip to content' }),
@@ -1664,21 +1727,26 @@ function Ut() {
       e.jsxs('div', {
         className: 'container py-3 d-none d-md-flex justify-content-between align-items-center',
         children: [
-          e.jsx(x, {
+          e.jsx(y, {
             className: 'nav-icon-btn',
             type: 'text',
             'aria-label': 'Search',
-            icon: e.jsx(de, { style: { fontSize: 22, color: '#111' } }),
+            icon: e.jsx(L, { style: { fontSize: 22, color: '#111' } }),
             onClick: () => {
-              (d.pathname !== '/' && d.pathname !== '/everything' && r('/everything'), h(!0));
+              (d.pathname !== '/' && d.pathname !== '/everything' && r('/everything'), m(!0));
             },
           }),
-          e.jsx(f, {
+          e.jsx(x, {
             to: '/',
             className: 'd-flex align-items-center gap-2 text-decoration-none',
-            children: e.jsx('img', { src: '/logo.svg', alt: 'GPU-MARKET', width: 64, height: 64 }),
+            children: e.jsx('img', {
+              src: '/logo.svg',
+              alt: 'GPU-MARKET',
+              width: 120,
+              height: 120,
+            }),
           }),
-          e.jsx(x, {
+          e.jsx(y, {
             className: 'nav-icon-btn',
             type: 'text',
             'aria-label': 'Cart',
@@ -1695,9 +1763,9 @@ function Ut() {
             e.jsxs('div', {
               className: 'mx-auto d-none d-md-flex gap-3',
               children: [
-                e.jsx(f, {
+                e.jsx(x, {
                   to: '/',
-                  children: e.jsx(x, {
+                  children: e.jsx(y, {
                     type: 'text',
                     size: 'small',
                     style: { borderBottom: d.pathname === '/' ? '2px solid #222' : 'none' },
@@ -1736,18 +1804,18 @@ function Ut() {
                         ],
                       },
                     ],
-                    onClick: (l) => {
-                      if (l.key === 'everything') {
+                    onClick: (o) => {
+                      if (o.key === 'everything') {
                         r('/everything?sort=price_desc');
                         return;
                       }
-                      if (l.key.startsWith('q:')) {
-                        const c = encodeURIComponent(l.key.slice(2));
-                        r(`/everything?sort=price_desc&q=${c}`);
+                      if (o.key.startsWith('q:')) {
+                        const l = encodeURIComponent(o.key.slice(2));
+                        r(`/everything?sort=price_desc&q=${l}`);
                       }
                     },
                   },
-                  children: e.jsx(x, {
+                  children: e.jsx(y, {
                     type: 'text',
                     size: 'small',
                     style: {
@@ -1791,57 +1859,57 @@ function Ut() {
                         ],
                       },
                     ],
-                    onClick: (l) => {
-                      const c = (m) => r(m);
-                      if (l.key === 'all-gpus') return c('/');
-                      if (l.key === 'nv-all') return c('/?brand=NVIDIA');
-                      if (l.key === 'nv-40') return c('/?brand=NVIDIA&vram_min=12');
-                      if (l.key === 'nv-30') return c('/?brand=NVIDIA&vram_min=8');
-                      if (l.key === 'nv-20') return c('/?brand=NVIDIA&q=20 Series');
-                      if (l.key === 'nv-16') return c('/?brand=NVIDIA&q=16 Series');
-                      if (l.key === 'nv-10') return c('/?brand=NVIDIA&q=10 Series');
-                      if (l.key === 'nv-other') return c('/?brand=NVIDIA&q=Other');
-                      if (l.key === 'nv-faulty') return c('/?brand=NVIDIA&q=Faulty');
-                      if (l.key === 'amd-all') return c('/?brand=AMD');
-                      if (l.key === 'amd-7000') return c('/?brand=AMD&vram_min=12');
-                      if (l.key === 'amd-6000') return c('/?brand=AMD&vram_min=8');
-                      if (l.key === 'amd-5000') return c('/?brand=AMD&q=5000 Series');
-                      if (l.key === 'amd-500') return c('/?brand=AMD&q=500 Series');
-                      if (l.key === 'amd-400') return c('/?brand=AMD&q=400 Series');
-                      if (l.key === 'amd-vega') return c('/?brand=AMD&q=Vega');
-                      if (l.key === 'amd-other') return c('/?brand=AMD&q=Other');
-                      if (l.key === 'amd-faulty') return c('/?brand=AMD&q=Faulty');
+                    onClick: (o) => {
+                      const l = (h) => r(h);
+                      if (o.key === 'all-gpus') return l('/');
+                      if (o.key === 'nv-all') return l('/?brand=NVIDIA');
+                      if (o.key === 'nv-40') return l('/?brand=NVIDIA&vram_min=12');
+                      if (o.key === 'nv-30') return l('/?brand=NVIDIA&vram_min=8');
+                      if (o.key === 'nv-20') return l('/?brand=NVIDIA&q=20 Series');
+                      if (o.key === 'nv-16') return l('/?brand=NVIDIA&q=16 Series');
+                      if (o.key === 'nv-10') return l('/?brand=NVIDIA&q=10 Series');
+                      if (o.key === 'nv-other') return l('/?brand=NVIDIA&q=Other');
+                      if (o.key === 'nv-faulty') return l('/?brand=NVIDIA&q=Faulty');
+                      if (o.key === 'amd-all') return l('/?brand=AMD');
+                      if (o.key === 'amd-7000') return l('/?brand=AMD&vram_min=12');
+                      if (o.key === 'amd-6000') return l('/?brand=AMD&vram_min=8');
+                      if (o.key === 'amd-5000') return l('/?brand=AMD&q=5000 Series');
+                      if (o.key === 'amd-500') return l('/?brand=AMD&q=500 Series');
+                      if (o.key === 'amd-400') return l('/?brand=AMD&q=400 Series');
+                      if (o.key === 'amd-vega') return l('/?brand=AMD&q=Vega');
+                      if (o.key === 'amd-other') return l('/?brand=AMD&q=Other');
+                      if (o.key === 'amd-faulty') return l('/?brand=AMD&q=Faulty');
                     },
                   },
-                  children: e.jsx(x, {
+                  children: e.jsx(y, {
                     type: 'text',
                     size: 'small',
                     children: 'Shop Graphics Cards',
                   }),
                 }),
-                e.jsx(f, {
+                e.jsx(x, {
                   to: '/sell',
-                  children: e.jsx(x, { size: 'small', type: 'default', children: 'Sell' }),
+                  children: e.jsx(y, { size: 'small', type: 'default', children: 'Sell' }),
                 }),
-                e.jsx(f, {
+                e.jsx(x, {
                   to: '/sell-to-us',
-                  children: e.jsx(x, { size: 'small', type: 'default', children: 'Sell to us' }),
+                  children: e.jsx(y, { size: 'small', type: 'default', children: 'Sell to us' }),
                 }),
-                e.jsx(f, {
+                e.jsx(x, {
                   to: '/b2b',
-                  children: e.jsx(x, {
+                  children: e.jsx(y, {
                     size: 'small',
                     type: 'text',
                     children: 'Enterprise Hardware (B2B)',
                   }),
                 }),
-                e.jsx(f, {
+                e.jsx(x, {
                   to: '/my',
-                  children: e.jsx(x, { size: 'small', type: 'default', children: 'My Listings' }),
+                  children: e.jsx(y, { size: 'small', type: 'default', children: 'My Listings' }),
                 }),
-                e.jsx(f, {
+                e.jsx(x, {
                   to: '/profile',
-                  children: e.jsx(x, { size: 'small', type: 'default', children: 'My Profile' }),
+                  children: e.jsx(y, { size: 'small', type: 'default', children: 'My Profile' }),
                 }),
                 e.jsx(T, {
                   trigger: ['click'],
@@ -1851,32 +1919,32 @@ function Ut() {
                       { key: 'raffle-info', label: 'Raffle Information' },
                       { key: 'raffle-winners', label: 'Raffle Winners' },
                     ],
-                    onClick: (l) => {
-                      (l.key === 'raffles' && r('/raffles'),
-                        l.key === 'raffle-info' && r('/raffles/info'),
-                        l.key === 'raffle-winners' && r('/raffles/winners'));
+                    onClick: (o) => {
+                      (o.key === 'raffles' && r('/raffles'),
+                        o.key === 'raffle-info' && r('/raffles/info'),
+                        o.key === 'raffle-winners' && r('/raffles/winners'));
                     },
                   },
-                  children: e.jsx(x, { type: 'text', size: 'small', children: 'Raffles' }),
+                  children: e.jsx(y, { type: 'text', size: 'small', children: 'Raffles' }),
                 }),
                 n &&
-                  e.jsx(f, {
+                  e.jsx(x, {
                     to: '/profile/edit',
-                    children: e.jsx(x, {
+                    children: e.jsx(y, {
                       size: 'small',
                       type: 'default',
                       children: 'Edit Profile',
                     }),
                   }),
                 !n &&
-                  e.jsx(f, {
+                  e.jsx(x, {
                     to: '/login',
-                    children: e.jsx(x, { size: 'small', type: 'primary', children: 'Login' }),
+                    children: e.jsx(y, { size: 'small', type: 'primary', children: 'Login' }),
                   }),
                 !n &&
-                  e.jsx(f, {
+                  e.jsx(x, {
                     to: '/register',
-                    children: e.jsx(x, { size: 'small', type: 'primary', children: 'Register' }),
+                    children: e.jsx(y, { size: 'small', type: 'primary', children: 'Register' }),
                   }),
                 n &&
                   e.jsx('span', {
@@ -1884,7 +1952,7 @@ function Ut() {
                     children: n.display_name || n.username,
                   }),
                 n &&
-                  e.jsx(x, {
+                  e.jsx(y, {
                     size: 'small',
                     danger: !0,
                     onClick: () => {
@@ -1901,37 +1969,37 @@ function Ut() {
             }),
             e.jsx('div', {
               className: 'ms-auto d-md-none',
-              children: e.jsx(x, { size: 'small', onClick: () => u(!0), children: 'Menu' }),
+              children: e.jsx(y, { size: 'small', onClick: () => u(!0), children: 'Menu' }),
             }),
           ],
         }),
       }),
-      e.jsx(ce, {
+      e.jsx(de, {
         open: p,
         onClose: () => u(!1),
-        afterOpenChange: (l) => {
+        afterOpenChange: (o) => {
           try {
-            document.body.style.overflow = l ? 'hidden' : '';
+            document.body.style.overflow = o ? 'hidden' : '';
           } catch {}
         },
         children: e.jsxs('div', {
           className: 'd-flex flex-column gap-2',
           children: [
-            e.jsx(f, { to: '/', onClick: () => u(!1), children: 'Home' }),
-            e.jsx(f, {
+            e.jsx(x, { to: '/', onClick: () => u(!1), children: 'Home' }),
+            e.jsx(x, {
               to: '/everything?sort=price_desc',
               onClick: () => u(!1),
               children: 'Shop Everything',
             }),
             e.jsx('div', { className: 'fw-bold', children: 'Shop Graphics Cards' }),
-            e.jsx(f, { to: '/?brand=NVIDIA', onClick: () => u(!1), children: 'NVIDIA' }),
-            e.jsx(f, { to: '/?brand=AMD', onClick: () => u(!1), children: 'AMD' }),
-            e.jsx(f, { to: '/sell', onClick: () => u(!1), children: 'Sell' }),
-            e.jsx(f, { to: '/sell-to-us', onClick: () => u(!1), children: 'Sell to us' }),
-            e.jsx(f, { to: '/my', onClick: () => u(!1), children: 'My Listings' }),
-            e.jsx(f, { to: '/profile', onClick: () => u(!1), children: 'My Profile' }),
-            !n && e.jsx(f, { to: '/login', onClick: () => u(!1), children: 'Login' }),
-            !n && e.jsx(f, { to: '/register', onClick: () => u(!1), children: 'Register' }),
+            e.jsx(x, { to: '/?brand=NVIDIA', onClick: () => u(!1), children: 'NVIDIA' }),
+            e.jsx(x, { to: '/?brand=AMD', onClick: () => u(!1), children: 'AMD' }),
+            e.jsx(x, { to: '/sell', onClick: () => u(!1), children: 'Sell' }),
+            e.jsx(x, { to: '/sell-to-us', onClick: () => u(!1), children: 'Sell to us' }),
+            e.jsx(x, { to: '/my', onClick: () => u(!1), children: 'My Listings' }),
+            e.jsx(x, { to: '/profile', onClick: () => u(!1), children: 'My Profile' }),
+            !n && e.jsx(x, { to: '/login', onClick: () => u(!1), children: 'Login' }),
+            !n && e.jsx(x, { to: '/register', onClick: () => u(!1), children: 'Register' }),
             n &&
               e.jsx('button', {
                 className: 'btn btn-outline-danger btn-sm',
@@ -1949,37 +2017,37 @@ function Ut() {
           ],
         }),
       }),
-      e.jsx(o.Suspense, {
+      e.jsx(c.Suspense, {
         fallback: e.jsx('div', { className: 'container py-3', children: 'Loading...' }),
-        children: e.jsxs(Ne, {
+        children: e.jsxs(ke, {
           children: [
-            e.jsx(g, { path: '/', element: e.jsx(H, {}) }),
-            e.jsx(g, { path: '/everything', element: e.jsx(H, {}) }),
-            e.jsx(g, { path: '/profile', element: e.jsx(Nt, {}) }),
-            e.jsx(g, { path: '/profile/edit', element: e.jsx(A, { children: e.jsx(Rt, {}) }) }),
-            e.jsx(g, { path: '/g/:id', element: e.jsx(Ct, {}) }),
-            e.jsx(g, { path: '/sell', element: e.jsx(A, { children: e.jsx(It, {}) }) }),
-            e.jsx(g, { path: '/sell-to-us', element: e.jsx(Tt, {}) }),
-            e.jsx(g, { path: '/contact', element: e.jsx(Lt, {}) }),
-            e.jsx(g, { path: '/b2b', element: e.jsx(Ot, {}) }),
-            e.jsx(g, { path: '/raffles', element: e.jsx(Vt, {}) }),
-            e.jsx(g, { path: '/raffles/info', element: e.jsx(zt, {}) }),
-            e.jsx(g, { path: '/raffles/winners', element: e.jsx(qt, {}) }),
-            e.jsx(g, { path: '/cart', element: e.jsx(Gt, {}) }),
-            e.jsx(g, { path: '/edit/:id', element: e.jsx(A, { children: e.jsx(Pt, {}) }) }),
-            e.jsx(g, { path: '*', element: e.jsx(Dt, {}) }),
-            e.jsx(g, { path: '/about', element: e.jsx(vt, {}) }),
-            e.jsx(g, { path: '/privacy', element: e.jsx(gt, {}) }),
-            e.jsx(g, { path: '/terms', element: e.jsx(bt, {}) }),
-            e.jsx(g, { path: '/returns', element: e.jsx(Mt, {}) }),
-            e.jsx(g, { path: '/500', element: e.jsx(wt, {}) }),
-            e.jsx(g, { path: '/login', element: e.jsx(kt, {}) }),
-            e.jsx(g, { path: '/register', element: e.jsx(Et, {}) }),
-            e.jsx(g, { path: '/my', element: e.jsx(A, { children: e.jsx(At, {}) }) }),
+            e.jsx(v, { path: '/', element: e.jsx(Q, {}) }),
+            e.jsx(v, { path: '/everything', element: e.jsx(Q, {}) }),
+            e.jsx(v, { path: '/profile', element: e.jsx(kt, {}) }),
+            e.jsx(v, { path: '/profile/edit', element: e.jsx(C, { children: e.jsx(Rt, {}) }) }),
+            e.jsx(v, { path: '/g/:id', element: e.jsx(At, {}) }),
+            e.jsx(v, { path: '/sell', element: e.jsx(C, { children: e.jsx(It, {}) }) }),
+            e.jsx(v, { path: '/sell-to-us', element: e.jsx(Tt, {}) }),
+            e.jsx(v, { path: '/contact', element: e.jsx(Mt, {}) }),
+            e.jsx(v, { path: '/b2b', element: e.jsx(zt, {}) }),
+            e.jsx(v, { path: '/raffles', element: e.jsx(Ot, {}) }),
+            e.jsx(v, { path: '/raffles/info', element: e.jsx(Vt, {}) }),
+            e.jsx(v, { path: '/raffles/winners', element: e.jsx(qt, {}) }),
+            e.jsx(v, { path: '/cart', element: e.jsx(Gt, {}) }),
+            e.jsx(v, { path: '/edit/:id', element: e.jsx(C, { children: e.jsx(Pt, {}) }) }),
+            e.jsx(v, { path: '*', element: e.jsx(Dt, {}) }),
+            e.jsx(v, { path: '/about', element: e.jsx(gt, {}) }),
+            e.jsx(v, { path: '/privacy', element: e.jsx(vt, {}) }),
+            e.jsx(v, { path: '/terms', element: e.jsx(bt, {}) }),
+            e.jsx(v, { path: '/returns', element: e.jsx(Lt, {}) }),
+            e.jsx(v, { path: '/500', element: e.jsx(St, {}) }),
+            e.jsx(v, { path: '/login', element: e.jsx(Nt, {}) }),
+            e.jsx(v, { path: '/register', element: e.jsx(Et, {}) }),
+            e.jsx(v, { path: '/my', element: e.jsx(C, { children: e.jsx(Ct, {}) }) }),
           ],
         }),
       }),
-      e.jsx(_t, { open: j, onClose: () => h(!1) }),
+      e.jsx(_t, { open: j, onClose: () => m(!1) }),
       e.jsx(Ue, { messages: s }),
       e.jsx('footer', {
         className: 'border-top bg-white mt-4',
@@ -1997,13 +2065,13 @@ function Ut() {
                     e.jsxs('div', {
                       className: 'd-flex flex-column gap-1',
                       children: [
-                        e.jsx(f, { to: '/sell-to-us', children: 'Sell to us' }),
-                        e.jsx(f, {
+                        e.jsx(x, { to: '/sell-to-us', children: 'Sell to us' }),
+                        e.jsx(x, {
                           to: '/everything?sort=price_desc',
                           children: 'Shop Everything',
                         }),
-                        e.jsx(f, { to: '/', children: 'Shop Graphics Cards' }),
-                        e.jsx(f, { to: '/about', children: 'About Us' }),
+                        e.jsx(x, { to: '/', children: 'Shop Graphics Cards' }),
+                        e.jsx(x, { to: '/about', children: 'About Us' }),
                       ],
                     }),
                   ],
@@ -2015,9 +2083,9 @@ function Ut() {
                     e.jsxs('div', {
                       className: 'd-flex flex-column gap-1',
                       children: [
-                        e.jsx(f, { to: '/terms', children: 'Terms of Service' }),
-                        e.jsx(f, { to: '/privacy', children: 'Privacy Policy' }),
-                        e.jsx(f, { to: '/returns', children: 'Returns & Refunds' }),
+                        e.jsx(x, { to: '/terms', children: 'Terms of Service' }),
+                        e.jsx(x, { to: '/privacy', children: 'Privacy Policy' }),
+                        e.jsx(x, { to: '/returns', children: 'Returns & Refunds' }),
                       ],
                     }),
                   ],
@@ -2091,11 +2159,11 @@ function Ut() {
           ],
         }),
       }),
-      e.jsx(St, {}),
+      e.jsx(wt, {}),
     ],
   });
 }
-class Wt extends o.Component {
+class Wt extends c.Component {
   constructor(s) {
     (super(s), (this.state = { hasError: !1 }));
   }
@@ -2117,12 +2185,12 @@ class Wt extends o.Component {
       : this.props.children;
   }
 }
-const Ft = new we();
-M.createRoot(document.getElementById('root')).render(
-  e.jsx(ie.StrictMode, {
+const Ft = new Se();
+z.createRoot(document.getElementById('root')).render(
+  e.jsx(le.StrictMode, {
     children: e.jsx(Wt, {
-      children: e.jsx(Se, { client: Ft, children: e.jsx(ke, { children: e.jsx(Ut, {}) }) }),
+      children: e.jsx(we, { client: Ft, children: e.jsx(Ne, { children: e.jsx(Ut, {}) }) }),
     }),
   }),
 );
-export { Ve as G, w as _, O as a, V as c, Le as f, xt as u };
+export { Oe as G, S as _, O as a, V as c, Me as f, xt as u };
