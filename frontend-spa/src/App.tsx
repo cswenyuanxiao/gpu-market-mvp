@@ -86,7 +86,7 @@ export default function App() {
           }}
         />
         <Link to="/" className="d-flex align-items-center gap-2 text-decoration-none">
-          <img src="/logo.png" alt="GPU-MARK" width={120} height={120} />
+          <img src="/logo.png" alt="GPU-MARK" width={180} height={180} />
         </Link>
         <Button
           className="nav-icon-btn"
@@ -96,17 +96,20 @@ export default function App() {
           onClick={() => navigate('/cart')}
         />
       </div>
-      <nav className="navbar navbar-expand navbar-light bg-light">
-        <div className="container-fluid d-flex justify-content-between align-items-center">
-          <div className="d-none d-md-flex gap-3">
-            <Link to="/">
-              <Button
-                type="text"
-                size="small"
-                style={{ borderBottom: location.pathname === '/' ? '2px solid #222' : 'none' }}
+      <nav className="navbar navbar-expand" style={{ background: 'white', boxShadow: 'none' }}>
+        <div className="container-fluid d-flex justify-content-center">
+          <div className="d-none d-md-flex gap-4 align-items-center">
+            <Link to="/" className="text-decoration-none">
+              <span 
+                className="text-dark" 
+                style={{ 
+                  fontSize: '16px',
+                  borderBottom: location.pathname === '/' ? '2px solid #222' : 'none',
+                  paddingBottom: '2px'
+                }}
               >
                 Home
-              </Button>
+              </span>
             </Link>
             <Dropdown
               trigger={['click']}
@@ -152,15 +155,17 @@ export default function App() {
                 },
               }}
             >
-              <Button
-                type="text"
-                size="small"
-                style={{
+              <span 
+                className="text-dark" 
+                style={{ 
+                  fontSize: '16px',
                   borderBottom: location.pathname === '/everything' ? '2px solid #222' : 'none',
+                  paddingBottom: '2px',
+                  cursor: 'pointer'
                 }}
               >
                 Shop Everything
-              </Button>
+              </span>
             </Dropdown>
             <Dropdown
               trigger={['click']}
@@ -220,24 +225,31 @@ export default function App() {
                 },
               }}
             >
-              <Button type="text" size="small">
+              <span className="text-dark" style={{ fontSize: '16px', cursor: 'pointer' }}>
                 Shop Graphics Cards
-              </Button>
+              </span>
             </Dropdown>
-            <Link to="/sell">
-              <Button size="small" type="default">
+            <Link to="/sell" className="text-decoration-none">
+              <span 
+                className="text-dark" 
+                style={{ 
+                  fontSize: '16px',
+                  borderBottom: location.pathname === '/sell' ? '2px solid #222' : 'none',
+                  paddingBottom: '2px'
+                }}
+              >
                 Sell
-              </Button>
+              </span>
             </Link>
-            <Link to="/sell-to-us">
-              <Button size="small" type="default">
+            <Link to="/sell-to-us" className="text-decoration-none">
+              <span className="text-dark" style={{ fontSize: '16px' }}>
                 Sell to us
-              </Button>
+              </span>
             </Link>
-            <Link to="/b2b">
-              <Button size="small" type="text">
+            <Link to="/b2b" className="text-decoration-none">
+              <span className="text-dark" style={{ fontSize: '16px' }}>
                 Enterprise Hardware (B2B)
-              </Button>
+              </span>
             </Link>
           </div>
           <div className="d-none d-md-flex align-items-center">
