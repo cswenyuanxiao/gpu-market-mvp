@@ -1,7 +1,8 @@
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { apiFetch } from '../lib/api';
-import ImageUploader from '../components/ImageUploader';
+import { lazy, Suspense } from 'react';
+const ImageUploader = lazy(() => import('../components/ImageUploader')) as any;
 import { z } from 'zod';
 import FormField from '../components/ui/FormField';
 import { Controller, useForm } from 'react-hook-form';
@@ -112,7 +113,9 @@ export default function Edit() {
           </div>
         </div>
         <div className="mb-3">
-          <ImageUploader onChange={setFiles} />
+          <Suspense fallback={null}>
+            <ImageUploader onChange={setFiles} />
+          </Suspense>
         </div>
         <Button type="primary" htmlType="submit">Save</Button>
       </form>

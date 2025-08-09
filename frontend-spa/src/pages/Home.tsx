@@ -1,6 +1,6 @@
-import { useMemo, useState } from 'react';
+import { useMemo, useState, lazy, Suspense } from 'react';
 import { apiFetch } from '../lib/api';
-import DetailsModal from '../components/DetailsModal';
+const DetailsModal = lazy(() => import('../components/DetailsModal'));
 import SearchFilters from '../components/SearchFilters';
 import GpuCard from '../components/domain/GpuCard';
 import type { Gpu, SearchQuery } from '../types';
@@ -128,7 +128,9 @@ export default function Home() {
           }}
         />
       </AntDrawer>
-      <DetailsModal item={selected} onClose={() => setSelected(null)} />
+      <Suspense fallback={null}>
+        <DetailsModal item={selected} onClose={() => setSelected(null)} />
+      </Suspense>
     </div>
   );
 }

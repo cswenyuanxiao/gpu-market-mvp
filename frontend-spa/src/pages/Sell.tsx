@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { apiFetch } from '../lib/api';
-import ImageUploader, { LocalImage } from '../components/ImageUploader';
+import { lazy, Suspense } from 'react';
+const ImageUploader = lazy(() => import('../components/ImageUploader')) as any;
+import type { LocalImage } from '../components/ImageUploader';
 import { useNavigate } from 'react-router-dom';
 import { z } from 'zod';
 import FormField from '../components/ui/FormField';
@@ -125,7 +127,9 @@ export default function Sell() {
           </div>
         </div>
         <div className="mb-3">
-          <ImageUploader onChange={setFiles} />
+          <Suspense fallback={null}>
+            <ImageUploader onChange={setFiles} />
+          </Suspense>
         </div>
         <Button type="primary" htmlType="submit" loading={loading}>Submit</Button>
       </form>
