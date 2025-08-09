@@ -10,7 +10,7 @@ services:
       cd backend && npm install --omit=dev
       cd ../frontend-spa && npm install --include=dev && npx vite build
     startCommand: |
-      cd backend && node force-seed.js; node index.js
+      cd backend && node debug-db.js; node force-seed.js; node index.js
     envVars:
       - key: NODE_VERSION
         value: 20
