@@ -97,6 +97,29 @@ const uploadFailures = new client.Counter({
   help: 'Failed image uploads due to validation',
 });
 register.registerMetric(uploadFailures);
+// business metrics
+const quotesCreated = new client.Counter({
+  name: 'quotes_created_total',
+  help: 'Number of quote submissions created',
+});
+register.registerMetric(quotesCreated);
+const quotesFailed = new client.Counter({
+  name: 'quotes_failed_total',
+  help: 'Number of failed quote submissions',
+  labelNames: ['reason'],
+});
+register.registerMetric(quotesFailed);
+const contactCreated = new client.Counter({
+  name: 'contact_messages_created_total',
+  help: 'Number of contact messages created',
+});
+register.registerMetric(contactCreated);
+const contactFailed = new client.Counter({
+  name: 'contact_messages_failed_total',
+  help: 'Number of failed contact messages',
+  labelNames: ['reason'],
+});
+register.registerMetric(contactFailed);
 
 function getBaseUrl(req) {
   const proto = req.headers['x-forwarded-proto'] || req.protocol || 'http';
@@ -911,6 +934,7 @@ app.post('/api/quotes', quotesLimiter, upload.array('images', 10), async (req, r
           fs.unlinkSync(f.path);
         } catch (_) {}
         uploadFailures.inc();
+        quotesFailed.inc({ reason: 'invalid_image' });
         return res.status(400).json({ error: 'Invalid image content' });
       }
       processed.push(await processAndStoreImage(f, uploadDir));
@@ -944,8 +968,10 @@ app.post('/api/quotes', quotesLimiter, upload.array('images', 10), async (req, r
         ins.run(quoteId, p.image_path, p.thumb_path, idx, new Date().toISOString()),
       );
     }
+    quotesCreated.inc();
     res.status(201).json({ id: quoteId });
   } catch (e) {
+    quotesFailed.inc({ reason: 'server' });
     res.status(500).json({ error: 'Server error' });
   }
 });
@@ -960,8 +986,10 @@ app.post('/api/contact', contactLimiter, (req, res) => {
     db.prepare(
       'INSERT INTO contact_messages (name, email, message, consent, created_at) VALUES (?, ?, ?, ?, ?)',
     ).run(name, email, message, consent ? 1 : 0, new Date().toISOString());
+    contactCreated.inc();
     res.status(201).json({ ok: true });
   } catch (e) {
+    contactFailed.inc({ reason: 'server' });
     res.status(500).json({ error: 'Server error' });
   }
 });
