@@ -3,6 +3,7 @@ import { apiFetch } from '../lib/api';
 import { useNavigate, useLocation, Link } from 'react-router-dom';
 import { useAuth } from '../store/auth';
 import FormField from '../components/ui/FormField';
+import { Button } from 'antd';
 
 export default function Login() {
   const [username, setUsername] = useState('');
@@ -50,9 +51,7 @@ export default function Login() {
         <FormField label="Password" htmlFor="login-password">
           <input id="login-password" type="password" className="form-control" value={password} onChange={(e) => setPassword(e.target.value)} />
         </FormField>
-        <button disabled={loading} className="btn btn-primary w-100" type="submit">
-          {loading ? 'Signing in...' : 'Sign In'}
-        </button>
+        <Button type="primary" htmlType="submit" block loading={loading}>Sign In</Button>
       </form>
       <div className="mt-3">
         New here? <Link to="/register">Create an account</Link>

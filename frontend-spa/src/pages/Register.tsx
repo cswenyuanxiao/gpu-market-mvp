@@ -2,6 +2,7 @@ import { FormEvent, useState } from 'react';
 import { apiFetch } from '../lib/api';
 import { useNavigate, Link } from 'react-router-dom';
 import FormField from '../components/ui/FormField';
+import { Button } from 'antd';
 
 export default function Register() {
   const [username, setUsername] = useState('');
@@ -48,9 +49,7 @@ export default function Register() {
         <FormField label="Display Name" htmlFor="reg-display">
           <input id="reg-display" className="form-control" value={displayName} onChange={(e) => setDisplayName(e.target.value)} />
         </FormField>
-        <button disabled={loading} className="btn btn-success w-100" type="submit">
-          {loading ? 'Creating...' : 'Create Account'}
-        </button>
+        <Button type="primary" htmlType="submit" block loading={loading}>Create Account</Button>
       </form>
       <div className="mt-3">
         Already have an account? <Link to="/login">Login</Link>
