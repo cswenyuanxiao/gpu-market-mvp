@@ -1,7 +1,6 @@
-import { useMemo, useState, lazy, Suspense } from 'react';
+import { useMemo, useState, lazy, Suspense, useRef } from 'react';
 import { apiFetch } from '../lib/api';
 const DetailsModal = lazy(() => import('../components/DetailsModal'));
-const LazyImageUploader = lazy(() => import('../components/ImageUploader'));
 import SearchFilters from '../components/SearchFilters';
 import GpuCard from '../components/domain/GpuCard';
 import type { Gpu, SearchQuery } from '../types';
@@ -14,7 +13,7 @@ import {
   Button,
   Drawer as AntDrawer,
   Pagination as AntPagination,
-  Alert,
+  Result,
   Spin,
 } from 'antd';
 
@@ -84,6 +83,15 @@ export default function Home() {
     retry: 2,
   });
 
+  // prefetch on hover (once)
+  const prefetched = useRef(false);
+  function prefetchDetailsChunk() {
+    if (prefetched.current) return;
+    prefetched.current = true;
+    import('../components/DetailsModal');
+    import('../components/ImageUploader');
+  }
+
   return (
     <div className="container py-3">
       <nav className="navbar navbar-light">
@@ -137,25 +145,44 @@ export default function Home() {
         </div>
         <div className="col-md-8">
           {isError && (
-            <Alert type="error" message="Failed to load list" showIcon className="mb-2" />
+            <div className="my-4">
+              <Result
+                status="error"
+                title="Failed to load list"
+                subTitle="Please try again later."
+              />
+            </div>
           )}
-          {(isLoading || isFetching) && <Spin className="mb-2" />}
-          <div className="row">
-            {(data?.results || []).map((gpu: Gpu) => (
-              <div className="col-md-6" key={gpu.id}>
-                <GpuCard
-                  gpu={gpu}
-                  onDetails={async (id) => {
-                    const r = await apiFetch(`/api/gpus/${id}`);
-                    const full = await r.json();
-                    setSelected(full);
-                  }}
-                />
-              </div>
-            ))}
+          <div className="row" onMouseEnter={prefetchDetailsChunk}>
+            {(isLoading || isFetching) && (
+              <>
+                {Array.from({ length: 4 }).map((_, i) => (
+                  <div className="col-md-6 mb-3" key={i}>
+                    <div className="card p-3">
+                      <Spin />
+                    </div>
+                  </div>
+                ))}
+              </>
+            )}
+            {!isLoading &&
+              (data?.results || []).map((gpu: Gpu) => (
+                <div className="col-md-6" key={gpu.id}>
+                  <GpuCard
+                    gpu={gpu}
+                    onDetails={async (id) => {
+                      const r = await apiFetch(`/api/gpus/${id}`);
+                      const full = await r.json();
+                      setSelected(full);
+                    }}
+                  />
+                </div>
+              ))}
             {!isLoading && (data?.results?.length || 0) === 0 && (
               <div className="col-12">
-                <div className="alert alert-info">No results. Try adjusting filters.</div>
+                <div className="my-4">
+                  <Result status="info" title="No results" subTitle="Try adjusting filters." />
+                </div>
               </div>
             )}
           </div>
@@ -182,10 +209,6 @@ export default function Home() {
       </AntDrawer>
       <Suspense fallback={null}>
         <DetailsModal item={selected} onClose={() => setSelected(null)} />
-      </Suspense>
-      {/* Prefetch heavy chunk opportunistically */}
-      <Suspense fallback={null}>
-        <LazyImageUploader onChange={() => {}} />
       </Suspense>
     </div>
   );

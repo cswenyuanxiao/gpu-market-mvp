@@ -18,6 +18,7 @@ export default function DetailsModal({ item, onClose }: { item: Gpu | null; onCl
           {item.image_path && (
             <Image
               src={item.image_path}
+              srcSet={`${item.image_path} 1x, ${item.image_path} 2x`}
               width="100%"
               style={{ borderRadius: 6, marginBottom: 8 }}
             />
@@ -29,6 +30,9 @@ export default function DetailsModal({ item, onClose }: { item: Gpu | null; onCl
                 src={im.thumb_path || im.image_path}
                 width={72}
                 height={72}
+                placeholder={
+                  <div style={{ width: 72, height: 72, background: '#f0f0f0', borderRadius: 4 }} />
+                }
                 style={{ objectFit: 'cover', borderRadius: 4 }}
                 preview={false}
               />

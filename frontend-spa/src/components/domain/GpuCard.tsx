@@ -14,6 +14,8 @@ export default function GpuCard({ gpu, onDetails }: { gpu: Gpu; onDetails: (id: 
           <div className="col-4">
             <img
               src={gpu.image_path}
+              srcSet={`${gpu.image_path} 1x, ${gpu.image_path} 2x`}
+              sizes="(max-width: 768px) 100vw, 33vw"
               className="img-fluid rounded-start"
               style={{ height: 160, objectFit: 'cover' }}
               loading="lazy"

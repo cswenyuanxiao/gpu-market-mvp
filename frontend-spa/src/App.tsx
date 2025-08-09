@@ -21,7 +21,7 @@ import About from './pages/About';
 import Privacy from './pages/Privacy';
 import Terms from './pages/Terms';
 import ServerError from './pages/ServerError';
-import { Button, Dropdown, Drawer } from 'antd';
+import { Button, Dropdown, Drawer, Menu } from 'antd';
 import type { MenuProps } from 'antd';
 
 export default function App() {
@@ -40,10 +40,16 @@ export default function App() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   const [mobileOpen, setMobileOpen] = useState(false);
-  const gpuMenuItems: MenuProps['items'] = [
-    { key: 'nvidia', label: <Link to="/?brand=NVIDIA">NVIDIA</Link> },
-    { key: 'amd', label: <Link to="/?brand=AMD">AMD</Link> },
-  ];
+  const seriesMenu = (
+    <Menu
+      items={[
+        { key: 'nvidia-40', label: <Link to="/?brand=NVIDIA&vram_min=8">NVIDIA 40 Series</Link> },
+        { key: 'nvidia-30', label: <Link to="/?brand=NVIDIA&vram_min=8">NVIDIA 30 Series</Link> },
+        { key: 'amd-7000', label: <Link to="/?brand=AMD&vram_min=8">AMD 7000 Series</Link> },
+        { key: 'amd-6000', label: <Link to="/?brand=AMD&vram_min=8">AMD 6000 Series</Link> },
+      ]}
+    />
+  );
   return (
     <>
       <nav className="navbar navbar-expand navbar-light bg-light">
@@ -58,7 +64,7 @@ export default function App() {
             <Link to="/everything?sort=price_desc" className="btn btn-link btn-sm">
               Shop Everything
             </Link>
-            <Dropdown menu={{ items: gpuMenuItems }} trigger={['click']}>
+            <Dropdown overlay={seriesMenu} trigger={['click']}>
               <Button size="small">Shop Graphics Cards</Button>
             </Dropdown>
             <Link to="/sell" className="btn btn-outline-success btn-sm">
