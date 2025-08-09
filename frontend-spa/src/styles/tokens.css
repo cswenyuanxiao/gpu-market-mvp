@@ -126,3 +126,26 @@
 .drawer-panel.open {
   transform: translateX(0);
 }
+
+/* Floating WhatsApp Button */
+.whatsapp-fab {
+  position: fixed;
+  left: 16px;
+  bottom: 16px;
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  background: #25d366;
+  color: #fff;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: var(--shadow-md);
+  z-index: 999;
+}
+.whatsapp-fab:hover {
+  filter: brightness(0.95);
+}
+.whatsapp-fab:active {
+  filter: brightness(0.9);
+}

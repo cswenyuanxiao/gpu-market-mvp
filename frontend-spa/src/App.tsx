@@ -24,6 +24,7 @@ const Returns = lazy(() => import('./pages/Returns'));
 import ServerError from './pages/ServerError';
 import { Button, Dropdown, Drawer, Menu } from 'antd';
 import type { MenuProps } from 'antd';
+import FloatingWhatsApp from './components/ui/FloatingWhatsApp';
 
 export default function App() {
   const { api, messages } = useToast();
@@ -306,6 +307,7 @@ export default function App() {
           </div>
         </div>
       </footer>
+      <FloatingWhatsApp />
     </>
   );
 }
