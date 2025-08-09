@@ -54,6 +54,8 @@ Local dev notes:
 - `DELETE /api/gpus/:id` — delete listing (owner-only)
 - `GET /api/users/:id` — user profile
 - `POST /api/users/me/avatar` — upload avatar (JWT; multipart)
+- `POST /api/quotes` — submit “Sell to us” quote (multipart; field `images` for photos)
+- `POST /api/contact` — send a contact message (JSON)
 - `GET /health` — health check
 - `GET /robots.txt` — SEO robots file
 - `GET /sitemap.xml` — dynamic sitemap including recent listings
@@ -72,6 +74,11 @@ Local dev notes:
 - JWT auto-logout: any 401/403 will clear the token and prompt re-login.
 - Querystring persistence: search state encoded in URL; back/refresh preserved.
 - X-Request-ID surfaced in navbar for easier troubleshooting.
+
+### New pages
+
+- Sell to us: `/sell-to-us` — Fields: name, email, phone, brand (NVIDIA/AMD), model, grade (A/B/C), warranty, accessories, expected price, note, images. Submits to `POST /api/quotes`.
+- Contact: `/contact` — Fields: name, email, message, consent. Submits to `POST /api/contact`.
 
 ## Env Vars
 
@@ -140,6 +147,26 @@ Note: This repo already serves `frontend/` statically from the backend if presen
 - Meta tags and Open Graph added to `frontend/index.html` with dynamic canonical URL. Added `keywords` and `theme-color`.
 - Backend serves `robots.txt` and `sitemap.xml` (includes homepage and up to 50 latest listings).
 - Static assets served with cache headers from Express (immutable year-long for non-HTML, no-cache for HTML). Consider a CDN for production.
+
+## Observability (Prometheus)
+
+- Metrics endpoint: `GET /metrics` (Prometheus text format)
+- Built-in metrics:
+  - HTTP: `http_request_duration_seconds`, `http_requests_total`, `http_responses_total`, `http_responses_4xx_total`, `http_responses_5xx_total`
+  - Upload guard: `upload_failures_total`
+  - Business:
+    - Quotes: `quotes_created_total`, `quotes_failed_total{reason="invalid_image|server"}`
+    - Contact: `contact_messages_created_total`, `contact_messages_failed_total{reason="server"}`
+
+Example Prometheus scrape config (snippet):
+
+```
+scrape_configs:
+  - job_name: 'gpu-market'
+    metrics_path: /metrics
+    static_configs:
+      - targets: ['localhost:3000']
+```
 
 ## Notes
 
