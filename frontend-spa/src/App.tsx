@@ -69,6 +69,18 @@ export default function App() {
           See Our Excellent Reviews →
         </a>
       </div>
+      {/* Mobile header: menu / logo / search */}
+      <div className="container d-flex d-md-none align-items-center justify-content-between py-2 px-3">
+        <Button className="nav-icon-btn" type="text" onClick={() => setMobileOpen(true)}>
+          Menu
+        </Button>
+        <Link to="/" className="d-flex align-items-center text-decoration-none">
+          <img src="/logo.png" alt="GPU-MARK" width={120} height={120} />
+        </Link>
+        <Button className="nav-icon-btn" type="text" onClick={() => setSearchOpen(true)}>
+          Search
+        </Button>
+      </div>
       {/* Center logo row with search and cart */}
       <div className="container py-3 d-none d-md-flex justify-content-between align-items-center px-3 px-md-4">
         <Button
