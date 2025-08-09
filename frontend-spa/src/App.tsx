@@ -70,7 +70,7 @@ export default function App() {
         </a>
       </div>
       {/* Center logo row with search and cart */}
-      <div className="container py-3 d-none d-md-flex justify-content-between align-items-center">
+      <div className="container py-3 d-none d-md-flex justify-content-between align-items-center px-3 px-md-4">
         <Button
           className="nav-icon-btn"
           type="text"
@@ -97,7 +97,7 @@ export default function App() {
         />
       </div>
       <nav className="navbar navbar-expand" style={{ background: 'white', boxShadow: 'none' }}>
-        <div className="container-fluid d-flex justify-content-between align-items-center">
+        <div className="container-fluid d-flex justify-content-between align-items-center px-3 px-md-4">
           <div className="d-none d-md-flex gap-4 align-items-center">
             <Link to="/" className="text-decoration-none">
               <span 

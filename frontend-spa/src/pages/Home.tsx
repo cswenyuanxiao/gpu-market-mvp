@@ -110,7 +110,7 @@ export default function Home() {
   }
 
   return (
-    <div className="container py-3">
+    <div className="container py-3 px-3 px-md-4">
       <nav className="navbar navbar-light">
         <div className="container-fluid">
           <a className="navbar-brand" href="#">
