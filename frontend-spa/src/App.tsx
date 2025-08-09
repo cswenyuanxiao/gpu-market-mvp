@@ -97,8 +97,8 @@ export default function App() {
         />
       </div>
       <nav className="navbar navbar-expand navbar-light bg-light">
-        <div className="container-fluid">
-          <div className="mx-auto d-none d-md-flex gap-3">
+        <div className="container-fluid d-flex justify-content-between align-items-center">
+          <div className="d-none d-md-flex gap-3">
             <Link to="/">
               <Button
                 type="text"
@@ -239,6 +239,8 @@ export default function App() {
                 Enterprise Hardware (B2B)
               </Button>
             </Link>
+          </div>
+          <div className="d-none d-md-flex align-items-center">
             {user ? (
               <Dropdown
                 trigger={['click']}
@@ -290,12 +292,29 @@ export default function App() {
                   },
                 }}
               >
-                <Button size="small" type="default">
-                  {user.display_name || user.username}
+                <Button
+                  size="small"
+                  type="default"
+                  style={{
+                    borderRadius: '50%',
+                    width: '40px',
+                    height: '40px',
+                    padding: 0,
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    fontSize: '14px',
+                    fontWeight: 'bold',
+                    backgroundColor: '#2f7f82',
+                    color: 'white',
+                    border: 'none',
+                  }}
+                >
+                  {(user.display_name || user.username).charAt(0).toUpperCase()}
                 </Button>
               </Dropdown>
             ) : (
-              <>
+              <div className="d-flex gap-2">
                 <Link to="/login">
                   <Button size="small" type="primary">
                     Login
@@ -306,7 +325,7 @@ export default function App() {
                     Register
                   </Button>
                 </Link>
-              </>
+              </div>
             )}
           </div>
           <div className="ms-auto d-md-none">
