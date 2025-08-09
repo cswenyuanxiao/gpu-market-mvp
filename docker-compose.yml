@@ -8,7 +8,7 @@ services:
       - APP_ENV=${APP_ENV:-local}
       - PORT=${PORT:-3000}
       - JWT_SECRET=${JWT_SECRET:-please_change_me}
-      - CORS_ORIGIN=${CORS_ORIGIN:-http://localhost:3000}
+      - CORS_ORIGIN=${CORS_ORIGIN:-http://localhost:3000,http://localhost:5173}
       - MAX_UPLOAD_MB=${MAX_UPLOAD_MB:-5}
     ports:
       - "3000:3000"

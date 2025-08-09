@@ -1,18 +1,19 @@
 import { Link, Route, Routes } from 'react-router-dom';
+import { lazy, Suspense } from 'react';
 import Home from './pages/Home';
 import { ToastContainer, useToast } from './components/Toast';
 import { useEffect } from 'react';
-import Profile from './pages/Profile';
-import Login from './pages/Login';
-import Register from './pages/Register';
-import MyListings from './pages/MyListings';
+const Profile = lazy(() => import('./pages/Profile'));
+const Login = lazy(() => import('./pages/Login'));
+const Register = lazy(() => import('./pages/Register'));
+const MyListings = lazy(() => import('./pages/MyListings'));
 import { AuthGuard } from './components/AuthGuard';
 import { useAuth } from './store/auth';
-import Detail from './pages/Detail';
-import Sell from './pages/Sell';
-import Edit from './pages/Edit';
-import NotFound from './pages/NotFound';
-import ProfileEdit from './pages/ProfileEdit';
+const Detail = lazy(() => import('./pages/Detail'));
+const Sell = lazy(() => import('./pages/Sell'));
+const Edit = lazy(() => import('./pages/Edit'));
+const NotFound = lazy(() => import('./pages/NotFound'));
+const ProfileEdit = lazy(() => import('./pages/ProfileEdit'));
 import { useScrollRestoration } from './lib/useScrollRestoration';
 import About from './pages/About';
 import Privacy from './pages/Privacy';
@@ -56,6 +57,7 @@ export default function App() {
           </div>
         </div>
       </nav>
+      <Suspense fallback={<div className="container py-3">Loading...</div>}>
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/profile" element={<Profile />} />
@@ -100,6 +102,7 @@ export default function App() {
           }
         />
       </Routes>
+      </Suspense>
       <ToastContainer messages={messages} />
       <footer className="border-top bg-white mt-4">
         <div className="container py-3 text-muted small d-flex justify-content-between">

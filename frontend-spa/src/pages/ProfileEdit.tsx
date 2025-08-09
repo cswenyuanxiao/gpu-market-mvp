@@ -1,6 +1,8 @@
 import { FormEvent, useEffect, useState } from 'react';
 import { apiFetch } from '../lib/api';
 import FormField from '../components/ui/FormField';
+import { Button, Input, Upload, Avatar } from 'antd';
+import type { UploadProps } from 'antd';
 
 export default function ProfileEdit() {
   const [display, setDisplay] = useState('');
@@ -52,9 +54,10 @@ export default function ProfileEdit() {
     <div className="container py-3" style={{ maxWidth: 520 }}>
       <h3>Edit Profile</h3>
       <form onSubmit={onSubmit}>
-        <FormField label="Display Name">
-          <input className="form-control" value={display} onChange={(e) => setDisplay(e.target.value)} disabled />
-        </FormField>
+        <div className="d-flex align-items-center gap-3 mb-3">
+          <Avatar size={64} src={avatarPreview || undefined}>{display?.[0]}</Avatar>
+          <Input value={display} disabled style={{ maxWidth: 260 }} />
+        </div>
         <FormField label="Avatar" htmlFor="avatar">
           <input id="avatar" type="file" accept="image/*" className="form-control" onChange={onAvatar} />
         </FormField>
@@ -63,7 +66,7 @@ export default function ProfileEdit() {
             <img src={avatarPreview} style={{ width: 96, height: 96, objectFit: 'cover' }} className="rounded" />
           </div>
         )}
-        <button className="btn btn-primary" disabled={loading} type="submit">{loading ? 'Saving...' : 'Save'}</button>
+        <Button type="primary" loading={loading} htmlType="submit">Save</Button>
       </form>
     </div>
   );
