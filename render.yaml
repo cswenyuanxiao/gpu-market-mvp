@@ -7,8 +7,8 @@ services:
     autoDeploy: true
     healthCheckPath: /health
     buildCommand: |
-      cd backend && npm ci --omit=dev
-      cd ../frontend-spa && npm ci && npm run build
+      cd backend && npm install --omit=dev
+      cd ../frontend-spa && npm install && npm run build
     startCommand: cd backend && node index.js
     envVars:
       - key: NODE_VERSION
