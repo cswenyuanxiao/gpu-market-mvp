@@ -239,56 +239,82 @@ export default function App() {
                 Enterprise Hardware (B2B)
               </Button>
             </Link>
-            <Link to="/my">
-              <Button size="small" type="default">
-                My Listings
-              </Button>
-            </Link>
-            <Link to="/profile">
-              <Button size="small" type="default">
-                My Profile
-              </Button>
-            </Link>
-
-            {user && (
-              <Link to="/profile/edit">
-                <Button size="small" type="default">
-                  Edit Profile
-                </Button>
-              </Link>
-            )}
-            {!user && (
-              <Link to="/login">
-                <Button size="small" type="primary">
-                  Login
-                </Button>
-              </Link>
-            )}
-            {!user && (
-              <Link to="/register">
-                <Button size="small" type="primary">
-                  Register
-                </Button>
-              </Link>
-            )}
-            {user && (
-              <span className="align-self-center small text-muted">
-                {user.display_name || user.username}
-              </span>
-            )}
-            {user && (
-              <Button
-                size="small"
-                danger
-                onClick={() => {
-                  logout();
-                  window.dispatchEvent(
-                    new CustomEvent('app-toast', { detail: { text: 'Logged out', type: 'info' } }),
-                  );
+            {user ? (
+              <Dropdown
+                trigger={['click']}
+                menu={{
+                  items: [
+                    {
+                      key: 'profile',
+                      label: (
+                        <div className="d-flex align-items-center gap-2">
+                          <span>{user.display_name || user.username}</span>
+                        </div>
+                      ),
+                      disabled: true,
+                    },
+                    { type: 'divider' },
+                    {
+                      key: 'my-listings',
+                      label: 'My Listings',
+                      icon: <span>📋</span>,
+                    },
+                    {
+                      key: 'my-profile',
+                      label: 'My Profile',
+                      icon: <span>👤</span>,
+                    },
+                    {
+                      key: 'edit-profile',
+                      label: 'Edit Profile',
+                      icon: <span>✏️</span>,
+                    },
+                    { type: 'divider' },
+                    {
+                      key: 'logout',
+                      label: 'Logout',
+                      icon: <span>🚪</span>,
+                      danger: true,
+                    },
+                  ],
+                  onClick: (info) => {
+                    switch (info.key) {
+                      case 'my-listings':
+                        navigate('/my');
+                        break;
+                      case 'my-profile':
+                        navigate('/profile');
+                        break;
+                      case 'edit-profile':
+                        navigate('/profile/edit');
+                        break;
+                      case 'logout':
+                        logout();
+                        window.dispatchEvent(
+                          new CustomEvent('app-toast', { detail: { text: 'Logged out', type: 'info' } }),
+                        );
+                        break;
+                    }
+                  },
                 }}
               >
-                Logout
-              </Button>
+                <Button size="small" type="default">
+                  {user.display_name || user.username} ▼
+                </Button>
+              </Dropdown>
+            ) : (
+              <>
+                <Link to="/login">
+                  <Button size="small" type="primary">
+                    Login
+                  </Button>
+                </Link>
+                <Link to="/register">
+                  <Button size="small" type="primary">
+                    Register
+                  </Button>
+                </Link>
+              </>
             )}
           </div>
           <div className="ms-auto d-md-none">
