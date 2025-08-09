@@ -60,7 +60,12 @@ export default function App() {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
       <div className="w-100 py-1 text-center text-white" style={{ background: '#2f7f82' }}>
-        <a href="#reviews" className="text-white text-decoration-none">
+        <a 
+          href="https://www.google.com/search?q=GPU+Market+Reviews" 
+          target="_blank" 
+          rel="noopener noreferrer"
+          className="text-white text-decoration-none"
+        >
           See Our Excellent Reviews →
         </a>
       </div>
