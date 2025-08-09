@@ -12,6 +12,12 @@ services:
       - MAX_UPLOAD_MB=${MAX_UPLOAD_MB:-5}
     ports:
       - "3000:3000"
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:3000/health"]
+      interval: 10s
+      timeout: 3s
+      retries: 5
+    restart: unless-stopped
     command: sh -c "node seed.js && node index.js"
 
   # Frontend is served by backend container now. Uncomment below to serve via nginx instead.

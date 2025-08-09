@@ -131,7 +131,7 @@
 .whatsapp-fab {
   position: fixed;
   left: 16px;
-  bottom: 16px;
+  bottom: var(--fab-bottom, 16px);
   width: 48px;
   height: 48px;
   border-radius: 50%;

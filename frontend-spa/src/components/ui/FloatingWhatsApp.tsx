@@ -1,8 +1,35 @@
+import { useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import { config } from '../../lib/config';
 
 export default function FloatingWhatsApp() {
   const num = config.contactWhatsApp || '447747310027';
   const href = `https://wa.me/${num}?text=Hi%20:)`;
+  const { pathname } = useLocation();
+
+  // Hide on specific routes (login/register/error pages)
+  const hiddenRoutes = ['/login', '/register', '/500'];
+  if (hiddenRoutes.includes(pathname)) return null;
+
+  // Adjust bottom spacing when mobile keyboard opens
+  useEffect(() => {
+    const applyBottom = (px: number) => {
+      document.documentElement.style.setProperty('--fab-bottom', `${px}px`);
+    };
+    applyBottom(16);
+    const vv = (window as any).visualViewport as VisualViewport | undefined;
+    if (!vv) return;
+    const handler = () => {
+      const shrink = window.innerHeight - vv.height;
+      applyBottom(shrink > 120 ? 80 : 16);
+    };
+    vv.addEventListener('resize', handler);
+    vv.addEventListener('scroll', handler);
+    return () => {
+      vv.removeEventListener('resize', handler);
+      vv.removeEventListener('scroll', handler);
+    };
+  }, []);
   return (
     <a
       className="whatsapp-fab"

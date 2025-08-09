@@ -527,8 +527,18 @@ const openApi = {
           },
         },
         responses: {
-          200: { description: 'OK' },
-          400: { description: 'Invalid' },
+          200: {
+            description: 'OK',
+            content: { 'application/json': { example: { avatar_path: '/uploads/a.webp' } } },
+          },
+          400: {
+            description: 'Invalid',
+            content: {
+              'application/json': {
+                example: { error: 'Invalid image content', code: 'INVALID_IMAGE_CONTENT' },
+              },
+            },
+          },
           401: { description: 'Auth' },
         },
       },
@@ -537,7 +547,19 @@ const openApi = {
       get: {
         summary: 'Get current user',
         responses: {
-          200: { description: 'OK' },
+          200: {
+            description: 'OK',
+            content: {
+              'application/json': {
+                example: {
+                  id: 1,
+                  username: 'alice',
+                  display_name: 'Alice',
+                  avatar_path: '/uploads/a.webp',
+                },
+              },
+            },
+          },
           401: { description: 'Auth' },
         },
       },
@@ -557,7 +579,22 @@ const openApi = {
           },
         },
         responses: {
-          200: { description: 'OK' },
+          200: {
+            description: 'OK',
+            content: {
+              'application/json': {
+                example: {
+                  user: {
+                    id: 1,
+                    username: 'alice',
+                    display_name: 'Alice',
+                    avatar_path: '/uploads/a.webp',
+                  },
+                  token: 'new.jwt.token',
+                },
+              },
+            },
+          },
           400: { description: 'Invalid' },
           401: { description: 'Auth' },
         },

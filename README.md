@@ -126,6 +126,18 @@ curl -sS -X POST http://localhost:3000/api/gpus \
 - Use token: attach header `Authorization: Bearer <token>` to protected endpoints (e.g., `POST /api/gpus`, `GET /api/my/gpus`, `PATCH /api/users/me`).
 - Refresh token: `PATCH /api/users/me` returns a refreshed token containing updated `display_name`. Frontend会用新 token 覆盖旧 token 以便导航栏等位置即时更新。
 
+## Front-end env vars
+
+Create `frontend-spa/.env` (Vite) to configure contact info:
+
+```
+VITE_CONTACT_WHATSAPP=447747310027
+VITE_CONTACT_EMAIL=x1657217402@gmail.com
+```
+
+- Dev server needs a restart after changing `.env`: `cd frontend-spa && npm run dev`.
+- Production/Docker requires a rebuild to bake env into the bundle.
+
 ## Error codes (uploads)
 
 Some endpoints return machine-readable `code` for error handling:

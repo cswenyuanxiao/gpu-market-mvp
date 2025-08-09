@@ -57,6 +57,23 @@ docker compose up -d
 
 - For Node native modules like `sharp`, ensure the Dockerfile builds them inside the image (already configured). Avoid mounting host `node_modules` into the container.
 
+### Front-end env updates
+
+- Dev (Vite): after editing `frontend-spa/.env` (e.g., `VITE_CONTACT_WHATSAPP`), restart dev server:
+
+```bash
+cd frontend-spa
+npm run dev
+```
+
+- Docker/Production: env baked at build-time. Rebuild to apply changes:
+
+```bash
+bash scripts/dev-down.sh
+docker compose build --no-cache
+bash scripts/dev-up.sh
+```
+
 Environment variables (optional, with defaults in compose):
 
 - `JWT_SECRET` (set a strong value for non-local)
