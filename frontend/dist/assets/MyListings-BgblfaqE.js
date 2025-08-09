@@ -1,0 +1,94 @@
+import { j as e } from './react-query-BGeIQRPr.js';
+import { r, u as x } from './react-CTDr35rJ.js';
+import { a as m, G as h } from './index-DeqD4MY7.js';
+import { a as j, E as y, B as l, c as g } from './antd-n40S5sxn.js';
+function D() {
+  const [o, c] = r.useState([]),
+    [d, p] = r.useState(!0);
+  r.useEffect(() => {
+    let t = !0;
+    return (
+      (async () => {
+        try {
+          const i = await (await m('/api/my/gpus')).json();
+          t && c(i);
+        } finally {
+          t && p(!1);
+        }
+      })(),
+      () => {
+        t = !1;
+      }
+    );
+  }, []);
+  const a = x();
+  async function f(t) {
+    var i;
+    if (!confirm('Delete this listing?')) return;
+    const s = await m(`/api/gpus/${t}`, { method: 'DELETE' });
+    if (!s.ok) {
+      const n =
+        ((i = await s.json().catch(() => ({}))) == null ? void 0 : i.error) || 'Delete failed';
+      window.dispatchEvent(new CustomEvent('app-toast', { detail: { text: n, type: 'error' } }));
+      return;
+    }
+    (window.dispatchEvent(
+      new CustomEvent('app-toast', { detail: { text: 'Deleted', type: 'success' } }),
+    ),
+      c((n) => n.filter((u) => u.id !== t)));
+  }
+  return e.jsxs('div', {
+    className: 'container py-3',
+    children: [
+      e.jsx('h3', { children: 'My Listings' }),
+      d && e.jsx(j, { className: 'my-3' }),
+      !d &&
+        o.length === 0 &&
+        e.jsxs('div', {
+          className: 'my-4 d-flex flex-column align-items-center',
+          children: [
+            e.jsx(y, { description: 'No items' }),
+            e.jsx('div', {
+              className: 'mt-3',
+              children: e.jsx(l, {
+                type: 'primary',
+                onClick: () => a('/sell'),
+                children: 'Create your first listing',
+              }),
+            }),
+          ],
+        }),
+      e.jsx('div', {
+        className: 'row',
+        children: o.map((t) =>
+          e.jsxs(
+            'div',
+            {
+              className: 'col-md-6',
+              children: [
+                e.jsx(h, { gpu: t, onDetails: (s) => a(`/g/${s}`) }),
+                e.jsxs('div', {
+                  className: 'd-flex gap-2 mb-4',
+                  children: [
+                    e.jsx(l, {
+                      size: 'small',
+                      onClick: () => a(`/edit/${t.id}`),
+                      children: 'Edit',
+                    }),
+                    e.jsx(g, {
+                      title: 'Delete this listing?',
+                      onConfirm: () => f(t.id),
+                      children: e.jsx(l, { size: 'small', danger: !0, children: 'Delete' }),
+                    }),
+                  ],
+                }),
+              ],
+            },
+            t.id,
+          ),
+        ),
+      }),
+    ],
+  });
+}
+export { D as default };

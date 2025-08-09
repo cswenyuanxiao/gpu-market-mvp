@@ -66,6 +66,12 @@ export default function SellToUs() {
   return (
     <div className="container py-3" style={{ maxWidth: 800 }}>
       <h3>Sell to us</h3>
+      <div className="mb-3">
+        <p>
+          Get a no-obligation quote for your GPU. Share basic details and photos. We’ll email you
+          with an offer and next steps.
+        </p>
+      </div>
       <form onSubmit={handleSubmit(onSubmit)}>
         <div className="row g-3">
           <div className="col-md-6">

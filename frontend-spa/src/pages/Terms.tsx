@@ -1,12 +1,44 @@
-import { useEffect } from 'react';
-import { useTitle } from '../lib/seo';
-
 export default function Terms() {
-  useEffect(() => useTitle('Terms — GPU Market'), []);
+  document.title = 'Terms of Service — GPU Market';
   return (
-    <div className="container py-4">
-      <h3>Terms</h3>
-      <p className="text-muted">Use this demo at your own risk. No warranties provided.</p>
+    <div className="container py-4" style={{ maxWidth: 900 }}>
+      <h1>Terms of Service</h1>
+      <p>Last updated: 2025-08-09</p>
+
+      <h2>1. Acceptance of Terms</h2>
+      <p>By accessing or using GPU Market, you agree to these Terms.</p>
+
+      <h2>2. Accounts & Security</h2>
+      <ul>
+        <li>You must provide accurate registration information.</li>
+        <li>You are responsible for safeguarding your credentials.</li>
+      </ul>
+
+      <h2>3. Listings & Transactions</h2>
+      <ul>
+        <li>All listings must be accurate and lawful.</li>
+        <li>We may remove listings that violate policies.</li>
+      </ul>
+
+      <h2>4. Prohibited Activities</h2>
+      <ul>
+        <li>Fraud, counterfeit items, or misuse of the platform</li>
+        <li>Upload of harmful code or illegal content</li>
+      </ul>
+
+      <h2>5. Intellectual Property</h2>
+      <p>All site content is owned by GPU Market or its licensors.</p>
+
+      <h2>6. Disclaimers & Liability</h2>
+      <p>Service provided “as is”; we are not liable for indirect damages.</p>
+
+      <h2>7. Changes</h2>
+      <p>We may update these Terms; continued use constitutes acceptance.</p>
+
+      <h2>8. Contact</h2>
+      <p>
+        For questions about these Terms, please <a href="/contact">contact us</a>.
+      </p>
     </div>
   );
 }

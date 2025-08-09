@@ -15,13 +15,29 @@ export default function DetailsView({ item }: { item: Gpu }) {
   return (
     <div className="row g-3">
       <div className="col-md-6">
-        {activeSrc && (
+        {activeSrc ? (
           <Image
             src={activeSrc}
             srcSet={`${activeSrc} 1x, ${activeSrc} 2x`}
             width="100%"
             style={{ borderRadius: 6, marginBottom: 8 }}
           />
+        ) : (
+          <div
+            style={{
+              width: '100%',
+              height: 320,
+              borderRadius: 6,
+              marginBottom: 8,
+              background: '#f5f5f5',
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'center',
+              color: '#999',
+            }}
+          >
+            No image
+          </div>
         )}
         {Array.isArray((item as any)?.images) && (item as any).images.length > 0 && (
           <div className="d-flex flex-wrap gap-2">
@@ -38,7 +54,10 @@ export default function DetailsView({ item }: { item: Gpu }) {
                   objectFit: 'cover',
                   borderRadius: 4,
                   cursor: 'pointer',
-                  boxShadow: (im.image_path === activeSrc ? '0 0 0 2px #1677ff' : undefined) as any,
+                  border:
+                    im.image_path === activeSrc ? '2px solid #1677ff' : '2px solid transparent',
+                  boxShadow:
+                    im.image_path === activeSrc ? '0 0 0 2px rgba(22,119,255,0.2)' : undefined,
                 }}
                 preview={false}
                 onClick={() => setActiveSrc(im.image_path)}

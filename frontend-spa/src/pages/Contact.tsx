@@ -45,6 +45,12 @@ export default function Contact() {
   return (
     <div className="container py-3" style={{ maxWidth: 720 }}>
       <h3>Contact Us</h3>
+      <div className="mb-3">
+        <p>
+          Have a question about a listing, pricing, or trade-ins? Send us a message and we’ll get
+          back within 1–2 business days.
+        </p>
+      </div>
       <form onSubmit={handleSubmit(onSubmit)}>
         <FormField label="Your Name" htmlFor="name" error={errors.name?.message}>
           <Controller

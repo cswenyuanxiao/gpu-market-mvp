@@ -27,7 +27,13 @@ export default function GpuCard({ gpu, onDetails }: { gpu: Gpu; onDetails: (id: 
           <div className="card-body">
             <div className="d-flex justify-content-between align-items-start">
               <div className="pe-2 flex-grow-1">
-                <h5 className="card-title mb-1">{gpu.title}</h5>
+                <h5
+                  className="card-title mb-1"
+                  title={gpu.title}
+                  style={{ whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}
+                >
+                  {gpu.title}
+                </h5>
                 <div className="d-flex gap-1 flex-wrap">
                   {isNewlyAdded && (
                     <span className="badge bg-success-subtle text-success">Just added</span>

@@ -126,6 +126,14 @@ curl -sS -X POST http://localhost:3000/api/gpus \
 - Use token: attach header `Authorization: Bearer <token>` to protected endpoints (e.g., `POST /api/gpus`, `GET /api/my/gpus`, `PATCH /api/users/me`).
 - Refresh token: `PATCH /api/users/me` returns a refreshed token containing updated `display_name`. Frontend会用新 token 覆盖旧 token 以便导航栏等位置即时更新。
 
+## Error codes (uploads)
+
+Some endpoints return machine-readable `code` for error handling:
+
+- `INVALID_IMAGE_CONTENT`: File content/type failed validation (MIME/magic bytes mismatch)
+- `IMAGE_TOO_LARGE`: Image exceeds pixel limit (server-side sharp metadata check)
+- `MISSING_FILE`: Required file field not present
+
 ## Frontend UX (Phase 1 additions)
 
 - Details modal: large image, seller avatar/name, price, condition, copy-link button. You can deep-link a listing with `?id=123`.

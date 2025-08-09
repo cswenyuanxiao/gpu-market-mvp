@@ -133,6 +133,13 @@ export default function Home() {
             { value: 'date_new', label: 'Date, new to old' },
           ]}
         />
+        <Button
+          onClick={() => {
+            setUiSort(isEverything ? 'price_desc' : 'date_new');
+          }}
+        >
+          Reset sort
+        </Button>
         <Button type="primary" onClick={() => refetch()}>
           Search
         </Button>
