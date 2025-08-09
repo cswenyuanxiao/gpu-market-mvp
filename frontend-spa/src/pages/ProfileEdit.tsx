@@ -1,5 +1,6 @@
 import { FormEvent, useEffect, useState } from 'react';
 import { apiFetch } from '../lib/api';
+import FormField from '../components/ui/FormField';
 
 export default function ProfileEdit() {
   const [display, setDisplay] = useState('');
@@ -51,15 +52,12 @@ export default function ProfileEdit() {
     <div className="container py-3" style={{ maxWidth: 520 }}>
       <h3>Edit Profile</h3>
       <form onSubmit={onSubmit}>
-        <div className="mb-3">
-          <label className="form-label">Display Name</label>
+        <FormField label="Display Name">
           <input className="form-control" value={display} onChange={(e) => setDisplay(e.target.value)} disabled />
-          <div className="form-text">Display name editing requires backend endpoint; coming later.</div>
-        </div>
-        <div className="mb-3">
-          <label className="form-label" htmlFor="avatar">Avatar</label>
+        </FormField>
+        <FormField label="Avatar" htmlFor="avatar">
           <input id="avatar" type="file" accept="image/*" className="form-control" onChange={onAvatar} />
-        </div>
+        </FormField>
         {avatarPreview && (
           <div className="mb-3">
             <img src={avatarPreview} style={{ width: 96, height: 96, objectFit: 'cover' }} className="rounded" />

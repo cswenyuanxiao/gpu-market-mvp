@@ -14,6 +14,10 @@ import Edit from './pages/Edit';
 import NotFound from './pages/NotFound';
 import ProfileEdit from './pages/ProfileEdit';
 import { useScrollRestoration } from './lib/useScrollRestoration';
+import About from './pages/About';
+import Privacy from './pages/Privacy';
+import Terms from './pages/Terms';
+import ServerError from './pages/ServerError';
 
 export default function App() {
   const { api, messages } = useToast();
@@ -81,6 +85,10 @@ export default function App() {
           }
         />
         <Route path="*" element={<NotFound />} />
+        <Route path="/about" element={<About />} />
+        <Route path="/privacy" element={<Privacy />} />
+        <Route path="/terms" element={<Terms />} />
+        <Route path="/500" element={<ServerError />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route
