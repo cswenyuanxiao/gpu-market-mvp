@@ -246,34 +246,26 @@ export default function App() {
                   items: [
                     {
                       key: 'profile',
-                      label: (
-                        <div className="d-flex align-items-center gap-2">
-                          <span>{user.display_name || user.username}</span>
-                        </div>
-                      ),
+                      label: user.display_name || user.username,
                       disabled: true,
                     },
                     { type: 'divider' },
                     {
                       key: 'my-listings',
                       label: 'My Listings',
-                      icon: <span>📋</span>,
                     },
                     {
                       key: 'my-profile',
                       label: 'My Profile',
-                      icon: <span>👤</span>,
                     },
                     {
                       key: 'edit-profile',
                       label: 'Edit Profile',
-                      icon: <span>✏️</span>,
                     },
                     { type: 'divider' },
                     {
                       key: 'logout',
                       label: 'Logout',
-                      icon: <span>🚪</span>,
                       danger: true,
                     },
                   ],
@@ -299,7 +291,7 @@ export default function App() {
                 }}
               >
                 <Button size="small" type="default">
-                  {user.display_name || user.username} ▼
+                  {user.display_name || user.username}
                 </Button>
               </Dropdown>
             ) : (
