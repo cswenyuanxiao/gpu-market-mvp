@@ -1,16 +1,16 @@
 import { j as s } from './react-query-BGeIQRPr.js';
-import { R as t } from './react-CTDr35rJ.js';
-import { f as d } from './index-DeqD4MY7.js';
-import { g as i, h as p, i as o, j as h, A as n, B as g } from './antd-n40S5sxn.js';
+import { R as l } from './react-CTDr35rJ.js';
+import { f as c } from './index-B2FCGk5w.js';
+import { g as n, h as p, i as o, j as h, A as d, B as g } from './antd-n40S5sxn.js';
 function v({ item: a }) {
-  const [e, l] = t.useState(null);
+  const [e, t] = l.useState(null);
   return (
-    t.useEffect(() => {
+    l.useEffect(() => {
       const r =
         Array.isArray(a == null ? void 0 : a.images) && a.images.length > 0
           ? a.images[0].image_path
           : null;
-      l((a == null ? void 0 : a.image_path) || r || null);
+      t((a == null ? void 0 : a.image_path) || r || null);
     }, [
       a == null ? void 0 : a.id,
       a == null ? void 0 : a.image_path,
@@ -22,20 +22,34 @@ function v({ item: a }) {
         s.jsxs('div', {
           className: 'col-md-6',
           children: [
-            e &&
-              s.jsx(i, {
-                src: e,
-                srcSet: `${e} 1x, ${e} 2x`,
-                width: '100%',
-                style: { borderRadius: 6, marginBottom: 8 },
-              }),
+            e
+              ? s.jsx(n, {
+                  src: e,
+                  srcSet: `${e} 1x, ${e} 2x`,
+                  width: '100%',
+                  style: { borderRadius: 6, marginBottom: 8 },
+                })
+              : s.jsx('div', {
+                  style: {
+                    width: '100%',
+                    height: 320,
+                    borderRadius: 6,
+                    marginBottom: 8,
+                    background: '#f5f5f5',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    color: '#999',
+                  },
+                  children: 'No image',
+                }),
             Array.isArray(a == null ? void 0 : a.images) &&
               a.images.length > 0 &&
               s.jsx('div', {
                 className: 'd-flex flex-wrap gap-2',
-                children: a.images.map((r, c) =>
+                children: a.images.map((r, i) =>
                   s.jsx(
-                    i,
+                    n,
                     {
                       src: r.thumb_path || r.image_path,
                       width: 72,
@@ -47,12 +61,13 @@ function v({ item: a }) {
                         objectFit: 'cover',
                         borderRadius: 4,
                         cursor: 'pointer',
-                        boxShadow: r.image_path === e ? '0 0 0 2px #1677ff' : void 0,
+                        border: r.image_path === e ? '2px solid #1677ff' : '2px solid transparent',
+                        boxShadow: r.image_path === e ? '0 0 0 2px rgba(22,119,255,0.2)' : void 0,
                       },
                       preview: !1,
-                      onClick: () => l(r.image_path),
+                      onClick: () => t(r.image_path),
                     },
-                    c,
+                    i,
                   ),
                 ),
               }),
@@ -74,7 +89,7 @@ function v({ item: a }) {
                     text: a.condition,
                   }),
                 }),
-                s.jsx(o.Title, { level: 4, style: { margin: 0 }, children: d(a.price) }),
+                s.jsx(o.Title, { level: 4, style: { margin: 0 }, children: c(a.price) }),
                 s.jsx(o.Paragraph, {
                   style: { whiteSpace: 'pre-wrap' },
                   children: a.description || '',
@@ -85,8 +100,8 @@ function v({ item: a }) {
               className: 'd-flex align-items-center gap-2 mb-3',
               children: [
                 a.seller_avatar
-                  ? s.jsx(n, { size: 32, src: a.seller_avatar })
-                  : s.jsx(n, { size: 32, children: (a.seller_name || 'U')[0] }),
+                  ? s.jsx(d, { size: 32, src: a.seller_avatar })
+                  : s.jsx(d, { size: 32, children: (a.seller_name || 'U')[0] }),
                 s.jsx('span', { children: a.seller_name || '' }),
               ],
             }),
@@ -98,7 +113,7 @@ function v({ item: a }) {
   );
 }
 function x({ id: a }) {
-  const [e, l] = t.useState(!1);
+  const [e, t] = l.useState(!1);
   return s.jsx(g, {
     type: e ? 'primary' : 'default',
     disabled: e,
@@ -106,11 +121,11 @@ function x({ id: a }) {
       const r = `${location.origin}/g/${a}`;
       try {
         (await navigator.clipboard.writeText(r),
-          l(!0),
+          t(!0),
           window.dispatchEvent(
             new CustomEvent('app-toast', { detail: { text: 'Link copied', type: 'success' } }),
           ),
-          setTimeout(() => l(!1), 2e3));
+          setTimeout(() => t(!1), 2e3));
       } catch {
         window.dispatchEvent(
           new CustomEvent('app-toast', { detail: { text: 'Copy failed', type: 'error' } }),

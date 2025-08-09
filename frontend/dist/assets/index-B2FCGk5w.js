@@ -3,109 +3,109 @@ const __vite__mapDeps = (
   m = __vite__mapDeps,
   d = m.f ||
     (m.f = [
-      'assets/DetailsModal-Bd05p2ET.js',
+      'assets/DetailsModal-BAOxp9XG.js',
       'assets/react-query-BGeIQRPr.js',
       'assets/react-CTDr35rJ.js',
-      'assets/DetailsView-CNdAgkdP.js',
+      'assets/DetailsView-DUPy39j2.js',
       'assets/antd-n40S5sxn.js',
       'assets/ImageUploader-DWnjEkzb.js',
-      'assets/Profile-CU7matqf.js',
-      'assets/Login-Bmq7E44B.js',
+      'assets/Profile-CkBj_o5F.js',
+      'assets/Login-qu9XJ7-5.js',
       'assets/FormField-iyrhpl26.js',
       'assets/zod-SQF3v9p3.js',
-      'assets/Register-CG94LnDZ.js',
-      'assets/MyListings-BgblfaqE.js',
-      'assets/Detail-Da_iDBBw.js',
-      'assets/Sell-C4byLGCt.js',
-      'assets/Edit-CQCD3esS.js',
+      'assets/Register-G7iru1yt.js',
+      'assets/MyListings-H1ILjpc9.js',
+      'assets/Detail-CKZNOBjW.js',
+      'assets/Sell-BmERp_b2.js',
+      'assets/Edit-Chn7W6El.js',
       'assets/NotFound-Bq8LLBzl.js',
-      'assets/ProfileEdit-B62bD3S_.js',
-      'assets/SellToUs-BIIDQw1A.js',
-      'assets/Contact-DrcU2V_Y.js',
+      'assets/ProfileEdit-BY09EPPb.js',
+      'assets/SellToUs-f7XL_Qfl.js',
+      'assets/Contact-qAX44P1o.js',
     ]),
 ) => i.map((i) => d[i]);
-import { j as e, u as me, Q as he, a as fe } from './react-query-BGeIQRPr.js';
+import { j as e, u as ue, Q as me, a as he } from './react-query-BGeIQRPr.js';
 import {
   c as xe,
   r as o,
-  u as pe,
-  e as Z,
-  g as ve,
-  R as X,
+  u as fe,
+  e as K,
+  g as pe,
+  R as Z,
   L as u,
   f as je,
   h as b,
-  B as ge,
+  B as ve,
 } from './react-CTDr35rJ.js';
 import {
-  I as ee,
-  T as z,
-  S as P,
-  B as v,
-  R as G,
-  a as ye,
-  P as be,
-  D as te,
-  s as _e,
+  I as X,
+  T as V,
+  S as C,
+  B as j,
+  R as z,
+  a as ge,
+  P as ye,
+  D as ee,
+  s as be,
   b as we,
-  M as Se,
+  M as _e,
 } from './antd-n40S5sxn.js';
 (function () {
   const s = document.createElement('link').relList;
   if (s && s.supports && s.supports('modulepreload')) return;
   for (const n of document.querySelectorAll('link[rel="modulepreload"]')) l(n);
   new MutationObserver((n) => {
-    for (const i of n)
-      if (i.type === 'childList')
-        for (const a of i.addedNodes) a.tagName === 'LINK' && a.rel === 'modulepreload' && l(a);
+    for (const a of n)
+      if (a.type === 'childList')
+        for (const i of a.addedNodes) i.tagName === 'LINK' && i.rel === 'modulepreload' && l(i);
   }).observe(document, { childList: !0, subtree: !0 });
   function r(n) {
-    const i = {};
+    const a = {};
     return (
-      n.integrity && (i.integrity = n.integrity),
-      n.referrerPolicy && (i.referrerPolicy = n.referrerPolicy),
+      n.integrity && (a.integrity = n.integrity),
+      n.referrerPolicy && (a.referrerPolicy = n.referrerPolicy),
       n.crossOrigin === 'use-credentials'
-        ? (i.credentials = 'include')
+        ? (a.credentials = 'include')
         : n.crossOrigin === 'anonymous'
-          ? (i.credentials = 'omit')
-          : (i.credentials = 'same-origin'),
-      i
+          ? (a.credentials = 'omit')
+          : (a.credentials = 'same-origin'),
+      a
     );
   }
   function l(n) {
     if (n.ep) return;
     n.ep = !0;
-    const i = r(n);
-    fetch(n.href, i);
+    const a = r(n);
+    fetch(n.href, a);
   }
 })();
-var T = {},
-  U = xe;
-((T.createRoot = U.createRoot), (T.hydrateRoot = U.hydrateRoot));
-const Ne = 'modulepreload',
-  Ee = function (t) {
+var R = {},
+  G = xe;
+((R.createRoot = G.createRoot), (R.hydrateRoot = G.hydrateRoot));
+const Se = 'modulepreload',
+  Ne = function (t) {
     return '/' + t;
   },
-  B = {},
-  w = function (s, r, l) {
+  U = {},
+  _ = function (s, r, l) {
     let n = Promise.resolve();
     if (r && r.length > 0) {
       document.getElementsByTagName('link');
-      const i = document.querySelector('meta[property=csp-nonce]'),
-        a = (i == null ? void 0 : i.nonce) || (i == null ? void 0 : i.getAttribute('nonce'));
+      const a = document.querySelector('meta[property=csp-nonce]'),
+        i = (a == null ? void 0 : a.nonce) || (a == null ? void 0 : a.getAttribute('nonce'));
       n = Promise.all(
         r.map((h) => {
-          if (((h = Ee(h)), h in B)) return;
-          B[h] = !0;
+          if (((h = Ne(h)), h in U)) return;
+          U[h] = !0;
           const c = h.endsWith('.css'),
             g = c ? '[rel="stylesheet"]' : '';
           if (document.querySelector(`link[href="${h}"]${g}`)) return;
           const d = document.createElement('link');
           if (
-            ((d.rel = c ? 'stylesheet' : Ne),
+            ((d.rel = c ? 'stylesheet' : Se),
             c || ((d.as = 'script'), (d.crossOrigin = '')),
             (d.href = h),
-            a && d.setAttribute('nonce', a),
+            i && d.setAttribute('nonce', i),
             document.head.appendChild(d),
             c)
           )
@@ -118,15 +118,15 @@ const Ne = 'modulepreload',
     }
     return n
       .then(() => s())
-      .catch((i) => {
-        const a = new Event('vite:preloadError', { cancelable: !0 });
-        if (((a.payload = i), window.dispatchEvent(a), !a.defaultPrevented)) throw i;
+      .catch((a) => {
+        const i = new Event('vite:preloadError', { cancelable: !0 });
+        if (((i.payload = a), window.dispatchEvent(i), !i.defaultPrevented)) throw a;
       });
   };
-var K, Y;
-const Ae =
+var Y, J;
+const Ee =
   (typeof import.meta < 'u' &&
-    ((Y = (K = import.meta) == null ? void 0 : K.env) == null ? void 0 : Y.VITE_API_BASE)) ||
+    ((J = (Y = import.meta) == null ? void 0 : Y.env) == null ? void 0 : J.VITE_API_BASE)) ||
   window.location.origin;
 async function F(t, s = {}) {
   const r = new Headers(s.headers || {}),
@@ -134,22 +134,22 @@ async function F(t, s = {}) {
   l && !r.has('Authorization') && r.set('Authorization', 'Bearer ' + l);
   let n;
   try {
-    n = await fetch(t.startsWith('http') ? t : Ae + t, { ...s, headers: r });
-  } catch (a) {
+    n = await fetch(t.startsWith('http') ? t : Ee + t, { ...s, headers: r });
+  } catch (i) {
     throw (
       typeof window < 'u' &&
         window.dispatchEvent(
           new CustomEvent('app-toast', {
-            detail: { text: (a == null ? void 0 : a.message) || 'Network error', type: 'error' },
+            detail: { text: (i == null ? void 0 : i.message) || 'Network error', type: 'error' },
           }),
         ),
-      a
+      i
     );
   }
-  const i = n.headers.get('x-request-id');
-  if (i) {
-    const a = document.getElementById('reqIdBadge');
-    a && (a.textContent = i);
+  const a = n.headers.get('x-request-id');
+  if (a) {
+    const i = document.getElementById('reqIdBadge');
+    i && (i.textContent = a);
   }
   if (
     (n.status === 401 || n.status === 403) &&
@@ -162,18 +162,18 @@ async function F(t, s = {}) {
       }),
     );
     try {
-      const { pathname: a, search: h } = window.location;
+      const { pathname: i, search: h } = window.location;
       if (
         [
           (m) => m === '/sell',
           (m) => m.startsWith('/edit/'),
           (m) => m === '/my',
           (m) => m === '/profile/edit',
-        ].some((m) => m(a)) &&
-        !(a === '/login')
+        ].some((m) => m(i)) &&
+        !(i === '/login')
       ) {
         try {
-          sessionStorage.setItem('from', a + (h || ''));
+          sessionStorage.setItem('from', i + (h || ''));
         } catch {}
         window.location.href = '/login';
       }
@@ -181,50 +181,50 @@ async function F(t, s = {}) {
   }
   return n;
 }
-function se() {
+function te() {
   const t = o.useMemo(() => new URLSearchParams(location.search), [location.search]),
     s = o.useCallback(() => Object.fromEntries(t.entries()), [t]),
     r = o.useCallback((l) => {
       const n = new URLSearchParams(location.search);
-      (Object.entries(l).forEach(([i, a]) => {
-        a === void 0 || a === '' ? n.delete(i) : n.set(i, String(a));
+      (Object.entries(l).forEach(([a, i]) => {
+        i === void 0 || i === '' ? n.delete(a) : n.set(a, String(i));
       }),
         history.replaceState({}, '', `?${n.toString()}`));
     }, []);
   return { getAll: s, setAll: r };
 }
-function $({ onApply: t }) {
-  const { getAll: s, setAll: r } = se(),
+function B({ onApply: t }) {
+  const { getAll: s, setAll: r } = te(),
     l = s(),
-    [n, i] = o.useState(l.q || ''),
-    [a, h] = o.useState(l.min || ''),
+    [n, a] = o.useState(l.q || ''),
+    [i, h] = o.useState(l.min || ''),
     [c, g] = o.useState(l.max || ''),
     [d, m] = o.useState(l.brand || ''),
-    [y, j] = o.useState(l.vram_min || ''),
-    [x, S] = o.useState(l.condition || '');
+    [y, v] = o.useState(l.vram_min || ''),
+    [f, S] = o.useState(l.condition || '');
   return (
     o.useEffect(() => {
-      r({ q: n, min: a, max: c, brand: d, vram_min: y, condition: x });
-    }, [n, a, c, d, y, x, r]),
+      r({ q: n, min: i, max: c, brand: d, vram_min: y, condition: f });
+    }, [n, i, c, d, y, f, r]),
     e.jsxs('div', {
       children: [
-        e.jsx(ee, {
+        e.jsx(X, {
           className: 'mb-2',
           placeholder: 'Search title or description',
           value: n,
-          onChange: (p) => i(p.target.value),
+          onChange: (p) => a(p.target.value),
         }),
         e.jsxs('div', {
           className: 'd-flex gap-2 mb-2',
           children: [
-            e.jsx(z, {
+            e.jsx(V, {
               placeholder: 'Min price',
-              value: a === '' ? void 0 : Number(a),
+              value: i === '' ? void 0 : Number(i),
               onChange: (p) => h(p == null ? '' : String(p)),
               min: 0,
               style: { width: '100%' },
             }),
-            e.jsx(z, {
+            e.jsx(V, {
               placeholder: 'Max price',
               value: c === '' ? void 0 : Number(c),
               onChange: (p) => g(p == null ? '' : String(p)),
@@ -236,7 +236,7 @@ function $({ onApply: t }) {
         e.jsxs('div', {
           className: 'd-flex gap-2 mb-2',
           children: [
-            e.jsx(P, {
+            e.jsx(C, {
               value: d,
               style: { minWidth: 140 },
               onChange: (p) => m(p),
@@ -246,10 +246,10 @@ function $({ onApply: t }) {
                 { value: 'AMD', label: 'AMD' },
               ],
             }),
-            e.jsx(P, {
+            e.jsx(C, {
               value: y,
               style: { minWidth: 140 },
-              onChange: (p) => j(String(p)),
+              onChange: (p) => v(String(p)),
               options: [
                 { value: '', label: 'Any VRAM' },
                 { value: '4', label: '≥ 4GB' },
@@ -261,9 +261,9 @@ function $({ onApply: t }) {
             }),
           ],
         }),
-        e.jsx(P, {
+        e.jsx(C, {
           className: 'mb-2',
-          value: x,
+          value: f,
           onChange: (p) => S(p),
           options: [
             { value: '', label: 'Any condition' },
@@ -274,19 +274,19 @@ function $({ onApply: t }) {
         e.jsxs('div', {
           className: 'd-flex gap-2 align-items-center',
           children: [
-            e.jsx(v, {
+            e.jsx(j, {
               type: 'primary',
               onClick: () =>
-                t({ q: n, min: a, max: c, brand: d, vram_min: y, condition: x, page: '1' }),
+                t({ q: n, min: i, max: c, brand: d, vram_min: y, condition: f, page: '1' }),
               children: 'Search',
             }),
-            e.jsx(v, {
+            e.jsx(j, {
               onClick: () => {
-                (i(''),
+                (a(''),
                   h(''),
                   g(''),
                   m(''),
-                  j(''),
+                  v(''),
                   S(''),
                   t({
                     q: '',
@@ -306,16 +306,16 @@ function $({ onApply: t }) {
     })
   );
 }
-const Ie = new Intl.NumberFormat('en-GB', {
+const Ae = new Intl.NumberFormat('en-GB', {
   style: 'currency',
   currency: 'GBP',
   maximumFractionDigits: 0,
 });
-function Pe(t) {
+function Ie(t) {
   const s = Number(t || 0);
-  return Ie.format(s);
+  return Ae.format(s);
 }
-function De(t) {
+function Ce(t) {
   if (!t) return '';
   try {
     return new Date(t).toLocaleDateString();
@@ -323,20 +323,20 @@ function De(t) {
     return '';
   }
 }
-function Ce({
+function Pe({
   src: t,
   alt: s = '',
   className: r,
   style: l,
   width: n,
-  height: i,
-  srcSet: a,
+  height: a,
+  srcSet: i,
   sizes: h,
   fallbackSrc: c,
 }) {
   const g = o.useRef(null),
     [d, m] = o.useState(!1),
-    [y, j] = o.useState(!1);
+    [y, v] = o.useState(!1);
   o.useEffect(() => {
     const S = g.current;
     if (!S) return;
@@ -345,30 +345,30 @@ function Ce({
       return;
     }
     const p = new IntersectionObserver(
-      (k) => {
-        const N = k[0];
+      (D) => {
+        const N = D[0];
         N && N.isIntersecting && (m(!0), p.disconnect());
       },
       { rootMargin: '200px' },
     );
     return (p.observe(S), () => p.disconnect());
   }, []);
-  const x = y && c ? c : t;
+  const f = y && c ? c : t;
   return e.jsx('img', {
     ref: g,
-    src: d ? x : void 0,
-    srcSet: d ? a : void 0,
+    src: d ? f : void 0,
+    srcSet: d ? i : void 0,
     sizes: d ? h : void 0,
     alt: s,
     className: r,
     style: { backgroundColor: '#f5f5f5', ...l },
     width: n,
-    height: i,
+    height: a,
     loading: 'lazy',
-    onError: () => j(!0),
+    onError: () => v(!0),
   });
 }
-function ke({ gpu: t, onDetails: s }) {
+function De({ gpu: t, onDetails: s }) {
   const r = (() => {
     if (!t.created_at) return !1;
     const l = new Date(t.created_at).getTime();
@@ -382,7 +382,7 @@ function ke({ gpu: t, onDetails: s }) {
         t.image_path &&
           e.jsx('div', {
             className: 'col-4',
-            children: e.jsx(Ce, {
+            children: e.jsx(Pe, {
               src: t.image_path,
               fallbackSrc: t.seller_avatar || void 0,
               srcSet: `${t.image_path} 1x, ${t.image_path} 2x`,
@@ -442,7 +442,7 @@ function ke({ gpu: t, onDetails: s }) {
                   e.jsx('div', {
                     className: 'ms-2 text-end',
                     style: { minWidth: 90 },
-                    children: e.jsx('strong', { className: 'text-dark', children: Pe(t.price) }),
+                    children: e.jsx('strong', { className: 'text-dark', children: Ie(t.price) }),
                   }),
                 ],
               }),
@@ -484,7 +484,7 @@ function ke({ gpu: t, onDetails: s }) {
                   t.created_at &&
                     e.jsxs('small', {
                       className: 'text-muted ms-auto',
-                      children: ['Added: ', De(t.created_at)],
+                      children: ['Added: ', Ce(t.created_at)],
                     }),
                 ],
               }),
@@ -510,26 +510,26 @@ function ke({ gpu: t, onDetails: s }) {
     }),
   });
 }
-function D(t, s = 'GPU Market — Buy & Sell Used GPUs') {
+function ke(t, s = 'GPU Market — Buy & Sell Used GPUs') {
   if (typeof document > 'u') return;
   const r = document.title;
   return (
-    (document.title = t || s),
+    (document.title = t),
     () => {
       document.title = r || s;
     }
   );
 }
 const Le = o.lazy(() =>
-  w(() => import('./DetailsModal-Bd05p2ET.js'), __vite__mapDeps([0, 1, 2, 3, 4])),
+  _(() => import('./DetailsModal-BAOxp9XG.js'), __vite__mapDeps([0, 1, 2, 3, 4])),
 );
-function q() {
-  var O;
-  const { getAll: t, setAll: s } = se(),
+function W() {
+  var M;
+  const { getAll: t, setAll: s } = te(),
     r = t(),
     l = typeof location < 'u' && location.pathname === '/everything',
-    [n, i] = o.useState(r.q || ''),
-    [a, h] = o.useState(r.sort || (l ? 'price_desc' : 'date_new')),
+    [n, a] = o.useState(r.q || ''),
+    [i, h] = o.useState(r.sort || (l ? 'price_desc' : 'date_new')),
     [c, g] = o.useState({
       min: r.min || '',
       max: r.max || '',
@@ -538,61 +538,61 @@ function q() {
       condition: r.condition || '',
     }),
     [d, m] = o.useState(null),
-    [y, j] = o.useState(!1),
-    [x, S] = o.useState(Number(r.page || '1')),
+    [y, v] = o.useState(!1),
+    [f, S] = o.useState(Number(r.page || '1')),
     [p] = o.useState(12);
-  o.useEffect(() => D('GPU Market — Shop Graphics Cards'), []);
-  const k = o.useMemo(() => {
-      let f = 'newest';
-      a === 'price_asc'
-        ? (f = 'price_asc')
-        : a === 'price_desc'
-          ? (f = 'price_desc')
-          : (a === 'date_new' ||
-              a === 'featured' ||
-              a === 'best' ||
-              a === 'alpha_asc' ||
-              a === 'alpha_desc' ||
-              a === 'date_old') &&
-            (f = 'newest');
-      const _ = new URLSearchParams();
+  o.useEffect(() => ke('GPU Market — Shop Graphics Cards'), []);
+  const D = o.useMemo(() => {
+      let x = 'newest';
+      i === 'price_asc'
+        ? (x = 'price_asc')
+        : i === 'price_desc'
+          ? (x = 'price_desc')
+          : (i === 'date_new' ||
+              i === 'featured' ||
+              i === 'best' ||
+              i === 'alpha_asc' ||
+              i === 'alpha_desc' ||
+              i === 'date_old') &&
+            (x = 'newest');
+      const w = new URLSearchParams();
       return (
-        n && _.set('q', n),
-        _.set('sort', f),
-        Object.entries(c).forEach(([V, A]) => {
-          A && _.set(V, String(A));
+        n && w.set('q', n),
+        w.set('sort', x),
+        Object.entries(c).forEach(([O, A]) => {
+          A && w.set(O, String(A));
         }),
-        _.set('page', String(x)),
-        _.set('per', String(p)),
-        _
+        w.set('page', String(f)),
+        w.set('per', String(p)),
+        w
       );
-    }, [n, a, c, x, p]),
+    }, [n, i, c, f, p]),
     {
       data: N,
-      isLoading: L,
-      isError: oe,
-      refetch: ce,
-      isFetching: de,
-    } = me({
-      queryKey: ['search', n, a, c, x, p],
+      isLoading: k,
+      isError: le,
+      refetch: oe,
+      isFetching: ce,
+    } = ue({
+      queryKey: ['search', n, i, c, f, p],
       queryFn: async () => (
-        s({ q: n, sort: a, page: String(x), ...c }),
-        (await F('/api/search?' + k.toString())).json()
+        s({ q: n, sort: i, page: String(f), ...c }),
+        (await F('/api/search?' + D.toString())).json()
       ),
-      placeholderData: (f) => f,
+      placeholderData: (x) => x,
       staleTime: 3e4,
       retry: 2,
     });
   o.useEffect(() => {
-    const f = document.querySelector('.container');
-    f && f.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  }, [x]);
-  const M = o.useRef(!1);
-  function ue() {
-    M.current ||
-      ((M.current = !0),
-      w(() => import('./DetailsModal-Bd05p2ET.js'), __vite__mapDeps([0, 1, 2, 3, 4])),
-      w(() => import('./ImageUploader-DWnjEkzb.js'), __vite__mapDeps([5, 1, 2])));
+    const x = document.querySelector('.container');
+    x && x.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }, [f]);
+  const T = o.useRef(!1);
+  function de() {
+    T.current ||
+      ((T.current = !0),
+      _(() => import('./DetailsModal-BAOxp9XG.js'), __vite__mapDeps([0, 1, 2, 3, 4])),
+      _(() => import('./ImageUploader-DWnjEkzb.js'), __vite__mapDeps([5, 1, 2])));
   }
   return e.jsxs('div', {
     className: 'container py-3',
@@ -620,15 +620,11 @@ function q() {
       e.jsxs('div', {
         className: 'd-flex gap-2 my-3',
         children: [
-          e.jsx(ee, {
-            placeholder: 'Search GPUs...',
-            value: n,
-            onChange: (f) => i(f.target.value),
-          }),
-          e.jsx(P, {
-            value: a,
+          e.jsx(X, { placeholder: 'Search GPUs...', value: n, onChange: (x) => a(x.target.value) }),
+          e.jsx(C, {
+            value: i,
             style: { width: 220 },
-            onChange: (f) => h(f),
+            onChange: (x) => h(x),
             options: [
               { value: 'featured', label: 'Featured' },
               { value: 'best', label: 'Best selling' },
@@ -640,8 +636,14 @@ function q() {
               { value: 'date_new', label: 'Date, new to old' },
             ],
           }),
-          e.jsx(v, { type: 'primary', onClick: () => ce(), children: 'Search' }),
-          e.jsx(v, { onClick: () => j(!0), className: 'd-md-none', children: 'Filters' }),
+          e.jsx(j, {
+            onClick: () => {
+              h(l ? 'price_desc' : 'date_new');
+            },
+            children: 'Reset sort',
+          }),
+          e.jsx(j, { type: 'primary', onClick: () => oe(), children: 'Search' }),
+          e.jsx(j, { onClick: () => v(!0), className: 'd-md-none', children: 'Filters' }),
         ],
       }),
       e.jsxs('div', {
@@ -651,9 +653,9 @@ function q() {
             className: 'col-md-4',
             children: [
               e.jsx('h5', { children: 'Search & Filters' }),
-              e.jsx($, {
-                onApply: (f) => {
-                  (g((_) => ({ ..._, ...f })), S(1));
+              e.jsx(B, {
+                onApply: (x) => {
+                  (g((w) => ({ ...w, ...x })), S(1));
                 },
               }),
             ],
@@ -661,10 +663,10 @@ function q() {
           e.jsxs('div', {
             className: 'col-md-8',
             children: [
-              oe &&
+              le &&
                 e.jsx('div', {
                   className: 'my-4',
-                  children: e.jsx(G, {
+                  children: e.jsx(z, {
                     status: 'error',
                     title: 'Failed to load list',
                     subTitle: 'Please try again later.',
@@ -672,49 +674,49 @@ function q() {
                 }),
               e.jsxs('div', {
                 className: 'row',
-                onMouseEnter: ue,
+                onMouseEnter: de,
                 children: [
-                  (L || de) &&
+                  (k || ce) &&
                     e.jsx(e.Fragment, {
-                      children: Array.from({ length: 4 }).map((f, _) =>
+                      children: Array.from({ length: 4 }).map((x, w) =>
                         e.jsx(
                           'div',
                           {
                             className: 'col-md-6 mb-3',
                             children: e.jsx('div', {
                               className: 'card p-3',
-                              children: e.jsx(ye, {}),
+                              children: e.jsx(ge, {}),
                             }),
                           },
-                          _,
+                          w,
                         ),
                       ),
                     }),
-                  !L &&
-                    ((N == null ? void 0 : N.results) || []).map((f) =>
+                  !k &&
+                    ((N == null ? void 0 : N.results) || []).map((x) =>
                       e.jsx(
                         'div',
                         {
                           className: 'col-md-6',
-                          children: e.jsx(ke, {
-                            gpu: f,
-                            onDetails: async (_) => {
-                              const A = await (await F(`/api/gpus/${_}`)).json();
+                          children: e.jsx(De, {
+                            gpu: x,
+                            onDetails: async (w) => {
+                              const A = await (await F(`/api/gpus/${w}`)).json();
                               m(A);
                             },
                           }),
                         },
-                        f.id,
+                        x.id,
                       ),
                     ),
-                  !L &&
-                    (((O = N == null ? void 0 : N.results) == null ? void 0 : O.length) || 0) ===
+                  !k &&
+                    (((M = N == null ? void 0 : N.results) == null ? void 0 : M.length) || 0) ===
                       0 &&
                     e.jsx('div', {
                       className: 'col-12',
                       children: e.jsx('div', {
                         className: 'my-4',
-                        children: e.jsx(G, {
+                        children: e.jsx(z, {
                           status: 'info',
                           title: 'No results',
                           subTitle:
@@ -725,9 +727,9 @@ function q() {
                             n || c.min || c.max || c.brand || c.vram_min || c.condition
                               ? e.jsx('div', {
                                   className: 'd-flex gap-2 justify-content-center',
-                                  children: e.jsx(v, {
+                                  children: e.jsx(j, {
                                     onClick: () => {
-                                      (i(''),
+                                      (a(''),
                                         g({
                                           min: '',
                                           max: '',
@@ -743,19 +745,19 @@ function q() {
                               : e.jsxs('div', {
                                   className: 'd-flex gap-2 justify-content-center',
                                   children: [
-                                    e.jsx(v, {
+                                    e.jsx(j, {
                                       href: '/?brand=NVIDIA&vram_min=12',
                                       children: 'NVIDIA 40 Series',
                                     }),
-                                    e.jsx(v, {
+                                    e.jsx(j, {
                                       href: '/?brand=NVIDIA&vram_min=8',
                                       children: 'NVIDIA 30 Series',
                                     }),
-                                    e.jsx(v, {
+                                    e.jsx(j, {
                                       href: '/?brand=AMD&vram_min=12',
                                       children: 'AMD 7000 Series',
                                     }),
-                                    e.jsx(v, {
+                                    e.jsx(j, {
                                       href: '/?brand=AMD&vram_min=8',
                                       children: 'AMD 6000 Series',
                                     }),
@@ -768,11 +770,11 @@ function q() {
               }),
               e.jsx('div', {
                 className: 'd-flex justify-content-center mt-3',
-                children: e.jsx(be, {
-                  current: x,
+                children: e.jsx(ye, {
+                  current: f,
                   pageSize: p,
                   total: (N == null ? void 0 : N.total) || 0,
-                  onChange: (f) => S(f),
+                  onChange: (x) => S(x),
                   showSizeChanger: !1,
                 }),
               }),
@@ -780,14 +782,14 @@ function q() {
           }),
         ],
       }),
-      e.jsxs(te, {
+      e.jsxs(ee, {
         open: y,
-        onClose: () => j(!1),
+        onClose: () => v(!1),
         children: [
           e.jsx('h5', { className: 'mb-3', children: 'Filters' }),
-          e.jsx($, {
-            onApply: (f) => {
-              (j(!1), g((_) => ({ ..._, ...f })), S(1));
+          e.jsx(B, {
+            onApply: (x) => {
+              (v(!1), g((w) => ({ ...w, ...x })), S(1));
             },
           }),
         ],
@@ -800,11 +802,11 @@ function q() {
   });
 }
 function Re() {
-  const [t, s] = _e.useMessage();
-  function r(n, i = 'info') {
-    const a =
-      i === 'error' ? 'error' : i === 'warning' ? 'warning' : i === 'success' ? 'success' : 'info';
-    t.open({ type: a, content: n, duration: 3 });
+  const [t, s] = be.useMessage();
+  function r(n, a = 'info') {
+    const i =
+      a === 'error' ? 'error' : a === 'warning' ? 'warning' : a === 'success' ? 'success' : 'info';
+    t.open({ type: i, content: n, duration: 3 });
   }
   return { api: { push: r }, messages: s };
 }
@@ -812,8 +814,8 @@ function Te({ messages: t }) {
   return e.jsx(e.Fragment, { children: t });
 }
 function I({ children: t }) {
-  const s = pe(),
-    r = Z();
+  const s = fe(),
+    r = K();
   return (
     o.useEffect(() => {
       if (!localStorage.getItem('token')) {
@@ -825,15 +827,15 @@ function I({ children: t }) {
   );
 }
 var Me = {};
-const W = (t) => {
+const $ = (t) => {
     let s;
     const r = new Set(),
       l = (d, m) => {
         const y = typeof d == 'function' ? d(s) : d;
         if (!Object.is(y, s)) {
-          const j = s;
+          const v = s;
           ((s = (m ?? (typeof y != 'object' || y === null)) ? y : Object.assign({}, s, y)),
-            r.forEach((x) => x(s, j)));
+            r.forEach((f) => f(s, v)));
         }
       },
       n = () => s,
@@ -853,10 +855,10 @@ const W = (t) => {
       g = (s = t(l, n, c));
     return c;
   },
-  Oe = (t) => (t ? W(t) : W);
-var re = { exports: {} },
-  ne = {},
-  ae = { exports: {} },
+  Oe = (t) => (t ? $(t) : $);
+var se = { exports: {} },
+  re = {},
+  ne = { exports: {} },
   ie = {};
 /**
  * @license React
@@ -873,36 +875,36 @@ function Ve(t, s) {
 var ze = typeof Object.is == 'function' ? Object.is : Ve,
   Ge = E.useState,
   Ue = E.useEffect,
-  Be = E.useLayoutEffect,
-  Fe = E.useDebugValue;
-function $e(t, s) {
+  Fe = E.useLayoutEffect,
+  Be = E.useDebugValue;
+function We(t, s) {
   var r = s(),
     l = Ge({ inst: { value: r, getSnapshot: s } }),
     n = l[0].inst,
-    i = l[1];
+    a = l[1];
   return (
-    Be(
+    Fe(
       function () {
-        ((n.value = r), (n.getSnapshot = s), R(n) && i({ inst: n }));
+        ((n.value = r), (n.getSnapshot = s), L(n) && a({ inst: n }));
       },
       [t, r, s],
     ),
     Ue(
       function () {
         return (
-          R(n) && i({ inst: n }),
+          L(n) && a({ inst: n }),
           t(function () {
-            R(n) && i({ inst: n });
+            L(n) && a({ inst: n });
           })
         );
       },
       [t],
     ),
-    Fe(r),
+    Be(r),
     r
   );
 }
-function R(t) {
+function L(t) {
   var s = t.getSnapshot;
   t = t.value;
   try {
@@ -912,16 +914,16 @@ function R(t) {
     return !0;
   }
 }
-function qe(t, s) {
+function $e(t, s) {
   return s();
 }
-var We =
+var qe =
   typeof window > 'u' || typeof window.document > 'u' || typeof window.document.createElement > 'u'
-    ? qe
-    : $e;
-ie.useSyncExternalStore = E.useSyncExternalStore !== void 0 ? E.useSyncExternalStore : We;
-ae.exports = ie;
-var Qe = ae.exports;
+    ? $e
+    : We;
+ie.useSyncExternalStore = E.useSyncExternalStore !== void 0 ? E.useSyncExternalStore : qe;
+ne.exports = ie;
+var Qe = ne.exports;
 /**
  * @license React
  * use-sync-external-store-shim/with-selector.production.js
@@ -930,36 +932,36 @@ var Qe = ae.exports;
  *
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
- */ var C = o,
+ */ var P = o,
   He = Qe;
-function Je(t, s) {
+function Ye(t, s) {
   return (t === s && (t !== 0 || 1 / t === 1 / s)) || (t !== t && s !== s);
 }
-var Ke = typeof Object.is == 'function' ? Object.is : Je,
-  Ye = He.useSyncExternalStore,
-  Ze = C.useRef,
-  Xe = C.useEffect,
-  et = C.useMemo,
-  tt = C.useDebugValue;
-ne.useSyncExternalStoreWithSelector = function (t, s, r, l, n) {
-  var i = Ze(null);
-  if (i.current === null) {
-    var a = { hasValue: !1, value: null };
-    i.current = a;
-  } else a = i.current;
-  i = et(
+var Je = typeof Object.is == 'function' ? Object.is : Ye,
+  Ke = He.useSyncExternalStore,
+  Ze = P.useRef,
+  Xe = P.useEffect,
+  et = P.useMemo,
+  tt = P.useDebugValue;
+re.useSyncExternalStoreWithSelector = function (t, s, r, l, n) {
+  var a = Ze(null);
+  if (a.current === null) {
+    var i = { hasValue: !1, value: null };
+    a.current = i;
+  } else i = a.current;
+  a = et(
     function () {
-      function c(j) {
+      function c(v) {
         if (!g) {
-          if (((g = !0), (d = j), (j = l(j)), n !== void 0 && a.hasValue)) {
-            var x = a.value;
-            if (n(x, j)) return (m = x);
+          if (((g = !0), (d = v), (v = l(v)), n !== void 0 && i.hasValue)) {
+            var f = i.value;
+            if (n(f, v)) return (m = f);
           }
-          return (m = j);
+          return (m = v);
         }
-        if (((x = m), Ke(d, j))) return x;
-        var S = l(j);
-        return n !== void 0 && n(x, S) ? ((d = j), x) : ((d = j), (m = S));
+        if (((f = m), Je(d, v))) return f;
+        var S = l(v);
+        return n !== void 0 && n(f, S) ? ((d = v), f) : ((d = v), (m = S));
       }
       var g = !1,
         d,
@@ -978,11 +980,11 @@ ne.useSyncExternalStoreWithSelector = function (t, s, r, l, n) {
     },
     [s, r, l, n],
   );
-  var h = Ye(t, i[0], i[1]);
+  var h = Ke(t, a[0], a[1]);
   return (
     Xe(
       function () {
-        ((a.hasValue = !0), (a.value = h));
+        ((i.hasValue = !0), (i.value = h));
       },
       [h],
     ),
@@ -990,27 +992,27 @@ ne.useSyncExternalStoreWithSelector = function (t, s, r, l, n) {
     h
   );
 };
-re.exports = ne;
-var st = re.exports;
-const rt = ve(st);
-var le = {};
-const { useDebugValue: nt } = X,
-  { useSyncExternalStoreWithSelector: at } = rt;
-let Q = !1;
-const it = (t) => t;
-function lt(t, s = it, r) {
-  (le ? 'production' : void 0) !== 'production' &&
+se.exports = re;
+var st = se.exports;
+const rt = pe(st);
+var ae = {};
+const { useDebugValue: nt } = Z,
+  { useSyncExternalStoreWithSelector: it } = rt;
+let q = !1;
+const at = (t) => t;
+function lt(t, s = at, r) {
+  (ae ? 'production' : void 0) !== 'production' &&
     r &&
-    !Q &&
+    !q &&
     (console.warn(
       "[DEPRECATED] Use `createWithEqualityFn` instead of `create` or use `useStoreWithEqualityFn` instead of `useStore`. They can be imported from 'zustand/traditional'. https://github.com/pmndrs/zustand/discussions/1937",
     ),
-    (Q = !0));
-  const l = at(t.subscribe, t.getState, t.getServerState || t.getInitialState, s, r);
+    (q = !0));
+  const l = it(t.subscribe, t.getState, t.getServerState || t.getInitialState, s, r);
   return (nt(l), l);
 }
-const H = (t) => {
-    (le ? 'production' : void 0) !== 'production' &&
+const Q = (t) => {
+    (ae ? 'production' : void 0) !== 'production' &&
       typeof t != 'function' &&
       console.warn(
         "[DEPRECATED] Passing a vanilla store will be unsupported in a future version. Instead use `import { useStore } from 'zustand'`.",
@@ -1019,8 +1021,8 @@ const H = (t) => {
       r = (l, n) => lt(s, l, n);
     return (Object.assign(r, s), r);
   },
-  ot = (t) => (t ? H(t) : H);
-function J(t) {
+  ot = (t) => (t ? Q(t) : Q);
+function H(t) {
   try {
     const s = t.split('.')[1] || '';
     return JSON.parse(atob(s));
@@ -1034,7 +1036,7 @@ const ct = ot((t) => ({
   init: () => {
     const s = localStorage.getItem('token');
     if (s) {
-      const r = J(s);
+      const r = H(s);
       t({
         token: s,
         user: r ? { id: r.id, username: r.username, display_name: r.display_name } : null,
@@ -1043,7 +1045,7 @@ const ct = ot((t) => ({
   },
   login: (s) => {
     localStorage.setItem('token', s);
-    const r = J(s);
+    const r = H(s);
     t({
       token: s,
       user: r ? { id: r.id, username: r.username, display_name: r.display_name } : null,
@@ -1057,22 +1059,22 @@ function dt(t, s) {
   return `scroll:${t}${s}`;
 }
 function ut() {
-  const t = Z();
+  const t = K();
   o.useEffect(() => {
     const s = dt(t.pathname, t.search),
       r = sessionStorage.getItem(s);
     if (r) {
-      const i = parseInt(r, 10);
-      Number.isNaN(i) || setTimeout(() => window.scrollTo(0, i), 0);
+      const a = parseInt(r, 10);
+      Number.isNaN(a) || setTimeout(() => window.scrollTo(0, a), 0);
     } else window.scrollTo(0, 0);
     function l() {
       sessionStorage.setItem(s, String(window.scrollY));
     }
     window.addEventListener('beforeunload', l);
     const n = () => {
-      const i = sessionStorage.getItem(s),
-        a = i ? parseInt(i, 10) : 0;
-      setTimeout(() => window.scrollTo(0, Number.isNaN(a) ? 0 : a), 0);
+      const a = sessionStorage.getItem(s),
+        i = a ? parseInt(a, 10) : 0;
+      setTimeout(() => window.scrollTo(0, Number.isNaN(i) ? 0 : i), 0);
     };
     return (
       window.addEventListener('popstate', n),
@@ -1086,14 +1088,42 @@ function ut() {
 }
 function mt() {
   return (
-    o.useEffect(() => D('About — GPU Market'), []),
+    (document.title = 'About Us — GPU Market'),
     e.jsxs('div', {
       className: 'container py-4',
+      style: { maxWidth: 900 },
       children: [
-        e.jsx('h3', { children: 'About' }),
+        e.jsx('h1', { children: 'About GPU Market' }),
         e.jsx('p', {
-          className: 'text-muted',
-          children: 'GPU Market is a minimal marketplace demo for buying and selling used GPUs.',
+          children:
+            'GPU Market is a trusted marketplace for buying and selling new and used graphics cards. Our mission is to help enthusiasts and professionals upgrade affordably and safely.',
+        }),
+        e.jsx('h2', { children: 'What We Do' }),
+        e.jsxs('ul', {
+          children: [
+            e.jsx('li', { children: 'Curated listings with clear specs and conditions' }),
+            e.jsx('li', { children: 'Photo guidelines and safe upload processing' }),
+            e.jsx('li', { children: 'Community-first pricing and transparency' }),
+          ],
+        }),
+        e.jsx('h2', { children: 'Why Choose Us' }),
+        e.jsxs('ul', {
+          children: [
+            e.jsx('li', { children: 'Verified profiles and seller reviews (coming soon)' }),
+            e.jsx('li', { children: 'Clear return/issue-handling policy on disputes' }),
+            e.jsx('li', { children: 'Responsive customer support' }),
+          ],
+        }),
+        e.jsx('h2', { children: 'Contact' }),
+        e.jsxs('p', {
+          children: [
+            'Questions? ',
+            e.jsx('a', { href: '/contact', children: 'Contact us' }),
+            '. For trade-ins, see',
+            ' ',
+            e.jsx('a', { href: '/sell-to-us', children: 'Sell to us' }),
+            '.',
+          ],
         }),
       ],
     })
@@ -1101,36 +1131,109 @@ function mt() {
 }
 function ht() {
   return (
-    o.useEffect(() => D('Privacy — GPU Market'), []),
+    (document.title = 'Privacy Policy — GPU Market'),
     e.jsxs('div', {
       className: 'container py-4',
+      style: { maxWidth: 900 },
       children: [
-        e.jsx('h3', { children: 'Privacy Policy' }),
-        e.jsx('p', {
-          className: 'text-muted',
-          children:
-            'We respect your privacy. This demo does not collect personal data beyond what is necessary for authentication.',
+        e.jsx('h1', { children: 'Privacy Policy' }),
+        e.jsx('p', { children: 'Last updated: 2025-08-09' }),
+        e.jsx('h2', { children: '1. Information We Collect' }),
+        e.jsxs('ul', {
+          children: [
+            e.jsx('li', { children: 'Account data: username, display name' }),
+            e.jsx('li', { children: 'Content: listing info and uploaded images' }),
+            e.jsx('li', { children: 'Technical data: request ID, logs, metrics' }),
+          ],
         }),
-      ],
-    })
-  );
-}
-function ft() {
-  return (
-    o.useEffect(() => D('Terms — GPU Market'), []),
-    e.jsxs('div', {
-      className: 'container py-4',
-      children: [
-        e.jsx('h3', { children: 'Terms' }),
+        e.jsx('h2', { children: '2. How We Use Information' }),
+        e.jsxs('ul', {
+          children: [
+            e.jsx('li', { children: 'Provide and improve services' }),
+            e.jsx('li', { children: 'Fraud prevention and security' }),
+            e.jsx('li', { children: 'Legal compliance' }),
+          ],
+        }),
+        e.jsx('h2', { children: '3. Cookies & Analytics' }),
         e.jsx('p', {
-          className: 'text-muted',
-          children: 'Use this demo at your own risk. No warranties provided.',
+          children: 'We may use essential cookies and aggregated metrics to improve reliability.',
+        }),
+        e.jsx('h2', { children: '4. Data Sharing' }),
+        e.jsx('p', {
+          children:
+            'No selling of personal data. We share with service providers as needed to operate.',
+        }),
+        e.jsx('h2', { children: '5. Data Retention' }),
+        e.jsx('p', {
+          children: 'We retain data for as long as necessary for the purposes described.',
+        }),
+        e.jsx('h2', { children: '6. Your Rights' }),
+        e.jsx('p', {
+          children: 'Contact us to access, correct, or delete your personal data where applicable.',
+        }),
+        e.jsx('h2', { children: '7. Contact' }),
+        e.jsxs('p', {
+          children: ['Questions? ', e.jsx('a', { href: '/contact', children: 'Contact us' }), '.'],
         }),
       ],
     })
   );
 }
 function xt() {
+  return (
+    (document.title = 'Terms of Service — GPU Market'),
+    e.jsxs('div', {
+      className: 'container py-4',
+      style: { maxWidth: 900 },
+      children: [
+        e.jsx('h1', { children: 'Terms of Service' }),
+        e.jsx('p', { children: 'Last updated: 2025-08-09' }),
+        e.jsx('h2', { children: '1. Acceptance of Terms' }),
+        e.jsx('p', { children: 'By accessing or using GPU Market, you agree to these Terms.' }),
+        e.jsx('h2', { children: '2. Accounts & Security' }),
+        e.jsxs('ul', {
+          children: [
+            e.jsx('li', { children: 'You must provide accurate registration information.' }),
+            e.jsx('li', { children: 'You are responsible for safeguarding your credentials.' }),
+          ],
+        }),
+        e.jsx('h2', { children: '3. Listings & Transactions' }),
+        e.jsxs('ul', {
+          children: [
+            e.jsx('li', { children: 'All listings must be accurate and lawful.' }),
+            e.jsx('li', { children: 'We may remove listings that violate policies.' }),
+          ],
+        }),
+        e.jsx('h2', { children: '4. Prohibited Activities' }),
+        e.jsxs('ul', {
+          children: [
+            e.jsx('li', { children: 'Fraud, counterfeit items, or misuse of the platform' }),
+            e.jsx('li', { children: 'Upload of harmful code or illegal content' }),
+          ],
+        }),
+        e.jsx('h2', { children: '5. Intellectual Property' }),
+        e.jsx('p', { children: 'All site content is owned by GPU Market or its licensors.' }),
+        e.jsx('h2', { children: '6. Disclaimers & Liability' }),
+        e.jsx('p', {
+          children: 'Service provided “as is”; we are not liable for indirect damages.',
+        }),
+        e.jsx('h2', { children: '7. Changes' }),
+        e.jsx('p', {
+          children: 'We may update these Terms; continued use constitutes acceptance.',
+        }),
+        e.jsx('h2', { children: '8. Contact' }),
+        e.jsxs('p', {
+          children: [
+            'For questions about these Terms, please ',
+            e.jsx('a', { href: '/contact', children: 'contact us' }),
+            '.',
+          ],
+        }),
+      ],
+    })
+  );
+}
+function ft() {
   return e.jsxs('div', {
     className: 'container py-5 text-center',
     children: [
@@ -1140,23 +1243,23 @@ function xt() {
     ],
   });
 }
-const pt = o.lazy(() => w(() => import('./Profile-CU7matqf.js'), __vite__mapDeps([6, 1, 2, 4]))),
-  vt = o.lazy(() => w(() => import('./Login-Bmq7E44B.js'), __vite__mapDeps([7, 1, 2, 8, 9, 4]))),
-  jt = o.lazy(() =>
-    w(() => import('./Register-CG94LnDZ.js'), __vite__mapDeps([10, 1, 2, 8, 9, 4])),
+const pt = o.lazy(() => _(() => import('./Profile-CkBj_o5F.js'), __vite__mapDeps([6, 1, 2, 4]))),
+  jt = o.lazy(() => _(() => import('./Login-qu9XJ7-5.js'), __vite__mapDeps([7, 1, 2, 8, 9, 4]))),
+  vt = o.lazy(() =>
+    _(() => import('./Register-G7iru1yt.js'), __vite__mapDeps([10, 1, 2, 8, 9, 4])),
   ),
-  gt = o.lazy(() => w(() => import('./MyListings-BgblfaqE.js'), __vite__mapDeps([11, 1, 2, 4]))),
-  yt = o.lazy(() => w(() => import('./Detail-Da_iDBBw.js'), __vite__mapDeps([12, 1, 2, 3, 4]))),
-  bt = o.lazy(() => w(() => import('./Sell-C4byLGCt.js'), __vite__mapDeps([13, 1, 2, 8, 9, 4]))),
-  _t = o.lazy(() => w(() => import('./Edit-CQCD3esS.js'), __vite__mapDeps([14, 1, 2, 8, 9, 4]))),
-  wt = o.lazy(() => w(() => import('./NotFound-Bq8LLBzl.js'), __vite__mapDeps([15, 1, 2, 4]))),
+  gt = o.lazy(() => _(() => import('./MyListings-H1ILjpc9.js'), __vite__mapDeps([11, 1, 2, 4]))),
+  yt = o.lazy(() => _(() => import('./Detail-CKZNOBjW.js'), __vite__mapDeps([12, 1, 2, 3, 4]))),
+  bt = o.lazy(() => _(() => import('./Sell-BmERp_b2.js'), __vite__mapDeps([13, 1, 2, 8, 9, 4]))),
+  wt = o.lazy(() => _(() => import('./Edit-Chn7W6El.js'), __vite__mapDeps([14, 1, 2, 8, 9, 4]))),
+  _t = o.lazy(() => _(() => import('./NotFound-Bq8LLBzl.js'), __vite__mapDeps([15, 1, 2, 4]))),
   St = o.lazy(() =>
-    w(() => import('./ProfileEdit-B62bD3S_.js'), __vite__mapDeps([16, 1, 2, 8, 4])),
+    _(() => import('./ProfileEdit-BY09EPPb.js'), __vite__mapDeps([16, 1, 2, 8, 4])),
   ),
   Nt = o.lazy(() =>
-    w(() => import('./SellToUs-BIIDQw1A.js'), __vite__mapDeps([17, 1, 2, 9, 8, 4])),
+    _(() => import('./SellToUs-f7XL_Qfl.js'), __vite__mapDeps([17, 1, 2, 9, 8, 4])),
   ),
-  Et = o.lazy(() => w(() => import('./Contact-DrcU2V_Y.js'), __vite__mapDeps([18, 1, 2, 9, 8, 4])));
+  Et = o.lazy(() => _(() => import('./Contact-qAX44P1o.js'), __vite__mapDeps([18, 1, 2, 9, 8, 4])));
 function At() {
   const { api: t, messages: s } = Re(),
     { user: r, init: l, logout: n } = ct();
@@ -1172,8 +1275,8 @@ function At() {
         () => window.removeEventListener('app-toast', c)
       );
     }, []));
-  const [i, a] = o.useState(!1),
-    h = e.jsx(Se, {
+  const [a, i] = o.useState(!1),
+    h = e.jsx(_e, {
       items: [
         {
           key: 'nvidia-40',
@@ -1206,37 +1309,37 @@ function At() {
               children: [
                 e.jsx(u, {
                   to: '/',
-                  children: e.jsx(v, { type: 'text', size: 'small', children: 'Home' }),
+                  children: e.jsx(j, { type: 'text', size: 'small', children: 'Home' }),
                 }),
                 e.jsx(u, {
                   to: '/everything?sort=price_desc',
-                  children: e.jsx(v, { type: 'text', size: 'small', children: 'Shop Everything' }),
+                  children: e.jsx(j, { type: 'text', size: 'small', children: 'Shop Everything' }),
                 }),
                 e.jsx(we, {
                   overlay: h,
                   trigger: ['click'],
-                  children: e.jsx(v, { size: 'small', children: 'Shop Graphics Cards' }),
+                  children: e.jsx(j, { size: 'small', children: 'Shop Graphics Cards' }),
                 }),
                 e.jsx(u, {
                   to: '/sell',
-                  children: e.jsx(v, { size: 'small', type: 'default', children: 'Sell' }),
+                  children: e.jsx(j, { size: 'small', type: 'default', children: 'Sell' }),
                 }),
                 e.jsx(u, {
                   to: '/sell-to-us',
-                  children: e.jsx(v, { size: 'small', type: 'default', children: 'Sell to us' }),
+                  children: e.jsx(j, { size: 'small', type: 'default', children: 'Sell to us' }),
                 }),
                 e.jsx(u, {
                   to: '/my',
-                  children: e.jsx(v, { size: 'small', type: 'default', children: 'My Listings' }),
+                  children: e.jsx(j, { size: 'small', type: 'default', children: 'My Listings' }),
                 }),
                 e.jsx(u, {
                   to: '/profile',
-                  children: e.jsx(v, { size: 'small', type: 'default', children: 'My Profile' }),
+                  children: e.jsx(j, { size: 'small', type: 'default', children: 'My Profile' }),
                 }),
                 r &&
                   e.jsx(u, {
                     to: '/profile/edit',
-                    children: e.jsx(v, {
+                    children: e.jsx(j, {
                       size: 'small',
                       type: 'default',
                       children: 'Edit Profile',
@@ -1245,12 +1348,12 @@ function At() {
                 !r &&
                   e.jsx(u, {
                     to: '/login',
-                    children: e.jsx(v, { size: 'small', type: 'primary', children: 'Login' }),
+                    children: e.jsx(j, { size: 'small', type: 'primary', children: 'Login' }),
                   }),
                 !r &&
                   e.jsx(u, {
                     to: '/register',
-                    children: e.jsx(v, { size: 'small', type: 'primary', children: 'Register' }),
+                    children: e.jsx(j, { size: 'small', type: 'primary', children: 'Register' }),
                   }),
                 r &&
                   e.jsx('span', {
@@ -1258,7 +1361,7 @@ function At() {
                     children: r.display_name || r.username,
                   }),
                 r &&
-                  e.jsx(v, {
+                  e.jsx(j, {
                     size: 'small',
                     danger: !0,
                     onClick: () => {
@@ -1275,14 +1378,14 @@ function At() {
             }),
             e.jsx('div', {
               className: 'ms-auto d-md-none',
-              children: e.jsx(v, { size: 'small', onClick: () => a(!0), children: 'Menu' }),
+              children: e.jsx(j, { size: 'small', onClick: () => i(!0), children: 'Menu' }),
             }),
           ],
         }),
       }),
-      e.jsx(te, {
-        open: i,
-        onClose: () => a(!1),
+      e.jsx(ee, {
+        open: a,
+        onClose: () => i(!1),
         afterOpenChange: (c) => {
           try {
             document.body.style.overflow = c ? 'hidden' : '';
@@ -1291,26 +1394,26 @@ function At() {
         children: e.jsxs('div', {
           className: 'd-flex flex-column gap-2',
           children: [
-            e.jsx(u, { to: '/', onClick: () => a(!1), children: 'Home' }),
+            e.jsx(u, { to: '/', onClick: () => i(!1), children: 'Home' }),
             e.jsx(u, {
               to: '/everything?sort=price_desc',
-              onClick: () => a(!1),
+              onClick: () => i(!1),
               children: 'Shop Everything',
             }),
             e.jsx('div', { className: 'fw-bold', children: 'Shop Graphics Cards' }),
-            e.jsx(u, { to: '/?brand=NVIDIA', onClick: () => a(!1), children: 'NVIDIA' }),
-            e.jsx(u, { to: '/?brand=AMD', onClick: () => a(!1), children: 'AMD' }),
-            e.jsx(u, { to: '/sell', onClick: () => a(!1), children: 'Sell' }),
-            e.jsx(u, { to: '/sell-to-us', onClick: () => a(!1), children: 'Sell to us' }),
-            e.jsx(u, { to: '/my', onClick: () => a(!1), children: 'My Listings' }),
-            e.jsx(u, { to: '/profile', onClick: () => a(!1), children: 'My Profile' }),
-            !r && e.jsx(u, { to: '/login', onClick: () => a(!1), children: 'Login' }),
-            !r && e.jsx(u, { to: '/register', onClick: () => a(!1), children: 'Register' }),
+            e.jsx(u, { to: '/?brand=NVIDIA', onClick: () => i(!1), children: 'NVIDIA' }),
+            e.jsx(u, { to: '/?brand=AMD', onClick: () => i(!1), children: 'AMD' }),
+            e.jsx(u, { to: '/sell', onClick: () => i(!1), children: 'Sell' }),
+            e.jsx(u, { to: '/sell-to-us', onClick: () => i(!1), children: 'Sell to us' }),
+            e.jsx(u, { to: '/my', onClick: () => i(!1), children: 'My Listings' }),
+            e.jsx(u, { to: '/profile', onClick: () => i(!1), children: 'My Profile' }),
+            !r && e.jsx(u, { to: '/login', onClick: () => i(!1), children: 'Login' }),
+            !r && e.jsx(u, { to: '/register', onClick: () => i(!1), children: 'Register' }),
             r &&
               e.jsx('button', {
                 className: 'btn btn-outline-danger btn-sm',
                 onClick: () => {
-                  (a(!1),
+                  (i(!1),
                     n(),
                     window.dispatchEvent(
                       new CustomEvent('app-toast', {
@@ -1327,22 +1430,22 @@ function At() {
         fallback: e.jsx('div', { className: 'container py-3', children: 'Loading...' }),
         children: e.jsxs(je, {
           children: [
-            e.jsx(b, { path: '/', element: e.jsx(q, {}) }),
-            e.jsx(b, { path: '/everything', element: e.jsx(q, {}) }),
+            e.jsx(b, { path: '/', element: e.jsx(W, {}) }),
+            e.jsx(b, { path: '/everything', element: e.jsx(W, {}) }),
             e.jsx(b, { path: '/profile', element: e.jsx(pt, {}) }),
             e.jsx(b, { path: '/profile/edit', element: e.jsx(I, { children: e.jsx(St, {}) }) }),
             e.jsx(b, { path: '/g/:id', element: e.jsx(yt, {}) }),
             e.jsx(b, { path: '/sell', element: e.jsx(I, { children: e.jsx(bt, {}) }) }),
             e.jsx(b, { path: '/sell-to-us', element: e.jsx(Nt, {}) }),
             e.jsx(b, { path: '/contact', element: e.jsx(Et, {}) }),
-            e.jsx(b, { path: '/edit/:id', element: e.jsx(I, { children: e.jsx(_t, {}) }) }),
-            e.jsx(b, { path: '*', element: e.jsx(wt, {}) }),
+            e.jsx(b, { path: '/edit/:id', element: e.jsx(I, { children: e.jsx(wt, {}) }) }),
+            e.jsx(b, { path: '*', element: e.jsx(_t, {}) }),
             e.jsx(b, { path: '/about', element: e.jsx(mt, {}) }),
             e.jsx(b, { path: '/privacy', element: e.jsx(ht, {}) }),
-            e.jsx(b, { path: '/terms', element: e.jsx(ft, {}) }),
-            e.jsx(b, { path: '/500', element: e.jsx(xt, {}) }),
-            e.jsx(b, { path: '/login', element: e.jsx(vt, {}) }),
-            e.jsx(b, { path: '/register', element: e.jsx(jt, {}) }),
+            e.jsx(b, { path: '/terms', element: e.jsx(xt, {}) }),
+            e.jsx(b, { path: '/500', element: e.jsx(ft, {}) }),
+            e.jsx(b, { path: '/login', element: e.jsx(jt, {}) }),
+            e.jsx(b, { path: '/register', element: e.jsx(vt, {}) }),
             e.jsx(b, { path: '/my', element: e.jsx(I, { children: e.jsx(gt, {}) }) }),
           ],
         }),
@@ -1481,12 +1584,12 @@ class It extends o.Component {
       : this.props.children;
   }
 }
-const Pt = new he();
-T.createRoot(document.getElementById('root')).render(
-  e.jsx(X.StrictMode, {
+const Ct = new me();
+R.createRoot(document.getElementById('root')).render(
+  e.jsx(Z.StrictMode, {
     children: e.jsx(It, {
-      children: e.jsx(fe, { client: Pt, children: e.jsx(ge, { children: e.jsx(At, {}) }) }),
+      children: e.jsx(he, { client: Ct, children: e.jsx(ve, { children: e.jsx(At, {}) }) }),
     }),
   }),
 );
-export { ke as G, w as _, F as a, Pe as f, ct as u };
+export { De as G, _, F as a, Ie as f, ct as u };

@@ -20,6 +20,7 @@ import { useScrollRestoration } from './lib/useScrollRestoration';
 import About from './pages/About';
 import Privacy from './pages/Privacy';
 import Terms from './pages/Terms';
+const Returns = lazy(() => import('./pages/Returns'));
 import ServerError from './pages/ServerError';
 import { Button, Dropdown, Drawer, Menu } from 'antd';
 import type { MenuProps } from 'antd';
@@ -236,6 +237,7 @@ export default function App() {
           <Route path="/about" element={<About />} />
           <Route path="/privacy" element={<Privacy />} />
           <Route path="/terms" element={<Terms />} />
+          <Route path="/returns" element={<Returns />} />
           <Route path="/500" element={<ServerError />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
@@ -267,6 +269,7 @@ export default function App() {
               <div className="d-flex flex-column gap-1">
                 <Link to="/terms">Terms of Service</Link>
                 <Link to="/privacy">Privacy Policy</Link>
+                <Link to="/returns">Returns & Refunds</Link>
               </div>
             </div>
             <div className="col-6 col-md-3 mb-3">

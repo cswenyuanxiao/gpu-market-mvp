@@ -1,14 +1,14 @@
 import { j as e } from './react-query-BGeIQRPr.js';
-import { u as g, a as f, C as r, o as y, b, s as o } from './zod-SQF3v9p3.js';
-import { a as v } from './index-DeqD4MY7.js';
+import { u as j, a as y, C as n, o as b, b as f, s as o } from './zod-SQF3v9p3.js';
+import { a as v } from './index-B2FCGk5w.js';
 import { F as i } from './FormField-iyrhpl26.js';
-import { I as m, e as C, B as w } from './antd-n40S5sxn.js';
+import { I as m, e as w, B as C } from './antd-n40S5sxn.js';
 import './react-CTDr35rJ.js';
-const S = y({
+const S = b({
   name: o().min(1, 'Name is required'),
   email: o().email('Invalid email'),
   message: o().min(10, 'Please provide more details'),
-  consent: b().default(!1),
+  consent: f().default(!1),
 });
 function P() {
   var l, c, d;
@@ -16,8 +16,8 @@ function P() {
     control: s,
     handleSubmit: h,
     reset: u,
-    formState: { errors: n },
-  } = g({ resolver: f(S), defaultValues: { consent: !1 } });
+    formState: { errors: r },
+  } = j({ resolver: y(S), defaultValues: { consent: !1 } });
   async function x(a) {
     var p;
     const t = await v('/api/contact', {
@@ -26,9 +26,9 @@ function P() {
       body: JSON.stringify(a),
     });
     if (!t.ok) {
-      const j =
+      const g =
         ((p = await t.json().catch(() => ({}))) == null ? void 0 : p.error) || 'Submit failed';
-      window.dispatchEvent(new CustomEvent('app-toast', { detail: { text: j, type: 'error' } }));
+      window.dispatchEvent(new CustomEvent('app-toast', { detail: { text: g, type: 'error' } }));
       return;
     }
     (window.dispatchEvent(
@@ -41,14 +41,21 @@ function P() {
     style: { maxWidth: 720 },
     children: [
       e.jsx('h3', { children: 'Contact Us' }),
+      e.jsx('div', {
+        className: 'mb-3',
+        children: e.jsx('p', {
+          children:
+            'Have a question about a listing, pricing, or trade-ins? Send us a message and we’ll get back within 1–2 business days.',
+        }),
+      }),
       e.jsxs('form', {
         onSubmit: h(x),
         children: [
           e.jsx(i, {
             label: 'Your Name',
             htmlFor: 'name',
-            error: (l = n.name) == null ? void 0 : l.message,
-            children: e.jsx(r, {
+            error: (l = r.name) == null ? void 0 : l.message,
+            children: e.jsx(n, {
               name: 'name',
               control: s,
               render: ({ field: a }) => e.jsx(m, { id: 'name', ...a }),
@@ -57,8 +64,8 @@ function P() {
           e.jsx(i, {
             label: 'Email',
             htmlFor: 'email',
-            error: (c = n.email) == null ? void 0 : c.message,
-            children: e.jsx(r, {
+            error: (c = r.email) == null ? void 0 : c.message,
+            children: e.jsx(n, {
               name: 'email',
               control: s,
               render: ({ field: a }) => e.jsx(m, { id: 'email', type: 'email', ...a }),
@@ -67,8 +74,8 @@ function P() {
           e.jsx(i, {
             label: 'Message',
             htmlFor: 'message',
-            error: (d = n.message) == null ? void 0 : d.message,
-            children: e.jsx(r, {
+            error: (d = r.message) == null ? void 0 : d.message,
+            children: e.jsx(n, {
               name: 'message',
               control: s,
               render: ({ field: a }) => e.jsx(m.TextArea, { id: 'message', rows: 6, ...a }),
@@ -76,11 +83,11 @@ function P() {
           }),
           e.jsx('div', {
             className: 'form-check mb-3',
-            children: e.jsx(r, {
+            children: e.jsx(n, {
               name: 'consent',
               control: s,
               render: ({ field: a }) =>
-                e.jsx(C, {
+                e.jsx(w, {
                   id: 'consent',
                   checked: a.value,
                   onChange: (t) => a.onChange(t.target.checked),
@@ -89,7 +96,7 @@ function P() {
                 }),
             }),
           }),
-          e.jsx(w, { type: 'primary', htmlType: 'submit', children: 'Send' }),
+          e.jsx(C, { type: 'primary', htmlType: 'submit', children: 'Send' }),
         ],
       }),
     ],
