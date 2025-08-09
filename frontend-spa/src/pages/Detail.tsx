@@ -2,7 +2,8 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { apiFetch } from '../lib/api';
 import type { Gpu } from '../types';
-import DetailsModal from '../components/DetailsModal';
+import { Button } from 'antd';
+import DetailsView from '../components/DetailsView';
 
 export default function Detail() {
   const { id } = useParams();
@@ -21,7 +22,12 @@ export default function Detail() {
     };
   }, [item?.title]);
   if (!id) return null;
-  return <DetailsModal item={item} onClose={() => { /* noop for page */ }} />;
+  return (
+    <div className="container py-3">
+      <Button type="link" href="/">
+        ← Back
+      </Button>
+      {item && <DetailsView item={item} />}
+    </div>
+  );
 }
-
-

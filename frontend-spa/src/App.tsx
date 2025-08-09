@@ -58,40 +58,58 @@ export default function App() {
             GPU Market
           </Link>
           <div className="ms-auto d-none d-md-flex gap-2">
-            <Link to="/" className="btn btn-link btn-sm">
-              Home
+            <Link to="/">
+              <Button type="text" size="small">
+                Home
+              </Button>
             </Link>
-            <Link to="/everything?sort=price_desc" className="btn btn-link btn-sm">
-              Shop Everything
+            <Link to="/everything?sort=price_desc">
+              <Button type="text" size="small">
+                Shop Everything
+              </Button>
             </Link>
             <Dropdown overlay={seriesMenu} trigger={['click']}>
               <Button size="small">Shop Graphics Cards</Button>
             </Dropdown>
-            <Link to="/sell" className="btn btn-outline-success btn-sm">
-              Sell
+            <Link to="/sell">
+              <Button size="small" type="default">
+                Sell
+              </Button>
             </Link>
-            <Link to="/sell-to-us" className="btn btn-outline-success btn-sm">
-              Sell to us
+            <Link to="/sell-to-us">
+              <Button size="small" type="default">
+                Sell to us
+              </Button>
             </Link>
-            <Link to="/my" className="btn btn-outline-primary btn-sm">
-              My Listings
+            <Link to="/my">
+              <Button size="small" type="default">
+                My Listings
+              </Button>
             </Link>
-            <Link to="/profile" className="btn btn-outline-secondary btn-sm">
-              My Profile
+            <Link to="/profile">
+              <Button size="small" type="default">
+                My Profile
+              </Button>
             </Link>
             {user && (
-              <Link to="/profile/edit" className="btn btn-outline-secondary btn-sm">
-                Edit Profile
+              <Link to="/profile/edit">
+                <Button size="small" type="default">
+                  Edit Profile
+                </Button>
               </Link>
             )}
             {!user && (
-              <Link to="/login" className="btn btn-primary btn-sm">
-                Login
+              <Link to="/login">
+                <Button size="small" type="primary">
+                  Login
+                </Button>
               </Link>
             )}
             {!user && (
-              <Link to="/register" className="btn btn-success btn-sm">
-                Register
+              <Link to="/register">
+                <Button size="small" type="primary">
+                  Register
+                </Button>
               </Link>
             )}
             {user && (
@@ -100,8 +118,9 @@ export default function App() {
               </span>
             )}
             {user && (
-              <button
-                className="btn btn-outline-danger btn-sm"
+              <Button
+                size="small"
+                danger
                 onClick={() => {
                   logout();
                   window.dispatchEvent(
@@ -110,7 +129,7 @@ export default function App() {
                 }}
               >
                 Logout
-              </button>
+              </Button>
             )}
           </div>
           <div className="ms-auto d-md-none">

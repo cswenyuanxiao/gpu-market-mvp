@@ -1,4 +1,4 @@
-import { useMemo, useState, lazy, Suspense, useRef } from 'react';
+import { useEffect, useMemo, useState, lazy, Suspense, useRef } from 'react';
 import { apiFetch } from '../lib/api';
 const DetailsModal = lazy(() => import('../components/DetailsModal'));
 import SearchFilters from '../components/SearchFilters';
@@ -16,6 +16,7 @@ import {
   Result,
   Spin,
 } from 'antd';
+import { useTitle } from '../lib/seo';
 
 export default function Home() {
   const { getAll, setAll } = useQueryState<SearchQuery & { page?: string; sort?: string }>();
@@ -45,6 +46,7 @@ export default function Home() {
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [page, setPage] = useState(Number(init.page || '1'));
   const [per] = useState(12);
+  useEffect(() => useTitle('GPU Market — Shop Graphics Cards'), []);
 
   const queryParams = useMemo(() => {
     // map UI sorts to backend sorts (placeholder mapping where unsupported)

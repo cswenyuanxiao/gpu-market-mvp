@@ -1,9 +1,9 @@
-# GPU Market — MVP
+# GPU Market — MVP (Consolidated Requirements Inside)
 
 A minimal GPU buy/sell marketplace inspired by `gpused.co.uk`.
 
 - Backend: Node.js + Express + SQLite (file uploads with multer)
-- Frontend: Static HTML (Bootstrap 5)
+- Frontend: React + Vite + TypeScript (Ant Design, React Router, React Query, Zustand)
 - Auth: JWT + bcrypt
 
 ## Quick Start (Docker / Compose)
@@ -141,6 +141,10 @@ Deploy button (manually copy into your org if desired):
 - Create a `railway.json` template and connect; for now manual setup above is enough for demo.
 
 Note: This repo already serves `frontend/` statically from the backend if present on the same server. Deploying just the backend will work for both API and UI.
+
+## Requirements
+
+For the up-to-date, consolidated delivery requirements covering scope, status (what’s done vs remaining), acceptance for delivery-first, and M1 hardening plan, see `docs/requirements.md`.
 
 ## SEO & Performance (Phase 7)
 

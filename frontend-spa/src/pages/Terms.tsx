@@ -1,4 +1,8 @@
+import { useEffect } from 'react';
+import { useTitle } from '../lib/seo';
+
 export default function Terms() {
+  useEffect(() => useTitle('Terms — GPU Market'), []);
   return (
     <div className="container py-4">
       <h3>Terms</h3>
@@ -6,5 +10,3 @@ export default function Terms() {
     </div>
   );
 }
-
-

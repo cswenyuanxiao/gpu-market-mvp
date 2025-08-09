@@ -1,89 +1,88 @@
-# 项目需求与非功能要求（MVP）
+# GPU Market — Consolidated Delivery Requirements (SPA + API)
 
-## 1. 项目目标
+This single document replaces scattered requirement/plan notes. It reflects what is DONE and what REMAINS, with a delivery-first principle:
 
-- 搭建一个显卡二手买卖网站原型（MVP），提供：用户注册/登录、发布商品（含图片）、搜索/筛选/分页、编辑/删除（仅发布者）、用户资料页（含头像上传）。
-- 可在本地通过后端服务 + 静态前端或使用 Docker 一键运行。
+Priority: build all pages and core functionality first, then add tests and optimizations.
 
-## 2. 关键用户故事（User Stories）
+## 1) Scope & Tech
 
-- US1（浏览者）：作为访客，我希望能按关键字/价格/条件搜索和分页浏览显卡列表，以便快速找到目标商品。
-- US2（买家/卖家账号）：作为注册用户，我希望可以登录并发布带图片的显卡列表，以便出售我的显卡；我也要能编辑或删除我发布的列表。
-- US3（身份与安全）：作为平台维护者，我希望用户数据与文件上传安全可靠，避免恶意上传与越权操作。
-- US4（个人页）：作为用户，我希望有个人资料页可以上传头像并查看我发布的商品。
-- US5（维护者）：作为开发者，我希望项目包含测试、Lint、文档与 CI 检查，以便稳定迭代。
+- Backend: Node.js 20, Express, SQLite (better-sqlite3), JWT, bcrypt, Multer + Sharp, Helmet (CSP), rate limit, pino-http logs, Prometheus metrics, Swagger UI.
+- Frontend (SPA): React 18 + Vite + TypeScript, React Router v6, Zustand, Ant Design, Tailwind CSS, React Hook Form + Zod, React Query.
+- Deploy: Docker + Compose; Render (Node 20) serving SPA build from backend.
 
-## 3. 验收标准（可测试）
+## 2) Delivery Principle
 
-- A1: 未登录用户可访问商品列表并使用搜索/筛选/分页，但无法发布、编辑或删除。
-- A2: 登录用户可发布新商品（含图片），并在列表中可见。
-- A3: 仅发布者可编辑或删除其发布的商品，非发布者操作返回 403/错误。
-- A4: 上传文件类型与大小受限（建议 ≤ 5MB，jpeg/png/webp），不合规文件被拒绝。
-- A5: 用户头像上传可通过 `GET /api/users/:id` 返回并在前端展示。
-- A6: 自动化测试覆盖关键路径（注册/登录、发布、编辑/删除、搜索、分页），覆盖率门槛 ≥ 80%。
-- A7: 支持 `docker-compose up`（或文档化的一键脚本）本地起全栈，README 提供运行说明。
+- Phase M0 (delivery): Pages + core flows complete and usable end-to-end.
+- Phase M1 (hardening): Tests, performance, observability enrichments, docs polish.
 
-## 4. 非功能需求（NFR）
+## 3) User Stories (abbrev.)
 
-### 性能与可用性
+- Browse/search listings with filters and pagination.
+- Auth (register/login/logout) and protected actions.
+- Create/edit/delete own listings with images.
+- View profile and update avatar; see my listings.
+- Submit “Sell to us” quote and “Contact us” message.
 
-- 基础并发目标：峰值 100 RPS（原型），p95 响应 < 300ms（本地/小规模部署）。
-- 分页默认 12 条/页，最大 50 条/页。
-- 可用性目标（开发/演示环境）：99%（生产需另配监控与告警）。
+## 4) Current Status — M0 (Pages + Core)
 
-### 安全
+Done:
 
-- 禁止将密钥硬编码在仓库中；使用 `.env.example`，部署注入 `JWT_SECRET` 等敏感值。
-- 身份认证使用 JWT；密码使用 bcrypt（或 bcryptjs）安全哈希。
-- 输入校验：对表单、查询字符串和文件进行校验/净化，预防 SQL 注入/XSS。
-- 文件上传：校验 MIME/扩展名/大小，必要时对图像进行解析验证；限制上传目录与访问路径。
-- CORS：开发环境允许 `localhost`，生产限制到受信任域名。
-- 速率限制：对登录/注册等敏感端点启用（例如 10 次/分钟/客户端）。
+- Global nav/header/drawer aligned with Ant Design; footer links present.
+- Home `/` and `/everything`: list, filters (q/min/max/brand/VRAM/condition), sort mapping, pagination; empty/error states.
+- Detail `/g/:id`: main image, thumbnail gallery, description, price, seller info, copy link, back to home.
+- Auth: login/register forms; logout; AuthGuard redirects unauthenticated users and returns after login.
+- My listings `/my`: list own items, navigate to edit, delete with confirm.
+- Sell `/sell` and Edit `/edit/:id`: forms with title/price/condition/brand/VRAM/description; multiple images; create/update then redirect to detail.
+- Profile `/profile` and `/profile/edit`: view display name/avatar; upload avatar (instant feedback).
+- Sell to us `/sell-to-us`: form and image upload; backend persists quotes and images.
+- Contact `/contact`: form; backend persists messages.
+- Static pages `/about`, `/privacy`, `/terms`.
+- SEO basics: page titles, `/robots.txt`, `/sitemap.xml`; static asset cache headers.
+- Backend: validation with Zod, image MIME+magic checks, pixel limit, sharp resize/WebP, rate limiting, metrics (HTTP + quotes/contact), structured logs.
 
-### 数据与存储
+Remaining for M0 (ship-ready basics):
 
-- 初期使用 SQLite 快速迭代；生产建议迁移至 Postgres。
-- 图片/头像初期存储在本地 `uploads/` 目录；生产迁移至对象存储（S3/兼容）。
-- 提供基本备份与迁移指导（文档层面）。
+- Profile display name editing endpoint + UI wiring (currently read-only in UI).
+- Minor UI consistency passes in footer styling if needed.
 
-### 可观测性与日志
+Out of scope for M0 (defer to M1):
 
-- 结构化日志（JSON）：记录 request id、路径、状态码、耗时、错误。
-- 指标：RPS、p95、错误率（5xx）、平均响应时间；预留 `/health` 与 `/metrics` 接口（Prometheus）。
-- 错误跟踪：预留第三方集成（如 Sentry）。
+- Advanced testing coverage, complex negative cases, and E2E expansion.
+- Performance fine-tuning (more granular code-splitting, image gallery interactions, SSR/SEO enhancements).
+- Advanced image management (drag-sort, cover selection), admin console, payments.
 
-### 可维护性/质量
+## 5) Acceptance Criteria (M0)
 
-- 代码规范：ESLint + Prettier（或等价风格）。
-- 测试：单元/集成测试，关键路径覆盖率 ≥ 80%。
-- CI：lint → test → build → 依赖/安全审计；PR 必须通过 CI 才能合并。
+- All routes are directly navigable; core buttons/forms work and show success/error toasts.
+- Unauthenticated access to protected routes (`/sell`, `/edit/:id`, `/my`, `/profile/edit`) redirects to `/login` and returns to the original route after successful login.
+- Home filters/sort/pagination fetch and render results; Detail page shows key listing info; Sell/Edit create/update flows work; My listings delete works.
+- Sell to us and Contact submit successfully (HTTP 201) and show success message.
+- Backend enforces validation and upload safety (type, size, pixel, basic magic); rate limit on sensitive endpoints; metrics available at `/metrics`.
 
-### 部署/可复现
+## 6) Phase M1 (Tests & Optimization)
 
-- 提供 `Dockerfile` 与 `docker-compose.yml` 实现一键本地启动。
-- README 覆盖：运行、构建、测试、环境变量配置。
+- Testing: unit/integration tests for Home (sort, filters, URL sync), Details copy-link, Sell/Edit negative cases and success navigation, AuthGuard redirects; expand E2E with Playwright. Maintain existing tests; raise coverage gradually (no hard 80% gate during M0 delivery).
+- Performance: refine chunking and lazy-loading where beneficial; image loading hints; reduce unused Antd usage if measurable.
+- Observability: dashboards for p95/error rate; add trace hooks; structured error payloads.
+- Docs: polish README (troubleshooting, dev tips), optional runbook/threat model (as separate docs if needed).
 
-## 5. 约束与假设
+## 7) Non-Functional Baseline (already applied)
 
-- 技术栈：Node.js + Express，SQLite（可替换 Postgres），静态前端（Bootstrap + 原生 JS）。
-- 先保功能闭环的 MVP，再进行性能、安全与生产级硬化。
-- 文件存储初期为本地磁盘；生产迁移 S3 类对象存储并使用签名 URL。
-- 本阶段不实现支付/即时通讯/评价系统（列为后续扩展）。
+- Security: Helmet with tuned CSP; zod validation; bcrypt; JWT; CORS allowlist; rate limits on auth/quotes/contact; upload validation with MIME/ext/magic and sharp processing; static uploads under `/uploads` with cache rules.
+- Observability: pino-http logs with request ids; Prometheus metrics (`/metrics`); health check at `/health`.
+- Deployment: Dockerfile + docker-compose; Render build uses Node 20 and builds SPA via backend script (`render-build`/`render-start`).
 
-## 6. 风险与缓解
+## 8) API Surface (reference)
 
-- R1：本地文件存储扩展性不足 → 早期抽象存储接口，提供向 S3 迁移脚本与指南。
-- R2：上传校验不足带来安全隐患 → API 层 & 存储层双重校验，限制大小/MIME/扩展名并解析验证。
-- R3：测试覆盖不足导致回归 → 强制 CI 覆盖率门槛并完善关键路径集成测试。
+- Auth: `POST /api/register`, `POST /api/login`
+- Listings: `GET /api/search`, `GET /api/gpus/:id`, `POST /api/gpus`, `PUT /api/gpus/:id`, `DELETE /api/gpus/:id`, `GET /api/my/gpus`
+- Users: `GET /api/users/:id`, `POST /api/users/me/avatar`
+- Quotes: `POST /api/quotes`
+- Contact: `POST /api/contact`
+- Ops: `GET /health`, `GET /metrics`; Docs: `/docs`
 
-## 7. 交付清单（MVP）
+## 9) How to Run (quick)
 
-- 文档：`docs/requirements.md`（本文件）、`README.md`、`docs/runbook.md`、`docs/threat-model.md`。
-- 后端：`backend/index.js`（REST API）、`backend/seed.js`、`backend/package.json`、`.env.example`（在仓库根或`backend/`下，示例变量已覆盖 SEO/图片配置）、`uploads/`（本地存储，排除大文件）。
-- 前端：`frontend/index.html`（搜索/筛选/分页、登录/注册、发布/编辑/删除、个人资料/头像上传）。
-- 容器与编排：`Dockerfile`、`docker-compose.yml`。
-- 测试与 CI：关键路径测试、`.github/workflows/ci.yml`（lint、test、build、审计）。
-
-## 8. 初始验收与下一步
-
-- 本文件经确认后，进入“选型与高层架构（ADR）”与“仓库初始化规范（lint、格式化、环境变量样例、CI 框架）”阶段。随后按“先计划后执行、逐文件提交 diff”的节奏实现功能。
+- Dev: `cd backend && npm start` and `cd frontend-spa && npm run dev`.
+- Build SPA: `cd frontend-spa && npm run build` (outputs to `frontend/dist/` for backend to serve).
+- Docker: `docker compose up --build -d` (backend serves SPA statically).
