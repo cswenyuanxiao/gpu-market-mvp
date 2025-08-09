@@ -14,9 +14,16 @@ export default function Home() {
   const init = getAll();
   const isEverything = typeof location !== 'undefined' && location.pathname === '/everything';
   const [q, setQ] = useState(init.q || '');
-  const [sort, setSort] = useState<'newest' | 'price_asc' | 'price_desc'>(
-    ((init.sort as any) || (isEverything ? 'price_desc' : 'newest')) as any,
-  );
+  type UiSort =
+    | 'featured'
+    | 'best'
+    | 'alpha_asc'
+    | 'alpha_desc'
+    | 'date_new'
+    | 'date_old'
+    | 'price_asc'
+    | 'price_desc';
+  const [uiSort, setUiSort] = useState<UiSort>(((init.sort as any) || (isEverything ? 'price_desc' : 'date_new')) as UiSort);
   const [filters, setFilters] = useState<Partial<SearchQuery>>({
     min: init.min || '',
     max: init.max || '',
@@ -30,19 +37,24 @@ export default function Home() {
   const [per] = useState(12);
 
   const queryParams = useMemo(() => {
+    // map UI sorts to backend sorts (placeholder mapping where unsupported)
+    let backendSort: 'newest' | 'price_asc' | 'price_desc' = 'newest';
+    if (uiSort === 'price_asc') backendSort = 'price_asc';
+    else if (uiSort === 'price_desc') backendSort = 'price_desc';
+    else if (uiSort === 'date_new' || uiSort === 'featured' || uiSort === 'best' || uiSort === 'alpha_asc' || uiSort === 'alpha_desc' || uiSort === 'date_old') backendSort = 'newest';
     const p = new URLSearchParams();
     if (q) p.set('q', q);
-    if (sort) p.set('sort', sort);
+    p.set('sort', backendSort);
     Object.entries(filters).forEach(([k, v]) => {
       if (v) p.set(k, String(v));
     });
     p.set('page', String(page));
     p.set('per', String(per));
     return p;
-  }, [q, sort, filters, page, per]);
+  }, [q, uiSort, filters, page, per]);
 
   const { data, isLoading, isError, refetch, isFetching } = useQuery<SearchResult>({
-    queryKey: ['search', q, sort, filters, page, per],
+    queryKey: ['search', q, uiSort, filters, page, per],
     queryFn: async (): Promise<SearchResult> => {
       setAll({ q, sort, page: String(page), ...filters });
       const res = await apiFetch('/api/search?' + queryParams.toString());
@@ -76,13 +88,18 @@ export default function Home() {
           onChange={(e) => setQ(e.target.value)}
         />
         <Select
-          value={sort}
-          style={{ width: 160 }}
-          onChange={(v) => setSort(v as any)}
+          value={uiSort}
+          style={{ width: 220 }}
+          onChange={(v) => setUiSort(v as UiSort)}
           options={[
-            { value: 'newest', label: 'Newest' },
-            { value: 'price_asc', label: 'Price ↑' },
-            { value: 'price_desc', label: 'Price ↓' },
+            { value: 'featured', label: 'Featured' },
+            { value: 'best', label: 'Best selling' },
+            { value: 'alpha_asc', label: 'Alphabetically, A-Z' },
+            { value: 'alpha_desc', label: 'Alphabetically, Z-A' },
+            { value: 'price_asc', label: 'Price, low to high' },
+            { value: 'price_desc', label: 'Price, high to low' },
+            { value: 'date_old', label: 'Date, old to new' },
+            { value: 'date_new', label: 'Date, new to old' },
           ]}
         />
         <Button type="primary" onClick={() => refetch()}>Search</Button>
