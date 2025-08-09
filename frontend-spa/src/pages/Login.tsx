@@ -2,6 +2,7 @@ import { FormEvent, useState } from 'react';
 import { apiFetch } from '../lib/api';
 import { useNavigate, useLocation, Link } from 'react-router-dom';
 import { useAuth } from '../store/auth';
+import FormField from '../components/ui/FormField';
 
 export default function Login() {
   const [username, setUsername] = useState('');
@@ -43,14 +44,12 @@ export default function Login() {
     <div className="container py-4" style={{ maxWidth: 420 }}>
       <h3 className="mb-3">Login</h3>
       <form onSubmit={onSubmit}>
-        <div className="mb-3">
-          <label className="form-label" htmlFor="login-username">Username</label>
+        <FormField label="Username" htmlFor="login-username">
           <input id="login-username" className="form-control" value={username} onChange={(e) => setUsername(e.target.value)} />
-        </div>
-        <div className="mb-3">
-          <label className="form-label" htmlFor="login-password">Password</label>
+        </FormField>
+        <FormField label="Password" htmlFor="login-password">
           <input id="login-password" type="password" className="form-control" value={password} onChange={(e) => setPassword(e.target.value)} />
-        </div>
+        </FormField>
         <button disabled={loading} className="btn btn-primary w-100" type="submit">
           {loading ? 'Signing in...' : 'Sign In'}
         </button>

@@ -1,6 +1,7 @@
 import { FormEvent, useState } from 'react';
 import { apiFetch } from '../lib/api';
 import { useNavigate, Link } from 'react-router-dom';
+import FormField from '../components/ui/FormField';
 
 export default function Register() {
   const [username, setUsername] = useState('');
@@ -38,18 +39,15 @@ export default function Register() {
     <div className="container py-4" style={{ maxWidth: 480 }}>
       <h3 className="mb-3">Register</h3>
       <form onSubmit={onSubmit}>
-        <div className="mb-3">
-          <label className="form-label" htmlFor="reg-username">Username</label>
+        <FormField label="Username" htmlFor="reg-username">
           <input id="reg-username" className="form-control" value={username} onChange={(e) => setUsername(e.target.value)} />
-        </div>
-        <div className="mb-3">
-          <label className="form-label" htmlFor="reg-password">Password</label>
+        </FormField>
+        <FormField label="Password" htmlFor="reg-password">
           <input id="reg-password" type="password" className="form-control" value={password} onChange={(e) => setPassword(e.target.value)} />
-        </div>
-        <div className="mb-3">
-          <label className="form-label" htmlFor="reg-display">Display Name</label>
+        </FormField>
+        <FormField label="Display Name" htmlFor="reg-display">
           <input id="reg-display" className="form-control" value={displayName} onChange={(e) => setDisplayName(e.target.value)} />
-        </div>
+        </FormField>
         <button disabled={loading} className="btn btn-success w-100" type="submit">
           {loading ? 'Creating...' : 'Create Account'}
         </button>

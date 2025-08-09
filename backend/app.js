@@ -319,7 +319,7 @@ if (fs.existsSync(staticDir)) {
   );
   app.get('/', (req, res) => res.sendFile(path.join(staticDir, 'index.html')));
   // SPA routes fallback
-  const spaRoutes = ['/login', '/register', '/my', '/profile', '/profile/edit', '/sell', /^\/edit\/.+/, /^\/g\/.+/];
+  const spaRoutes = ['/login', '/register', '/my', '/profile', '/profile/edit', '/sell', /^\/edit\/.+/, /^\/g\/.+/, '/about', '/privacy', '/terms', '/500'];
   app.get(spaRoutes, (req, res) => res.sendFile(path.join(staticDir, 'index.html')));
 }
 

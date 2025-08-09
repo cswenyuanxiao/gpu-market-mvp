@@ -3,6 +3,7 @@ import { apiFetch } from '../lib/api';
 import ImageUploader, { LocalImage } from '../components/ImageUploader';
 import { useNavigate } from 'react-router-dom';
 import { z } from 'zod';
+import FormField from '../components/ui/FormField';
 
 export default function Sell() {
   const [title, setTitle] = useState('');
@@ -60,35 +61,29 @@ export default function Sell() {
       <form onSubmit={onSubmit}>
         <div className="row g-3">
           <div className="col-md-8">
-            <div className="mb-3">
-              <label className="form-label" htmlFor="title">Title</label>
+            <FormField label="Title" htmlFor="title">
               <input id="title" className="form-control" value={title} onChange={(e) => setTitle(e.target.value)} />
-            </div>
-            <div className="mb-3">
-              <label className="form-label" htmlFor="desc">Description</label>
+            </FormField>
+            <FormField label="Description" htmlFor="desc">
               <textarea id="desc" className="form-control" rows={6} value={desc} onChange={(e) => setDesc(e.target.value)} />
-            </div>
+            </FormField>
           </div>
           <div className="col-md-4">
-            <div className="mb-3">
-              <label className="form-label" htmlFor="price">Price</label>
+            <FormField label="Price" htmlFor="price">
               <input id="price" className="form-control" value={price} onChange={(e) => setPrice(e.target.value)} />
-            </div>
-            <div className="mb-3">
-              <label className="form-label" htmlFor="cond">Condition</label>
+            </FormField>
+            <FormField label="Condition" htmlFor="cond">
               <select id="cond" className="form-select" value={condition} onChange={(e) => setCondition(e.target.value as any)}>
                 <option value="New">New</option>
                 <option value="Used">Used</option>
               </select>
-            </div>
-            <div className="mb-3">
-              <label className="form-label" htmlFor="brand">Brand</label>
+            </FormField>
+            <FormField label="Brand" htmlFor="brand">
               <input id="brand" className="form-control" value={brand} onChange={(e) => setBrand(e.target.value)} />
-            </div>
-            <div className="mb-3">
-              <label className="form-label" htmlFor="vram">VRAM (GB)</label>
+            </FormField>
+            <FormField label="VRAM (GB)" htmlFor="vram">
               <input id="vram" className="form-control" value={vram} onChange={(e) => setVram(e.target.value)} />
-            </div>
+            </FormField>
           </div>
         </div>
         <div className="mb-3">
