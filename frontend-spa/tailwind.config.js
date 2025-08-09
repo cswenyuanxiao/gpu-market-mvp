@@ -1,13 +1,4 @@
-/** @type {import('tailwindcss').Config} */
-module.exports = {
-  content: [
-    './index.html',
-    './src/**/*.{ts,tsx}',
-  ],
-  theme: {
-    extend: {},
-  },
-  plugins: [],
-};
+// moved to tailwind.config.cjs for CommonJS in ESM repo
+module.exports = {};
 
 
