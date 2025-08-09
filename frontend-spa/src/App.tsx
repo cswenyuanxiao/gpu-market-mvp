@@ -22,9 +22,7 @@ import Privacy from './pages/Privacy';
 import Terms from './pages/Terms';
 const Returns = lazy(() => import('./pages/Returns'));
 const B2B = lazy(() => import('./pages/B2B'));
-const Raffles = lazy(() => import('./pages/Raffles'));
-const RaffleInfo = lazy(() => import('./pages/RaffleInfo'));
-const RaffleWinners = lazy(() => import('./pages/RaffleWinners'));
+
 const Cart = lazy(() => import('./pages/Cart'));
 import ServerError from './pages/ServerError';
 import { Button, Dropdown, Drawer, Menu } from 'antd';
@@ -246,25 +244,7 @@ export default function App() {
                 My Profile
               </Button>
             </Link>
-            <Dropdown
-              trigger={['click']}
-              menu={{
-                items: [
-                  { key: 'raffles', label: 'Current Raffle' },
-                  { key: 'raffle-info', label: 'Raffle Information' },
-                  { key: 'raffle-winners', label: 'Raffle Winners' },
-                ],
-                onClick: (info) => {
-                  if (info.key === 'raffles') navigate('/raffles');
-                  if (info.key === 'raffle-info') navigate('/raffles/info');
-                  if (info.key === 'raffle-winners') navigate('/raffles/winners');
-                },
-              }}
-            >
-              <Button type="text" size="small">
-                Raffles
-              </Button>
-            </Dropdown>
+
             {user && (
               <Link to="/profile/edit">
                 <Button size="small" type="default">
@@ -400,9 +380,7 @@ export default function App() {
             <Route path="/sell-to-us" element={<SellToUs />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/b2b" element={<B2B />} />
-            <Route path="/raffles" element={<Raffles />} />
-            <Route path="/raffles/info" element={<RaffleInfo />} />
-            <Route path="/raffles/winners" element={<RaffleWinners />} />
+
             <Route path="/cart" element={<Cart />} />
             <Route
               path="/edit/:id"
