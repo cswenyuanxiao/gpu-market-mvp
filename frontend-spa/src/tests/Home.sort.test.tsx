@@ -22,9 +22,9 @@ describe('Home sort change', () => {
     // open antd Select dropdown
     const trigger = document.querySelector('.ant-select') as HTMLElement;
     fireEvent.mouseDown(trigger);
-    // click the option in dropdown
-    const opt = await screen.findByText('Price ↑');
-    fireEvent.click(opt);
+    // click option using dropdown option class to avoid role/text issues
+    const optionNode = await waitFor(() => document.querySelector('.ant-select-item-option[title="Price ↑"]') as HTMLElement);
+    fireEvent.click(optionNode);
     await waitFor(() => expect(mockFetch).toHaveBeenCalledTimes(2));
     global.fetch = orig;
   });

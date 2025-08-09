@@ -23,8 +23,9 @@ describe('Home React Query flow', () => {
       </QueryClientProvider>
     );
     expect(await screen.findByText('GPU 1')).toBeInTheDocument();
-    // go to page 2
-    fireEvent.click(screen.getByRole('button', { name: '2' }));
+    // go to page 2 (Antd pagination uses li[title="2"])
+    const li = document.querySelector('li[title="2"]') as HTMLElement;
+    fireEvent.click(li);
     await waitFor(() => expect(mockFetch).toHaveBeenCalledTimes(2));
     global.fetch = orig;
   });
@@ -44,6 +45,10 @@ describe('Home React Query flow', () => {
         </MemoryRouter>
       </QueryClientProvider>
     );
+    // initial failed once
+    await waitFor(() => expect(mockFetch).toHaveBeenCalledTimes(1));
+    // trigger explicit refetch via Search button
+    fireEvent.click(screen.getByRole('button', { name: /search/i }));
     await waitFor(() => expect(mockFetch).toHaveBeenCalledTimes(2));
     global.fetch = orig;
   });
