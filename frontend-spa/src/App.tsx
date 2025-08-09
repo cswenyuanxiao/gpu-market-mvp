@@ -60,7 +60,7 @@ export default function App() {
     { key: 'amd-6000', label: 'AMD 6000 Series' },
   ];
   return (
-    <>
+    <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
       <div className="w-100 py-1 text-center text-white" style={{ background: '#2f7f82' }}>
         <a href="#reviews" className="text-white text-decoration-none">
           See Our Excellent Reviews →
@@ -374,65 +374,67 @@ export default function App() {
           )}
         </div>
       </Drawer>
-      <Suspense fallback={<div className="container py-3">Loading...</div>}>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/everything" element={<Home />} />
-          <Route path="/profile" element={<Profile />} />
-          <Route
-            path="/profile/edit"
-            element={
-              <AuthGuard>
-                <ProfileEdit />
-              </AuthGuard>
-            }
-          />
-          <Route path="/g/:id" element={<Detail />} />
-          <Route
-            path="/sell"
-            element={
-              <AuthGuard>
-                <Sell />
-              </AuthGuard>
-            }
-          />
-          <Route path="/sell-to-us" element={<SellToUs />} />
-          <Route path="/contact" element={<Contact />} />
-          <Route path="/b2b" element={<B2B />} />
-          <Route path="/raffles" element={<Raffles />} />
-          <Route path="/raffles/info" element={<RaffleInfo />} />
-          <Route path="/raffles/winners" element={<RaffleWinners />} />
-          <Route path="/cart" element={<Cart />} />
-          <Route
-            path="/edit/:id"
-            element={
-              <AuthGuard>
-                <Edit />
-              </AuthGuard>
-            }
-          />
-          <Route path="*" element={<NotFound />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/privacy" element={<Privacy />} />
-          <Route path="/terms" element={<Terms />} />
-          <Route path="/returns" element={<Returns />} />
-          <Route path="/500" element={<ServerError />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
-          <Route
-            path="/my"
-            element={
-              <AuthGuard>
-                <MyListings />
-              </AuthGuard>
-            }
-          />
-        </Routes>
-      </Suspense>
-      <SearchOverlay open={searchOpen} onClose={() => setSearchOpen(false)} />
-      <ToastContainer messages={messages} />
+      <div style={{ flex: 1 }}>
+        <Suspense fallback={<div className="container py-3">Loading...</div>}>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/everything" element={<Home />} />
+            <Route path="/profile" element={<Profile />} />
+            <Route
+              path="/profile/edit"
+              element={
+                <AuthGuard>
+                  <ProfileEdit />
+                </AuthGuard>
+              }
+            />
+            <Route path="/g/:id" element={<Detail />} />
+            <Route
+              path="/sell"
+              element={
+                <AuthGuard>
+                  <Sell />
+                </AuthGuard>
+              }
+            />
+            <Route path="/sell-to-us" element={<SellToUs />} />
+            <Route path="/contact" element={<Contact />} />
+            <Route path="/b2b" element={<B2B />} />
+            <Route path="/raffles" element={<Raffles />} />
+            <Route path="/raffles/info" element={<RaffleInfo />} />
+            <Route path="/raffles/winners" element={<RaffleWinners />} />
+            <Route path="/cart" element={<Cart />} />
+            <Route
+              path="/edit/:id"
+              element={
+                <AuthGuard>
+                  <Edit />
+                </AuthGuard>
+              }
+            />
+            <Route path="*" element={<NotFound />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/privacy" element={<Privacy />} />
+            <Route path="/terms" element={<Terms />} />
+            <Route path="/returns" element={<Returns />} />
+            <Route path="/500" element={<ServerError />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+            <Route
+              path="/my"
+              element={
+                <AuthGuard>
+                  <MyListings />
+                </AuthGuard>
+              }
+            />
+          </Routes>
+        </Suspense>
+        <SearchOverlay open={searchOpen} onClose={() => setSearchOpen(false)} />
+        <ToastContainer messages={messages} />
+      </div>
       <Footer />
       <FloatingWhatsApp />
-    </>
+    </div>
   );
 }
