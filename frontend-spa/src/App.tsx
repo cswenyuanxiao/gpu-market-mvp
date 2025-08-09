@@ -31,6 +31,7 @@ import { Button, Dropdown, Drawer, Menu } from 'antd';
 import type { MenuProps } from 'antd';
 import FloatingWhatsApp from './components/ui/FloatingWhatsApp';
 import { SearchOutlined, ShoppingOutlined } from '@ant-design/icons';
+import SearchOverlay from './components/SearchOverlay';
 
 export default function App() {
   const { api, messages } = useToast();
@@ -50,6 +51,7 @@ export default function App() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [searchOpen, setSearchOpen] = useState(false);
   const seriesItems: MenuProps['items'] = [
     { key: 'nvidia-40', label: 'NVIDIA 40 Series' },
     { key: 'nvidia-30', label: 'NVIDIA 30 Series' },
@@ -76,10 +78,10 @@ export default function App() {
           onClick={() => {
             if (location.pathname !== '/' && location.pathname !== '/everything') {
               navigate('/everything');
-              setTimeout(() => document.getElementById('globalSearchInput')?.focus(), 0);
             } else {
-              document.getElementById('globalSearchInput')?.focus();
+              // no-op
             }
+            setSearchOpen(true);
           }}
         />
         <Link to="/" className="d-flex align-items-center gap-2 text-decoration-none">
@@ -433,6 +435,7 @@ export default function App() {
           />
         </Routes>
       </Suspense>
+      <SearchOverlay open={searchOpen} onClose={() => setSearchOpen(false)} />
       <ToastContainer messages={messages} />
       <footer className="border-top bg-white mt-4" id="main">
         <div className="container py-4 text-muted small">
