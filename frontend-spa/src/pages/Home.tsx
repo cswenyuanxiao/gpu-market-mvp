@@ -56,7 +56,7 @@ export default function Home() {
   const { data, isLoading, isError, refetch, isFetching } = useQuery<SearchResult>({
     queryKey: ['search', q, uiSort, filters, page, per],
     queryFn: async (): Promise<SearchResult> => {
-      setAll({ q, sort, page: String(page), ...filters });
+      setAll({ q, sort: uiSort as any, page: String(page), ...filters });
       const res = await apiFetch('/api/search?' + queryParams.toString());
       return res.json();
     },
