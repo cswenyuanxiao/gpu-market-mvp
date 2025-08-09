@@ -663,13 +663,18 @@ app.post('/api/login', authLimiter, async (req, res) => {
 });
 
 // List GPUs (simple)
-app.get('/api/gpus', (req, res) => {
-  const rows = db
-    .prepare(
-      'SELECT gpus.*, users.display_name as seller_name, users.avatar_path as seller_avatar FROM gpus LEFT JOIN users ON gpus.seller_id = users.id ORDER BY created_at DESC',
-    )
-    .all();
-  res.json(rows);
+app.get('/api/gpus', async (req, res) => {
+  try {
+    const rows = await db
+      .prepare(
+        'SELECT gpus.*, users.display_name as seller_name, users.avatar_path as seller_avatar FROM gpus LEFT JOIN users ON gpus.seller_id = users.id ORDER BY created_at DESC',
+      )
+      .all();
+    res.json(rows);
+  } catch (error) {
+    console.error('GPUs API error:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
 });
 
 app.get('/api/gpus/:id', (req, res) => {
