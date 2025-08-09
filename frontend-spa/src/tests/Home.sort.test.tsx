@@ -19,9 +19,12 @@ describe('Home sort change', () => {
       </QueryClientProvider>
     );
     await waitFor(() => expect(mockFetch).toHaveBeenCalledTimes(1));
-    fireEvent.mouseDown(screen.getByDisplayValue('Newest'));
-    // simulate selecting price asc
-    fireEvent.change(screen.getByDisplayValue('Newest'), { target: { value: 'price_asc' } });
+    // open antd Select dropdown
+    const trigger = document.querySelector('.ant-select') as HTMLElement;
+    fireEvent.mouseDown(trigger);
+    // click the option in dropdown
+    const opt = await screen.findByText('Price ↑');
+    fireEvent.click(opt);
     await waitFor(() => expect(mockFetch).toHaveBeenCalledTimes(2));
     global.fetch = orig;
   });

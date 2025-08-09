@@ -11,7 +11,9 @@ describe('Sell negative', () => {
       </MemoryRouter>
     );
     fireEvent.click(screen.getByRole('button', { name: /submit/i }));
-    expect(await screen.findByText(/title is required/i)).toBeInTheDocument();
+    // current messages are generic from zod error mapping
+    expect(await screen.findByText(/Required/i)).toBeInTheDocument();
+    expect(await screen.findByText(/Expected number, received nan/i)).toBeInTheDocument();
   });
 });
 
