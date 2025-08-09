@@ -6,11 +6,13 @@ services:
     branch: master
     autoDeploy: true
     healthCheckPath: /health
-    buildCommand: cd backend && npm install --omit=dev
+    buildCommand: |
+      cd backend && npm ci --omit=dev
+      cd ../frontend-spa && npm ci && npm run build
     startCommand: cd backend && node index.js
     envVars:
       - key: NODE_VERSION
-        value: 18
+        value: 20
       - key: NODE_ENV
         value: production
       - key: JWT_SECRET
