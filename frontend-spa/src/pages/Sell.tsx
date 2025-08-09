@@ -1,43 +1,40 @@
-import { FormEvent, useMemo, useState } from 'react';
+import { useState } from 'react';
 import { apiFetch } from '../lib/api';
 import ImageUploader, { LocalImage } from '../components/ImageUploader';
 import { useNavigate } from 'react-router-dom';
 import { z } from 'zod';
 import FormField from '../components/ui/FormField';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { Button } from 'antd';
+
+const SellSchema = z.object({
+  title: z.string().min(1, 'Title is required'),
+  price: z.coerce.number().positive('Price must be > 0'),
+  condition: z.enum(['New', 'Used']),
+  brand: z.string().max(50).optional(),
+  vram: z.coerce.number().int().nonnegative().max(64).optional(),
+  desc: z.string().max(2000).optional(),
+});
+type SellValues = z.infer<typeof SellSchema>;
 
 export default function Sell() {
-  const [title, setTitle] = useState('');
-  const [price, setPrice] = useState('');
-  const [condition, setCondition] = useState<'New' | 'Used'>('Used');
-  const [brand, setBrand] = useState('');
-  const [vram, setVram] = useState('');
-  const [desc, setDesc] = useState('');
   const [files, setFiles] = useState<File[]>([]);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const { register, handleSubmit, formState: { errors } } = useForm<SellValues>({
+    resolver: zodResolver(SellSchema),
+    defaultValues: { condition: 'Used' },
+  });
 
-  async function onSubmit(e: FormEvent) {
-    e.preventDefault();
-    const schema = z.object({
-      title: z.string().min(1),
-      price: z.coerce.number().positive(),
-      condition: z.enum(['New', 'Used']),
-      brand: z.string().max(50).optional(),
-      vram: z.coerce.number().int().nonnegative().max(64).optional(),
-      desc: z.string().max(2000).optional(),
-    });
-    const parsed = schema.safeParse({ title, price, condition, brand, vram, desc });
-    if (!parsed.success) {
-      window.dispatchEvent(new CustomEvent('app-toast', { detail: { text: 'Invalid form input', type: 'warning' } }));
-      return;
-    }
+  async function onSubmit(values: SellValues) {
     const fd = new FormData();
-    fd.set('title', parsed.data.title);
-    fd.set('price', String(parsed.data.price));
-    fd.set('condition', condition);
-    if (parsed.data.brand) fd.set('brand', parsed.data.brand);
-    if (parsed.data.vram !== undefined) fd.set('vram_gb', String(parsed.data.vram));
-    if (parsed.data.desc) fd.set('description', parsed.data.desc);
+    fd.set('title', values.title);
+    fd.set('price', String(values.price));
+    fd.set('condition', values.condition);
+    if (values.brand) fd.set('brand', values.brand);
+    if (values.vram !== undefined) fd.set('vram_gb', String(values.vram));
+    if (values.desc) fd.set('description', values.desc);
     files.slice(0, 10).forEach((f) => fd.append('images', f));
     setLoading(true);
     try {
@@ -58,38 +55,38 @@ export default function Sell() {
   return (
     <div className="container py-3" style={{ maxWidth: 720 }}>
       <h3>Create Listing</h3>
-      <form onSubmit={onSubmit}>
+      <form onSubmit={handleSubmit(onSubmit)}>
         <div className="row g-3">
           <div className="col-md-8">
-            <FormField label="Title" htmlFor="title">
-              <input id="title" className="form-control" value={title} onChange={(e) => setTitle(e.target.value)} />
+            <FormField label="Title" htmlFor="title" error={errors.title?.message}>
+              <input id="title" className="form-control" {...register('title')} />
             </FormField>
-            <FormField label="Description" htmlFor="desc">
-              <textarea id="desc" className="form-control" rows={6} value={desc} onChange={(e) => setDesc(e.target.value)} />
+            <FormField label="Description" htmlFor="desc" error={errors.desc?.message}>
+              <textarea id="desc" className="form-control" rows={6} {...register('desc')} />
             </FormField>
           </div>
           <div className="col-md-4">
-            <FormField label="Price" htmlFor="price">
-              <input id="price" className="form-control" value={price} onChange={(e) => setPrice(e.target.value)} />
+            <FormField label="Price" htmlFor="price" error={errors.price?.message}>
+              <input id="price" className="form-control" {...register('price')} />
             </FormField>
-            <FormField label="Condition" htmlFor="cond">
-              <select id="cond" className="form-select" value={condition} onChange={(e) => setCondition(e.target.value as any)}>
+            <FormField label="Condition" htmlFor="cond" error={errors.condition?.message}>
+              <select id="cond" className="form-select" {...register('condition')}>
                 <option value="New">New</option>
                 <option value="Used">Used</option>
               </select>
             </FormField>
-            <FormField label="Brand" htmlFor="brand">
-              <input id="brand" className="form-control" value={brand} onChange={(e) => setBrand(e.target.value)} />
+            <FormField label="Brand" htmlFor="brand" error={errors.brand?.message}>
+              <input id="brand" className="form-control" {...register('brand')} />
             </FormField>
-            <FormField label="VRAM (GB)" htmlFor="vram">
-              <input id="vram" className="form-control" value={vram} onChange={(e) => setVram(e.target.value)} />
+            <FormField label="VRAM (GB)" htmlFor="vram" error={errors.vram?.message}>
+              <input id="vram" className="form-control" {...register('vram')} />
             </FormField>
           </div>
         </div>
         <div className="mb-3">
           <ImageUploader onChange={setFiles} />
         </div>
-        <button disabled={loading} className="btn btn-primary" type="submit">{loading ? 'Submitting...' : 'Submit'}</button>
+        <Button type="primary" htmlType="submit" loading={loading}>Submit</Button>
       </form>
     </div>
   );
