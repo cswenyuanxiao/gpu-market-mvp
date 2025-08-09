@@ -35,7 +35,23 @@ export default function Terms() {
       <h2>7. Changes</h2>
       <p>We may update these Terms; continued use constitutes acceptance.</p>
 
-      <h2>8. Contact</h2>
+      <h2>8. Warranty & Support</h2>
+      <ul>
+        <li>
+          Marketplace items may include remaining manufacturer warranty if explicitly stated in the
+          listing. Proof of purchase may be required by the manufacturer.
+        </li>
+        <li>
+          We provide an arrival guarantee: if the item arrives DOA (dead on arrival), contact us
+          within 48 hours for priority handling.
+        </li>
+        <li>
+          Basic assistance is available via the Contact page for troubleshooting and case-by-case
+          resolution. We do not offer on-site repair services.
+        </li>
+      </ul>
+
+      <h2>9. Contact</h2>
       <p>
         For questions about these Terms, please <a href="/contact">contact us</a>.
       </p>
