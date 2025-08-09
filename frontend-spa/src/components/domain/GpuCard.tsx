@@ -1,5 +1,6 @@
 import { formatDate, formatPrice } from '../../lib/format';
 import type { Gpu } from '../../types';
+import LazyImg from '../ui/LazyImg';
 
 export default function GpuCard({ gpu, onDetails }: { gpu: Gpu; onDetails: (id: number) => void }) {
   const isNewlyAdded = (() => {
@@ -12,13 +13,12 @@ export default function GpuCard({ gpu, onDetails }: { gpu: Gpu; onDetails: (id: 
       <div className="row g-0">
         {gpu.image_path && (
           <div className="col-4">
-            <img
+            <LazyImg
               src={gpu.image_path}
               srcSet={`${gpu.image_path} 1x, ${gpu.image_path} 2x`}
               sizes="(max-width: 768px) 100vw, 33vw"
               className="img-fluid rounded-start"
               style={{ height: 160, objectFit: 'cover' }}
-              loading="lazy"
             />
           </div>
         )}
@@ -41,7 +41,27 @@ export default function GpuCard({ gpu, onDetails }: { gpu: Gpu; onDetails: (id: 
                 </span>
               </div>
             </div>
-            <p className="card-text mt-2">{gpu.description || ''}</p>
+            <p className="card-text mt-2">
+              {gpu.description && gpu.description.length > 120 ? (
+                <>
+                  {gpu.description.slice(0, 120)}...
+                  <a
+                    href="#"
+                    onClick={(e) => {
+                      e.preventDefault();
+                      const el = e.currentTarget.previousSibling as any;
+                      (e.currentTarget.parentElement as HTMLElement).textContent =
+                        gpu.description || '';
+                    }}
+                    className="ms-1"
+                  >
+                    Read more
+                  </a>
+                </>
+              ) : (
+                gpu.description || ''
+              )}
+            </p>
             <p className="card-text d-flex align-items-center gap-2">
               <small className="text-muted">{formatPrice(gpu.price)}</small>
               {gpu.seller_avatar && (
@@ -56,10 +76,13 @@ export default function GpuCard({ gpu, onDetails }: { gpu: Gpu; onDetails: (id: 
                 <small className="text-muted ms-auto">Added: {formatDate(gpu.created_at)}</small>
               )}
             </p>
-            <div>
-              <button className="btn btn-sm btn-outline-primary" onClick={() => onDetails(gpu.id)}>
+            <div className="d-flex justify-content-between align-items-center">
+              <button className="btn btn-sm btn-primary" onClick={() => onDetails(gpu.id)}>
                 Details
               </button>
+              <div className="text-muted small" title={`Seller: ${gpu.seller_name || ''}`}>
+                {gpu.seller_name || ''}
+              </div>
             </div>
           </div>
         </div>

@@ -36,6 +36,9 @@ app.use(
         upgradeInsecureRequests: [],
       },
     },
+    crossOriginEmbedderPolicy: false,
+    crossOriginOpenerPolicy: { policy: 'same-origin' },
+    crossOriginResourcePolicy: { policy: 'same-origin' },
   }),
 );
 // CORS allow list (comma-separated) or *
@@ -908,13 +911,13 @@ app.get('/sitemap.xml', (req, res) => {
 // Rate limiters for quotes and contact
 const quotesLimiter = rateLimit({
   windowMs: 10 * 60 * 1000,
-  max: 5,
+  limit: 5,
   standardHeaders: true,
   legacyHeaders: false,
 });
 const contactLimiter = rateLimit({
   windowMs: 60 * 1000,
-  max: 5,
+  limit: 10,
   standardHeaders: true,
   legacyHeaders: false,
 });
