@@ -4,6 +4,7 @@ import DetailsModal from '../components/DetailsModal';
 import SearchFilters from '../components/SearchFilters';
 import GpuCard from '../components/domain/GpuCard';
 import type { Gpu, SearchQuery } from '../types';
+import type { SearchResult } from '../lib/api';
 import { useQueryState } from '../lib/useQueryState';
 import { useQuery } from '@tanstack/react-query';
 import { Input, Select, Button, Drawer as AntDrawer, Pagination as AntPagination, Alert, Spin } from 'antd';
@@ -37,14 +38,14 @@ export default function Home() {
     return p;
   }, [q, sort, filters, page, per]);
 
-  const { data, isLoading, isError, refetch, isFetching } = useQuery({
+  const { data, isLoading, isError, refetch, isFetching } = useQuery<SearchResult>({
     queryKey: ['search', q, sort, filters, page, per],
-    queryFn: async () => {
+    queryFn: async (): Promise<SearchResult> => {
       setAll({ q, sort, page: String(page), ...filters });
       const res = await apiFetch('/api/search?' + queryParams.toString());
       return res.json();
     },
-    keepPreviousData: true,
+    placeholderData: (prev) => prev as any,
     staleTime: 30_000,
     retry: 2,
   });

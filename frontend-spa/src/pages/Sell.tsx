@@ -27,7 +27,7 @@ export default function Sell() {
   const [files, setFiles] = useState<File[]>([]);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-  const { register, handleSubmit, formState: { errors } } = useForm<SellValues>({
+  const { register, handleSubmit, formState: { errors }, control } = useForm<SellValues>({
     resolver: zodResolver(SellSchema),
     defaultValues: { condition: 'Used' },
   });
