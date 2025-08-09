@@ -97,7 +97,7 @@ export default function App() {
         />
       </div>
       <nav className="navbar navbar-expand" style={{ background: 'white', boxShadow: 'none' }}>
-        <div className="container-fluid d-flex justify-content-center">
+        <div className="container-fluid d-flex justify-content-between align-items-center">
           <div className="d-none d-md-flex gap-4 align-items-center">
             <Link to="/" className="text-decoration-none">
               <span 
@@ -347,6 +347,7 @@ export default function App() {
           </div>
         </div>
       </nav>
+      <div style={{ borderBottom: '1px solid #e3e3e3' }}></div>
       <Drawer
         open={mobileOpen}
         onClose={() => setMobileOpen(false)}
