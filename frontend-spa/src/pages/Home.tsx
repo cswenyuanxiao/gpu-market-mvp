@@ -12,8 +12,11 @@ import { Input, Select, Button, Drawer as AntDrawer, Pagination as AntPagination
 export default function Home() {
   const { getAll, setAll } = useQueryState<SearchQuery & { page?: string; sort?: string }>();
   const init = getAll();
+  const isEverything = typeof location !== 'undefined' && location.pathname === '/everything';
   const [q, setQ] = useState(init.q || '');
-  const [sort, setSort] = useState<'newest' | 'price_asc' | 'price_desc'>((init.sort as any) || 'newest');
+  const [sort, setSort] = useState<'newest' | 'price_asc' | 'price_desc'>(
+    ((init.sort as any) || (isEverything ? 'price_desc' : 'newest')) as any,
+  );
   const [filters, setFilters] = useState<Partial<SearchQuery>>({
     min: init.min || '',
     max: init.max || '',

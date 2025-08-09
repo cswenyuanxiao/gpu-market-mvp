@@ -19,6 +19,8 @@ import About from './pages/About';
 import Privacy from './pages/Privacy';
 import Terms from './pages/Terms';
 import ServerError from './pages/ServerError';
+import { Button, Dropdown } from 'antd';
+import type { MenuProps } from 'antd';
 
 export default function App() {
   const { api, messages } = useToast();
@@ -44,6 +46,18 @@ export default function App() {
           </Link>
           <div className="ms-auto d-flex gap-2">
             <Link to="/" className="btn btn-link btn-sm">Home</Link>
+            <Link to="/everything?sort=price_desc" className="btn btn-link btn-sm">Shop Everything</Link>
+            {(() => {
+              const items: MenuProps['items'] = [
+                { key: 'nvidia', label: <Link to="/?brand=NVIDIA">NVIDIA</Link> },
+                { key: 'amd', label: <Link to="/?brand=AMD">AMD</Link> },
+              ];
+              return (
+                <Dropdown menu={{ items }} trigger={['click']}>
+                  <Button size="small">Shop Graphics Cards</Button>
+                </Dropdown>
+              );
+            })()}
             <Link to="/sell" className="btn btn-outline-success btn-sm">Sell</Link>
             <Link to="/my" className="btn btn-outline-primary btn-sm">My Listings</Link>
             <Link to="/profile" className="btn btn-outline-secondary btn-sm">My Profile</Link>
@@ -60,6 +74,7 @@ export default function App() {
       <Suspense fallback={<div className="container py-3">Loading...</div>}>
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/everything" element={<Home />} />
         <Route path="/profile" element={<Profile />} />
         <Route
           path="/profile/edit"
