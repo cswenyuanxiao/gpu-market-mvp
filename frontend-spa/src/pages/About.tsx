@@ -1,7 +1,7 @@
 export default function About() {
   document.title = 'About Us — GPU Market';
   return (
-    <div className="container py-4" style={{ maxWidth: 900 }}>
+    <div className="container py-4 content-prose" style={{ maxWidth: 900 }}>
       <h1>About GPU Market</h1>
       <p>
         GPU Market is a trusted marketplace for buying and selling new and used graphics cards. Our

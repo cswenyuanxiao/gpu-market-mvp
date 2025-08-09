@@ -1,7 +1,7 @@
 export default function Privacy() {
   document.title = 'Privacy Policy — GPU Market';
   return (
-    <div className="container py-4" style={{ maxWidth: 900 }}>
+    <div className="container py-4 content-prose" style={{ maxWidth: 900 }}>
       <h1>Privacy Policy</h1>
       <p>Last updated: 2025-08-09</p>
 
