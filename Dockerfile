@@ -1,10 +1,10 @@
-FROM node:18-alpine AS deps
+FROM node:20-alpine AS deps
 # backend deps
 WORKDIR /app/backend
 COPY backend/package.json ./
 RUN npm install --no-audit --no-fund
 
-FROM node:18-alpine AS frontend
+FROM node:20-alpine AS frontend
 WORKDIR /app/frontend-spa
 COPY frontend-spa/package.json ./
 RUN npm install --no-audit --no-fund
@@ -12,7 +12,7 @@ COPY frontend-spa ./
 # build only the app (skip tests)
 RUN npm run build --if-present
 
-FROM node:18-alpine
+FROM node:20-alpine
 ENV NODE_ENV=production
 WORKDIR /app
 # backend runtime

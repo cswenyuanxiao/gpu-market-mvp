@@ -40,7 +40,7 @@ Frontend:
 
 Local dev notes:
 
-- Use Node 18 LTS (recommended): `nvm install 18 && nvm use 18`
+- Use Node 20 LTS (recommended): `nvm install 20 && nvm use 20`
 - Avoid spaces in the project path when building native modules (e.g., `~/gpu-market` instead of `~/untitled folder`)
 
 ## API Overview
@@ -103,10 +103,10 @@ See `.env.example` (use `.env` in production):
 - Create a new Web Service from your GitHub repo.
 - Root directory: `/` (monorepo).
 - Build Command:
-  - `cd backend && npm install`
+  - `cd backend && npm run render-build`
 - Start Command:
-  - `cd backend && node index.js`
-- Runtime: Node 18.
+  - `cd backend && npm run render-start`
+- Runtime: Node 20 (set Render env `NODE_VERSION=20`).
 - Environment variables:
   - `JWT_SECRET` (set a strong random value)
   - `CORS_ORIGIN` (e.g. your frontend URL or `*` for quick demo)
