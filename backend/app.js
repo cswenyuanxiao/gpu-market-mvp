@@ -286,10 +286,13 @@ function authenticateToken(req, res, next) {
 app.use('/uploads', express.static(uploadDir, { maxAge: '7d', immutable: true }));
 
 // Serve frontend statically when available (for deployment)
-const frontendRoot = path.join(__dirname, '..', 'frontend');
-const frontendDist = path.join(frontendRoot, 'dist');
-const staticDir = fs.existsSync(frontendDist) ? frontendDist : frontendRoot;
-if (fs.existsSync(staticDir)) {
+// Prefer SPA build under frontend-spa/dist, then fallback to its source, then legacy frontend
+const spaRoot = path.join(__dirname, '..', 'frontend-spa');
+const spaDist = path.join(spaRoot, 'dist');
+const legacyRoot = path.join(__dirname, '..', 'frontend');
+const legacyDist = path.join(legacyRoot, 'dist');
+const staticDir = [spaDist, legacyDist, spaRoot, legacyRoot].find((p) => fs.existsSync(p));
+if (staticDir && fs.existsSync(staticDir)) {
   app.use(
     express.static(staticDir, {
       setHeaders: (res, filePath) => {
@@ -312,6 +315,7 @@ if (fs.existsSync(staticDir)) {
     '/sell',
     '/sell-to-us',
     '/contact',
+    '/everything',
     /^\/edit\/.+/,
     /^\/g\/.+/,
     '/about',

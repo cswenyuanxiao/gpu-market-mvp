@@ -30,6 +30,7 @@ import ServerError from './pages/ServerError';
 import { Button, Dropdown, Drawer, Menu } from 'antd';
 import type { MenuProps } from 'antd';
 import FloatingWhatsApp from './components/ui/FloatingWhatsApp';
+import Footer from './components/ui/Footer';
 import { SearchOutlined, ShoppingOutlined } from '@ant-design/icons';
 import SearchOverlay from './components/SearchOverlay';
 
@@ -433,60 +434,7 @@ export default function App() {
       </Suspense>
       <SearchOverlay open={searchOpen} onClose={() => setSearchOpen(false)} />
       <ToastContainer messages={messages} />
-      <footer className="border-top bg-white mt-4" id="main">
-        <div className="container py-4 text-muted small">
-          <div className="row">
-            <div className="col-6 col-md-3 mb-3">
-              <div className="fw-bold mb-2">Useful Pages</div>
-              <div className="d-flex flex-column gap-1">
-                <Link to="/sell-to-us">Sell to us</Link>
-                <Link to="/everything?sort=price_desc">Shop Everything</Link>
-                <Link to="/">Shop Graphics Cards</Link>
-                <Link to="/about">About Us</Link>
-              </div>
-            </div>
-            <div className="col-6 col-md-3 mb-3">
-              <div className="fw-bold mb-2">Policies</div>
-              <div className="d-flex flex-column gap-1">
-                <Link to="/terms">Terms of Service</Link>
-                <Link to="/privacy">Privacy Policy</Link>
-                <Link to="/returns">Returns & Refunds</Link>
-              </div>
-            </div>
-            <div className="col-6 col-md-3 mb-3">
-              <div className="fw-bold mb-2">Reviews</div>
-              <div className="d-flex flex-column gap-1">
-                <a href="#" target="_blank" rel="noreferrer">
-                  Trustpilot
-                </a>
-                <a href="#" target="_blank" rel="noreferrer">
-                  Google Reviews
-                </a>
-              </div>
-            </div>
-            <div className="col-6 col-md-3 mb-3">
-              <div className="fw-bold mb-2">Follow us</div>
-              <div className="d-flex flex-column gap-1">
-                <a href="#" target="_blank" rel="noreferrer">
-                  Twitter
-                </a>
-                <a href="#" target="_blank" rel="noreferrer">
-                  Instagram
-                </a>
-                <a href="#" target="_blank" rel="noreferrer">
-                  TikTok
-                </a>
-              </div>
-              <div className="fw-bold mt-3 mb-1">Payment</div>
-              <div className="text-secondary">Visa / MasterCard / PayPal / Apple Pay</div>
-            </div>
-          </div>
-          <div className="d-flex justify-content-between pt-3 border-top mt-3">
-            <span>© {new Date().getFullYear()} GPU Market</span>
-            <span>All prices in GBP</span>
-          </div>
-        </div>
-      </footer>
+      <Footer />
       <FloatingWhatsApp />
     </>
   );

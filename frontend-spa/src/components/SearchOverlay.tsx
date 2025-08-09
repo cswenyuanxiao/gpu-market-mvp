@@ -45,8 +45,11 @@ export default function SearchOverlay({ open, onClose }: Props) {
       try {
         const p = new URLSearchParams({ q, sort: 'newest', page: '1', per: '10' });
         const r = await apiFetch('/api/search?' + p.toString());
-        const data = await r.json();
-        setResults(data.results || []);
+        const data = await r.json().catch(() => ({}) as any);
+        const list = Array.isArray((data as any).results) ? (data as any).results : [];
+        setResults(list as any);
+      } catch (_) {
+        setResults([]);
       } finally {
         setLoading(false);
       }

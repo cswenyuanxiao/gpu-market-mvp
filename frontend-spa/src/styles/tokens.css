@@ -164,3 +164,13 @@
 .ant-btn-text.nav-icon-btn:not(:disabled):active {
   transform: scale(1.06);
 }
+
+/* Footer */
+.footer-link {
+  color: #e7f2f2;
+  text-decoration: none;
+}
+.footer-link:hover {
+  color: #ffffff;
+  text-decoration: underline;
+}

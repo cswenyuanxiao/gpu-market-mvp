@@ -77,8 +77,17 @@ export default function Home() {
     queryKey: ['search', q, uiSort, filters, page, per],
     queryFn: async (): Promise<SearchResult> => {
       setAll({ q, sort: uiSort as any, page: String(page), ...filters });
-      const res = await apiFetch('/api/search?' + queryParams.toString());
-      return res.json();
+      try {
+        const res = await apiFetch('/api/search?' + queryParams.toString());
+        const json = await res.json().catch(() => ({}));
+        const results = Array.isArray((json as any).results) ? (json as any).results : [];
+        const total = Number((json as any).total || results.length || 0);
+        const pageNum = Number((json as any).page || page);
+        const perNum = Number((json as any).per || per);
+        return { total, page: pageNum, per: perNum, results };
+      } catch (e) {
+        return { total: 0, page, per, results: [] };
+      }
     },
     placeholderData: (prev) => prev as any,
     staleTime: 30_000,
