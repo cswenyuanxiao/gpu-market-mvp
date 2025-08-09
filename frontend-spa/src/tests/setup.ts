@@ -6,19 +6,17 @@ Object.defineProperty(window.HTMLElement.prototype, 'scrollIntoView', {
   value: () => {},
 });
 
-// Polyfill matchMedia for Ant Design responsive components
-if (!('matchMedia' in window)) {
-  // @ts-ignore
-  window.matchMedia = (query: string) => ({
-    matches: false,
-    media: query,
-    onchange: null,
-    addListener: () => {},
-    removeListener: () => {},
-    addEventListener: () => {},
-    removeEventListener: () => {},
-    dispatchEvent: () => false,
-  });
-}
+// Polyfill/override matchMedia for Ant Design responsive components (force assign)
+// @ts-ignore
+window.matchMedia = (query: string) => ({
+  matches: false,
+  media: query,
+  onchange: null,
+  addListener: () => {},
+  removeListener: () => {},
+  addEventListener: () => {},
+  removeEventListener: () => {},
+  dispatchEvent: () => false,
+});
 
 
