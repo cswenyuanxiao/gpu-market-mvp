@@ -197,7 +197,7 @@ export default function Home() {
               </>
             )}
             {!isLoading &&
-              (data?.results || []).map((gpu: Gpu) => (
+              (Array.isArray(data?.results) ? (data?.results as Gpu[]) : []).map((gpu: Gpu) => (
                 <div className="col-md-6" key={gpu.id}>
                   <GpuCard
                     gpu={gpu}

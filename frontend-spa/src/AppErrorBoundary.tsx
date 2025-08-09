@@ -13,15 +13,16 @@ export class AppErrorBoundary extends Component<{ children: ReactNode }, { hasEr
   }
   render() {
     if (this.state.hasError) {
-      return (
-        <div className="container py-5 text-center">
-          <h3>Something went wrong.</h3>
-          <p className="text-muted">Please refresh the page.</p>
-        </div>
-      );
+      // Try a soft-reload of app shell once（避免陷入白屏循环）
+      if (typeof window !== 'undefined') {
+        try {
+          const url = new URL(window.location.href);
+          url.searchParams.set('ts', String(Date.now()));
+          window.location.replace(url.toString());
+        } catch {}
+      }
+      return null;
     }
     return this.props.children;
   }
 }
-
-
