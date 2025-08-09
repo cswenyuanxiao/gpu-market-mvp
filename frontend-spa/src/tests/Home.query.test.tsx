@@ -1,6 +1,7 @@
 import { describe, it, expect, vi } from 'vitest';
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import Home from '../pages/Home';
 
 describe('Home React Query flow', () => {
@@ -13,10 +14,13 @@ describe('Home React Query flow', () => {
       .mockResolvedValueOnce(new Response(JSON.stringify(second), { status: 200 }));
     const orig = global.fetch;
     global.fetch = mockFetch as any;
+    const qc = new QueryClient();
     render(
-      <MemoryRouter>
-        <Home />
-      </MemoryRouter>
+      <QueryClientProvider client={qc}>
+        <MemoryRouter>
+          <Home />
+        </MemoryRouter>
+      </QueryClientProvider>
     );
     expect(await screen.findByText('GPU 1')).toBeInTheDocument();
     // go to page 2
@@ -32,10 +36,13 @@ describe('Home React Query flow', () => {
       .mockResolvedValueOnce(new Response(JSON.stringify(ok), { status: 200 }));
     const orig = global.fetch;
     global.fetch = mockFetch as any;
+    const qc = new QueryClient();
     render(
-      <MemoryRouter>
-        <Home />
-      </MemoryRouter>
+      <QueryClientProvider client={qc}>
+        <MemoryRouter>
+          <Home />
+        </MemoryRouter>
+      </QueryClientProvider>
     );
     await waitFor(() => expect(mockFetch).toHaveBeenCalledTimes(2));
     global.fetch = orig;

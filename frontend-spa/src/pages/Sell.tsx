@@ -64,15 +64,27 @@ export default function Sell() {
         <div className="row g-3">
           <div className="col-md-8">
             <FormField label="Title" htmlFor="title" error={errors.title?.message} hint="Short, descriptive title">
-              <Input id="title" {...register('title')} />
+              <Controller
+                name="title"
+                control={control}
+                render={({ field }) => <Input id="title" {...field} />}
+              />
             </FormField>
             <FormField label="Description" htmlFor="desc" error={errors.desc?.message} hint="Optional. Up to 2000 characters">
-              <Input.TextArea id="desc" rows={6} {...register('desc')} />
+              <Controller
+                name="desc"
+                control={control}
+                render={({ field }) => <Input.TextArea id="desc" rows={6} {...field} />}
+              />
             </FormField>
           </div>
           <div className="col-md-4">
             <FormField label="Price" htmlFor="price" error={errors.price?.message} hint="In USD, ≥ 1">
-              <Input id="price" {...register('price')} />
+              <Controller
+                name="price"
+                control={control}
+                render={({ field }) => <Input id="price" {...field} />}
+              />
             </FormField>
             <FormField label="Condition" htmlFor="cond" error={errors.condition?.message}>
               <Controller
@@ -104,7 +116,11 @@ export default function Sell() {
               />
             </FormField>
             <FormField label="VRAM (GB)" htmlFor="vram" error={errors.vram?.message} hint="0 - 64">
-              <Input id="vram" {...register('vram')} />
+              <Controller
+                name="vram"
+                control={control}
+                render={({ field }) => <Input id="vram" {...field} />}
+              />
             </FormField>
           </div>
         </div>
