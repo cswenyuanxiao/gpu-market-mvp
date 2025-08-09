@@ -114,7 +114,7 @@ class DatabaseAdapter {
         CREATE TABLE IF NOT EXISTS users (
           id SERIAL PRIMARY KEY,
           username VARCHAR(255) UNIQUE NOT NULL,
-          password VARCHAR(255) NOT NULL,
+          password_hash VARCHAR(255) NOT NULL,
           display_name VARCHAR(255),
           avatar_path VARCHAR(500),
           created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
@@ -185,6 +185,37 @@ class DatabaseAdapter {
     } finally {
       client.release();
     }
+
+    // Run lightweight, idempotent migrations for previously deployed schemas
+    await this.applyPostgresMigrations();
+  }
+
+  async applyPostgresMigrations() {
+    const client = await this.pool.connect();
+    try {
+      // users: rename password -> password_hash if needed
+      const usersCols = await client.query(
+        `SELECT column_name FROM information_schema.columns WHERE table_name = 'users'`,
+      );
+      const userColSet = new Set(usersCols.rows.map((r) => r.column_name));
+      if (userColSet.has('password') && !userColSet.has('password_hash')) {
+        await client.query(`ALTER TABLE users RENAME COLUMN password TO password_hash`);
+      }
+
+      // gpus: add brand, vram_gb if missing
+      const gpusCols = await client.query(
+        `SELECT column_name FROM information_schema.columns WHERE table_name = 'gpus'`,
+      );
+      const gpuColSet = new Set(gpusCols.rows.map((r) => r.column_name));
+      if (!gpuColSet.has('brand')) {
+        await client.query(`ALTER TABLE gpus ADD COLUMN brand VARCHAR(100)`);
+      }
+      if (!gpuColSet.has('vram_gb')) {
+        await client.query(`ALTER TABLE gpus ADD COLUMN vram_gb INTEGER`);
+      }
+    } finally {
+      client.release();
+    }
   }
 
   // Unified query methods
@@ -246,6 +277,16 @@ class DatabaseAdapter {
       const stmt = this.db.prepare(sql);
       return stmt.run(params);
     }
+  }
+
+  // Compatibility wrapper to mimic better-sqlite3's prepare API
+  // so existing code using db.prepare(...).run/get/all continues to work
+  prepare(sql) {
+    return {
+      run: (...params) => this.run(sql, params),
+      get: (...params) => this.get(sql, params),
+      all: (...params) => this.query(sql, params),
+    };
   }
 
   async close() {
