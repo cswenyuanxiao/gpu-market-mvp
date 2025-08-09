@@ -6,6 +6,10 @@ A minimal GPU buy/sell marketplace inspired by `gpused.co.uk`.
 - Frontend: React + Vite + TypeScript (Ant Design, React Router, React Query, Zustand)
 - Auth: JWT + bcrypt
 
+## Language Policy
+
+This project uses English for all code, comments, identifiers, UI copy, and documentation. Future localizations will be added via separate resource files without mixing languages in source code.
+
 ## Quick Start (Docker / Compose)
 
 ```bash

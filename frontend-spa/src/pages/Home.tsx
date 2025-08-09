@@ -116,8 +116,15 @@ export default function Home() {
         </div>
       </nav>
 
+      {isEverything && <h1 className="h4 mt-3">All Products</h1>}
+
       <div className="d-flex gap-2 my-3">
-        <Input placeholder="Search GPUs..." value={q} onChange={(e) => setQ(e.target.value)} />
+        <Input
+          id="globalSearchInput"
+          placeholder="Search GPUs..."
+          value={q}
+          onChange={(e) => setQ(e.target.value)}
+        />
         <Select
           value={uiSort}
           style={{ width: 220 }}

@@ -1,4 +1,4 @@
-import { Link, Route, Routes } from 'react-router-dom';
+import { Link, Route, Routes, useNavigate } from 'react-router-dom';
 import { lazy, Suspense, useState } from 'react';
 import Home from './pages/Home';
 import { ToastContainer, useToast } from './components/Toast';
@@ -28,6 +28,7 @@ import FloatingWhatsApp from './components/ui/FloatingWhatsApp';
 
 export default function App() {
   const { api, messages } = useToast();
+  const navigate = useNavigate();
   const { user, init, logout } = useAuth();
   useScrollRestoration();
   useEffect(() => {
@@ -42,27 +43,39 @@ export default function App() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   const [mobileOpen, setMobileOpen] = useState(false);
-  const seriesMenu = (
-    <Menu
-      items={[
-        { key: 'nvidia-40', label: <Link to="/?brand=NVIDIA&vram_min=12">NVIDIA 40 Series</Link> },
-        { key: 'nvidia-30', label: <Link to="/?brand=NVIDIA&vram_min=8">NVIDIA 30 Series</Link> },
-        { key: 'amd-7000', label: <Link to="/?brand=AMD&vram_min=12">AMD 7000 Series</Link> },
-        { key: 'amd-6000', label: <Link to="/?brand=AMD&vram_min=8">AMD 6000 Series</Link> },
-      ]}
-    />
-  );
+  const seriesItems: MenuProps['items'] = [
+    { key: 'nvidia-40', label: 'NVIDIA 40 Series' },
+    { key: 'nvidia-30', label: 'NVIDIA 30 Series' },
+    { key: 'amd-7000', label: 'AMD 7000 Series' },
+    { key: 'amd-6000', label: 'AMD 6000 Series' },
+  ];
   return (
     <>
       <a href="#main" className="skip-link">
         Skip to content
       </a>
+      <div className="w-100 py-1 text-center text-white" style={{ background: '#2f7f82' }}>
+        <a href="#reviews" className="text-white text-decoration-none">
+          See Our Excellent Reviews →
+        </a>
+      </div>
       <nav className="navbar navbar-expand navbar-light bg-light">
         <div className="container-fluid">
-          <Link to="/" className="navbar-brand">
-            GPU Market
+          <Link to="/" className="navbar-brand d-flex align-items-center gap-2">
+            <span
+              className="rounded"
+              style={{ width: 32, height: 32, background: '#2f7f82', display: 'inline-block' }}
+            />
+            <span>GPU Market</span>
           </Link>
           <div className="ms-auto d-none d-md-flex gap-2">
+            <Button
+              type="text"
+              size="small"
+              onClick={() => document.getElementById('globalSearchInput')?.focus()}
+            >
+              🔍
+            </Button>
             <Link to="/">
               <Button type="text" size="small">
                 Home
@@ -73,7 +86,23 @@ export default function App() {
                 Shop Everything
               </Button>
             </Link>
-            <Dropdown overlay={seriesMenu} trigger={['click']}>
+            <Dropdown
+              trigger={['click']}
+              menu={{
+                items: [
+                  { key: 'nvidia-40', label: 'NVIDIA 40 Series' },
+                  { key: 'nvidia-30', label: 'NVIDIA 30 Series' },
+                  { key: 'amd-7000', label: 'AMD 7000 Series' },
+                  { key: 'amd-6000', label: 'AMD 6000 Series' },
+                ],
+                onClick: (info) => {
+                  if (info.key === 'nvidia-40') navigate('/?brand=NVIDIA&vram_min=12');
+                  if (info.key === 'nvidia-30') navigate('/?brand=NVIDIA&vram_min=8');
+                  if (info.key === 'amd-7000') navigate('/?brand=AMD&vram_min=12');
+                  if (info.key === 'amd-6000') navigate('/?brand=AMD&vram_min=8');
+                },
+              }}
+            >
               <Button size="small">Shop Graphics Cards</Button>
             </Dropdown>
             <Link to="/sell">
@@ -96,6 +125,9 @@ export default function App() {
                 My Profile
               </Button>
             </Link>
+            <Button type="text" size="small" onClick={() => navigate('/cart')}>
+              🛒
+            </Button>
             {user && (
               <Link to="/profile/edit">
                 <Button size="small" type="default">
