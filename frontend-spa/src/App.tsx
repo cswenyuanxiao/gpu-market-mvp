@@ -86,7 +86,7 @@ export default function App() {
           }}
         />
         <Link to="/" className="d-flex align-items-center gap-2 text-decoration-none">
-          <img src="/logo.svg" alt="GPU-MARKET" width={120} height={120} />
+          <img src="/logo.png" alt="GPU-MARK" width={120} height={120} />
         </Link>
         <Button
           className="nav-icon-btn"
