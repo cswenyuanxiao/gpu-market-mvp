@@ -4,6 +4,7 @@ import { zodResolver } from '@hookform/resolvers/zod';
 import { Input, Checkbox } from 'antd';
 import { Button } from 'antd';
 import { apiFetch } from '../lib/api';
+import { config } from '../lib/config';
 import FormField from '../components/ui/FormField';
 
 const Schema = z.object({
@@ -54,12 +55,19 @@ export default function Contact() {
         <ul className="mb-0">
           <li>
             WhatsApp:{' '}
-            <a href="https://wa.me/447747310027" target="_blank" rel="noreferrer">
+            <a
+              href={`https://wa.me/${config.contactWhatsApp || '447747310027'}`}
+              target="_blank"
+              rel="noreferrer"
+            >
               +44 7747310027
             </a>
           </li>
           <li>
-            Email: <a href="mailto:x1657217402@gmail.com">x1657217402@gmail.com</a>
+            Email:{' '}
+            <a href={`mailto:${config.contactEmail || 'x1657217402@gmail.com'}`}>
+              x1657217402@gmail.com
+            </a>
           </li>
         </ul>
       </div>

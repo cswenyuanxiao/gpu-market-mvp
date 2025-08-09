@@ -27,10 +27,15 @@ export default function About() {
         Questions? <a href="/contact">Contact us</a>. For trade-ins, see{' '}
         <a href="/sell-to-us">Sell to us</a>.
       </p>
+      {/* Contacts via env-backed config displayed in Contact page; keep direct links for convenience */}
       <ul>
         <li>
           WhatsApp:{' '}
-          <a href="https://wa.me/447747310027" target="_blank" rel="noreferrer">
+          <a
+            href={`https://wa.me/${(window as any)?.VITE_CONTACT_WHATSAPP || '447747310027'}`}
+            target="_blank"
+            rel="noreferrer"
+          >
             +44 7747310027
           </a>
         </li>

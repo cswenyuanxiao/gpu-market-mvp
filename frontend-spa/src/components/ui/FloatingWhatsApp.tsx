@@ -1,5 +1,8 @@
+import { config } from '../../lib/config';
+
 export default function FloatingWhatsApp() {
-  const href = 'https://wa.me/447747310027?text=Hi%20:)';
+  const num = config.contactWhatsApp || '447747310027';
+  const href = `https://wa.me/${num}?text=Hi%20:)`;
   return (
     <a
       className="whatsapp-fab"
