@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react';
-import { Button, Badge, Modal, Avatar, Image } from 'antd';
+import { Button, Badge, Modal, Avatar, Image, Space, Typography } from 'antd';
+import { formatPrice } from '../lib/format';
 import type { Gpu } from '../types';
 
 export default function DetailsModal({ item, onClose }: { item: Gpu | null; onClose: () => void }) {
@@ -11,11 +12,15 @@ export default function DetailsModal({ item, onClose }: { item: Gpu | null; onCl
   }, [item]);
   if (!item) return null;
   return (
-    <Modal open={!!item} onCancel={onClose} onOk={onClose} title={item.title} footer={null} width={900}>
+    <Modal open={!!item} onCancel={onClose} footer={null} width={900} title={item.title}>
       <div className="row g-3">
         <div className="col-md-6">
           {item.image_path && (
-            <Image src={item.image_path} width="100%" style={{ borderRadius: 6, marginBottom: 8 }} />
+            <Image
+              src={item.image_path}
+              width="100%"
+              style={{ borderRadius: 6, marginBottom: 8 }}
+            />
           )}
           <div className="d-flex flex-wrap gap-2">
             {item.images?.map((im, idx) => (
@@ -31,13 +36,17 @@ export default function DetailsModal({ item, onClose }: { item: Gpu | null; onCl
           </div>
         </div>
         <div className="col-md-6">
-          <p className="mb-2">{item.description || ''}</p>
-          <p className="mb-2">
-            <Badge color={item.condition === 'New' ? 'green' : 'gray'} text={item.condition} />
-          </p>
-          <p className="mb-2">
-            <strong>Price:</strong> £{Math.round(item.price).toLocaleString()}
-          </p>
+          <Space direction="vertical" size="small" style={{ width: '100%' }}>
+            <Typography.Paragraph type="secondary" style={{ marginBottom: 0 }}>
+              <Badge color={item.condition === 'New' ? 'green' : 'gray'} text={item.condition} />
+            </Typography.Paragraph>
+            <Typography.Title level={4} style={{ margin: 0 }}>
+              {formatPrice(item.price)}
+            </Typography.Title>
+            <Typography.Paragraph style={{ whiteSpace: 'pre-wrap' }}>
+              {item.description || ''}
+            </Typography.Paragraph>
+          </Space>
           <div className="d-flex align-items-center gap-2 mb-3">
             {item.seller_avatar ? (
               <Avatar size={32} src={item.seller_avatar} />
@@ -51,7 +60,11 @@ export default function DetailsModal({ item, onClose }: { item: Gpu | null; onCl
               onClick={() => {
                 const href = `${location.origin}/g/${item.id}`;
                 navigator.clipboard.writeText(href);
-                window.dispatchEvent(new CustomEvent('app-toast', { detail: { text: 'Link copied', type: 'success' } }));
+                window.dispatchEvent(
+                  new CustomEvent('app-toast', {
+                    detail: { text: 'Link copied', type: 'success' },
+                  }),
+                );
               }}
             >
               Copy Link

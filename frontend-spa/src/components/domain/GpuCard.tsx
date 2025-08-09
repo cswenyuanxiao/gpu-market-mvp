@@ -2,6 +2,11 @@ import { formatDate, formatPrice } from '../../lib/format';
 import type { Gpu } from '../../types';
 
 export default function GpuCard({ gpu, onDetails }: { gpu: Gpu; onDetails: (id: number) => void }) {
+  const isNewlyAdded = (() => {
+    if (!gpu.created_at) return false;
+    const created = new Date(gpu.created_at).getTime();
+    return Date.now() - created < 7 * 24 * 60 * 60 * 1000;
+  })();
   return (
     <div className="card card-rounded mb-3">
       <div className="row g-0">
@@ -20,11 +25,16 @@ export default function GpuCard({ gpu, onDetails }: { gpu: Gpu; onDetails: (id: 
             <div className="d-flex justify-content-between align-items-center">
               <h5 className="card-title mb-0">{gpu.title}</h5>
               <div className="d-flex gap-1">
-                {gpu.brand && <span className="badge bg-info text-dark">{gpu.brand}</span>}
-                {gpu.vram_gb && gpu.vram_gb > 0 && (
-                  <span className="badge bg-warning text-dark">{gpu.vram_gb}GB</span>
+                {isNewlyAdded && (
+                  <span className="badge bg-success-subtle text-success">Just added</span>
                 )}
-                <span className={`badge ${gpu.condition === 'New' ? 'bg-success' : 'bg-secondary'}`}>
+                {gpu.brand && <span className="badge bg-info-subtle text-info">{gpu.brand}</span>}
+                {gpu.vram_gb && gpu.vram_gb > 0 && (
+                  <span className="badge bg-warning-subtle text-warning">{gpu.vram_gb}GB</span>
+                )}
+                <span
+                  className={`badge ${gpu.condition === 'New' ? 'bg-success' : 'bg-secondary'}`}
+                >
                   {gpu.condition}
                 </span>
               </div>
@@ -55,5 +65,3 @@ export default function GpuCard({ gpu, onDetails }: { gpu: Gpu; onDetails: (id: 
     </div>
   );
 }
-
-
