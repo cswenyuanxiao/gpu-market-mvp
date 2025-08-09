@@ -169,6 +169,47 @@ CREATE TABLE IF NOT EXISTS gpu_images (
 db.exec(`
 CREATE INDEX IF NOT EXISTS idx_gpu_images_gpu ON gpu_images(gpu_id);
 `);
+// quotes & contact tables
+db.exec(`
+CREATE TABLE IF NOT EXISTS quotes (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  contact_name TEXT,
+  email TEXT,
+  phone TEXT,
+  brand TEXT,
+  model TEXT,
+  grade TEXT,
+  warranty INTEGER,
+  accessories TEXT,
+  expected_price REAL,
+  note TEXT,
+  created_at TEXT
+);
+`);
+db.exec(`
+CREATE TABLE IF NOT EXISTS quote_images (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  quote_id INTEGER NOT NULL,
+  image_path TEXT NOT NULL,
+  thumb_path TEXT,
+  sort_order INTEGER DEFAULT 0,
+  created_at TEXT,
+  FOREIGN KEY(quote_id) REFERENCES quotes(id)
+);
+`);
+db.exec(`
+CREATE INDEX IF NOT EXISTS idx_quote_images_quote ON quote_images(quote_id);
+`);
+db.exec(`
+CREATE TABLE IF NOT EXISTS contact_messages (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  name TEXT,
+  email TEXT,
+  message TEXT,
+  consent INTEGER,
+  created_at TEXT
+);
+`);
 // schema migrations
 try {
   db.prepare('ALTER TABLE gpus ADD COLUMN brand TEXT').run();
@@ -319,7 +360,22 @@ if (fs.existsSync(staticDir)) {
   );
   app.get('/', (req, res) => res.sendFile(path.join(staticDir, 'index.html')));
   // SPA routes fallback
-  const spaRoutes = ['/login', '/register', '/my', '/profile', '/profile/edit', '/sell', /^\/edit\/.+/, /^\/g\/.+/, '/about', '/privacy', '/terms', '/500'];
+  const spaRoutes = [
+    '/login',
+    '/register',
+    '/my',
+    '/profile',
+    '/profile/edit',
+    '/sell',
+    '/sell-to-us',
+    '/contact',
+    /^\/edit\/.+/,
+    /^\/g\/.+/,
+    '/about',
+    '/privacy',
+    '/terms',
+    '/500',
+  ];
   app.get(spaRoutes, (req, res) => res.sendFile(path.join(staticDir, 'index.html')));
 }
 
@@ -411,6 +467,24 @@ const openApi = {
     '/metrics': {
       get: { summary: 'Prometheus metrics', responses: { 200: { description: 'OK' } } },
     },
+    '/api/quotes': {
+      post: {
+        summary: 'Create quote (sell to us)',
+        responses: {
+          201: { description: 'Created' },
+          400: { description: 'Invalid' },
+        },
+      },
+    },
+    '/api/contact': {
+      post: {
+        summary: 'Send contact message',
+        responses: {
+          201: { description: 'Created' },
+          400: { description: 'Invalid' },
+        },
+      },
+    },
   },
 };
 app.use('/docs', swaggerUi.serve, swaggerUi.setup(openApi));
@@ -446,6 +520,38 @@ const SearchSchema = z.object({
   vram_min: z.coerce.number().int().nonnegative().optional(),
   vram_max: z.coerce.number().int().nonnegative().optional(),
   sort: z.enum(['newest', 'price_asc', 'price_desc']).optional(),
+});
+
+// Sell-to-us (quotes) & Contact validation
+const QuoteSchema = z.object({
+  contact_name: z.string().min(1).max(100),
+  email: z.string().email().max(200),
+  phone: z
+    .string()
+    .max(50)
+    .optional()
+    .or(z.literal('').transform(() => undefined)),
+  brand: z.string().max(50),
+  model: z.string().min(1).max(120),
+  grade: z.enum(['A', 'B', 'C']).default('B'),
+  warranty: z.coerce.boolean().optional().default(false),
+  accessories: z
+    .string()
+    .max(500)
+    .optional()
+    .or(z.literal('').transform(() => undefined)),
+  expected_price: z.coerce.number().positive().max(1000000),
+  note: z
+    .string()
+    .max(1000)
+    .optional()
+    .or(z.literal('').transform(() => undefined)),
+});
+const ContactSchema = z.object({
+  name: z.string().min(1).max(100),
+  email: z.string().email().max(200),
+  message: z.string().min(10).max(2000),
+  consent: z.coerce.boolean().optional().default(false),
 });
 
 // Auth: register
@@ -774,6 +880,90 @@ app.get('/sitemap.xml', (req, res) => {
     urls.map((u) => `\n  <url><loc>${u.loc}</loc><lastmod>${u.lastmod}</lastmod></url>`).join('') +
     `\n</urlset>`;
   res.type('application/xml').send(xml);
+});
+
+// Rate limiters for quotes and contact
+const quotesLimiter = rateLimit({
+  windowMs: 10 * 60 * 1000,
+  max: 5,
+  standardHeaders: true,
+  legacyHeaders: false,
+});
+const contactLimiter = rateLimit({
+  windowMs: 60 * 1000,
+  max: 5,
+  standardHeaders: true,
+  legacyHeaders: false,
+});
+
+// Create quote (sell to us)
+app.post('/api/quotes', quotesLimiter, upload.array('images', 10), async (req, res) => {
+  const parsed = QuoteSchema.safeParse(req.body);
+  if (!parsed.success)
+    return res.status(400).json({ error: 'Invalid input', details: parsed.error.flatten() });
+  const data = parsed.data;
+  try {
+    const files = Array.isArray(req.files) ? req.files : [];
+    const processed = [];
+    for (const f of files) {
+      if (!isValidImageMagic(f.path, f.mimetype)) {
+        try {
+          fs.unlinkSync(f.path);
+        } catch (_) {}
+        uploadFailures.inc();
+        return res.status(400).json({ error: 'Invalid image content' });
+      }
+      processed.push(await processAndStoreImage(f, uploadDir));
+    }
+    const info = db
+      .prepare(
+        `
+      INSERT INTO quotes (contact_name, email, phone, brand, model, grade, warranty, accessories, expected_price, note, created_at)
+      VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+    `,
+      )
+      .run(
+        data.contact_name,
+        data.email,
+        data.phone || null,
+        data.brand,
+        data.model,
+        data.grade,
+        data.warranty ? 1 : 0,
+        data.accessories || null,
+        data.expected_price,
+        data.note || null,
+        new Date().toISOString(),
+      );
+    const quoteId = info.lastInsertRowid;
+    if (processed.length) {
+      const ins = db.prepare(
+        'INSERT INTO quote_images (quote_id, image_path, thumb_path, sort_order, created_at) VALUES (?, ?, ?, ?, ?)',
+      );
+      processed.forEach((p, idx) =>
+        ins.run(quoteId, p.image_path, p.thumb_path, idx, new Date().toISOString()),
+      );
+    }
+    res.status(201).json({ id: quoteId });
+  } catch (e) {
+    res.status(500).json({ error: 'Server error' });
+  }
+});
+
+// Contact message
+app.post('/api/contact', contactLimiter, (req, res) => {
+  const parsed = ContactSchema.safeParse(req.body);
+  if (!parsed.success)
+    return res.status(400).json({ error: 'Invalid input', details: parsed.error.flatten() });
+  const { name, email, message, consent } = parsed.data;
+  try {
+    db.prepare(
+      'INSERT INTO contact_messages (name, email, message, consent, created_at) VALUES (?, ?, ?, ?, ?)',
+    ).run(name, email, message, consent ? 1 : 0, new Date().toISOString());
+    res.status(201).json({ ok: true });
+  } catch (e) {
+    res.status(500).json({ error: 'Server error' });
+  }
 });
 
 // My listings endpoint
