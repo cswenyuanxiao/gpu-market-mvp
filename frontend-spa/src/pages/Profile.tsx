@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { apiFetch } from '../lib/api';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../store/auth';
+import { Avatar, Button, Card, Empty, Skeleton } from 'antd';
 
 export default function Profile() {
   const [me, setMe] = useState<{ id: number; display_name: string; avatar_path?: string } | null>(
@@ -23,17 +24,15 @@ export default function Profile() {
     <div className="container py-3">
       <h3>My Profile</h3>
       {me && (
-        <div className="d-flex align-items-center gap-2 mb-3">
-          {me.avatar_path && (
-            <img
-              src={me.avatar_path}
-              className="rounded"
-              style={{ width: 64, height: 64, objectFit: 'cover' }}
-            />
-          )}
-          <div>{me.display_name}</div>
+        <div className="d-flex align-items-center gap-3 mb-3">
+          <Avatar size={64} src={me.avatar_path}>
+            {me.display_name?.[0]}
+          </Avatar>
+          <div className="fw-bold">{me.display_name}</div>
           <div className="ms-auto">
-            <Link to="/profile/edit" className="btn btn-sm btn-outline-secondary">Edit Profile</Link>
+            <Link to="/profile/edit">
+              <Button size="small">Edit Profile</Button>
+            </Link>
           </div>
         </div>
       )}
@@ -41,26 +40,12 @@ export default function Profile() {
       <div className="row">
         {mine.map((gpu) => (
           <div className="col-md-6" key={gpu.id}>
-            <div className="card mb-3">
-              <div className="row g-0">
-                {gpu.image_path && (
-                  <div className="col-4">
-                    <img
-                      src={gpu.image_path}
-                      className="img-fluid rounded-start"
-                      style={{ height: 120, objectFit: 'cover' }}
-                    />
-                  </div>
-                )}
-                <div className="col">
-                  <div className="card-body">
-                    <h5 className="card-title">{gpu.title}</h5>
-                  </div>
-                </div>
-              </div>
-            </div>
+            <Card className="mb-3" cover={gpu.image_path ? <img src={gpu.image_path} style={{ height: 160, objectFit: 'cover' }} /> : undefined}>
+              <Card.Meta title={gpu.title} />
+            </Card>
           </div>
         ))}
+        {mine.length === 0 && <Empty description="No listings" className="my-3" />}
       </div>
     </div>
   );

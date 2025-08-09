@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { apiFetch } from '../lib/api';
 import { useNavigate } from 'react-router-dom';
 import GpuCard from '../components/domain/GpuCard';
+import { Button, Empty, Popconfirm, Spin } from 'antd';
 
 export default function MyListings() {
   const [items, setItems] = useState<any[]>([]);
@@ -37,23 +38,20 @@ export default function MyListings() {
   return (
     <div className="container py-3">
       <h3>My Listings</h3>
-      {loading && <div>Loading...</div>}
-      {!loading && items.length === 0 && <div>No items.</div>}
+      {loading && <Spin className="my-3" />}
+      {!loading && items.length === 0 && <Empty description="No items" className="my-3" />}
       <div className="row">
         {items.map((gpu) => (
           <div className="col-md-6" key={gpu.id}>
             <GpuCard gpu={gpu} onDetails={(id) => navigate(`/g/${id}`)} />
             <div className="d-flex gap-2 mb-4">
-              <button className="btn btn-sm btn-outline-secondary" onClick={() => navigate(`/edit/${gpu.id}`)}>Edit</button>
-              <button className="btn btn-sm btn-outline-danger" onClick={() => onDelete(gpu.id)}>Delete</button>
+              <Button size="small" onClick={() => navigate(`/edit/${gpu.id}`)}>Edit</Button>
+              <Popconfirm title="Delete this listing?" onConfirm={() => onDelete(gpu.id)}>
+                <Button size="small" danger>Delete</Button>
+              </Popconfirm>
             </div>
           </div>
         ))}
-        {!loading && items.length === 0 && (
-          <div className="col-12">
-            <div className="alert alert-info">You have no listings yet.</div>
-          </div>
-        )}
       </div>
     </div>
   );
