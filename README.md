@@ -23,6 +23,8 @@ docker compose down
 
 If Docker is not installed, either install Docker Desktop for macOS, or use the Local Quick Start below.
 
+See also: `STARTUP.md` for a one-page start guide (Compose, local dev, Render).
+
 ## Quick Start (Local)
 
 Backend:
