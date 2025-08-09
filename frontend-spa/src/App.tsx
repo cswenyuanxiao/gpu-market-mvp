@@ -85,11 +85,7 @@ export default function App() {
           }}
         />
         <Link to="/" className="d-flex align-items-center gap-2 text-decoration-none">
-          <span
-            className="rounded"
-            style={{ width: 64, height: 64, background: '#2f7f82', display: 'inline-block' }}
-          />
-          <span className="h4 mb-0 text-dark">GPU Market</span>
+          <img src="/logo.svg" alt="GPU-MARKET" width={64} height={64} />
         </Link>
         <Button
           className="nav-icon-btn"

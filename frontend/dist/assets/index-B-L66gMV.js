@@ -3,25 +3,25 @@ const __vite__mapDeps = (
   m = __vite__mapDeps,
   d = m.f ||
     (m.f = [
-      'assets/DetailsModal-OSuQuEN9.js',
+      'assets/DetailsModal-BFVnBG7i.js',
       'assets/react-query-BGeIQRPr.js',
       'assets/react-CTDr35rJ.js',
-      'assets/DetailsView-BNKGod2h.js',
+      'assets/DetailsView-BPm4qC7b.js',
       'assets/antd-CoNf2jvZ.js',
       'assets/ImageUploader-DWnjEkzb.js',
-      'assets/Profile-BLfY3WqY.js',
-      'assets/Login-BjoK2B8B.js',
+      'assets/Profile-4cK1hX9A.js',
+      'assets/Login-Cxq0Seiq.js',
       'assets/FormField-iyrhpl26.js',
       'assets/zod-SQF3v9p3.js',
-      'assets/Register-Cr8gtd4t.js',
-      'assets/MyListings-Bh2WNSa_.js',
-      'assets/Detail-DT4bsODG.js',
-      'assets/Sell-C7XEw_xh.js',
-      'assets/Edit-CFPdC6g7.js',
+      'assets/Register-CKyjGJVN.js',
+      'assets/MyListings-DjTgtO25.js',
+      'assets/Detail-qzmbOig-.js',
+      'assets/Sell-D42Hz9bE.js',
+      'assets/Edit-CG4i2ekk.js',
       'assets/NotFound-Cq2vGEz7.js',
-      'assets/ProfileEdit-Ccsf7g9Y.js',
-      'assets/SellToUs-DXiVvP-R.js',
-      'assets/Contact-DXef4dDG.js',
+      'assets/ProfileEdit-DIQNbjUr.js',
+      'assets/SellToUs-Csnnurlo.js',
+      'assets/Contact-ChCBADa-.js',
       'assets/Returns-CybxWZqr.js',
       'assets/B2B--j3nffuu.js',
       'assets/Raffles-DRqVSoUK.js',
@@ -529,7 +529,7 @@ function ze(t, s = 'GPU Market — Buy & Sell Used GPUs') {
   );
 }
 const qe = o.lazy(() =>
-  w(() => import('./DetailsModal-OSuQuEN9.js'), __vite__mapDeps([0, 1, 2, 3, 4])),
+  w(() => import('./DetailsModal-BFVnBG7i.js'), __vite__mapDeps([0, 1, 2, 3, 4])),
 );
 function H() {
   var q;
@@ -599,7 +599,7 @@ function H() {
   function ge() {
     z.current ||
       ((z.current = !0),
-      w(() => import('./DetailsModal-OSuQuEN9.js'), __vite__mapDeps([0, 1, 2, 3, 4])),
+      w(() => import('./DetailsModal-BFVnBG7i.js'), __vite__mapDeps([0, 1, 2, 3, 4])),
       w(() => import('./ImageUploader-DWnjEkzb.js'), __vite__mapDeps([5, 1, 2])));
   }
   return e.jsxs('div', {
@@ -890,8 +890,8 @@ var $e = typeof Object.is == 'function' ? Object.is : Be,
   He = k.useState,
   Qe = k.useEffect,
   Ye = k.useLayoutEffect,
-  Je = k.useDebugValue;
-function Ke(t, s) {
+  Ke = k.useDebugValue;
+function Je(t, s) {
   var r = s(),
     d = He({ inst: { value: r, getSnapshot: s } }),
     n = d[0].inst,
@@ -914,7 +914,7 @@ function Ke(t, s) {
       },
       [t],
     ),
-    Je(r),
+    Ke(r),
     r
   );
 }
@@ -934,7 +934,7 @@ function Ze(t, s) {
 var Xe =
   typeof window > 'u' || typeof window.document > 'u' || typeof window.document.createElement > 'u'
     ? Ze
-    : Ke;
+    : Je;
 pe.useSyncExternalStore = k.useSyncExternalStore !== void 0 ? k.useSyncExternalStore : Xe;
 fe.exports = pe;
 var et = fe.exports;
@@ -1025,7 +1025,7 @@ function ft(t, s = mt, r) {
   const d = ht(t.subscribe, t.getState, t.getServerState || t.getInitialState, s, r);
   return (ut(d), d);
 }
-const J = (t) => {
+const K = (t) => {
     (xe ? 'production' : void 0) !== 'production' &&
       typeof t != 'function' &&
       console.warn(
@@ -1035,8 +1035,8 @@ const J = (t) => {
       r = (d, n) => ft(s, d, n);
     return (Object.assign(r, s), r);
   },
-  pt = (t) => (t ? J(t) : J);
-function K(t) {
+  pt = (t) => (t ? K(t) : K);
+function J(t) {
   try {
     const s = t.split('.')[1] || '';
     return JSON.parse(atob(s));
@@ -1050,7 +1050,7 @@ const xt = pt((t) => ({
   init: () => {
     const s = localStorage.getItem('token');
     if (s) {
-      const r = K(s);
+      const r = J(s);
       t({
         token: s,
         user: r ? { id: r.id, username: r.username, display_name: r.display_name } : null,
@@ -1059,7 +1059,7 @@ const xt = pt((t) => ({
   },
   login: (s) => {
     localStorage.setItem('token', s);
-    const r = K(s);
+    const r = J(s);
     t({
       token: s,
       user: r ? { id: r.id, username: r.username, display_name: r.display_name } : null,
@@ -1602,23 +1602,23 @@ function _t({ open: t, onClose: s }) {
       )
     : null;
 }
-const Nt = o.lazy(() => w(() => import('./Profile-BLfY3WqY.js'), __vite__mapDeps([6, 1, 2, 4]))),
-  kt = o.lazy(() => w(() => import('./Login-BjoK2B8B.js'), __vite__mapDeps([7, 1, 2, 8, 9, 4]))),
+const Nt = o.lazy(() => w(() => import('./Profile-4cK1hX9A.js'), __vite__mapDeps([6, 1, 2, 4]))),
+  kt = o.lazy(() => w(() => import('./Login-Cxq0Seiq.js'), __vite__mapDeps([7, 1, 2, 8, 9, 4]))),
   Et = o.lazy(() =>
-    w(() => import('./Register-Cr8gtd4t.js'), __vite__mapDeps([10, 1, 2, 8, 9, 4])),
+    w(() => import('./Register-CKyjGJVN.js'), __vite__mapDeps([10, 1, 2, 8, 9, 4])),
   ),
-  At = o.lazy(() => w(() => import('./MyListings-Bh2WNSa_.js'), __vite__mapDeps([11, 1, 2, 4]))),
-  Ct = o.lazy(() => w(() => import('./Detail-DT4bsODG.js'), __vite__mapDeps([12, 1, 2, 3, 4]))),
-  It = o.lazy(() => w(() => import('./Sell-C7XEw_xh.js'), __vite__mapDeps([13, 1, 2, 8, 9, 4]))),
-  Pt = o.lazy(() => w(() => import('./Edit-CFPdC6g7.js'), __vite__mapDeps([14, 1, 2, 8, 9, 4]))),
+  At = o.lazy(() => w(() => import('./MyListings-DjTgtO25.js'), __vite__mapDeps([11, 1, 2, 4]))),
+  Ct = o.lazy(() => w(() => import('./Detail-qzmbOig-.js'), __vite__mapDeps([12, 1, 2, 3, 4]))),
+  It = o.lazy(() => w(() => import('./Sell-D42Hz9bE.js'), __vite__mapDeps([13, 1, 2, 8, 9, 4]))),
+  Pt = o.lazy(() => w(() => import('./Edit-CG4i2ekk.js'), __vite__mapDeps([14, 1, 2, 8, 9, 4]))),
   Dt = o.lazy(() => w(() => import('./NotFound-Cq2vGEz7.js'), __vite__mapDeps([15, 1, 2, 4]))),
   Rt = o.lazy(() =>
-    w(() => import('./ProfileEdit-Ccsf7g9Y.js'), __vite__mapDeps([16, 1, 2, 8, 4])),
+    w(() => import('./ProfileEdit-DIQNbjUr.js'), __vite__mapDeps([16, 1, 2, 8, 4])),
   ),
   Tt = o.lazy(() =>
-    w(() => import('./SellToUs-DXiVvP-R.js'), __vite__mapDeps([17, 1, 2, 9, 8, 4])),
+    w(() => import('./SellToUs-Csnnurlo.js'), __vite__mapDeps([17, 1, 2, 9, 8, 4])),
   ),
-  Lt = o.lazy(() => w(() => import('./Contact-DXef4dDG.js'), __vite__mapDeps([18, 1, 2, 9, 8, 4]))),
+  Lt = o.lazy(() => w(() => import('./Contact-ChCBADa-.js'), __vite__mapDeps([18, 1, 2, 9, 8, 4]))),
   Mt = o.lazy(() => w(() => import('./Returns-CybxWZqr.js'), __vite__mapDeps([19, 1, 2]))),
   Ot = o.lazy(() => w(() => import('./B2B--j3nffuu.js'), __vite__mapDeps([20, 1, 2]))),
   Vt = o.lazy(() => w(() => import('./Raffles-DRqVSoUK.js'), __vite__mapDeps([21, 1, 2]))),
@@ -1668,16 +1668,10 @@ function Ut() {
               (d.pathname !== '/' && d.pathname !== '/everything' && r('/everything'), h(!0));
             },
           }),
-          e.jsxs(p, {
+          e.jsx(p, {
             to: '/',
             className: 'd-flex align-items-center gap-2 text-decoration-none',
-            children: [
-              e.jsx('span', {
-                className: 'rounded',
-                style: { width: 64, height: 64, background: '#2f7f82', display: 'inline-block' },
-              }),
-              e.jsx('span', { className: 'h4 mb-0 text-dark', children: 'GPU Market' }),
-            ],
+            children: e.jsx('img', { src: '/logo.svg', alt: 'GPU-MARKET', width: 64, height: 64 }),
           }),
           e.jsx(x, {
             className: 'nav-icon-btn',
