@@ -1,54 +1,53 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { apiFetch } from '../lib/api';
-import { formatDate, formatPrice } from '../lib/format';
 import DetailsModal from '../components/DetailsModal';
 import SearchFilters from '../components/SearchFilters';
-import Drawer from '../components/ui/Drawer';
 import GpuCard from '../components/domain/GpuCard';
-import ListToolbar from '../components/domain/ListToolbar';
 import type { Gpu, SearchQuery } from '../types';
-import Pagination from '../components/Pagination';
 import { useQueryState } from '../lib/useQueryState';
+import { useQuery } from '@tanstack/react-query';
+import { Input, Select, Button, Drawer as AntDrawer, Pagination as AntPagination, Alert, Spin } from 'antd';
 
 export default function Home() {
-  const { getAll, setAll } = useQueryState<{ q?: string; sort?: string; page?: string }>();
+  const { getAll, setAll } = useQueryState<SearchQuery & { page?: string; sort?: string }>();
   const init = getAll();
   const [q, setQ] = useState(init.q || '');
   const [sort, setSort] = useState<'newest' | 'price_asc' | 'price_desc'>((init.sort as any) || 'newest');
-  const [items, setItems] = useState<Gpu[]>([]);
-  const [loading, setLoading] = useState(false);
+  const [filters, setFilters] = useState<Partial<SearchQuery>>({
+    min: init.min || '',
+    max: init.max || '',
+    brand: init.brand || '',
+    vram_min: init.vram_min || '',
+    condition: (init.condition as any) || '',
+  });
   const [selected, setSelected] = useState<Gpu | null>(null);
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [page, setPage] = useState(Number(init.page || '1'));
   const [per] = useState(12);
-  const [total, setTotal] = useState(0);
 
-  const params = useMemo(() => new URLSearchParams({ q, sort }), [q, sort]);
-
-  function fetchList(extra?: Partial<SearchQuery>) {
-    const p = new URLSearchParams(Object.fromEntries(params.entries()));
-    if (extra)
-      Object.entries(extra).forEach(([k, v]) => {
-        if (v === undefined || v === '') p.delete(k);
-        else p.set(k, String(v));
-      });
-    setAll({ q, sort, page: String(page) } as any);
+  const queryParams = useMemo(() => {
+    const p = new URLSearchParams();
+    if (q) p.set('q', q);
+    if (sort) p.set('sort', sort);
+    Object.entries(filters).forEach(([k, v]) => {
+      if (v) p.set(k, String(v));
+    });
     p.set('page', String(page));
     p.set('per', String(per));
-    const url = '/api/search?' + p.toString();
-    setLoading(true);
-    apiFetch(url)
-      .then((r) => r.json())
-      .then((j) => {
-        setItems(j.results || []);
-        setTotal(j.total || 0);
-      })
-      .finally(() => setLoading(false));
-  }
+    return p;
+  }, [q, sort, filters, page, per]);
 
-  useEffect(() => {
-    fetchList();
-  }, [params, page, per]);
+  const { data, isLoading, isError, refetch, isFetching } = useQuery({
+    queryKey: ['search', q, sort, filters, page, per],
+    queryFn: async () => {
+      setAll({ q, sort, page: String(page), ...filters });
+      const res = await apiFetch('/api/search?' + queryParams.toString());
+      return res.json();
+    },
+    keepPreviousData: true,
+    staleTime: 30_000,
+    retry: 2,
+  });
 
   return (
     <div className="container py-3">
@@ -67,38 +66,35 @@ export default function Home() {
       </nav>
 
       <div className="d-flex gap-2 my-3">
-        <input
-          className="form-control"
+        <Input
           placeholder="Search GPUs..."
           value={q}
           onChange={(e) => setQ(e.target.value)}
         />
-        <select
-          className="form-select"
+        <Select
           value={sort}
-          onChange={(e) => setSort(e.target.value as any)}
-        >
-          <option value="newest">Newest</option>
-          <option value="price_asc">Price ↑</option>
-          <option value="price_desc">Price ↓</option>
-        </select>
-        <button className="btn btn-primary" onClick={() => fetchList({ q, sort })}>
-          Search
-        </button>
-        <button className="btn btn-outline-secondary d-md-none" onClick={() => setDrawerOpen(true)}>
-          Filters
-        </button>
+          style={{ width: 160 }}
+          onChange={(v) => setSort(v as any)}
+          options={[
+            { value: 'newest', label: 'Newest' },
+            { value: 'price_asc', label: 'Price ↑' },
+            { value: 'price_desc', label: 'Price ↓' },
+          ]}
+        />
+        <Button type="primary" onClick={() => refetch()}>Search</Button>
+        <Button onClick={() => setDrawerOpen(true)} className="d-md-none">Filters</Button>
       </div>
 
       <div className="row">
         <div className="col-md-4">
           <h5>Search & Filters</h5>
-          <SearchFilters onApply={(patch) => fetchList(patch)} />
+          <SearchFilters onApply={(patch) => { setFilters((f) => ({ ...f, ...patch })); setPage(1); }} />
         </div>
         <div className="col-md-8">
-          {loading && <div className="alert alert-secondary">Loading...</div>}
+          {isError && <Alert type="error" message="Failed to load list" showIcon className="mb-2" />}
+          {(isLoading || isFetching) && <Spin className="mb-2" />}
           <div className="row">
-            {items.map((gpu) => (
+            {(data?.results || []).map((gpu: Gpu) => (
               <div className="col-md-6" key={gpu.id}>
                 <GpuCard
                   gpu={gpu}
@@ -110,26 +106,27 @@ export default function Home() {
                 />
               </div>
             ))}
-            {!loading && items.length === 0 && (
+            {!isLoading && (data?.results?.length || 0) === 0 && (
               <div className="col-12">
                 <div className="alert alert-info">No results. Try adjusting filters.</div>
               </div>
             )}
           </div>
           <div className="d-flex justify-content-center mt-3">
-            <Pagination page={page} per={per} total={total} onChange={(p) => setPage(p)} />
+            <AntPagination current={page} pageSize={per} total={data?.total || 0} onChange={(p) => setPage(p)} showSizeChanger={false} />
           </div>
         </div>
       </div>
-      <Drawer open={drawerOpen} onClose={() => setDrawerOpen(false)}>
+      <AntDrawer open={drawerOpen} onClose={() => setDrawerOpen(false)}>
         <h5 className="mb-3">Filters</h5>
         <SearchFilters
           onApply={(patch) => {
             setDrawerOpen(false);
-            fetchList(patch);
+            setFilters((f) => ({ ...f, ...patch }));
+            setPage(1);
           }}
         />
-      </Drawer>
+      </AntDrawer>
       <DetailsModal item={selected} onClose={() => setSelected(null)} />
     </div>
   );

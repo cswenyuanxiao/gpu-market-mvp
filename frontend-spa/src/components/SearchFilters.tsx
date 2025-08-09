@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useQueryState } from '../lib/useQueryState';
 import type { SearchQuery } from '../types';
+import { Input, Select, Button } from 'antd';
 
 type Condition = '' | 'New' | 'Used';
 
@@ -21,59 +22,41 @@ export default function SearchFilters({ onApply }: { onApply: (q: Partial<Search
 
   return (
     <div>
-      <input
-        className="form-control mb-2"
-        placeholder="Search title or description"
-        value={q}
-        onChange={(e) => setQ(e.target.value)}
-      />
+      <Input className="mb-2" placeholder="Search title or description" value={q} onChange={(e) => setQ(e.target.value)} />
       <div className="d-flex gap-2 mb-2">
-        <input
-          className="form-control"
-          placeholder="Min price"
-          value={min}
-          onChange={(e) => setMin(e.target.value)}
-        />
-        <input
-          className="form-control"
-          placeholder="Max price"
-          value={max}
-          onChange={(e) => setMax(e.target.value)}
-        />
+        <Input placeholder="Min price" value={min} onChange={(e) => setMin(e.target.value)} />
+        <Input placeholder="Max price" value={max} onChange={(e) => setMax(e.target.value)} />
       </div>
       <div className="d-flex gap-2 mb-2">
-        <select className="form-select" value={brand} onChange={(e) => setBrand(e.target.value)}>
-          <option value="">Any brand</option>
-          <option>NVIDIA</option>
-          <option>AMD</option>
-        </select>
-        <select className="form-select" value={vram} onChange={(e) => setVram(e.target.value)}>
-          <option value="">Any VRAM</option>
-          <option value="4">≥ 4GB</option>
-          <option value="6">≥ 6GB</option>
-          <option value="8">≥ 8GB</option>
-          <option value="12">≥ 12GB</option>
-          <option value="16">≥ 16GB</option>
-        </select>
+        <Select
+          value={brand}
+          style={{ minWidth: 140 }}
+          onChange={(v) => setBrand(v)}
+          options={[{ value: '', label: 'Any brand' }, { value: 'NVIDIA', label: 'NVIDIA' }, { value: 'AMD', label: 'AMD' }]}
+        />
+        <Select
+          value={vram}
+          style={{ minWidth: 140 }}
+          onChange={(v) => setVram(String(v))}
+          options={[
+            { value: '', label: 'Any VRAM' },
+            { value: '4', label: '≥ 4GB' },
+            { value: '6', label: '≥ 6GB' },
+            { value: '8', label: '≥ 8GB' },
+            { value: '12', label: '≥ 12GB' },
+            { value: '16', label: '≥ 16GB' },
+          ]}
+        />
       </div>
-      <select
-        className="form-select mb-2"
+      <Select
+        className="mb-2"
         value={condition}
-        onChange={(e) => setCondition(e.target.value as Condition)}
-      >
-        <option value="">Any condition</option>
-        <option>New</option>
-        <option>Used</option>
-      </select>
+        onChange={(v) => setCondition(v as Condition)}
+        options={[{ value: '', label: 'Any condition' }, { value: 'New', label: 'New' }, { value: 'Used', label: 'Used' }]}
+      />
       <div className="d-flex gap-2 align-items-center">
-        <button
-          className="btn btn-primary"
-          onClick={() => onApply({ q, min, max, brand, vram_min: vram, condition, page: '1' })}
-        >
-          Search
-        </button>
-        <button
-          className="btn btn-outline-secondary"
+        <Button type="primary" onClick={() => onApply({ q, min, max, brand, vram_min: vram, condition, page: '1' })}>Search</Button>
+        <Button
           onClick={() => {
             setQ('');
             setMin('');
@@ -85,7 +68,7 @@ export default function SearchFilters({ onApply }: { onApply: (q: Partial<Search
           }}
         >
           Clear all
-        </button>
+        </Button>
       </div>
     </div>
   );

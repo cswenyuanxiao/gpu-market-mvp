@@ -4,16 +4,20 @@ import { apiFetch } from '../lib/api';
 import ImageUploader from '../components/ImageUploader';
 import { z } from 'zod';
 import FormField from '../components/ui/FormField';
-import { useForm } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Button } from 'antd';
 
+const allowedBrands = ['NVIDIA', 'AMD'] as const;
 const EditSchema = z.object({
   title: z.string().min(1, 'Title is required'),
-  price: z.coerce.number().positive('Price must be > 0'),
+  price: z.coerce.number().min(1, 'Price must be ≥ 1').max(500000, 'Price too large'),
   condition: z.enum(['New', 'Used']),
-  brand: z.string().max(50).optional(),
-  vram: z.coerce.number().int().nonnegative().max(64).optional(),
+  brand: z
+    .string()
+    .optional()
+    .refine((v) => !v || (allowedBrands as readonly string[]).includes(v), 'Brand must be NVIDIA or AMD'),
+  vram: z.coerce.number().int().min(0, 'VRAM must be ≥ 0').max(64, 'VRAM must be ≤ 64').optional(),
   desc: z.string().max(2000).optional(),
 });
 type EditValues = z.infer<typeof EditSchema>;
@@ -23,7 +27,7 @@ export default function Edit() {
   const [loading, setLoading] = useState(true);
   const [files, setFiles] = useState<File[]>([]);
   const navigate = useNavigate();
-  const { register, handleSubmit, formState: { errors }, reset } = useForm<EditValues>({
+  const { register, handleSubmit, formState: { errors }, reset, control } = useForm<EditValues>({
     resolver: zodResolver(EditSchema),
     defaultValues: { condition: 'Used' },
   });
@@ -84,19 +88,25 @@ export default function Edit() {
             </FormField>
           </div>
           <div className="col-md-4">
-            <FormField label="Price" htmlFor="price" error={errors.price?.message}>
+            <FormField label="Price" htmlFor="price" error={errors.price?.message} hint="In USD, ≥ 1">
               <input id="price" className="form-control" {...register('price')} />
             </FormField>
             <FormField label="Condition" htmlFor="cond" error={errors.condition?.message}>
-              <select id="cond" className="form-select" {...register('condition')}>
-                <option value="New">New</option>
-                <option value="Used">Used</option>
-              </select>
+              <Controller
+                name="condition"
+                control={control}
+                render={({ field }) => (
+                  <select id="cond" className="form-select" value={field.value} onChange={(e) => field.onChange(e.target.value)}>
+                    <option value="New">New</option>
+                    <option value="Used">Used</option>
+                  </select>
+                )}
+              />
             </FormField>
-            <FormField label="Brand" htmlFor="brand" error={errors.brand?.message}>
+            <FormField label="Brand" htmlFor="brand" error={errors.brand?.message} hint="NVIDIA or AMD">
               <input id="brand" className="form-control" {...register('brand')} />
             </FormField>
-            <FormField label="VRAM (GB)" htmlFor="vram" error={errors.vram?.message}>
+            <FormField label="VRAM (GB)" htmlFor="vram" error={errors.vram?.message} hint="0 - 64">
               <input id="vram" className="form-control" {...register('vram')} />
             </FormField>
           </div>
