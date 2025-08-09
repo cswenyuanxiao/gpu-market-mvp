@@ -8,7 +8,7 @@ services:
     healthCheckPath: /health
     buildCommand: |
       cd backend && npm install --omit=dev
-      cd ../frontend-spa && npm install --include=dev && npm run build
+      cd ../frontend-spa && npm install --include=dev && npx vite build
     startCommand: cd backend && node index.js
     envVars:
       - key: NODE_VERSION
