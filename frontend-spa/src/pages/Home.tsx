@@ -1,13 +1,22 @@
 import { useMemo, useState, lazy, Suspense } from 'react';
 import { apiFetch } from '../lib/api';
 const DetailsModal = lazy(() => import('../components/DetailsModal'));
+const LazyImageUploader = lazy(() => import('../components/ImageUploader'));
 import SearchFilters from '../components/SearchFilters';
 import GpuCard from '../components/domain/GpuCard';
 import type { Gpu, SearchQuery } from '../types';
 import type { SearchResult } from '../lib/api';
 import { useQueryState } from '../lib/useQueryState';
 import { useQuery } from '@tanstack/react-query';
-import { Input, Select, Button, Drawer as AntDrawer, Pagination as AntPagination, Alert, Spin } from 'antd';
+import {
+  Input,
+  Select,
+  Button,
+  Drawer as AntDrawer,
+  Pagination as AntPagination,
+  Alert,
+  Spin,
+} from 'antd';
 
 export default function Home() {
   const { getAll, setAll } = useQueryState<SearchQuery & { page?: string; sort?: string }>();
@@ -23,7 +32,9 @@ export default function Home() {
     | 'date_old'
     | 'price_asc'
     | 'price_desc';
-  const [uiSort, setUiSort] = useState<UiSort>(((init.sort as any) || (isEverything ? 'price_desc' : 'date_new')) as UiSort);
+  const [uiSort, setUiSort] = useState<UiSort>(
+    ((init.sort as any) || (isEverything ? 'price_desc' : 'date_new')) as UiSort,
+  );
   const [filters, setFilters] = useState<Partial<SearchQuery>>({
     min: init.min || '',
     max: init.max || '',
@@ -41,7 +52,15 @@ export default function Home() {
     let backendSort: 'newest' | 'price_asc' | 'price_desc' = 'newest';
     if (uiSort === 'price_asc') backendSort = 'price_asc';
     else if (uiSort === 'price_desc') backendSort = 'price_desc';
-    else if (uiSort === 'date_new' || uiSort === 'featured' || uiSort === 'best' || uiSort === 'alpha_asc' || uiSort === 'alpha_desc' || uiSort === 'date_old') backendSort = 'newest';
+    else if (
+      uiSort === 'date_new' ||
+      uiSort === 'featured' ||
+      uiSort === 'best' ||
+      uiSort === 'alpha_asc' ||
+      uiSort === 'alpha_desc' ||
+      uiSort === 'date_old'
+    )
+      backendSort = 'newest';
     const p = new URLSearchParams();
     if (q) p.set('q', q);
     p.set('sort', backendSort);
@@ -82,11 +101,7 @@ export default function Home() {
       </nav>
 
       <div className="d-flex gap-2 my-3">
-        <Input
-          placeholder="Search GPUs..."
-          value={q}
-          onChange={(e) => setQ(e.target.value)}
-        />
+        <Input placeholder="Search GPUs..." value={q} onChange={(e) => setQ(e.target.value)} />
         <Select
           value={uiSort}
           style={{ width: 220 }}
@@ -102,17 +117,28 @@ export default function Home() {
             { value: 'date_new', label: 'Date, new to old' },
           ]}
         />
-        <Button type="primary" onClick={() => refetch()}>Search</Button>
-        <Button onClick={() => setDrawerOpen(true)} className="d-md-none">Filters</Button>
+        <Button type="primary" onClick={() => refetch()}>
+          Search
+        </Button>
+        <Button onClick={() => setDrawerOpen(true)} className="d-md-none">
+          Filters
+        </Button>
       </div>
 
       <div className="row">
         <div className="col-md-4">
           <h5>Search & Filters</h5>
-          <SearchFilters onApply={(patch) => { setFilters((f) => ({ ...f, ...patch })); setPage(1); }} />
+          <SearchFilters
+            onApply={(patch) => {
+              setFilters((f) => ({ ...f, ...patch }));
+              setPage(1);
+            }}
+          />
         </div>
         <div className="col-md-8">
-          {isError && <Alert type="error" message="Failed to load list" showIcon className="mb-2" />}
+          {isError && (
+            <Alert type="error" message="Failed to load list" showIcon className="mb-2" />
+          )}
           {(isLoading || isFetching) && <Spin className="mb-2" />}
           <div className="row">
             {(data?.results || []).map((gpu: Gpu) => (
@@ -134,7 +160,13 @@ export default function Home() {
             )}
           </div>
           <div className="d-flex justify-content-center mt-3">
-            <AntPagination current={page} pageSize={per} total={data?.total || 0} onChange={(p) => setPage(p)} showSizeChanger={false} />
+            <AntPagination
+              current={page}
+              pageSize={per}
+              total={data?.total || 0}
+              onChange={(p) => setPage(p)}
+              showSizeChanger={false}
+            />
           </div>
         </div>
       </div>
@@ -150,6 +182,10 @@ export default function Home() {
       </AntDrawer>
       <Suspense fallback={null}>
         <DetailsModal item={selected} onClose={() => setSelected(null)} />
+      </Suspense>
+      {/* Prefetch heavy chunk opportunistically */}
+      <Suspense fallback={null}>
+        <LazyImageUploader onChange={() => {}} />
       </Suspense>
     </div>
   );

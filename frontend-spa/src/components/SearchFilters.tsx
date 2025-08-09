@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useQueryState } from '../lib/useQueryState';
 import type { SearchQuery } from '../types';
-import { Input, Select, Button } from 'antd';
+import { Input, Select, Button, InputNumber } from 'antd';
 
 type Condition = '' | 'New' | 'Used';
 
@@ -22,17 +22,38 @@ export default function SearchFilters({ onApply }: { onApply: (q: Partial<Search
 
   return (
     <div>
-      <Input className="mb-2" placeholder="Search title or description" value={q} onChange={(e) => setQ(e.target.value)} />
+      <Input
+        className="mb-2"
+        placeholder="Search title or description"
+        value={q}
+        onChange={(e) => setQ(e.target.value)}
+      />
       <div className="d-flex gap-2 mb-2">
-        <Input placeholder="Min price" value={min} onChange={(e) => setMin(e.target.value)} />
-        <Input placeholder="Max price" value={max} onChange={(e) => setMax(e.target.value)} />
+        <InputNumber
+          placeholder="Min price"
+          value={min === '' ? undefined : Number(min)}
+          onChange={(v) => setMin(v == null ? '' : String(v))}
+          min={0}
+          style={{ width: '100%' }}
+        />
+        <InputNumber
+          placeholder="Max price"
+          value={max === '' ? undefined : Number(max)}
+          onChange={(v) => setMax(v == null ? '' : String(v))}
+          min={0}
+          style={{ width: '100%' }}
+        />
       </div>
       <div className="d-flex gap-2 mb-2">
         <Select
           value={brand}
           style={{ minWidth: 140 }}
           onChange={(v) => setBrand(v)}
-          options={[{ value: '', label: 'Any brand' }, { value: 'NVIDIA', label: 'NVIDIA' }, { value: 'AMD', label: 'AMD' }]}
+          options={[
+            { value: '', label: 'Any brand' },
+            { value: 'NVIDIA', label: 'NVIDIA' },
+            { value: 'AMD', label: 'AMD' },
+          ]}
         />
         <Select
           value={vram}
@@ -52,10 +73,19 @@ export default function SearchFilters({ onApply }: { onApply: (q: Partial<Search
         className="mb-2"
         value={condition}
         onChange={(v) => setCondition(v as Condition)}
-        options={[{ value: '', label: 'Any condition' }, { value: 'New', label: 'New' }, { value: 'Used', label: 'Used' }]}
+        options={[
+          { value: '', label: 'Any condition' },
+          { value: 'New', label: 'New' },
+          { value: 'Used', label: 'Used' },
+        ]}
       />
       <div className="d-flex gap-2 align-items-center">
-        <Button type="primary" onClick={() => onApply({ q, min, max, brand, vram_min: vram, condition, page: '1' })}>Search</Button>
+        <Button
+          type="primary"
+          onClick={() => onApply({ q, min, max, brand, vram_min: vram, condition, page: '1' })}
+        >
+          Search
+        </Button>
         <Button
           onClick={() => {
             setQ('');
