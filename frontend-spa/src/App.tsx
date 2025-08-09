@@ -61,9 +61,6 @@ export default function App() {
   ];
   return (
     <>
-      <a href="#main" className="skip-link">
-        Skip to content
-      </a>
       <div className="w-100 py-1 text-center text-white" style={{ background: '#2f7f82' }}>
         <a href="#reviews" className="text-white text-decoration-none">
           See Our Excellent Reviews →

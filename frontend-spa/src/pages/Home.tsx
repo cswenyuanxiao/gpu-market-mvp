@@ -116,27 +116,22 @@ export default function Home() {
           <a className="navbar-brand" href="#">
             GPU Market
           </a>
-          <div className="d-flex align-items-center gap-2">
-            <small className="text-muted">ReqID:</small>
-            <span id="reqIdBadge" className="badge text-bg-light">
-              -
-            </span>
-          </div>
         </div>
       </nav>
 
       {isEverything && <h1 className="h4 mt-3">All Products</h1>}
 
-      <div className="d-flex gap-2 my-3">
+      <div className="d-flex gap-2 my-3 align-items-center">
         <Input
           id="globalSearchInput"
           placeholder="Search GPUs..."
           value={q}
           onChange={(e) => setQ(e.target.value)}
+          style={{ flex: 1 }}
         />
         <Select
           value={uiSort}
-          style={{ width: 220 }}
+          style={{ width: 180 }}
           onChange={(v) => setUiSort(v as UiSort)}
           options={[
             { value: 'featured', label: 'Featured' },
@@ -159,22 +154,11 @@ export default function Home() {
         <Button type="primary" onClick={() => refetch()}>
           Search
         </Button>
-        <Button onClick={() => setDrawerOpen(true)} className="d-md-none">
-          Filters
-        </Button>
+        <Button onClick={() => setDrawerOpen(true)}>Filters</Button>
       </div>
 
       <div className="row">
-        <div className="col-md-4">
-          <h5>Search & Filters</h5>
-          <SearchFilters
-            onApply={(patch) => {
-              setFilters((f) => ({ ...f, ...patch }));
-              setPage(1);
-            }}
-          />
-        </div>
-        <div className="col-md-8">
+        <div className="col-12">
           {isError && (
             <div className="my-4">
               <Result

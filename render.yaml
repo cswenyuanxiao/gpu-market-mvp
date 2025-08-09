@@ -6,10 +6,11 @@ services:
     branch: master
     autoDeploy: true
     healthCheckPath: /health
-    buildCommand: |
-      cd backend && npm install --omit=dev
-      cd ../frontend-spa && npm install --include=dev && npx vite build
-    startCommand: cd backend && node index.js
+            buildCommand: |
+          cd backend && npm install --omit=dev
+          cd ../frontend-spa && npm install --include=dev && npx vite build
+        startCommand: |
+          cd backend && node seed-production.js && node index.js
     envVars:
       - key: NODE_VERSION
         value: 20
