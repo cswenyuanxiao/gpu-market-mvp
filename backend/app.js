@@ -641,20 +641,25 @@ app.post('/api/register', authLimiter, (req, res) => {
 });
 
 // Auth: login
-app.post('/api/login', authLimiter, (req, res) => {
-  const parsed = LoginSchema.safeParse(req.body);
-  if (!parsed.success) return res.status(400).json({ error: 'Invalid input' });
-  const { username, password } = parsed.data;
-  const row = db.prepare('SELECT * FROM users WHERE username = ?').get(username);
-  if (!row) return res.status(400).json({ error: 'Invalid credentials' });
-  const ok = bcrypt.compareSync(password, row.password_hash);
-  if (!ok) return res.status(400).json({ error: 'Invalid credentials' });
-  const token = jwt.sign(
-    { id: row.id, username: row.username, display_name: row.display_name },
-    JWT_SECRET,
-    { expiresIn: '7d' },
-  );
-  res.json({ token });
+app.post('/api/login', authLimiter, async (req, res) => {
+  try {
+    const parsed = LoginSchema.safeParse(req.body);
+    if (!parsed.success) return res.status(400).json({ error: 'Invalid input' });
+    const { username, password } = parsed.data;
+    const row = await db.prepare('SELECT * FROM users WHERE username = ?').get(username);
+    if (!row) return res.status(400).json({ error: 'Invalid credentials' });
+    const ok = bcrypt.compareSync(password, row.password_hash);
+    if (!ok) return res.status(400).json({ error: 'Invalid credentials' });
+    const token = jwt.sign(
+      { id: row.id, username: row.username, display_name: row.display_name },
+      JWT_SECRET,
+      { expiresIn: '7d' },
+    );
+    res.json({ token });
+  } catch (error) {
+    console.error('Login error:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
 });
 
 // List GPUs (simple)
