@@ -37,7 +37,7 @@ class DatabaseAdapter {
       CREATE TABLE IF NOT EXISTS users (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         username TEXT UNIQUE NOT NULL,
-        password TEXT NOT NULL,
+        password_hash TEXT NOT NULL,
         display_name TEXT,
         avatar_path TEXT,
         created_at DATETIME DEFAULT CURRENT_TIMESTAMP
