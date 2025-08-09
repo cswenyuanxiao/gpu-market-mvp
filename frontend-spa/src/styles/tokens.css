@@ -260,3 +260,103 @@ html, body {
   max-width: 100%;
   overflow: hidden;
 }
+
+/* Welcome section styles */
+.welcome-section {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 40px 20px;
+  margin: 20px 0;
+}
+
+.welcome-title {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #1a1a1a;
+  margin-bottom: 1.5rem;
+}
+
+.welcome-description {
+  font-size: 1.1rem;
+  color: #666;
+  line-height: 1.6;
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.welcome-shortcuts {
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: #888;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.welcome-buttons {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.welcome-btn {
+  width: 100%;
+  height: 60px;
+  font-size: 1rem;
+  font-weight: 600;
+  border-radius: 8px;
+  background: #2f7f82 !important;
+  border: none !important;
+  color: white !important;
+  transition: all 0.3s ease;
+}
+
+.welcome-btn:hover {
+  background: #1f5f62 !important;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(47, 127, 130, 0.3);
+}
+
+/* Mobile responsive for welcome section */
+@media (max-width: 768px) {
+  .welcome-section {
+    padding: 30px 15px;
+    margin: 15px 0;
+  }
+
+  .welcome-title {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+  }
+
+  .welcome-description {
+    font-size: 1rem;
+    padding: 0 10px;
+  }
+
+  .welcome-shortcuts {
+    font-size: 0.8rem;
+  }
+
+  .welcome-btn {
+    height: 50px;
+    font-size: 0.9rem;
+  }
+
+  .welcome-buttons .col-6 {
+    margin-bottom: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  .welcome-title {
+    font-size: 1.8rem;
+  }
+
+  .welcome-description {
+    font-size: 0.95rem;
+  }
+
+  .welcome-btn {
+    height: 45px;
+    font-size: 0.85rem;
+  }
+}

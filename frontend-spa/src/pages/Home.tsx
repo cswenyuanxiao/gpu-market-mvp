@@ -121,6 +121,61 @@ export default function Home() {
 
       {isEverything && <h1 className="h4 mt-3">All Products</h1>}
 
+      {/* Welcome section for homepage */}
+      {!isEverything && !q && !filters.min && !filters.max && !filters.brand && !filters.vram_min && !filters.condition && (
+        <div className="welcome-section text-center py-5">
+          <h1 className="welcome-title mb-4">Welcome to GPU Market</h1>
+          <p className="welcome-description mb-4">
+            Whether you're here to buy, sell, or trade GPUs, we're confident that we can help you find what you're looking for.
+          </p>
+          <p className="welcome-shortcuts mb-5">USE THESE SHORTCUTS TO GET AROUND</p>
+          <div className="welcome-buttons">
+            <div className="row g-3 justify-content-center">
+              <div className="col-6 col-md-3">
+                <Button 
+                  type="primary" 
+                  size="large" 
+                  className="welcome-btn"
+                  onClick={() => window.location.href = '/everything'}
+                >
+                  Buy from GPU Market
+                </Button>
+              </div>
+              <div className="col-6 col-md-3">
+                <Button 
+                  type="primary" 
+                  size="large" 
+                  className="welcome-btn"
+                  onClick={() => window.location.href = '/sell-to-us'}
+                >
+                  Sell to GPU Market
+                </Button>
+              </div>
+              <div className="col-6 col-md-3">
+                <Button 
+                  type="primary" 
+                  size="large" 
+                  className="welcome-btn"
+                  onClick={() => window.location.href = '/sell'}
+                >
+                  Part Exchange
+                </Button>
+              </div>
+              <div className="col-6 col-md-3">
+                <Button 
+                  type="primary" 
+                  size="large" 
+                  className="welcome-btn"
+                  onClick={() => window.location.href = '/contact'}
+                >
+                  Contact
+                </Button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
       <div className="d-flex gap-2 my-3 align-items-center">
         <Input
           id="globalSearchInput"
