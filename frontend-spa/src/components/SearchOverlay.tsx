@@ -71,8 +71,13 @@ export default function SearchOverlay({ open, onClose }: Props) {
       onClick={onClose}
     >
       <div
-        className="bg-white shadow rounded-3"
-        style={{ maxWidth: 960, margin: '6rem auto', padding: '12px 12px 0 12px' }}
+        className="bg-white rounded-3"
+        style={{
+          width: 'calc(100% - 48px)',
+          margin: '24px auto',
+          padding: '12px 12px 0 12px',
+          boxShadow: '0 0 0 1px rgba(0,0,0,0.08)',
+        }}
         onClick={(e) => e.stopPropagation()}
       >
         <div className="d-flex align-items-center border rounded px-2" style={{ height: 56 }}>

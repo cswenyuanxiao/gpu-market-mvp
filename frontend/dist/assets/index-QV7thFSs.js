@@ -3,25 +3,25 @@ const __vite__mapDeps = (
   m = __vite__mapDeps,
   d = m.f ||
     (m.f = [
-      'assets/DetailsModal-BFVnBG7i.js',
+      'assets/DetailsModal-BsbBkjZl.js',
       'assets/react-query-BGeIQRPr.js',
       'assets/react-CTDr35rJ.js',
-      'assets/DetailsView-BPm4qC7b.js',
+      'assets/DetailsView-CPbx5VIf.js',
       'assets/antd-CoNf2jvZ.js',
       'assets/ImageUploader-DWnjEkzb.js',
-      'assets/Profile-4cK1hX9A.js',
-      'assets/Login-Cxq0Seiq.js',
+      'assets/Profile-D-Vcucg7.js',
+      'assets/Login-BbY9XQcb.js',
       'assets/FormField-iyrhpl26.js',
       'assets/zod-SQF3v9p3.js',
-      'assets/Register-CKyjGJVN.js',
-      'assets/MyListings-DjTgtO25.js',
-      'assets/Detail-qzmbOig-.js',
-      'assets/Sell-D42Hz9bE.js',
-      'assets/Edit-CG4i2ekk.js',
+      'assets/Register-oU4pjEcK.js',
+      'assets/MyListings-DPTjW7fL.js',
+      'assets/Detail-qATmmswP.js',
+      'assets/Sell-Cr9FZaJz.js',
+      'assets/Edit-poVb_EaI.js',
       'assets/NotFound-Cq2vGEz7.js',
-      'assets/ProfileEdit-DIQNbjUr.js',
-      'assets/SellToUs-Csnnurlo.js',
-      'assets/Contact-ChCBADa-.js',
+      'assets/ProfileEdit-B9KegWCJ.js',
+      'assets/SellToUs-CHNVQZlQ.js',
+      'assets/Contact-BtRQUzkA.js',
       'assets/Returns-CybxWZqr.js',
       'assets/B2B--j3nffuu.js',
       'assets/Raffles-DRqVSoUK.js',
@@ -38,7 +38,7 @@ import {
   e as I,
   g as _e,
   R as ie,
-  L as p,
+  L as f,
   f as Ne,
   h as g,
   B as ke,
@@ -102,24 +102,24 @@ const Pe = 'modulepreload',
       const i = document.querySelector('meta[property=csp-nonce]'),
         a = (i == null ? void 0 : i.nonce) || (i == null ? void 0 : i.getAttribute('nonce'));
       n = Promise.all(
-        r.map((f) => {
-          if (((f = De(f)), f in B)) return;
-          B[f] = !0;
-          const u = f.endsWith('.css'),
+        r.map((p) => {
+          if (((p = De(p)), p in B)) return;
+          B[p] = !0;
+          const u = p.endsWith('.css'),
             j = u ? '[rel="stylesheet"]' : '';
-          if (document.querySelector(`link[href="${f}"]${j}`)) return;
+          if (document.querySelector(`link[href="${p}"]${j}`)) return;
           const h = document.createElement('link');
           if (
             ((h.rel = u ? 'stylesheet' : Pe),
             u || ((h.as = 'script'), (h.crossOrigin = '')),
-            (h.href = f),
+            (h.href = p),
             a && h.setAttribute('nonce', a),
             document.head.appendChild(h),
             u)
           )
             return new Promise((l, c) => {
               (h.addEventListener('load', l),
-                h.addEventListener('error', () => c(new Error(`Unable to preload CSS for ${f}`))));
+                h.addEventListener('error', () => c(new Error(`Unable to preload CSS for ${p}`))));
             });
         }),
       );
@@ -170,7 +170,7 @@ async function O(t, s = {}) {
       }),
     );
     try {
-      const { pathname: a, search: f } = window.location;
+      const { pathname: a, search: p } = window.location;
       if (
         [
           (l) => l === '/sell',
@@ -181,7 +181,7 @@ async function O(t, s = {}) {
         !(a === '/login')
       ) {
         try {
-          sessionStorage.setItem('from', a + (f || ''));
+          sessionStorage.setItem('from', a + (p || ''));
         } catch {}
         window.location.href = '/login';
       }
@@ -205,7 +205,7 @@ function $({ onApply: t }) {
   const { getAll: s, setAll: r } = ue(),
     d = s(),
     [n, i] = o.useState(d.q || ''),
-    [a, f] = o.useState(d.min || ''),
+    [a, p] = o.useState(d.min || ''),
     [u, j] = o.useState(d.max || ''),
     [h, l] = o.useState(d.brand || ''),
     [c, m] = o.useState(d.vram_min || ''),
@@ -228,7 +228,7 @@ function $({ onApply: t }) {
             e.jsx(U, {
               placeholder: 'Min price',
               value: a === '' ? void 0 : Number(a),
-              onChange: (b) => f(b == null ? '' : String(b)),
+              onChange: (b) => p(b == null ? '' : String(b)),
               min: 0,
               style: { width: '100%' },
             }),
@@ -291,7 +291,7 @@ function $({ onApply: t }) {
             e.jsx(x, {
               onClick: () => {
                 (i(''),
-                  f(''),
+                  p(''),
                   j(''),
                   l(''),
                   m(''),
@@ -339,7 +339,7 @@ function Oe({
   width: n,
   height: i,
   srcSet: a,
-  sizes: f,
+  sizes: p,
   fallbackSrc: u,
 }) {
   const j = o.useRef(null),
@@ -366,7 +366,7 @@ function Oe({
     ref: j,
     src: h ? y : void 0,
     srcSet: h ? a : void 0,
-    sizes: h ? f : void 0,
+    sizes: h ? p : void 0,
     alt: s,
     className: r,
     style: { backgroundColor: '#f5f5f5', ...d },
@@ -529,7 +529,7 @@ function ze(t, s = 'GPU Market — Buy & Sell Used GPUs') {
   );
 }
 const qe = o.lazy(() =>
-  w(() => import('./DetailsModal-BFVnBG7i.js'), __vite__mapDeps([0, 1, 2, 3, 4])),
+  w(() => import('./DetailsModal-BsbBkjZl.js'), __vite__mapDeps([0, 1, 2, 3, 4])),
 );
 function H() {
   var q;
@@ -537,7 +537,7 @@ function H() {
     r = t(),
     d = typeof location < 'u' && location.pathname === '/everything',
     [n, i] = o.useState(r.q || ''),
-    [a, f] = o.useState(r.sort || (d ? 'price_desc' : 'date_new')),
+    [a, p] = o.useState(r.sort || (d ? 'price_desc' : 'date_new')),
     [u, j] = o.useState({
       min: r.min || '',
       max: r.max || '',
@@ -599,7 +599,7 @@ function H() {
   function ge() {
     z.current ||
       ((z.current = !0),
-      w(() => import('./DetailsModal-BFVnBG7i.js'), __vite__mapDeps([0, 1, 2, 3, 4])),
+      w(() => import('./DetailsModal-BsbBkjZl.js'), __vite__mapDeps([0, 1, 2, 3, 4])),
       w(() => import('./ImageUploader-DWnjEkzb.js'), __vite__mapDeps([5, 1, 2])));
   }
   return e.jsxs('div', {
@@ -638,7 +638,7 @@ function H() {
           e.jsx(C, {
             value: a,
             style: { width: 220 },
-            onChange: (v) => f(v),
+            onChange: (v) => p(v),
             options: [
               { value: 'featured', label: 'Featured' },
               { value: 'best', label: 'Best selling' },
@@ -652,7 +652,7 @@ function H() {
           }),
           e.jsx(x, {
             onClick: () => {
-              f(d ? 'price_desc' : 'date_new');
+              p(d ? 'price_desc' : 'date_new');
             },
             children: 'Reset sort',
           }),
@@ -872,8 +872,8 @@ const Q = (t) => {
   Fe = (t) => (t ? Q(t) : Q);
 var he = { exports: {} },
   me = {},
-  fe = { exports: {} },
-  pe = {};
+  pe = { exports: {} },
+  fe = {};
 /**
  * @license React
  * use-sync-external-store-shim.production.js
@@ -935,9 +935,9 @@ var Xe =
   typeof window > 'u' || typeof window.document > 'u' || typeof window.document.createElement > 'u'
     ? Ze
     : Je;
-pe.useSyncExternalStore = k.useSyncExternalStore !== void 0 ? k.useSyncExternalStore : Xe;
-fe.exports = pe;
-var et = fe.exports;
+fe.useSyncExternalStore = k.useSyncExternalStore !== void 0 ? k.useSyncExternalStore : Xe;
+pe.exports = fe;
+var et = pe.exports;
 /**
  * @license React
  * use-sync-external-store-shim/with-selector.production.js
@@ -994,16 +994,16 @@ me.useSyncExternalStoreWithSelector = function (t, s, r, d, n) {
     },
     [s, r, d, n],
   );
-  var f = nt(t, i[0], i[1]);
+  var p = nt(t, i[0], i[1]);
   return (
     it(
       function () {
-        ((a.hasValue = !0), (a.value = f));
+        ((a.hasValue = !0), (a.value = p));
       },
-      [f],
+      [p],
     ),
-    ot(f),
-    f
+    ot(p),
+    p
   );
 };
 he.exports = me;
@@ -1014,7 +1014,7 @@ const { useDebugValue: ut } = ie,
   { useSyncExternalStoreWithSelector: ht } = dt;
 let Y = !1;
 const mt = (t) => t;
-function ft(t, s = mt, r) {
+function pt(t, s = mt, r) {
   (xe ? 'production' : void 0) !== 'production' &&
     r &&
     !Y &&
@@ -1032,10 +1032,10 @@ const K = (t) => {
         "[DEPRECATED] Passing a vanilla store will be unsupported in a future version. Instead use `import { useStore } from 'zustand'`.",
       );
     const s = typeof t == 'function' ? Fe(t) : t,
-      r = (d, n) => ft(s, d, n);
+      r = (d, n) => pt(s, d, n);
     return (Object.assign(r, s), r);
   },
-  pt = (t) => (t ? K(t) : K);
+  ft = (t) => (t ? K(t) : K);
 function J(t) {
   try {
     const s = t.split('.')[1] || '';
@@ -1044,7 +1044,7 @@ function J(t) {
     return null;
   }
 }
-const xt = pt((t) => ({
+const xt = ft((t) => ({
   token: null,
   user: null,
   init: () => {
@@ -1371,15 +1371,15 @@ function St() {
   return ['/login', '/register', '/500'].includes(r)
     ? null
     : (o.useEffect(() => {
-        const n = (f) => {
-          document.documentElement.style.setProperty('--fab-bottom', `${f}px`);
+        const n = (p) => {
+          document.documentElement.style.setProperty('--fab-bottom', `${p}px`);
         };
         n(16);
         const i = window.visualViewport;
         if (!i) return;
         const a = () => {
-          const f = window.innerHeight - i.height;
-          n(f > 120 ? 80 : 16);
+          const p = window.innerHeight - i.height;
+          n(p > 120 ? 80 : 16);
         };
         return (
           i.addEventListener('resize', a),
@@ -1418,7 +1418,7 @@ function St() {
 function _t({ open: t, onClose: s }) {
   const [r, d] = o.useState(''),
     [n, i] = o.useState([]),
-    [a, f] = o.useState(!1),
+    [a, p] = o.useState(!1),
     u = o.useRef(null),
     [j, h] = o.useState(t);
   (o.useEffect(() => h(t), [t]),
@@ -1446,13 +1446,13 @@ function _t({ open: t, onClose: s }) {
           i([]);
           return;
         }
-        f(!0);
+        p(!0);
         try {
           const m = new URLSearchParams({ q: r, sort: 'newest', page: '1', per: '10' }),
             S = await (await O('/api/search?' + m.toString())).json();
           i(S.results || []);
         } finally {
-          f(!1);
+          p(!1);
         }
       }, 300);
       return () => clearTimeout(c);
@@ -1470,8 +1470,13 @@ function _t({ open: t, onClose: s }) {
           style: { background: 'rgba(0,0,0,0.35)', zIndex: 1050 },
           onClick: s,
           children: e.jsxs('div', {
-            className: 'bg-white shadow rounded-3',
-            style: { maxWidth: 960, margin: '6rem auto', padding: '12px 12px 0 12px' },
+            className: 'bg-white rounded-3',
+            style: {
+              width: 'calc(100% - 48px)',
+              margin: '24px auto',
+              padding: '12px 12px 0 12px',
+              boxShadow: '0 0 0 1px rgba(0,0,0,0.08)',
+            },
             onClick: (c) => c.stopPropagation(),
             children: [
               e.jsxs('div', {
@@ -1602,23 +1607,23 @@ function _t({ open: t, onClose: s }) {
       )
     : null;
 }
-const Nt = o.lazy(() => w(() => import('./Profile-4cK1hX9A.js'), __vite__mapDeps([6, 1, 2, 4]))),
-  kt = o.lazy(() => w(() => import('./Login-Cxq0Seiq.js'), __vite__mapDeps([7, 1, 2, 8, 9, 4]))),
+const Nt = o.lazy(() => w(() => import('./Profile-D-Vcucg7.js'), __vite__mapDeps([6, 1, 2, 4]))),
+  kt = o.lazy(() => w(() => import('./Login-BbY9XQcb.js'), __vite__mapDeps([7, 1, 2, 8, 9, 4]))),
   Et = o.lazy(() =>
-    w(() => import('./Register-CKyjGJVN.js'), __vite__mapDeps([10, 1, 2, 8, 9, 4])),
+    w(() => import('./Register-oU4pjEcK.js'), __vite__mapDeps([10, 1, 2, 8, 9, 4])),
   ),
-  At = o.lazy(() => w(() => import('./MyListings-DjTgtO25.js'), __vite__mapDeps([11, 1, 2, 4]))),
-  Ct = o.lazy(() => w(() => import('./Detail-qzmbOig-.js'), __vite__mapDeps([12, 1, 2, 3, 4]))),
-  It = o.lazy(() => w(() => import('./Sell-D42Hz9bE.js'), __vite__mapDeps([13, 1, 2, 8, 9, 4]))),
-  Pt = o.lazy(() => w(() => import('./Edit-CG4i2ekk.js'), __vite__mapDeps([14, 1, 2, 8, 9, 4]))),
+  At = o.lazy(() => w(() => import('./MyListings-DPTjW7fL.js'), __vite__mapDeps([11, 1, 2, 4]))),
+  Ct = o.lazy(() => w(() => import('./Detail-qATmmswP.js'), __vite__mapDeps([12, 1, 2, 3, 4]))),
+  It = o.lazy(() => w(() => import('./Sell-Cr9FZaJz.js'), __vite__mapDeps([13, 1, 2, 8, 9, 4]))),
+  Pt = o.lazy(() => w(() => import('./Edit-poVb_EaI.js'), __vite__mapDeps([14, 1, 2, 8, 9, 4]))),
   Dt = o.lazy(() => w(() => import('./NotFound-Cq2vGEz7.js'), __vite__mapDeps([15, 1, 2, 4]))),
   Rt = o.lazy(() =>
-    w(() => import('./ProfileEdit-DIQNbjUr.js'), __vite__mapDeps([16, 1, 2, 8, 4])),
+    w(() => import('./ProfileEdit-B9KegWCJ.js'), __vite__mapDeps([16, 1, 2, 8, 4])),
   ),
   Tt = o.lazy(() =>
-    w(() => import('./SellToUs-Csnnurlo.js'), __vite__mapDeps([17, 1, 2, 9, 8, 4])),
+    w(() => import('./SellToUs-CHNVQZlQ.js'), __vite__mapDeps([17, 1, 2, 9, 8, 4])),
   ),
-  Lt = o.lazy(() => w(() => import('./Contact-ChCBADa-.js'), __vite__mapDeps([18, 1, 2, 9, 8, 4]))),
+  Lt = o.lazy(() => w(() => import('./Contact-BtRQUzkA.js'), __vite__mapDeps([18, 1, 2, 9, 8, 4]))),
   Mt = o.lazy(() => w(() => import('./Returns-CybxWZqr.js'), __vite__mapDeps([19, 1, 2]))),
   Ot = o.lazy(() => w(() => import('./B2B--j3nffuu.js'), __vite__mapDeps([20, 1, 2]))),
   Vt = o.lazy(() => w(() => import('./Raffles-DRqVSoUK.js'), __vite__mapDeps([21, 1, 2]))),
@@ -1642,7 +1647,7 @@ function Ut() {
         () => window.removeEventListener('app-toast', l)
       );
     }, []));
-  const [f, u] = o.useState(!1),
+  const [p, u] = o.useState(!1),
     [j, h] = o.useState(!1);
   return e.jsxs(e.Fragment, {
     children: [
@@ -1668,7 +1673,7 @@ function Ut() {
               (d.pathname !== '/' && d.pathname !== '/everything' && r('/everything'), h(!0));
             },
           }),
-          e.jsx(p, {
+          e.jsx(f, {
             to: '/',
             className: 'd-flex align-items-center gap-2 text-decoration-none',
             children: e.jsx('img', { src: '/logo.svg', alt: 'GPU-MARKET', width: 64, height: 64 }),
@@ -1690,7 +1695,7 @@ function Ut() {
             e.jsxs('div', {
               className: 'mx-auto d-none d-md-flex gap-3',
               children: [
-                e.jsx(p, {
+                e.jsx(f, {
                   to: '/',
                   children: e.jsx(x, {
                     type: 'text',
@@ -1814,15 +1819,15 @@ function Ut() {
                     children: 'Shop Graphics Cards',
                   }),
                 }),
-                e.jsx(p, {
+                e.jsx(f, {
                   to: '/sell',
                   children: e.jsx(x, { size: 'small', type: 'default', children: 'Sell' }),
                 }),
-                e.jsx(p, {
+                e.jsx(f, {
                   to: '/sell-to-us',
                   children: e.jsx(x, { size: 'small', type: 'default', children: 'Sell to us' }),
                 }),
-                e.jsx(p, {
+                e.jsx(f, {
                   to: '/b2b',
                   children: e.jsx(x, {
                     size: 'small',
@@ -1830,11 +1835,11 @@ function Ut() {
                     children: 'Enterprise Hardware (B2B)',
                   }),
                 }),
-                e.jsx(p, {
+                e.jsx(f, {
                   to: '/my',
                   children: e.jsx(x, { size: 'small', type: 'default', children: 'My Listings' }),
                 }),
-                e.jsx(p, {
+                e.jsx(f, {
                   to: '/profile',
                   children: e.jsx(x, { size: 'small', type: 'default', children: 'My Profile' }),
                 }),
@@ -1855,7 +1860,7 @@ function Ut() {
                   children: e.jsx(x, { type: 'text', size: 'small', children: 'Raffles' }),
                 }),
                 n &&
-                  e.jsx(p, {
+                  e.jsx(f, {
                     to: '/profile/edit',
                     children: e.jsx(x, {
                       size: 'small',
@@ -1864,12 +1869,12 @@ function Ut() {
                     }),
                   }),
                 !n &&
-                  e.jsx(p, {
+                  e.jsx(f, {
                     to: '/login',
                     children: e.jsx(x, { size: 'small', type: 'primary', children: 'Login' }),
                   }),
                 !n &&
-                  e.jsx(p, {
+                  e.jsx(f, {
                     to: '/register',
                     children: e.jsx(x, { size: 'small', type: 'primary', children: 'Register' }),
                   }),
@@ -1902,7 +1907,7 @@ function Ut() {
         }),
       }),
       e.jsx(ce, {
-        open: f,
+        open: p,
         onClose: () => u(!1),
         afterOpenChange: (l) => {
           try {
@@ -1912,21 +1917,21 @@ function Ut() {
         children: e.jsxs('div', {
           className: 'd-flex flex-column gap-2',
           children: [
-            e.jsx(p, { to: '/', onClick: () => u(!1), children: 'Home' }),
-            e.jsx(p, {
+            e.jsx(f, { to: '/', onClick: () => u(!1), children: 'Home' }),
+            e.jsx(f, {
               to: '/everything?sort=price_desc',
               onClick: () => u(!1),
               children: 'Shop Everything',
             }),
             e.jsx('div', { className: 'fw-bold', children: 'Shop Graphics Cards' }),
-            e.jsx(p, { to: '/?brand=NVIDIA', onClick: () => u(!1), children: 'NVIDIA' }),
-            e.jsx(p, { to: '/?brand=AMD', onClick: () => u(!1), children: 'AMD' }),
-            e.jsx(p, { to: '/sell', onClick: () => u(!1), children: 'Sell' }),
-            e.jsx(p, { to: '/sell-to-us', onClick: () => u(!1), children: 'Sell to us' }),
-            e.jsx(p, { to: '/my', onClick: () => u(!1), children: 'My Listings' }),
-            e.jsx(p, { to: '/profile', onClick: () => u(!1), children: 'My Profile' }),
-            !n && e.jsx(p, { to: '/login', onClick: () => u(!1), children: 'Login' }),
-            !n && e.jsx(p, { to: '/register', onClick: () => u(!1), children: 'Register' }),
+            e.jsx(f, { to: '/?brand=NVIDIA', onClick: () => u(!1), children: 'NVIDIA' }),
+            e.jsx(f, { to: '/?brand=AMD', onClick: () => u(!1), children: 'AMD' }),
+            e.jsx(f, { to: '/sell', onClick: () => u(!1), children: 'Sell' }),
+            e.jsx(f, { to: '/sell-to-us', onClick: () => u(!1), children: 'Sell to us' }),
+            e.jsx(f, { to: '/my', onClick: () => u(!1), children: 'My Listings' }),
+            e.jsx(f, { to: '/profile', onClick: () => u(!1), children: 'My Profile' }),
+            !n && e.jsx(f, { to: '/login', onClick: () => u(!1), children: 'Login' }),
+            !n && e.jsx(f, { to: '/register', onClick: () => u(!1), children: 'Register' }),
             n &&
               e.jsx('button', {
                 className: 'btn btn-outline-danger btn-sm',
@@ -1992,13 +1997,13 @@ function Ut() {
                     e.jsxs('div', {
                       className: 'd-flex flex-column gap-1',
                       children: [
-                        e.jsx(p, { to: '/sell-to-us', children: 'Sell to us' }),
-                        e.jsx(p, {
+                        e.jsx(f, { to: '/sell-to-us', children: 'Sell to us' }),
+                        e.jsx(f, {
                           to: '/everything?sort=price_desc',
                           children: 'Shop Everything',
                         }),
-                        e.jsx(p, { to: '/', children: 'Shop Graphics Cards' }),
-                        e.jsx(p, { to: '/about', children: 'About Us' }),
+                        e.jsx(f, { to: '/', children: 'Shop Graphics Cards' }),
+                        e.jsx(f, { to: '/about', children: 'About Us' }),
                       ],
                     }),
                   ],
@@ -2010,9 +2015,9 @@ function Ut() {
                     e.jsxs('div', {
                       className: 'd-flex flex-column gap-1',
                       children: [
-                        e.jsx(p, { to: '/terms', children: 'Terms of Service' }),
-                        e.jsx(p, { to: '/privacy', children: 'Privacy Policy' }),
-                        e.jsx(p, { to: '/returns', children: 'Returns & Refunds' }),
+                        e.jsx(f, { to: '/terms', children: 'Terms of Service' }),
+                        e.jsx(f, { to: '/privacy', children: 'Privacy Policy' }),
+                        e.jsx(f, { to: '/returns', children: 'Returns & Refunds' }),
                       ],
                     }),
                   ],
