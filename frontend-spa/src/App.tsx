@@ -30,6 +30,7 @@ import ServerError from './pages/ServerError';
 import { Button, Dropdown, Drawer, Menu } from 'antd';
 import type { MenuProps } from 'antd';
 import FloatingWhatsApp from './components/ui/FloatingWhatsApp';
+import { SearchOutlined, ShoppingOutlined } from '@ant-design/icons';
 
 export default function App() {
   const { api, messages } = useToast();
@@ -69,6 +70,8 @@ export default function App() {
       <div className="container py-3 d-none d-md-flex justify-content-between align-items-center">
         <Button
           type="text"
+          aria-label="Search"
+          icon={<SearchOutlined style={{ fontSize: 22, color: '#111' }} />}
           onClick={() => {
             if (location.pathname !== '/' && location.pathname !== '/everything') {
               navigate('/everything');
@@ -77,9 +80,7 @@ export default function App() {
               document.getElementById('globalSearchInput')?.focus();
             }
           }}
-        >
-          🔍
-        </Button>
+        />
         <Link to="/" className="d-flex align-items-center gap-2 text-decoration-none">
           <span
             className="rounded"
@@ -87,9 +88,12 @@ export default function App() {
           />
           <span className="h4 mb-0 text-dark">GPU Market</span>
         </Link>
-        <Button type="text" onClick={() => navigate('/cart')} aria-label="Cart">
-          🛒
-        </Button>
+        <Button
+          type="text"
+          aria-label="Cart"
+          icon={<ShoppingOutlined style={{ fontSize: 22, color: '#111' }} />}
+          onClick={() => navigate('/cart')}
+        />
       </div>
       <nav className="navbar navbar-expand navbar-light bg-light">
         <div className="container-fluid">

@@ -3,25 +3,25 @@ const __vite__mapDeps = (
   m = __vite__mapDeps,
   d = m.f ||
     (m.f = [
-      'assets/DetailsModal-Rp_tdlaD.js',
+      'assets/DetailsModal-lC04LiNd.js',
       'assets/react-query-BGeIQRPr.js',
       'assets/react-CTDr35rJ.js',
-      'assets/DetailsView-CKZ09Ubv.js',
-      'assets/antd-BEXrTnZz.js',
+      'assets/DetailsView-BmDVwFjn.js',
+      'assets/antd-mcI3qWux.js',
       'assets/ImageUploader-DWnjEkzb.js',
-      'assets/Profile-7GNN8Njg.js',
-      'assets/Login-DFq7xeIO.js',
+      'assets/Profile-DWRGJ9dJ.js',
+      'assets/Login-DPcYcF4n.js',
       'assets/FormField-iyrhpl26.js',
       'assets/zod-SQF3v9p3.js',
-      'assets/Register-bAFPb9Uv.js',
-      'assets/MyListings-Bide8wQ0.js',
-      'assets/Detail-DubAp6Ya.js',
-      'assets/Sell-CSlwPnZl.js',
-      'assets/Edit-4jfpZZiI.js',
-      'assets/NotFound-BcrUG9gH.js',
-      'assets/ProfileEdit-ciR56e9R.js',
-      'assets/SellToUs-Br9BmsBO.js',
-      'assets/Contact-CEOJyTN7.js',
+      'assets/Register-1E2c2CZA.js',
+      'assets/MyListings-CS_qDScW.js',
+      'assets/Detail-DOjQl86v.js',
+      'assets/Sell-CwgXdUZP.js',
+      'assets/Edit-9_Y8cFyg.js',
+      'assets/NotFound-DjWoEur9.js',
+      'assets/ProfileEdit-CxJUTsmt.js',
+      'assets/SellToUs-Bn5qSNzK.js',
+      'assets/Contact-BTLTTHD0.js',
       'assets/Returns-CybxWZqr.js',
       'assets/B2B--j3nffuu.js',
       'assets/Raffles-DRqVSoUK.js',
@@ -38,7 +38,7 @@ import {
   e as I,
   g as _e,
   R as ae,
-  L as p,
+  L as f,
   f as we,
   h as j,
   B as Se,
@@ -47,14 +47,16 @@ import {
   I as ie,
   T as G,
   S as C,
-  B as f,
+  B as p,
   R as W,
   a as ke,
   P as Ee,
   D as le,
   s as Ne,
-  b as M,
-} from './antd-BEXrTnZz.js';
+  b as Ae,
+  c as Ce,
+  d as M,
+} from './antd-mcI3qWux.js';
 (function () {
   const s = document.createElement('link').relList;
   if (s && s.supports && s.supports('modulepreload')) return;
@@ -87,8 +89,8 @@ import {
 var L = {},
   U = be;
 ((L.createRoot = U.createRoot), (L.hydrateRoot = U.hydrateRoot));
-const Ae = 'modulepreload',
-  Ce = function (t) {
+const Ie = 'modulepreload',
+  De = function (t) {
     return '/' + t;
   },
   B = {},
@@ -100,14 +102,14 @@ const Ae = 'modulepreload',
         a = (i == null ? void 0 : i.nonce) || (i == null ? void 0 : i.getAttribute('nonce'));
       r = Promise.all(
         n.map((m) => {
-          if (((m = Ce(m)), m in B)) return;
+          if (((m = De(m)), m in B)) return;
           B[m] = !0;
           const u = m.endsWith('.css'),
             d = u ? '[rel="stylesheet"]' : '';
           if (document.querySelector(`link[href="${m}"]${d}`)) return;
           const l = document.createElement('link');
           if (
-            ((l.rel = u ? 'stylesheet' : Ae),
+            ((l.rel = u ? 'stylesheet' : Ie),
             u || ((l.as = 'script'), (l.crossOrigin = '')),
             (l.href = m),
             a && l.setAttribute('nonce', a),
@@ -129,7 +131,7 @@ const Ae = 'modulepreload',
       });
   };
 var Z, X;
-const Ie =
+const Pe =
   (typeof import.meta < 'u' &&
     ((X = (Z = import.meta) == null ? void 0 : Z.env) == null ? void 0 : X.VITE_API_BASE)) ||
   window.location.origin;
@@ -139,7 +141,7 @@ async function F(t, s = {}) {
   o && !n.has('Authorization') && n.set('Authorization', 'Bearer ' + o);
   let r;
   try {
-    r = await fetch(t.startsWith('http') ? t : Ie + t, { ...s, headers: n });
+    r = await fetch(t.startsWith('http') ? t : Pe + t, { ...s, headers: n });
   } catch (a) {
     throw (
       typeof window < 'u' &&
@@ -279,13 +281,13 @@ function $({ onApply: t }) {
         e.jsxs('div', {
           className: 'd-flex gap-2 align-items-center',
           children: [
-            e.jsx(f, {
+            e.jsx(p, {
               type: 'primary',
               onClick: () =>
                 t({ q: r, min: a, max: u, brand: l, vram_min: _, condition: y, page: '1' }),
               children: 'Search',
             }),
-            e.jsx(f, {
+            e.jsx(p, {
               onClick: () => {
                 (i(''),
                   m(''),
@@ -311,16 +313,16 @@ function $({ onApply: t }) {
     })
   );
 }
-const De = new Intl.NumberFormat('en-GB', {
+const Re = new Intl.NumberFormat('en-GB', {
   style: 'currency',
   currency: 'GBP',
   maximumFractionDigits: 0,
 });
-function Pe(t) {
+function Me(t) {
   const s = Number(t || 0);
-  return De.format(s);
+  return Re.format(s);
 }
-function Re(t) {
+function Te(t) {
   if (!t) return '';
   try {
     return new Date(t).toLocaleDateString();
@@ -328,7 +330,7 @@ function Re(t) {
     return '';
   }
 }
-function Me({
+function Le({
   src: t,
   alt: s = '',
   className: n,
@@ -373,7 +375,7 @@ function Me({
     onError: () => g(!0),
   });
 }
-function Te({ gpu: t, onDetails: s }) {
+function Oe({ gpu: t, onDetails: s }) {
   const n = (() => {
     if (!t.created_at) return !1;
     const o = new Date(t.created_at).getTime();
@@ -387,7 +389,7 @@ function Te({ gpu: t, onDetails: s }) {
         t.image_path &&
           e.jsx('div', {
             className: 'col-4',
-            children: e.jsx(Me, {
+            children: e.jsx(Le, {
               src: t.image_path,
               fallbackSrc: t.seller_avatar || void 0,
               srcSet: `${t.image_path} 1x, ${t.image_path} 2x`,
@@ -447,7 +449,7 @@ function Te({ gpu: t, onDetails: s }) {
                   e.jsx('div', {
                     className: 'ms-2 text-end',
                     style: { minWidth: 90 },
-                    children: e.jsx('strong', { className: 'text-dark', children: Pe(t.price) }),
+                    children: e.jsx('strong', { className: 'text-dark', children: Me(t.price) }),
                   }),
                 ],
               }),
@@ -489,7 +491,7 @@ function Te({ gpu: t, onDetails: s }) {
                   t.created_at &&
                     e.jsxs('small', {
                       className: 'text-muted ms-auto',
-                      children: ['Added: ', Re(t.created_at)],
+                      children: ['Added: ', Te(t.created_at)],
                     }),
                 ],
               }),
@@ -515,7 +517,7 @@ function Te({ gpu: t, onDetails: s }) {
     }),
   });
 }
-function Le(t, s = 'GPU Market — Buy & Sell Used GPUs') {
+function Ve(t, s = 'GPU Market — Buy & Sell Used GPUs') {
   if (typeof document > 'u') return;
   const n = document.title;
   return (
@@ -525,8 +527,8 @@ function Le(t, s = 'GPU Market — Buy & Sell Used GPUs') {
     }
   );
 }
-const Oe = c.lazy(() =>
-  b(() => import('./DetailsModal-Rp_tdlaD.js'), __vite__mapDeps([0, 1, 2, 3, 4])),
+const ze = c.lazy(() =>
+  b(() => import('./DetailsModal-lC04LiNd.js'), __vite__mapDeps([0, 1, 2, 3, 4])),
 );
 function H() {
   var z;
@@ -546,7 +548,7 @@ function H() {
     [_, g] = c.useState(!1),
     [y, S] = c.useState(Number(n.page || '1')),
     [v] = c.useState(12);
-  c.useEffect(() => Le('GPU Market — Shop Graphics Cards'), []);
+  c.useEffect(() => Ve('GPU Market — Shop Graphics Cards'), []);
   const P = c.useMemo(() => {
       let x = 'newest';
       a === 'price_asc'
@@ -575,8 +577,8 @@ function H() {
     {
       data: k,
       isLoading: R,
-      isError: pe,
-      refetch: fe,
+      isError: fe,
+      refetch: pe,
       isFetching: xe,
     } = ye({
       queryKey: ['search', r, a, u, y, v],
@@ -596,7 +598,7 @@ function H() {
   function je() {
     V.current ||
       ((V.current = !0),
-      b(() => import('./DetailsModal-Rp_tdlaD.js'), __vite__mapDeps([0, 1, 2, 3, 4])),
+      b(() => import('./DetailsModal-lC04LiNd.js'), __vite__mapDeps([0, 1, 2, 3, 4])),
       b(() => import('./ImageUploader-DWnjEkzb.js'), __vite__mapDeps([5, 1, 2])));
   }
   return e.jsxs('div', {
@@ -647,14 +649,14 @@ function H() {
               { value: 'date_new', label: 'Date, new to old' },
             ],
           }),
-          e.jsx(f, {
+          e.jsx(p, {
             onClick: () => {
               m(o ? 'price_desc' : 'date_new');
             },
             children: 'Reset sort',
           }),
-          e.jsx(f, { type: 'primary', onClick: () => fe(), children: 'Search' }),
-          e.jsx(f, { onClick: () => g(!0), className: 'd-md-none', children: 'Filters' }),
+          e.jsx(p, { type: 'primary', onClick: () => pe(), children: 'Search' }),
+          e.jsx(p, { onClick: () => g(!0), className: 'd-md-none', children: 'Filters' }),
         ],
       }),
       e.jsxs('div', {
@@ -674,7 +676,7 @@ function H() {
           e.jsxs('div', {
             className: 'col-md-8',
             children: [
-              pe &&
+              fe &&
                 e.jsx('div', {
                   className: 'my-4',
                   children: e.jsx(W, {
@@ -709,7 +711,7 @@ function H() {
                         'div',
                         {
                           className: 'col-md-6',
-                          children: e.jsx(Te, {
+                          children: e.jsx(Oe, {
                             gpu: x,
                             onDetails: async (w) => {
                               const N = await (await F(`/api/gpus/${w}`)).json();
@@ -738,7 +740,7 @@ function H() {
                             r || u.min || u.max || u.brand || u.vram_min || u.condition
                               ? e.jsx('div', {
                                   className: 'd-flex gap-2 justify-content-center',
-                                  children: e.jsx(f, {
+                                  children: e.jsx(p, {
                                     onClick: () => {
                                       (i(''),
                                         d({
@@ -756,19 +758,19 @@ function H() {
                               : e.jsxs('div', {
                                   className: 'd-flex gap-2 justify-content-center',
                                   children: [
-                                    e.jsx(f, {
+                                    e.jsx(p, {
                                       href: '/?brand=NVIDIA&vram_min=12',
                                       children: 'NVIDIA 40 Series',
                                     }),
-                                    e.jsx(f, {
+                                    e.jsx(p, {
                                       href: '/?brand=NVIDIA&vram_min=8',
                                       children: 'NVIDIA 30 Series',
                                     }),
-                                    e.jsx(f, {
+                                    e.jsx(p, {
                                       href: '/?brand=AMD&vram_min=12',
                                       children: 'AMD 7000 Series',
                                     }),
-                                    e.jsx(f, {
+                                    e.jsx(p, {
                                       href: '/?brand=AMD&vram_min=8',
                                       children: 'AMD 6000 Series',
                                     }),
@@ -807,12 +809,12 @@ function H() {
       }),
       e.jsx(c.Suspense, {
         fallback: null,
-        children: e.jsx(Oe, { item: l, onClose: () => h(null) }),
+        children: e.jsx(ze, { item: l, onClose: () => h(null) }),
       }),
     ],
   });
 }
-function Ve() {
+function qe() {
   const [t, s] = Ne.useMessage();
   function n(r, i = 'info') {
     const a =
@@ -821,7 +823,7 @@ function Ve() {
   }
   return { api: { push: n }, messages: s };
 }
-function ze({ messages: t }) {
+function Ge({ messages: t }) {
   return e.jsx(e.Fragment, { children: t });
 }
 function A({ children: t }) {
@@ -837,7 +839,7 @@ function A({ children: t }) {
     e.jsx(e.Fragment, { children: t })
   );
 }
-var qe = {};
+var We = {};
 const Q = (t) => {
     let s;
     const n = new Set(),
@@ -856,7 +858,7 @@ const Q = (t) => {
         getInitialState: () => d,
         subscribe: (l) => (n.add(l), () => n.delete(l)),
         destroy: () => {
-          ((qe ? 'production' : void 0) !== 'production' &&
+          ((We ? 'production' : void 0) !== 'production' &&
             console.warn(
               '[DEPRECATED] The `destroy` method will be unsupported in a future version. Instead use unsubscribe function returned by subscribe. Everything will be garbage-collected if store is garbage-collected.',
             ),
@@ -866,7 +868,7 @@ const Q = (t) => {
       d = (s = t(o, r, u));
     return u;
   },
-  Ge = (t) => (t ? Q(t) : Q);
+  Ue = (t) => (t ? Q(t) : Q);
 var ce = { exports: {} },
   de = {},
   ue = { exports: {} },
@@ -880,27 +882,27 @@ var ce = { exports: {} },
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */ var E = c;
-function We(t, s) {
+function Be(t, s) {
   return (t === s && (t !== 0 || 1 / t === 1 / s)) || (t !== t && s !== s);
 }
-var Ue = typeof Object.is == 'function' ? Object.is : We,
-  Be = E.useState,
-  Fe = E.useEffect,
-  $e = E.useLayoutEffect,
-  He = E.useDebugValue;
-function Qe(t, s) {
+var Fe = typeof Object.is == 'function' ? Object.is : Be,
+  $e = E.useState,
+  He = E.useEffect,
+  Qe = E.useLayoutEffect,
+  Ye = E.useDebugValue;
+function Je(t, s) {
   var n = s(),
-    o = Be({ inst: { value: n, getSnapshot: s } }),
+    o = $e({ inst: { value: n, getSnapshot: s } }),
     r = o[0].inst,
     i = o[1];
   return (
-    $e(
+    Qe(
       function () {
         ((r.value = n), (r.getSnapshot = s), T(r) && i({ inst: r }));
       },
       [t, n, s],
     ),
-    Fe(
+    He(
       function () {
         return (
           T(r) && i({ inst: r }),
@@ -911,7 +913,7 @@ function Qe(t, s) {
       },
       [t],
     ),
-    He(n),
+    Ye(n),
     n
   );
 }
@@ -920,21 +922,21 @@ function T(t) {
   t = t.value;
   try {
     var n = s();
-    return !Ue(t, n);
+    return !Fe(t, n);
   } catch {
     return !0;
   }
 }
-function Ye(t, s) {
+function Ke(t, s) {
   return s();
 }
-var Je =
+var Ze =
   typeof window > 'u' || typeof window.document > 'u' || typeof window.document.createElement > 'u'
-    ? Ye
-    : Qe;
-he.useSyncExternalStore = E.useSyncExternalStore !== void 0 ? E.useSyncExternalStore : Je;
+    ? Ke
+    : Je;
+he.useSyncExternalStore = E.useSyncExternalStore !== void 0 ? E.useSyncExternalStore : Ze;
 ue.exports = he;
-var Ke = ue.exports;
+var Xe = ue.exports;
 /**
  * @license React
  * use-sync-external-store-shim/with-selector.production.js
@@ -944,23 +946,23 @@ var Ke = ue.exports;
  * This source code is licensed under the MIT license found in the
  * LICENSE file in the root directory of this source tree.
  */ var D = c,
-  Ze = Ke;
-function Xe(t, s) {
+  et = Xe;
+function tt(t, s) {
   return (t === s && (t !== 0 || 1 / t === 1 / s)) || (t !== t && s !== s);
 }
-var et = typeof Object.is == 'function' ? Object.is : Xe,
-  tt = Ze.useSyncExternalStore,
-  st = D.useRef,
-  rt = D.useEffect,
-  nt = D.useMemo,
-  at = D.useDebugValue;
+var st = typeof Object.is == 'function' ? Object.is : tt,
+  rt = et.useSyncExternalStore,
+  nt = D.useRef,
+  at = D.useEffect,
+  it = D.useMemo,
+  lt = D.useDebugValue;
 de.useSyncExternalStoreWithSelector = function (t, s, n, o, r) {
-  var i = st(null);
+  var i = nt(null);
   if (i.current === null) {
     var a = { hasValue: !1, value: null };
     i.current = a;
   } else a = i.current;
-  i = nt(
+  i = it(
     function () {
       function u(g) {
         if (!d) {
@@ -970,7 +972,7 @@ de.useSyncExternalStoreWithSelector = function (t, s, n, o, r) {
           }
           return (h = g);
         }
-        if (((y = h), et(l, g))) return y;
+        if (((y = h), st(l, g))) return y;
         var S = o(g);
         return r !== void 0 && r(y, S) ? ((l = g), y) : ((l = g), (h = S));
       }
@@ -991,27 +993,27 @@ de.useSyncExternalStoreWithSelector = function (t, s, n, o, r) {
     },
     [s, n, o, r],
   );
-  var m = tt(t, i[0], i[1]);
+  var m = rt(t, i[0], i[1]);
   return (
-    rt(
+    at(
       function () {
         ((a.hasValue = !0), (a.value = m));
       },
       [m],
     ),
-    at(m),
+    lt(m),
     m
   );
 };
 ce.exports = de;
-var it = ce.exports;
-const lt = _e(it);
+var ot = ce.exports;
+const ct = _e(ot);
 var me = {};
-const { useDebugValue: ot } = ae,
-  { useSyncExternalStoreWithSelector: ct } = lt;
+const { useDebugValue: dt } = ae,
+  { useSyncExternalStoreWithSelector: ut } = ct;
 let Y = !1;
-const dt = (t) => t;
-function ut(t, s = dt, n) {
+const ht = (t) => t;
+function mt(t, s = ht, n) {
   (me ? 'production' : void 0) !== 'production' &&
     n &&
     !Y &&
@@ -1019,8 +1021,8 @@ function ut(t, s = dt, n) {
       "[DEPRECATED] Use `createWithEqualityFn` instead of `create` or use `useStoreWithEqualityFn` instead of `useStore`. They can be imported from 'zustand/traditional'. https://github.com/pmndrs/zustand/discussions/1937",
     ),
     (Y = !0));
-  const o = ct(t.subscribe, t.getState, t.getServerState || t.getInitialState, s, n);
-  return (ot(o), o);
+  const o = ut(t.subscribe, t.getState, t.getServerState || t.getInitialState, s, n);
+  return (dt(o), o);
 }
 const J = (t) => {
     (me ? 'production' : void 0) !== 'production' &&
@@ -1028,11 +1030,11 @@ const J = (t) => {
       console.warn(
         "[DEPRECATED] Passing a vanilla store will be unsupported in a future version. Instead use `import { useStore } from 'zustand'`.",
       );
-    const s = typeof t == 'function' ? Ge(t) : t,
-      n = (o, r) => ut(s, o, r);
+    const s = typeof t == 'function' ? Ue(t) : t,
+      n = (o, r) => mt(s, o, r);
     return (Object.assign(n, s), n);
   },
-  ht = (t) => (t ? J(t) : J);
+  ft = (t) => (t ? J(t) : J);
 function K(t) {
   try {
     const s = t.split('.')[1] || '';
@@ -1041,7 +1043,7 @@ function K(t) {
     return null;
   }
 }
-const mt = ht((t) => ({
+const pt = ft((t) => ({
   token: null,
   user: null,
   init: () => {
@@ -1066,13 +1068,13 @@ const mt = ht((t) => ({
     (localStorage.removeItem('token'), t({ token: null, user: null }));
   },
 }));
-function pt(t, s) {
+function xt(t, s) {
   return `scroll:${t}${s}`;
 }
-function ft() {
+function jt() {
   const t = I();
   c.useEffect(() => {
-    const s = pt(t.pathname, t.search),
+    const s = xt(t.pathname, t.search),
       n = sessionStorage.getItem(s);
     if (n) {
       const i = parseInt(n, 10);
@@ -1112,7 +1114,7 @@ const O = {
         : re.VITE_CONTACT_EMAIL)) ||
     null,
 };
-function xt() {
+function yt() {
   return (
     (document.title = 'About Us — GPU Market'),
     e.jsxs('div', {
@@ -1181,7 +1183,7 @@ function xt() {
     })
   );
 }
-function jt() {
+function vt() {
   return (
     (document.title = 'Privacy Policy — GPU Market'),
     e.jsxs('div', {
@@ -1256,7 +1258,7 @@ function jt() {
     })
   );
 }
-function yt() {
+function gt() {
   return (
     (document.title = 'Terms of Service — GPU Market'),
     e.jsxs('div', {
@@ -1352,7 +1354,7 @@ function yt() {
     })
   );
 }
-function vt() {
+function bt() {
   return e.jsxs('div', {
     className: 'container py-5 text-center',
     children: [
@@ -1362,7 +1364,7 @@ function vt() {
     ],
   });
 }
-function gt() {
+function _t() {
   const s = `https://wa.me/${O.contactWhatsApp || '447747310027'}?text=Hi%20:)`,
     { pathname: n } = I();
   return ['/login', '/register', '/500'].includes(n)
@@ -1412,35 +1414,35 @@ function gt() {
         }),
       }));
 }
-const bt = c.lazy(() => b(() => import('./Profile-7GNN8Njg.js'), __vite__mapDeps([6, 1, 2, 4]))),
-  _t = c.lazy(() => b(() => import('./Login-DFq7xeIO.js'), __vite__mapDeps([7, 1, 2, 8, 9, 4]))),
-  wt = c.lazy(() =>
-    b(() => import('./Register-bAFPb9Uv.js'), __vite__mapDeps([10, 1, 2, 8, 9, 4])),
+const wt = c.lazy(() => b(() => import('./Profile-DWRGJ9dJ.js'), __vite__mapDeps([6, 1, 2, 4]))),
+  St = c.lazy(() => b(() => import('./Login-DPcYcF4n.js'), __vite__mapDeps([7, 1, 2, 8, 9, 4]))),
+  kt = c.lazy(() =>
+    b(() => import('./Register-1E2c2CZA.js'), __vite__mapDeps([10, 1, 2, 8, 9, 4])),
   ),
-  St = c.lazy(() => b(() => import('./MyListings-Bide8wQ0.js'), __vite__mapDeps([11, 1, 2, 4]))),
-  kt = c.lazy(() => b(() => import('./Detail-DubAp6Ya.js'), __vite__mapDeps([12, 1, 2, 3, 4]))),
-  Et = c.lazy(() => b(() => import('./Sell-CSlwPnZl.js'), __vite__mapDeps([13, 1, 2, 8, 9, 4]))),
-  Nt = c.lazy(() => b(() => import('./Edit-4jfpZZiI.js'), __vite__mapDeps([14, 1, 2, 8, 9, 4]))),
-  At = c.lazy(() => b(() => import('./NotFound-BcrUG9gH.js'), __vite__mapDeps([15, 1, 2, 4]))),
-  Ct = c.lazy(() =>
-    b(() => import('./ProfileEdit-ciR56e9R.js'), __vite__mapDeps([16, 1, 2, 8, 4])),
+  Et = c.lazy(() => b(() => import('./MyListings-CS_qDScW.js'), __vite__mapDeps([11, 1, 2, 4]))),
+  Nt = c.lazy(() => b(() => import('./Detail-DOjQl86v.js'), __vite__mapDeps([12, 1, 2, 3, 4]))),
+  At = c.lazy(() => b(() => import('./Sell-CwgXdUZP.js'), __vite__mapDeps([13, 1, 2, 8, 9, 4]))),
+  Ct = c.lazy(() => b(() => import('./Edit-9_Y8cFyg.js'), __vite__mapDeps([14, 1, 2, 8, 9, 4]))),
+  It = c.lazy(() => b(() => import('./NotFound-DjWoEur9.js'), __vite__mapDeps([15, 1, 2, 4]))),
+  Dt = c.lazy(() =>
+    b(() => import('./ProfileEdit-CxJUTsmt.js'), __vite__mapDeps([16, 1, 2, 8, 4])),
   ),
-  It = c.lazy(() =>
-    b(() => import('./SellToUs-Br9BmsBO.js'), __vite__mapDeps([17, 1, 2, 9, 8, 4])),
+  Pt = c.lazy(() =>
+    b(() => import('./SellToUs-Bn5qSNzK.js'), __vite__mapDeps([17, 1, 2, 9, 8, 4])),
   ),
-  Dt = c.lazy(() => b(() => import('./Contact-CEOJyTN7.js'), __vite__mapDeps([18, 1, 2, 9, 8, 4]))),
-  Pt = c.lazy(() => b(() => import('./Returns-CybxWZqr.js'), __vite__mapDeps([19, 1, 2]))),
-  Rt = c.lazy(() => b(() => import('./B2B--j3nffuu.js'), __vite__mapDeps([20, 1, 2]))),
-  Mt = c.lazy(() => b(() => import('./Raffles-DRqVSoUK.js'), __vite__mapDeps([21, 1, 2]))),
-  Tt = c.lazy(() => b(() => import('./RaffleInfo-C2TNDJrv.js'), __vite__mapDeps([22, 1, 2]))),
-  Lt = c.lazy(() => b(() => import('./RaffleWinners-D816uTx1.js'), __vite__mapDeps([23, 1, 2]))),
-  Ot = c.lazy(() => b(() => import('./Cart-CvewBWYk.js'), __vite__mapDeps([24, 1, 2])));
-function Vt() {
-  const { api: t, messages: s } = Ve(),
+  Rt = c.lazy(() => b(() => import('./Contact-BTLTTHD0.js'), __vite__mapDeps([18, 1, 2, 9, 8, 4]))),
+  Mt = c.lazy(() => b(() => import('./Returns-CybxWZqr.js'), __vite__mapDeps([19, 1, 2]))),
+  Tt = c.lazy(() => b(() => import('./B2B--j3nffuu.js'), __vite__mapDeps([20, 1, 2]))),
+  Lt = c.lazy(() => b(() => import('./Raffles-DRqVSoUK.js'), __vite__mapDeps([21, 1, 2]))),
+  Ot = c.lazy(() => b(() => import('./RaffleInfo-C2TNDJrv.js'), __vite__mapDeps([22, 1, 2]))),
+  Vt = c.lazy(() => b(() => import('./RaffleWinners-D816uTx1.js'), __vite__mapDeps([23, 1, 2]))),
+  zt = c.lazy(() => b(() => import('./Cart-CvewBWYk.js'), __vite__mapDeps([24, 1, 2])));
+function qt() {
+  const { api: t, messages: s } = qe(),
     n = ne(),
     o = I(),
-    { user: r, init: i, logout: a } = mt();
-  (ft(),
+    { user: r, init: i, logout: a } = pt();
+  (jt(),
     c.useEffect(() => {
       i();
       function d(l) {
@@ -1468,8 +1470,10 @@ function Vt() {
       e.jsxs('div', {
         className: 'container py-3 d-none d-md-flex justify-content-between align-items-center',
         children: [
-          e.jsx(f, {
+          e.jsx(p, {
             type: 'text',
+            'aria-label': 'Search',
+            icon: e.jsx(Ae, { style: { fontSize: 22, color: '#111' } }),
             onClick: () => {
               var d;
               o.pathname !== '/' && o.pathname !== '/everything'
@@ -1482,9 +1486,8 @@ function Vt() {
                   }, 0))
                 : (d = document.getElementById('globalSearchInput')) == null || d.focus();
             },
-            children: '🔍',
           }),
-          e.jsxs(p, {
+          e.jsxs(f, {
             to: '/',
             className: 'd-flex align-items-center gap-2 text-decoration-none',
             children: [
@@ -1495,11 +1498,11 @@ function Vt() {
               e.jsx('span', { className: 'h4 mb-0 text-dark', children: 'GPU Market' }),
             ],
           }),
-          e.jsx(f, {
+          e.jsx(p, {
             type: 'text',
-            onClick: () => n('/cart'),
             'aria-label': 'Cart',
-            children: '🛒',
+            icon: e.jsx(Ce, { style: { fontSize: 22, color: '#111' } }),
+            onClick: () => n('/cart'),
           }),
         ],
       }),
@@ -1511,9 +1514,9 @@ function Vt() {
             e.jsxs('div', {
               className: 'mx-auto d-none d-md-flex gap-3',
               children: [
-                e.jsx(p, {
+                e.jsx(f, {
                   to: '/',
-                  children: e.jsx(f, {
+                  children: e.jsx(p, {
                     type: 'text',
                     size: 'small',
                     style: { borderBottom: o.pathname === '/' ? '2px solid #222' : 'none' },
@@ -1563,7 +1566,7 @@ function Vt() {
                       }
                     },
                   },
-                  children: e.jsx(f, {
+                  children: e.jsx(p, {
                     type: 'text',
                     size: 'small',
                     style: {
@@ -1629,35 +1632,35 @@ function Vt() {
                       if (d.key === 'amd-faulty') return l('/?brand=AMD&q=Faulty');
                     },
                   },
-                  children: e.jsx(f, {
+                  children: e.jsx(p, {
                     type: 'text',
                     size: 'small',
                     children: 'Shop Graphics Cards',
                   }),
                 }),
-                e.jsx(p, {
+                e.jsx(f, {
                   to: '/sell',
-                  children: e.jsx(f, { size: 'small', type: 'default', children: 'Sell' }),
+                  children: e.jsx(p, { size: 'small', type: 'default', children: 'Sell' }),
                 }),
-                e.jsx(p, {
+                e.jsx(f, {
                   to: '/sell-to-us',
-                  children: e.jsx(f, { size: 'small', type: 'default', children: 'Sell to us' }),
+                  children: e.jsx(p, { size: 'small', type: 'default', children: 'Sell to us' }),
                 }),
-                e.jsx(p, {
+                e.jsx(f, {
                   to: '/b2b',
-                  children: e.jsx(f, {
+                  children: e.jsx(p, {
                     size: 'small',
                     type: 'text',
                     children: 'Enterprise Hardware (B2B)',
                   }),
                 }),
-                e.jsx(p, {
+                e.jsx(f, {
                   to: '/my',
-                  children: e.jsx(f, { size: 'small', type: 'default', children: 'My Listings' }),
+                  children: e.jsx(p, { size: 'small', type: 'default', children: 'My Listings' }),
                 }),
-                e.jsx(p, {
+                e.jsx(f, {
                   to: '/profile',
-                  children: e.jsx(f, { size: 'small', type: 'default', children: 'My Profile' }),
+                  children: e.jsx(p, { size: 'small', type: 'default', children: 'My Profile' }),
                 }),
                 e.jsx(M, {
                   trigger: ['click'],
@@ -1673,26 +1676,26 @@ function Vt() {
                         d.key === 'raffle-winners' && n('/raffles/winners'));
                     },
                   },
-                  children: e.jsx(f, { type: 'text', size: 'small', children: 'Raffles' }),
+                  children: e.jsx(p, { type: 'text', size: 'small', children: 'Raffles' }),
                 }),
                 r &&
-                  e.jsx(p, {
+                  e.jsx(f, {
                     to: '/profile/edit',
-                    children: e.jsx(f, {
+                    children: e.jsx(p, {
                       size: 'small',
                       type: 'default',
                       children: 'Edit Profile',
                     }),
                   }),
                 !r &&
-                  e.jsx(p, {
+                  e.jsx(f, {
                     to: '/login',
-                    children: e.jsx(f, { size: 'small', type: 'primary', children: 'Login' }),
+                    children: e.jsx(p, { size: 'small', type: 'primary', children: 'Login' }),
                   }),
                 !r &&
-                  e.jsx(p, {
+                  e.jsx(f, {
                     to: '/register',
-                    children: e.jsx(f, { size: 'small', type: 'primary', children: 'Register' }),
+                    children: e.jsx(p, { size: 'small', type: 'primary', children: 'Register' }),
                   }),
                 r &&
                   e.jsx('span', {
@@ -1700,7 +1703,7 @@ function Vt() {
                     children: r.display_name || r.username,
                   }),
                 r &&
-                  e.jsx(f, {
+                  e.jsx(p, {
                     size: 'small',
                     danger: !0,
                     onClick: () => {
@@ -1717,7 +1720,7 @@ function Vt() {
             }),
             e.jsx('div', {
               className: 'ms-auto d-md-none',
-              children: e.jsx(f, { size: 'small', onClick: () => u(!0), children: 'Menu' }),
+              children: e.jsx(p, { size: 'small', onClick: () => u(!0), children: 'Menu' }),
             }),
           ],
         }),
@@ -1733,21 +1736,21 @@ function Vt() {
         children: e.jsxs('div', {
           className: 'd-flex flex-column gap-2',
           children: [
-            e.jsx(p, { to: '/', onClick: () => u(!1), children: 'Home' }),
-            e.jsx(p, {
+            e.jsx(f, { to: '/', onClick: () => u(!1), children: 'Home' }),
+            e.jsx(f, {
               to: '/everything?sort=price_desc',
               onClick: () => u(!1),
               children: 'Shop Everything',
             }),
             e.jsx('div', { className: 'fw-bold', children: 'Shop Graphics Cards' }),
-            e.jsx(p, { to: '/?brand=NVIDIA', onClick: () => u(!1), children: 'NVIDIA' }),
-            e.jsx(p, { to: '/?brand=AMD', onClick: () => u(!1), children: 'AMD' }),
-            e.jsx(p, { to: '/sell', onClick: () => u(!1), children: 'Sell' }),
-            e.jsx(p, { to: '/sell-to-us', onClick: () => u(!1), children: 'Sell to us' }),
-            e.jsx(p, { to: '/my', onClick: () => u(!1), children: 'My Listings' }),
-            e.jsx(p, { to: '/profile', onClick: () => u(!1), children: 'My Profile' }),
-            !r && e.jsx(p, { to: '/login', onClick: () => u(!1), children: 'Login' }),
-            !r && e.jsx(p, { to: '/register', onClick: () => u(!1), children: 'Register' }),
+            e.jsx(f, { to: '/?brand=NVIDIA', onClick: () => u(!1), children: 'NVIDIA' }),
+            e.jsx(f, { to: '/?brand=AMD', onClick: () => u(!1), children: 'AMD' }),
+            e.jsx(f, { to: '/sell', onClick: () => u(!1), children: 'Sell' }),
+            e.jsx(f, { to: '/sell-to-us', onClick: () => u(!1), children: 'Sell to us' }),
+            e.jsx(f, { to: '/my', onClick: () => u(!1), children: 'My Listings' }),
+            e.jsx(f, { to: '/profile', onClick: () => u(!1), children: 'My Profile' }),
+            !r && e.jsx(f, { to: '/login', onClick: () => u(!1), children: 'Login' }),
+            !r && e.jsx(f, { to: '/register', onClick: () => u(!1), children: 'Register' }),
             r &&
               e.jsx('button', {
                 className: 'btn btn-outline-danger btn-sm',
@@ -1771,31 +1774,31 @@ function Vt() {
           children: [
             e.jsx(j, { path: '/', element: e.jsx(H, {}) }),
             e.jsx(j, { path: '/everything', element: e.jsx(H, {}) }),
-            e.jsx(j, { path: '/profile', element: e.jsx(bt, {}) }),
-            e.jsx(j, { path: '/profile/edit', element: e.jsx(A, { children: e.jsx(Ct, {}) }) }),
-            e.jsx(j, { path: '/g/:id', element: e.jsx(kt, {}) }),
-            e.jsx(j, { path: '/sell', element: e.jsx(A, { children: e.jsx(Et, {}) }) }),
-            e.jsx(j, { path: '/sell-to-us', element: e.jsx(It, {}) }),
-            e.jsx(j, { path: '/contact', element: e.jsx(Dt, {}) }),
-            e.jsx(j, { path: '/b2b', element: e.jsx(Rt, {}) }),
-            e.jsx(j, { path: '/raffles', element: e.jsx(Mt, {}) }),
-            e.jsx(j, { path: '/raffles/info', element: e.jsx(Tt, {}) }),
-            e.jsx(j, { path: '/raffles/winners', element: e.jsx(Lt, {}) }),
-            e.jsx(j, { path: '/cart', element: e.jsx(Ot, {}) }),
-            e.jsx(j, { path: '/edit/:id', element: e.jsx(A, { children: e.jsx(Nt, {}) }) }),
-            e.jsx(j, { path: '*', element: e.jsx(At, {}) }),
-            e.jsx(j, { path: '/about', element: e.jsx(xt, {}) }),
-            e.jsx(j, { path: '/privacy', element: e.jsx(jt, {}) }),
-            e.jsx(j, { path: '/terms', element: e.jsx(yt, {}) }),
-            e.jsx(j, { path: '/returns', element: e.jsx(Pt, {}) }),
-            e.jsx(j, { path: '/500', element: e.jsx(vt, {}) }),
-            e.jsx(j, { path: '/login', element: e.jsx(_t, {}) }),
-            e.jsx(j, { path: '/register', element: e.jsx(wt, {}) }),
-            e.jsx(j, { path: '/my', element: e.jsx(A, { children: e.jsx(St, {}) }) }),
+            e.jsx(j, { path: '/profile', element: e.jsx(wt, {}) }),
+            e.jsx(j, { path: '/profile/edit', element: e.jsx(A, { children: e.jsx(Dt, {}) }) }),
+            e.jsx(j, { path: '/g/:id', element: e.jsx(Nt, {}) }),
+            e.jsx(j, { path: '/sell', element: e.jsx(A, { children: e.jsx(At, {}) }) }),
+            e.jsx(j, { path: '/sell-to-us', element: e.jsx(Pt, {}) }),
+            e.jsx(j, { path: '/contact', element: e.jsx(Rt, {}) }),
+            e.jsx(j, { path: '/b2b', element: e.jsx(Tt, {}) }),
+            e.jsx(j, { path: '/raffles', element: e.jsx(Lt, {}) }),
+            e.jsx(j, { path: '/raffles/info', element: e.jsx(Ot, {}) }),
+            e.jsx(j, { path: '/raffles/winners', element: e.jsx(Vt, {}) }),
+            e.jsx(j, { path: '/cart', element: e.jsx(zt, {}) }),
+            e.jsx(j, { path: '/edit/:id', element: e.jsx(A, { children: e.jsx(Ct, {}) }) }),
+            e.jsx(j, { path: '*', element: e.jsx(It, {}) }),
+            e.jsx(j, { path: '/about', element: e.jsx(yt, {}) }),
+            e.jsx(j, { path: '/privacy', element: e.jsx(vt, {}) }),
+            e.jsx(j, { path: '/terms', element: e.jsx(gt, {}) }),
+            e.jsx(j, { path: '/returns', element: e.jsx(Mt, {}) }),
+            e.jsx(j, { path: '/500', element: e.jsx(bt, {}) }),
+            e.jsx(j, { path: '/login', element: e.jsx(St, {}) }),
+            e.jsx(j, { path: '/register', element: e.jsx(kt, {}) }),
+            e.jsx(j, { path: '/my', element: e.jsx(A, { children: e.jsx(Et, {}) }) }),
           ],
         }),
       }),
-      e.jsx(ze, { messages: s }),
+      e.jsx(Ge, { messages: s }),
       e.jsx('footer', {
         className: 'border-top bg-white mt-4',
         id: 'main',
@@ -1812,13 +1815,13 @@ function Vt() {
                     e.jsxs('div', {
                       className: 'd-flex flex-column gap-1',
                       children: [
-                        e.jsx(p, { to: '/sell-to-us', children: 'Sell to us' }),
-                        e.jsx(p, {
+                        e.jsx(f, { to: '/sell-to-us', children: 'Sell to us' }),
+                        e.jsx(f, {
                           to: '/everything?sort=price_desc',
                           children: 'Shop Everything',
                         }),
-                        e.jsx(p, { to: '/', children: 'Shop Graphics Cards' }),
-                        e.jsx(p, { to: '/about', children: 'About Us' }),
+                        e.jsx(f, { to: '/', children: 'Shop Graphics Cards' }),
+                        e.jsx(f, { to: '/about', children: 'About Us' }),
                       ],
                     }),
                   ],
@@ -1830,9 +1833,9 @@ function Vt() {
                     e.jsxs('div', {
                       className: 'd-flex flex-column gap-1',
                       children: [
-                        e.jsx(p, { to: '/terms', children: 'Terms of Service' }),
-                        e.jsx(p, { to: '/privacy', children: 'Privacy Policy' }),
-                        e.jsx(p, { to: '/returns', children: 'Returns & Refunds' }),
+                        e.jsx(f, { to: '/terms', children: 'Terms of Service' }),
+                        e.jsx(f, { to: '/privacy', children: 'Privacy Policy' }),
+                        e.jsx(f, { to: '/returns', children: 'Returns & Refunds' }),
                       ],
                     }),
                   ],
@@ -1906,11 +1909,11 @@ function Vt() {
           ],
         }),
       }),
-      e.jsx(gt, {}),
+      e.jsx(_t, {}),
     ],
   });
 }
-class zt extends c.Component {
+class Gt extends c.Component {
   constructor(s) {
     (super(s), (this.state = { hasError: !1 }));
   }
@@ -1932,12 +1935,12 @@ class zt extends c.Component {
       : this.props.children;
   }
 }
-const qt = new ve();
+const Wt = new ve();
 L.createRoot(document.getElementById('root')).render(
   e.jsx(ae.StrictMode, {
-    children: e.jsx(zt, {
-      children: e.jsx(ge, { client: qt, children: e.jsx(Se, { children: e.jsx(Vt, {}) }) }),
+    children: e.jsx(Gt, {
+      children: e.jsx(ge, { client: Wt, children: e.jsx(Se, { children: e.jsx(qt, {}) }) }),
     }),
   }),
 );
-export { Te as G, b as _, F as a, O as c, Pe as f, mt as u };
+export { Oe as G, b as _, F as a, O as c, Me as f, pt as u };

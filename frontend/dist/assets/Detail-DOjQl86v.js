@@ -1,8 +1,8 @@
 import { j as r } from './react-query-BGeIQRPr.js';
 import { i as n, r as s } from './react-CTDr35rJ.js';
-import { a as o } from './index-aQ7CPAsT.js';
-import { D as l } from './DetailsView-CKZ09Ubv.js';
-import { B as u } from './antd-BEXrTnZz.js';
+import { a as o } from './index-C09nFs0H.js';
+import { D as l } from './DetailsView-BmDVwFjn.js';
+import { B as u } from './antd-mcI3qWux.js';
 function x() {
   const { id: e } = n(),
     [t, a] = s.useState(null);
