@@ -47,8 +47,9 @@ describe('Home React Query flow', () => {
     );
     // initial failed once
     await waitFor(() => expect(mockFetch).toHaveBeenCalledTimes(1));
-    // trigger explicit refetch via Search button
-    fireEvent.click(screen.getByRole('button', { name: /search/i }));
+    // trigger explicit refetch via the first Search button
+    const searchBtns = screen.getAllByRole('button', { name: /search/i });
+    fireEvent.click(searchBtns[0]);
     await waitFor(() => expect(mockFetch).toHaveBeenCalledTimes(2));
     global.fetch = orig;
   });
