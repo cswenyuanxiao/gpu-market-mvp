@@ -840,66 +840,72 @@ app.delete('/api/gpus/:id', authenticateToken, (req, res) => {
 });
 
 // Search / pagination / filters
-app.get('/api/search', (req, res) => {
-  const parsed = SearchSchema.safeParse(req.query);
-  if (!parsed.success) return res.status(400).json({ error: 'Invalid query' });
-  const {
-    q = '',
-    min = null,
-    max = null,
-    condition = null,
-    page = 1,
-    per = 12,
-    brand = undefined,
-    vram_min = undefined,
-    vram_max = undefined,
-    sort = 'newest',
-  } = parsed.data;
+app.get('/api/search', async (req, res) => {
+  try {
+    const parsed = SearchSchema.safeParse(req.query);
+    if (!parsed.success) return res.status(400).json({ error: 'Invalid query' });
+    const {
+      q = '',
+      min = null,
+      max = null,
+      condition = null,
+      page = 1,
+      per = 12,
+      brand = undefined,
+      vram_min = undefined,
+      vram_max = undefined,
+      sort = 'newest',
+    } = parsed.data;
 
-  let where = 'WHERE 1=1';
-  const params = [];
-  if (q) {
-    where += ' AND (gpus.title LIKE ? OR gpus.description LIKE ?)';
-    params.push('%' + q + '%', '%' + q + '%');
-  }
-  if (condition) {
-    where += ' AND gpus.condition = ?';
-    params.push(condition);
-  }
-  if (min !== null) {
-    where += ' AND gpus.price >= ?';
-    params.push(min);
-  }
-  if (max !== null) {
-    where += ' AND gpus.price <= ?';
-    params.push(max);
-  }
-  if (brand) {
-    where += ' AND gpus.brand = ?';
-    params.push(brand);
-  }
-  if (vram_min !== undefined) {
-    where += ' AND COALESCE(gpus.vram_gb,0) >= ?';
-    params.push(vram_min);
-  }
-  if (vram_max !== undefined) {
-    where += ' AND COALESCE(gpus.vram_gb,0) <= ?';
-    params.push(vram_max);
-  }
+    let where = 'WHERE 1=1';
+    const params = [];
+    if (q) {
+      where += ' AND (gpus.title LIKE ? OR gpus.description LIKE ?)';
+      params.push('%' + q + '%', '%' + q + '%');
+    }
+    if (condition) {
+      where += ' AND gpus.condition = ?';
+      params.push(condition);
+    }
+    if (min !== null) {
+      where += ' AND gpus.price >= ?';
+      params.push(min);
+    }
+    if (max !== null) {
+      where += ' AND gpus.price <= ?';
+      params.push(max);
+    }
+    if (brand) {
+      where += ' AND gpus.brand = ?';
+      params.push(brand);
+    }
+    if (vram_min !== undefined) {
+      where += ' AND COALESCE(gpus.vram_gb,0) >= ?';
+      params.push(vram_min);
+    }
+    if (vram_max !== undefined) {
+      where += ' AND COALESCE(gpus.vram_gb,0) <= ?';
+      params.push(vram_max);
+    }
 
-  const total = db.prepare('SELECT COUNT(*) as c FROM gpus ' + where).get(...params).c;
-  const offset = (page - 1) * per;
-  let order = 'created_at DESC';
-  if (sort === 'price_asc') order = 'price ASC';
-  if (sort === 'price_desc') order = 'price DESC';
-  const rows = db
-    .prepare(
-      'SELECT gpus.*, users.display_name as seller_name, users.avatar_path as seller_avatar FROM gpus LEFT JOIN users ON gpus.seller_id = users.id ' +
-        where +
-        ` ORDER BY ${order} LIMIT ? OFFSET ?`,
-    )
-    .all(...params, per, offset);
-  res.json({ total, page, per, results: rows });
+    const totalResult = await db.prepare('SELECT COUNT(*) as c FROM gpus ' + where).get(...params);
+    const total = totalResult?.c || 0;
+    const offset = (page - 1) * per;
+    let order = 'created_at DESC';
+    if (sort === 'price_asc') order = 'price ASC';
+    if (sort === 'price_desc') order = 'price DESC';
+    const rows = await db
+      .prepare(
+        'SELECT gpus.*, users.display_name as seller_name, users.avatar_path as seller_avatar FROM gpus LEFT JOIN users ON gpus.seller_id = users.id ' +
+          where +
+          ` ORDER BY ${order} LIMIT ? OFFSET ?`,
+      )
+      .all(...params, per, offset);
+    res.json({ total, page, per, results: rows });
+  } catch (error) {
+    console.error('Search error:', error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
 });
 
 // User profile & avatar upload
