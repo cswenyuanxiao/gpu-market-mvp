@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { apiFetch } from '../lib/api';
+import { Link } from 'react-router-dom';
 import { useAuth } from '../store/auth';
 
 export default function Profile() {
@@ -31,6 +32,9 @@ export default function Profile() {
             />
           )}
           <div>{me.display_name}</div>
+          <div className="ms-auto">
+            <Link to="/profile/edit" className="btn btn-sm btn-outline-secondary">Edit Profile</Link>
+          </div>
         </div>
       )}
       <h5>My Listings</h5>

@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { apiFetch } from '../lib/api';
 import { useNavigate } from 'react-router-dom';
+import GpuCard from '../components/domain/GpuCard';
 
 export default function MyListings() {
   const [items, setItems] = useState<any[]>([]);
@@ -41,30 +42,18 @@ export default function MyListings() {
       <div className="row">
         {items.map((gpu) => (
           <div className="col-md-6" key={gpu.id}>
-            <div className="card mb-3">
-              <div className="row g-0">
-                {gpu.image_path && (
-                  <div className="col-4">
-                    <img
-                      src={gpu.image_path}
-                      className="img-fluid rounded-start"
-                      style={{ height: 120, objectFit: 'cover' }}
-                    />
-                  </div>
-                )}
-                <div className="col">
-                  <div className="card-body">
-                    <h5 className="card-title">{gpu.title}</h5>
-                    <div className="d-flex gap-2">
-                      <button className="btn btn-sm btn-outline-secondary" onClick={() => navigate(`/edit/${gpu.id}`)}>Edit</button>
-                      <button className="btn btn-sm btn-outline-danger" onClick={() => onDelete(gpu.id)}>Delete</button>
-                    </div>
-                  </div>
-                </div>
-              </div>
+            <GpuCard gpu={gpu} onDetails={(id) => navigate(`/g/${id}`)} />
+            <div className="d-flex gap-2 mb-4">
+              <button className="btn btn-sm btn-outline-secondary" onClick={() => navigate(`/edit/${gpu.id}`)}>Edit</button>
+              <button className="btn btn-sm btn-outline-danger" onClick={() => onDelete(gpu.id)}>Delete</button>
             </div>
           </div>
         ))}
+        {!loading && items.length === 0 && (
+          <div className="col-12">
+            <div className="alert alert-info">You have no listings yet.</div>
+          </div>
+        )}
       </div>
     </div>
   );

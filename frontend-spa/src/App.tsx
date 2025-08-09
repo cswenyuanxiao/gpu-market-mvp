@@ -101,6 +101,16 @@ export default function App() {
         />
       </Routes>
       <ToastContainer messages={messages} />
+      <footer className="border-top bg-white mt-4">
+        <div className="container py-3 text-muted small d-flex justify-content-between">
+          <div className="d-flex gap-3">
+            <Link to="/about" className="text-decoration-none">About</Link>
+            <Link to="/privacy" className="text-decoration-none">Privacy</Link>
+            <Link to="/terms" className="text-decoration-none">Terms</Link>
+          </div>
+          <span>© {new Date().getFullYear()} GPU Market</span>
+        </div>
+      </footer>
     </>
   );
 }
