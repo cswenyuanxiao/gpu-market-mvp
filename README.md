@@ -290,3 +290,5 @@ docker compose up --build
 ```
 
 The compose file reads environment variables with sensible defaults.
+
+Healthcheck & restarts: docker-compose includes a backend healthcheck hitting `/health`. If health becomes `unhealthy`, the container may be restarted depending on the `restart` policy.

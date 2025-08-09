@@ -54,6 +54,9 @@ export default function App() {
   );
   return (
     <>
+      <a href="#main" className="skip-link">
+        Skip to content
+      </a>
       <nav className="navbar navbar-expand navbar-light bg-light">
         <div className="container-fluid">
           <Link to="/" className="navbar-brand">
@@ -253,7 +256,7 @@ export default function App() {
         </Routes>
       </Suspense>
       <ToastContainer messages={messages} />
-      <footer className="border-top bg-white mt-4">
+      <footer className="border-top bg-white mt-4" id="main">
         <div className="container py-4 text-muted small">
           <div className="row">
             <div className="col-6 col-md-3 mb-3">

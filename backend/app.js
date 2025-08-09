@@ -474,7 +474,12 @@ const openApi = {
         },
         responses: {
           201: { description: 'Created' },
-          400: { description: 'Invalid' },
+          400: {
+            description: 'Invalid',
+            content: {
+              'application/json': { example: { error: 'Bad request', code: 'INVALID_INPUT' } },
+            },
+          },
           401: { description: 'Auth' },
         },
       },

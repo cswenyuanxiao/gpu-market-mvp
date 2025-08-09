@@ -1,3 +1,5 @@
+import { config } from '../lib/config';
+
 export default function About() {
   document.title = 'About Us — GPU Market';
   return (
@@ -32,7 +34,7 @@ export default function About() {
         <li>
           WhatsApp:{' '}
           <a
-            href={`https://wa.me/${(window as any)?.VITE_CONTACT_WHATSAPP || '447747310027'}`}
+            href={`https://wa.me/${config.contactWhatsApp || '447747310027'}`}
             target="_blank"
             rel="noreferrer"
           >
@@ -40,7 +42,10 @@ export default function About() {
           </a>
         </li>
         <li>
-          Email: <a href="mailto:x1657217402@gmail.com">x1657217402@gmail.com</a>
+          Email:{' '}
+          <a href={`mailto:${config.contactEmail || 'x1657217402@gmail.com'}`}>
+            x1657217402@gmail.com
+          </a>
         </li>
       </ul>
     </div>
