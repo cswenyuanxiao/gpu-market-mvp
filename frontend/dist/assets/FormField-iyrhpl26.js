@@ -1,13 +1,1 @@
-import { j as s } from './react-query-BGeIQRPr.js';
-function c({ label: a, htmlFor: m, children: i, hint: l, error: e }) {
-  return s.jsxs('div', {
-    className: 'mb-3',
-    children: [
-      s.jsx('label', { className: 'form-label', htmlFor: m, children: a }),
-      i,
-      l && !e && s.jsx('div', { className: 'form-text', children: l }),
-      e && s.jsx('div', { className: 'text-danger small mt-1', children: e }),
-    ],
-  });
-}
-export { c as F };
+import{j as s}from"./react-query-BGeIQRPr.js";function c({label:a,htmlFor:m,children:i,hint:l,error:e}){return s.jsxs("div",{className:"mb-3",children:[s.jsx("label",{className:"form-label",htmlFor:m,children:a}),i,l&&!e&&s.jsx("div",{className:"form-text",children:l}),e&&s.jsx("div",{className:"text-danger small mt-1",children:e})]})}export{c as F};

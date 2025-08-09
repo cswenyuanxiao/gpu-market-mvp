@@ -15,6 +15,7 @@ export default function GpuCard({ gpu, onDetails }: { gpu: Gpu; onDetails: (id: 
           <div className="col-4">
             <LazyImg
               src={gpu.image_path}
+              fallbackSrc={gpu.seller_avatar || (undefined as any)}
               srcSet={`${gpu.image_path} 1x, ${gpu.image_path} 2x`}
               sizes="(max-width: 768px) 100vw, 33vw"
               className="img-fluid rounded-start"
@@ -24,21 +25,26 @@ export default function GpuCard({ gpu, onDetails }: { gpu: Gpu; onDetails: (id: 
         )}
         <div className="col">
           <div className="card-body">
-            <div className="d-flex justify-content-between align-items-center">
-              <h5 className="card-title mb-0">{gpu.title}</h5>
-              <div className="d-flex gap-1">
-                {isNewlyAdded && (
-                  <span className="badge bg-success-subtle text-success">Just added</span>
-                )}
-                {gpu.brand && <span className="badge bg-info-subtle text-info">{gpu.brand}</span>}
-                {gpu.vram_gb && gpu.vram_gb > 0 && (
-                  <span className="badge bg-warning-subtle text-warning">{gpu.vram_gb}GB</span>
-                )}
-                <span
-                  className={`badge ${gpu.condition === 'New' ? 'bg-success' : 'bg-secondary'}`}
-                >
-                  {gpu.condition}
-                </span>
+            <div className="d-flex justify-content-between align-items-start">
+              <div className="pe-2 flex-grow-1">
+                <h5 className="card-title mb-1">{gpu.title}</h5>
+                <div className="d-flex gap-1 flex-wrap">
+                  {isNewlyAdded && (
+                    <span className="badge bg-success-subtle text-success">Just added</span>
+                  )}
+                  {gpu.brand && <span className="badge bg-info-subtle text-info">{gpu.brand}</span>}
+                  {gpu.vram_gb && gpu.vram_gb > 0 && (
+                    <span className="badge bg-warning-subtle text-warning">{gpu.vram_gb}GB</span>
+                  )}
+                  <span
+                    className={`badge ${gpu.condition === 'New' ? 'bg-success' : 'bg-secondary'}`}
+                  >
+                    {gpu.condition}
+                  </span>
+                </div>
+              </div>
+              <div className="ms-2 text-end" style={{ minWidth: 90 }}>
+                <strong className="text-dark">{formatPrice(gpu.price)}</strong>
               </div>
             </div>
             <p className="card-text mt-2">
@@ -63,7 +69,6 @@ export default function GpuCard({ gpu, onDetails }: { gpu: Gpu; onDetails: (id: 
               )}
             </p>
             <p className="card-text d-flex align-items-center gap-2">
-              <small className="text-muted">{formatPrice(gpu.price)}</small>
               {gpu.seller_avatar && (
                 <img
                   src={gpu.seller_avatar}

@@ -33,6 +33,24 @@ export async function apiFetch(input: string, init: RequestInit = {}) {
           detail: { text: 'Session expired, please log in again', type: 'warning' },
         }),
       );
+      // Redirect to login if current page is protected
+      try {
+        const { pathname, search } = window.location;
+        const protectedMatchers: Array<(p: string) => boolean> = [
+          (p) => p === '/sell',
+          (p) => p.startsWith('/edit/'),
+          (p) => p === '/my',
+          (p) => p === '/profile/edit',
+        ];
+        const isProtected = protectedMatchers.some((m) => m(pathname));
+        const isLogin = pathname === '/login';
+        if (isProtected && !isLogin) {
+          try {
+            sessionStorage.setItem('from', pathname + (search || ''));
+          } catch {}
+          window.location.href = '/login';
+        }
+      } catch {}
     }
   }
   return res;

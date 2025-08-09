@@ -47,7 +47,7 @@ alwaysApply: true
 # System Prompt — Project Generation Rules
 
 > 语言规则  
-- You may reply to me in English or Chinese.  
+- You should reply to me in Chinese.  
 - **All code/comments/identifiers MUST be English.**
 
 > 工作流（强制）

@@ -43,9 +43,9 @@ export default function App() {
   const seriesMenu = (
     <Menu
       items={[
-        { key: 'nvidia-40', label: <Link to="/?brand=NVIDIA&vram_min=8">NVIDIA 40 Series</Link> },
+        { key: 'nvidia-40', label: <Link to="/?brand=NVIDIA&vram_min=12">NVIDIA 40 Series</Link> },
         { key: 'nvidia-30', label: <Link to="/?brand=NVIDIA&vram_min=8">NVIDIA 30 Series</Link> },
-        { key: 'amd-7000', label: <Link to="/?brand=AMD&vram_min=8">AMD 7000 Series</Link> },
+        { key: 'amd-7000', label: <Link to="/?brand=AMD&vram_min=12">AMD 7000 Series</Link> },
         { key: 'amd-6000', label: <Link to="/?brand=AMD&vram_min=8">AMD 6000 Series</Link> },
       ]}
     />
@@ -139,7 +139,15 @@ export default function App() {
           </div>
         </div>
       </nav>
-      <Drawer open={mobileOpen} onClose={() => setMobileOpen(false)}>
+      <Drawer
+        open={mobileOpen}
+        onClose={() => setMobileOpen(false)}
+        afterOpenChange={(open) => {
+          try {
+            document.body.style.overflow = open ? 'hidden' : '';
+          } catch {}
+        }}
+      >
         <div className="d-flex flex-column gap-2">
           <Link to="/" onClick={() => setMobileOpen(false)}>
             Home

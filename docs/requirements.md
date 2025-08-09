@@ -42,7 +42,6 @@ Done:
 
 Remaining for M0 (ship-ready basics):
 
-- Profile display name editing endpoint + UI wiring (currently read-only in UI).
 - Minor UI consistency passes in footer styling if needed.
 
 Out of scope for M0 (defer to M1):

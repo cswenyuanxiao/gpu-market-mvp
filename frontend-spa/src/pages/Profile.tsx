@@ -12,12 +12,16 @@ export default function Profile() {
   useEffect(() => {
     const token = localStorage.getItem('token');
     if (!token) return;
-    try {
-      const mid = token.split('.')[1] ?? '';
-      const payload = mid ? JSON.parse(atob(mid)) : {};
-      apiFetch(`/api/users/${payload.id}`).then(async (r) => setMe(await r.json()));
-      apiFetch('/api/my/gpus').then(async (r) => setMine(await r.json()));
-    } catch {}
+    (async () => {
+      try {
+        const r1 = await apiFetch(`/api/users/me`);
+        if (r1.ok) setMe(await r1.json());
+      } catch {}
+      try {
+        const r2 = await apiFetch('/api/my/gpus');
+        if (r2.ok) setMine(await r2.json());
+      } catch {}
+    })();
   }, []);
   if (!localStorage.getItem('token')) return <div className="container py-3">Please login</div>;
   return (
@@ -40,7 +44,14 @@ export default function Profile() {
       <div className="row">
         {mine.map((gpu) => (
           <div className="col-md-6" key={gpu.id}>
-            <Card className="mb-3" cover={gpu.image_path ? <img src={gpu.image_path} style={{ height: 160, objectFit: 'cover' }} /> : undefined}>
+            <Card
+              className="mb-3"
+              cover={
+                gpu.image_path ? (
+                  <img src={gpu.image_path} style={{ height: 160, objectFit: 'cover' }} />
+                ) : undefined
+              }
+            >
               <Card.Meta title={gpu.title} />
             </Card>
           </div>

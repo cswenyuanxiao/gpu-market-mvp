@@ -31,7 +31,9 @@ export default function MyListings() {
       window.dispatchEvent(new CustomEvent('app-toast', { detail: { text: msg, type: 'error' } }));
       return;
     }
-    window.dispatchEvent(new CustomEvent('app-toast', { detail: { text: 'Deleted', type: 'success' } }));
+    window.dispatchEvent(
+      new CustomEvent('app-toast', { detail: { text: 'Deleted', type: 'success' } }),
+    );
     setItems((curr) => curr.filter((x) => x.id !== id));
   }
 
@@ -39,15 +41,28 @@ export default function MyListings() {
     <div className="container py-3">
       <h3>My Listings</h3>
       {loading && <Spin className="my-3" />}
-      {!loading && items.length === 0 && <Empty description="No items" className="my-3" />}
+      {!loading && items.length === 0 && (
+        <div className="my-4 d-flex flex-column align-items-center">
+          <Empty description="No items" />
+          <div className="mt-3">
+            <Button type="primary" onClick={() => navigate('/sell')}>
+              Create your first listing
+            </Button>
+          </div>
+        </div>
+      )}
       <div className="row">
         {items.map((gpu) => (
           <div className="col-md-6" key={gpu.id}>
             <GpuCard gpu={gpu} onDetails={(id) => navigate(`/g/${id}`)} />
             <div className="d-flex gap-2 mb-4">
-              <Button size="small" onClick={() => navigate(`/edit/${gpu.id}`)}>Edit</Button>
+              <Button size="small" onClick={() => navigate(`/edit/${gpu.id}`)}>
+                Edit
+              </Button>
               <Popconfirm title="Delete this listing?" onConfirm={() => onDelete(gpu.id)}>
-                <Button size="small" danger>Delete</Button>
+                <Button size="small" danger>
+                  Delete
+                </Button>
               </Popconfirm>
             </div>
           </div>
@@ -56,5 +71,3 @@ export default function MyListings() {
     </div>
   );
 }
-
-

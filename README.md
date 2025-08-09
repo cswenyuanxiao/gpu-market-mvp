@@ -61,10 +61,70 @@ Local dev notes:
 - `GET /health` — health check
 - `GET /robots.txt` — SEO robots file
 - `GET /sitemap.xml` — dynamic sitemap including recent listings
+- `GET /api/users/me` — get current user (JWT)
+- `PATCH /api/users/me` — update display name (JWT; JSON)
 
 ## API Docs
 
 - Swagger UI: visit `/docs` on your deployed service (e.g., `https://gpu-market.onrender.com/docs`).
+
+### Example: Update display name
+
+Requires Authorization header: `Authorization: Bearer <token>`
+
+Request:
+
+```http
+PATCH /api/users/me HTTP/1.1
+Content-Type: application/json
+Authorization: Bearer <token>
+
+{ "display_name": "Alice" }
+```
+
+Response (200):
+
+```json
+{
+  "user": {
+    "id": 1,
+    "username": "alice",
+    "display_name": "Alice",
+    "avatar_path": "/uploads/abc.webp"
+  },
+  "token": "<new_jwt_token>"
+}
+```
+
+### curl quickstart
+
+```bash
+# 1) Login to get JWT
+curl -sS -X POST http://localhost:3000/api/login \
+  -H 'Content-Type: application/json' \
+  -d '{"username":"demo","password":"demo"}' | jq -r .token > token.txt
+
+# 2) Use token to get current user
+curl -sS http://localhost:3000/api/users/me \
+  -H "Authorization: Bearer $(cat token.txt)" | jq
+
+# 3) Update display name
+curl -sS -X PATCH http://localhost:3000/api/users/me \
+  -H 'Content-Type: application/json' \
+  -H "Authorization: Bearer $(cat token.txt)" \
+  -d '{"display_name":"Alice"}' | jq
+
+# 4) Create a listing (multipart, example without image)
+curl -sS -X POST http://localhost:3000/api/gpus \
+  -H "Authorization: Bearer $(cat token.txt)" \
+  -F title='RTX 3080' -F price='2999' -F condition='Used' -F brand='NVIDIA' -F vram_gb='10' | jq
+```
+
+## Authentication (Bearer token)
+
+- Obtain token: `POST /api/login` returns `{ token }`.
+- Use token: attach header `Authorization: Bearer <token>` to protected endpoints (e.g., `POST /api/gpus`, `GET /api/my/gpus`, `PATCH /api/users/me`).
+- Refresh token: `PATCH /api/users/me` returns a refreshed token containing updated `display_name`. Frontend会用新 token 覆盖旧 token 以便导航栏等位置即时更新。
 
 ## Frontend UX (Phase 1 additions)
 
@@ -81,6 +141,10 @@ Local dev notes:
 
 - Sell to us: `/sell-to-us` — Fields: name, email, phone, brand (NVIDIA/AMD), model, grade (A/B/C), warranty, accessories, expected price, note, images. Submits to `POST /api/quotes`.
 - Contact: `/contact` — Fields: name, email, message, consent. Submits to `POST /api/contact`.
+
+### Profile
+
+- Edit Profile: `/profile/edit` — Update display name and avatar. Display name uses `PATCH /api/users/me` (returns refreshed JWT for immediate navbar update); avatar uses `POST /api/users/me/avatar`.
 
 ## Env Vars
 

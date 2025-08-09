@@ -1,34 +1,51 @@
+import React from 'react';
 import { Avatar, Badge, Button, Image, Space, Typography } from 'antd';
 import { formatPrice } from '../lib/format';
 import type { Gpu } from '../types';
 
 export default function DetailsView({ item }: { item: Gpu }) {
+  const [activeSrc, setActiveSrc] = React.useState<string | null>(null);
+  React.useEffect(() => {
+    const firstImage =
+      Array.isArray((item as any)?.images) && (item as any).images.length > 0
+        ? (item as any).images[0].image_path
+        : null;
+    setActiveSrc(item?.image_path || firstImage || null);
+  }, [item?.id, item?.image_path, (item as any)?.images]);
   return (
     <div className="row g-3">
       <div className="col-md-6">
-        {item.image_path && (
+        {activeSrc && (
           <Image
-            src={item.image_path}
-            srcSet={`${item.image_path} 1x, ${item.image_path} 2x`}
+            src={activeSrc}
+            srcSet={`${activeSrc} 1x, ${activeSrc} 2x`}
             width="100%"
             style={{ borderRadius: 6, marginBottom: 8 }}
           />
         )}
-        <div className="d-flex flex-wrap gap-2">
-          {item.images?.map((im: any, idx: number) => (
-            <Image
-              key={idx}
-              src={im.thumb_path || im.image_path}
-              width={72}
-              height={72}
-              placeholder={
-                <div style={{ width: 72, height: 72, background: '#f0f0f0', borderRadius: 4 }} />
-              }
-              style={{ objectFit: 'cover', borderRadius: 4 }}
-              preview={false}
-            />
-          ))}
-        </div>
+        {Array.isArray((item as any)?.images) && (item as any).images.length > 0 && (
+          <div className="d-flex flex-wrap gap-2">
+            {(item as any).images.map((im: any, idx: number) => (
+              <Image
+                key={idx}
+                src={im.thumb_path || im.image_path}
+                width={72}
+                height={72}
+                placeholder={
+                  <div style={{ width: 72, height: 72, background: '#f0f0f0', borderRadius: 4 }} />
+                }
+                style={{
+                  objectFit: 'cover',
+                  borderRadius: 4,
+                  cursor: 'pointer',
+                  boxShadow: (im.image_path === activeSrc ? '0 0 0 2px #1677ff' : undefined) as any,
+                }}
+                preview={false}
+                onClick={() => setActiveSrc(im.image_path)}
+              />
+            ))}
+          </div>
+        )}
       </div>
       <div className="col-md-6">
         <Space direction="vertical" size="small" style={{ width: '100%' }}>
@@ -51,21 +68,40 @@ export default function DetailsView({ item }: { item: Gpu }) {
           <span>{item.seller_name || ''}</span>
         </div>
         <div className="d-flex gap-2">
-          <Button
-            onClick={() => {
-              const href = `${location.origin}/g/${item.id}`;
-              navigator.clipboard.writeText(href);
-              window.dispatchEvent(
-                new CustomEvent('app-toast', {
-                  detail: { text: 'Link copied', type: 'success' },
-                }),
-              );
-            }}
-          >
-            Copy Link
-          </Button>
+          <CopyLinkButton id={item.id} />
         </div>
       </div>
     </div>
+  );
+}
+
+function CopyLinkButton({ id }: { id: number }) {
+  const [copied, setCopied] = React.useState(false);
+  return (
+    <Button
+      type={copied ? 'primary' : 'default'}
+      disabled={copied}
+      onClick={async () => {
+        const href = `${location.origin}/g/${id}`;
+        try {
+          await navigator.clipboard.writeText(href);
+          setCopied(true);
+          window.dispatchEvent(
+            new CustomEvent('app-toast', {
+              detail: { text: 'Link copied', type: 'success' },
+            }),
+          );
+          setTimeout(() => setCopied(false), 2000);
+        } catch (e) {
+          window.dispatchEvent(
+            new CustomEvent('app-toast', {
+              detail: { text: 'Copy failed', type: 'error' },
+            }),
+          );
+        }
+      }}
+    >
+      {copied ? 'Copied!' : 'Copy Link'}
+    </Button>
   );
 }

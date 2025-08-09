@@ -441,6 +441,37 @@ const openApi = {
     '/api/gpus': {
       post: {
         summary: 'Create listing',
+        requestBody: {
+          required: true,
+          content: {
+            'multipart/form-data': {
+              schema: {
+                type: 'object',
+                properties: {
+                  title: { type: 'string' },
+                  description: { type: 'string' },
+                  price: { type: 'number' },
+                  condition: { type: 'string', enum: ['New', 'Used'] },
+                  brand: { type: 'string' },
+                  vram_gb: { type: 'integer' },
+                  images: { type: 'array', items: { type: 'string', format: 'binary' } },
+                },
+                required: ['title', 'price', 'condition'],
+              },
+              encoding: {
+                images: { contentType: 'image/jpeg, image/png, image/webp' },
+              },
+              example: {
+                title: 'RTX 3080',
+                price: 2999,
+                condition: 'Used',
+                brand: 'NVIDIA',
+                vram_gb: 10,
+                // images: attach via form-data
+              },
+            },
+          },
+        },
         responses: {
           201: { description: 'Created' },
           400: { description: 'Invalid' },
@@ -483,6 +514,36 @@ const openApi = {
     '/api/users/me/avatar': {
       post: {
         summary: 'Upload avatar',
+        responses: {
+          200: { description: 'OK' },
+          400: { description: 'Invalid' },
+          401: { description: 'Auth' },
+        },
+      },
+    },
+    '/api/users/me': {
+      get: {
+        summary: 'Get current user',
+        responses: {
+          200: { description: 'OK' },
+          401: { description: 'Auth' },
+        },
+      },
+      patch: {
+        summary: 'Update current user profile',
+        requestBody: {
+          required: true,
+          content: {
+            'application/json': {
+              schema: {
+                type: 'object',
+                properties: { display_name: { type: 'string' } },
+                required: ['display_name'],
+              },
+              example: { display_name: 'Alice' },
+            },
+          },
+        },
         responses: {
           200: { description: 'OK' },
           400: { description: 'Invalid' },
@@ -580,6 +641,11 @@ const ContactSchema = z.object({
   consent: z.coerce.boolean().optional().default(false),
 });
 
+// Update profile (me)
+const UpdateMeSchema = z.object({
+  display_name: z.string().min(1).max(64),
+});
+
 // Auth: register
 app.post('/api/register', authLimiter, (req, res) => {
   const parsed = RegisterSchema.safeParse(req.body);
@@ -667,7 +733,9 @@ app.post(
             fs.unlinkSync(f.path);
           } catch (_) {}
           uploadFailures.inc();
-          return res.status(400).json({ error: 'Invalid image content' });
+          return res
+            .status(400)
+            .json({ error: 'Invalid image content', code: 'INVALID_IMAGE_CONTENT' });
         }
         processed.push(await processAndStoreImage(f, uploadDir));
       }
@@ -703,7 +771,9 @@ app.post(
       res.status(201).json(newRow);
     } catch (e) {
       if (e && e.code === 'IMAGE_TOO_LARGE')
-        return res.status(400).json({ error: 'Image exceeds pixel limit' });
+        return res
+          .status(400)
+          .json({ error: 'Image exceeds pixel limit', code: 'IMAGE_TOO_LARGE' });
       res.status(500).json({ error: 'Server error' });
     }
   },
@@ -739,7 +809,9 @@ app.put(
             fs.unlinkSync(f.path);
           } catch (_) {}
           uploadFailures.inc();
-          return res.status(400).json({ error: 'Invalid image content' });
+          return res
+            .status(400)
+            .json({ error: 'Invalid image content', code: 'INVALID_IMAGE_CONTENT' });
         }
         processed.push(await processAndStoreImage(f, uploadDir));
       }
@@ -763,7 +835,9 @@ app.put(
       res.json(updated);
     } catch (e) {
       if (e && e.code === 'IMAGE_TOO_LARGE')
-        return res.status(400).json({ error: 'Image exceeds pixel limit' });
+        return res
+          .status(400)
+          .json({ error: 'Image exceeds pixel limit', code: 'IMAGE_TOO_LARGE' });
       res.status(500).json({ error: 'Server error' });
     }
   },
@@ -859,17 +933,52 @@ app.get('/api/users/:id', (req, res) => {
 });
 
 app.post('/api/users/me/avatar', authenticateToken, upload.single('avatar'), (req, res) => {
-  if (!req.file) return res.status(400).json({ error: 'Missing file' });
+  if (!req.file) return res.status(400).json({ error: 'Missing file', code: 'MISSING_FILE' });
   if (!isValidImageMagic(req.file.path, req.file.mimetype)) {
     try {
       fs.unlinkSync(req.file.path);
     } catch (e) {}
     uploadFailures.inc();
-    return res.status(400).json({ error: 'Invalid image content' });
+    return res.status(400).json({ error: 'Invalid image content', code: 'INVALID_IMAGE_CONTENT' });
   }
   const avatar_path = `/uploads/${path.basename(req.file.path)}`;
   db.prepare('UPDATE users SET avatar_path = ? WHERE id = ?').run(avatar_path, req.user.id);
   res.json({ avatar_path });
+});
+
+// Get current user (me)
+app.get('/api/users/me', authenticateToken, (req, res) => {
+  try {
+    const row = db
+      .prepare('SELECT id, username, display_name, avatar_path FROM users WHERE id = ?')
+      .get(req.user.id);
+    if (!row) return res.status(404).json({ error: 'Not found' });
+    res.json(row);
+  } catch (e) {
+    res.status(500).json({ error: 'Server error' });
+  }
+});
+
+// Update display name (me)
+app.patch('/api/users/me', authenticateToken, (req, res) => {
+  const parsed = UpdateMeSchema.safeParse(req.body);
+  if (!parsed.success)
+    return res.status(400).json({ error: 'Invalid input', details: parsed.error.flatten() });
+  const { display_name } = parsed.data;
+  try {
+    db.prepare('UPDATE users SET display_name = ? WHERE id = ?').run(display_name, req.user.id);
+    const row = db
+      .prepare('SELECT id, username, display_name, avatar_path FROM users WHERE id = ?')
+      .get(req.user.id);
+    const token = jwt.sign(
+      { id: row.id, username: row.username, display_name: row.display_name },
+      JWT_SECRET,
+      { expiresIn: '7d' },
+    );
+    res.json({ user: row, token });
+  } catch (e) {
+    res.status(500).json({ error: 'Server error' });
+  }
 });
 
 // Health & Metrics
@@ -895,7 +1004,7 @@ app.get('/sitemap.xml', (req, res) => {
       .prepare('SELECT id, created_at FROM gpus ORDER BY datetime(created_at) DESC LIMIT 50')
       .all();
     for (const r of rows) {
-      urls.push({ loc: `${base}/?id=${r.id}`, lastmod: r.created_at || new Date().toISOString() });
+      urls.push({ loc: `${base}/g/${r.id}`, lastmod: r.created_at || new Date().toISOString() });
     }
   } catch (e) {
     // ignore

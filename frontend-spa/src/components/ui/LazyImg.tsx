@@ -9,6 +9,7 @@ type Props = {
   height?: number | string;
   srcSet?: string;
   sizes?: string;
+  fallbackSrc?: string;
 };
 
 export default function LazyImg({
@@ -20,9 +21,11 @@ export default function LazyImg({
   height,
   srcSet,
   sizes,
+  fallbackSrc,
 }: Props) {
   const ref = useRef<HTMLImageElement | null>(null);
   const [visible, setVisible] = useState(false);
+  const [error, setError] = useState(false);
 
   useEffect(() => {
     const el = ref.current;
@@ -45,10 +48,11 @@ export default function LazyImg({
     return () => io.disconnect();
   }, []);
 
+  const effectiveSrc = error && fallbackSrc ? fallbackSrc : src;
   return (
     <img
       ref={ref}
-      src={visible ? src : undefined}
+      src={visible ? effectiveSrc : undefined}
       srcSet={visible ? srcSet : undefined}
       sizes={visible ? sizes : undefined}
       alt={alt}
@@ -57,6 +61,7 @@ export default function LazyImg({
       width={width as any}
       height={height as any}
       loading="lazy"
+      onError={() => setError(true)}
     />
   );
 }

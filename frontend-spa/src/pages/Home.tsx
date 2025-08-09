@@ -85,6 +85,12 @@ export default function Home() {
     retry: 2,
   });
 
+  // Scroll to top on page change
+  useEffect(() => {
+    const el = document.querySelector('.container');
+    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }, [page]);
+
   // prefetch on hover (once)
   const prefetched = useRef(false);
   function prefetchDetailsChunk() {
@@ -183,7 +189,53 @@ export default function Home() {
             {!isLoading && (data?.results?.length || 0) === 0 && (
               <div className="col-12">
                 <div className="my-4">
-                  <Result status="info" title="No results" subTitle="Try adjusting filters." />
+                  <Result
+                    status="info"
+                    title="No results"
+                    subTitle={
+                      q ||
+                      filters.min ||
+                      filters.max ||
+                      filters.brand ||
+                      filters.vram_min ||
+                      filters.condition
+                        ? 'Try adjusting filters or sorting options.'
+                        : 'Browse by series from the top menu or apply filters to get started.'
+                    }
+                    extra={
+                      q ||
+                      filters.min ||
+                      filters.max ||
+                      filters.brand ||
+                      filters.vram_min ||
+                      filters.condition ? (
+                        <div className="d-flex gap-2 justify-content-center">
+                          <Button
+                            onClick={() => {
+                              setQ('');
+                              setFilters({
+                                min: '',
+                                max: '',
+                                brand: '',
+                                vram_min: '',
+                                condition: '',
+                              } as any);
+                              setPage(1);
+                            }}
+                          >
+                            Clear all filters
+                          </Button>
+                        </div>
+                      ) : (
+                        <div className="d-flex gap-2 justify-content-center">
+                          <Button href="/?brand=NVIDIA&vram_min=12">NVIDIA 40 Series</Button>
+                          <Button href="/?brand=NVIDIA&vram_min=8">NVIDIA 30 Series</Button>
+                          <Button href="/?brand=AMD&vram_min=12">AMD 7000 Series</Button>
+                          <Button href="/?brand=AMD&vram_min=8">AMD 6000 Series</Button>
+                        </div>
+                      )
+                    }
+                  />
                 </div>
               </div>
             )}

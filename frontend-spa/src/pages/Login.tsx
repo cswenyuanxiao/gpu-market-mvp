@@ -19,7 +19,11 @@ export default function Login() {
   const navigate = useNavigate();
   const location = useLocation() as any;
   const { login } = useAuth();
-  const { register, handleSubmit, formState: { errors } } = useForm<LoginValues>({
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<LoginValues>({
     resolver: zodResolver(LoginSchema),
   });
 
@@ -33,13 +37,24 @@ export default function Login() {
       });
       if (!res.ok) {
         const msg = (await res.json().catch(() => ({})))?.error || 'Login failed';
-        window.dispatchEvent(new CustomEvent('app-toast', { detail: { text: msg, type: 'error' } }));
+        window.dispatchEvent(
+          new CustomEvent('app-toast', { detail: { text: msg, type: 'error' } }),
+        );
         return;
       }
       const data = await res.json();
       login(data.token || '');
-      window.dispatchEvent(new CustomEvent('app-toast', { detail: { text: 'Logged in', type: 'success' } }));
-      const from = location?.state?.from || '/my';
+      window.dispatchEvent(
+        new CustomEvent('app-toast', { detail: { text: 'Logged in', type: 'success' } }),
+      );
+      // Prefer sessionStorage 'from' set by apiFetch on 401/403; fallback to router state
+      let from: string | undefined = undefined;
+      try {
+        from = sessionStorage.getItem('from') || undefined;
+        if (from) sessionStorage.removeItem('from');
+      } catch {}
+      if (!from) from = (location as any)?.state?.from;
+      if (!from) from = '/my';
       navigate(from, { replace: true });
     } finally {
       setLoading(false);
@@ -54,9 +69,16 @@ export default function Login() {
           <input id="login-username" className="form-control" {...register('username')} />
         </FormField>
         <FormField label="Password" htmlFor="login-password" error={errors.password?.message}>
-          <input id="login-password" type="password" className="form-control" {...register('password')} />
+          <input
+            id="login-password"
+            type="password"
+            className="form-control"
+            {...register('password')}
+          />
         </FormField>
-        <Button type="primary" htmlType="submit" block loading={loading}>Sign In</Button>
+        <Button type="primary" htmlType="submit" block loading={loading}>
+          Sign In
+        </Button>
       </form>
       <div className="mt-3">
         New here? <Link to="/register">Create an account</Link>
@@ -64,5 +86,3 @@ export default function Login() {
     </div>
   );
 }
-
-
