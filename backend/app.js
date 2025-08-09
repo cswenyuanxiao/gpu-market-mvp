@@ -1,7 +1,7 @@
 require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
-const Database = require('better-sqlite3');
+// const Database = require('better-sqlite3'); // Now using DatabaseAdapter
 const path = require('path');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
@@ -147,102 +147,19 @@ app.use((req, res, next) => {
 });
 
 // Database
-const dbPath = process.env.DB_PATH || path.join(__dirname, 'data.db');
-const db = new Database(dbPath);
-db.pragma('journal_mode = WAL');
+const DatabaseAdapter = require('./database');
+const db = new DatabaseAdapter();
 
-// Ensure schema exists (idempotent)
-db.exec(`
-CREATE TABLE IF NOT EXISTS users (
-  id INTEGER PRIMARY KEY AUTOINCREMENT,
-  username TEXT UNIQUE,
-  password_hash TEXT,
-  display_name TEXT,
-  avatar_path TEXT
-);
-
-CREATE TABLE IF NOT EXISTS gpus (
-  id INTEGER PRIMARY KEY AUTOINCREMENT,
-  title TEXT,
-  description TEXT,
-  price REAL,
-  condition TEXT,
-  seller_id INTEGER,
-  image_path TEXT,
-  created_at TEXT,
-  FOREIGN KEY(seller_id) REFERENCES users(id)
-);
-`);
-// indexes
-db.exec(`
-CREATE INDEX IF NOT EXISTS idx_gpus_created_at ON gpus(created_at);
-CREATE INDEX IF NOT EXISTS idx_gpus_price ON gpus(price);
-CREATE INDEX IF NOT EXISTS idx_gpus_condition ON gpus(condition);
-CREATE INDEX IF NOT EXISTS idx_gpus_seller ON gpus(seller_id);
-`);
-// additional tables
-db.exec(`
-CREATE TABLE IF NOT EXISTS gpu_images (
-  id INTEGER PRIMARY KEY AUTOINCREMENT,
-  gpu_id INTEGER NOT NULL,
-  image_path TEXT NOT NULL,
-  thumb_path TEXT,
-  sort_order INTEGER DEFAULT 0,
-  created_at TEXT,
-  FOREIGN KEY(gpu_id) REFERENCES gpus(id)
-);
-`);
-db.exec(`
-CREATE INDEX IF NOT EXISTS idx_gpu_images_gpu ON gpu_images(gpu_id);
-`);
-// quotes & contact tables
-db.exec(`
-CREATE TABLE IF NOT EXISTS quotes (
-  id INTEGER PRIMARY KEY AUTOINCREMENT,
-  contact_name TEXT,
-  email TEXT,
-  phone TEXT,
-  brand TEXT,
-  model TEXT,
-  grade TEXT,
-  warranty INTEGER,
-  accessories TEXT,
-  expected_price REAL,
-  note TEXT,
-  created_at TEXT
-);
-`);
-db.exec(`
-CREATE TABLE IF NOT EXISTS quote_images (
-  id INTEGER PRIMARY KEY AUTOINCREMENT,
-  quote_id INTEGER NOT NULL,
-  image_path TEXT NOT NULL,
-  thumb_path TEXT,
-  sort_order INTEGER DEFAULT 0,
-  created_at TEXT,
-  FOREIGN KEY(quote_id) REFERENCES quotes(id)
-);
-`);
-db.exec(`
-CREATE INDEX IF NOT EXISTS idx_quote_images_quote ON quote_images(quote_id);
-`);
-db.exec(`
-CREATE TABLE IF NOT EXISTS contact_messages (
-  id INTEGER PRIMARY KEY AUTOINCREMENT,
-  name TEXT,
-  email TEXT,
-  message TEXT,
-  consent INTEGER,
-  created_at TEXT
-);
-`);
-// schema migrations
-try {
-  db.prepare('ALTER TABLE gpus ADD COLUMN brand TEXT').run();
-} catch (_) {}
-try {
-  db.prepare('ALTER TABLE gpus ADD COLUMN vram_gb INTEGER').run();
-} catch (_) {}
+// Initialize database schema
+(async () => {
+  try {
+    await db.init();
+    console.log('✅ Database initialized');
+  } catch (error) {
+    console.error('❌ Database initialization failed:', error);
+    process.exit(1);
+  }
+})();
 
 // uploads
 const uploadDir = path.join(__dirname, 'uploads');
