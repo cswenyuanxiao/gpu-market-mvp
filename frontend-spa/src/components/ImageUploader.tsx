@@ -1,4 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
+import { Button, Upload, Badge } from 'antd';
+import { PlusOutlined, DeleteOutlined, StarOutlined, LeftOutlined, RightOutlined } from '@ant-design/icons';
 
 export type LocalImage = {
   file: File;
@@ -119,48 +121,110 @@ export default function ImageUploader({
         className="d-none"
         onChange={(e) => handleFiles(e.target.files)}
       />
-      <div className="d-flex align-items-center gap-2 mb-2">
-        <button type="button" className="btn btn-sm btn-outline-secondary" onClick={openPicker}>
+      
+      <div className="d-flex align-items-center gap-2 mb-3">
+        <Button 
+          type="default" 
+          icon={<PlusOutlined />} 
+          onClick={openPicker}
+          size="small"
+        >
           Add Images
-        </button>
+        </Button>
         <small className="text-muted">Up to {maxImages} images, ≤ {maxSizeMb}MB, ≤ {pixelLimit.toLocaleString()} px</small>
       </div>
+      
       <div
-        className={`p-3 border rounded ${dragOver ? 'border-primary bg-light' : 'border-secondary-subtle'}`}
+        className={`p-4 border-2 border-dashed rounded-lg transition-colors ${
+          dragOver 
+            ? 'border-blue-500 bg-blue-50' 
+            : 'border-gray-300 hover:border-gray-400'
+        }`}
         onDrop={onDrop}
         onDragOver={onDragOver}
         onDragLeave={onDragLeave}
       >
-        <div className="text-muted mb-2">Drag & drop images here</div>
-        <div className="d-flex flex-wrap gap-2">
-        {images.map((img, idx) => (
-          <div key={idx} className="position-relative">
-            <img
-              src={img.url}
-              width={96}
-              height={96}
-              style={{ objectFit: 'cover' }}
-              loading="lazy"
-              className={`rounded border ${img.tooLarge ? 'border-danger' : ''}`}
-            />
-              <div className="position-absolute top-0 start-0 d-flex gap-1 p-1">
-                <span className="badge text-bg-dark">{idx === 0 ? 'Cover' : idx + 1}</span>
+        <div className="text-center text-gray-500 mb-3">
+          <Upload.Dragger disabled>
+            <p className="ant-upload-drag-icon">
+              <PlusOutlined />
+            </p>
+            <p className="ant-upload-text">Drag & drop images here</p>
+          </Upload.Dragger>
+        </div>
+        
+        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3">
+          {images.map((img, idx) => (
+            <div key={idx} className="relative group">
+              <div className="relative">
+                <img
+                  src={img.url}
+                  width={96}
+                  height={96}
+                  style={{ objectFit: 'cover' }}
+                  loading="lazy"
+                  className={`w-24 h-24 rounded-lg border-2 ${
+                    img.tooLarge ? 'border-red-500' : 'border-gray-200'
+                  }`}
+                />
+                
+                {/* Cover badge */}
+                <div className="absolute top-1 left-1">
+                  <Badge 
+                    count={idx === 0 ? 'Cover' : idx + 1} 
+                    style={{ 
+                      backgroundColor: idx === 0 ? '#1890ff' : '#666',
+                      fontSize: '10px',
+                      padding: '2px 6px'
+                    }} 
+                  />
+                </div>
+                
+                {/* Action buttons */}
+                <div className="absolute bottom-1 left-1 flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
+                  <Button
+                    type="text"
+                    size="small"
+                    icon={<LeftOutlined />}
+                    onClick={() => move(idx, -1)}
+                    disabled={idx === 0}
+                    title="Move left"
+                    style={{ padding: '2px', minWidth: 'auto' }}
+                  />
+                  <Button
+                    type="text"
+                    size="small"
+                    icon={<RightOutlined />}
+                    onClick={() => move(idx, 1)}
+                    disabled={idx === images.length - 1}
+                    title="Move right"
+                    style={{ padding: '2px', minWidth: 'auto' }}
+                  />
+                  <Button
+                    type="text"
+                    size="small"
+                    icon={<StarOutlined />}
+                    onClick={() => setAsCover(idx)}
+                    disabled={idx === 0}
+                    title="Set as cover"
+                    style={{ padding: '2px', minWidth: 'auto' }}
+                  />
+                </div>
+                
+                {/* Remove button */}
+                <Button
+                  type="text"
+                  size="small"
+                  icon={<DeleteOutlined />}
+                  onClick={() => removeAt(idx)}
+                  title="Remove"
+                  danger
+                  className="absolute top-1 right-1 opacity-0 group-hover:opacity-100 transition-opacity"
+                  style={{ padding: '2px', minWidth: 'auto' }}
+                />
               </div>
-              <div className="position-absolute bottom-0 start-0 d-flex gap-1 p-1">
-                <button type="button" className="btn btn-sm btn-light" onClick={() => move(idx, -1)} disabled={idx === 0} title="Move left">←</button>
-                <button type="button" className="btn btn-sm btn-light" onClick={() => move(idx, 1)} disabled={idx === images.length - 1} title="Move right">→</button>
-                <button type="button" className="btn btn-sm btn-warning" onClick={() => setAsCover(idx)} disabled={idx === 0} title="Set as cover">★</button>
-              </div>
-              <button
-                type="button"
-                className="btn btn-sm btn-danger position-absolute top-0 end-0"
-                onClick={() => removeAt(idx)}
-                title="Remove"
-              >
-                ×
-              </button>
-          </div>
-        ))}
+            </div>
+          ))}
         </div>
       </div>
     </div>

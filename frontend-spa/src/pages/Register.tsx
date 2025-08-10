@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { apiFetch } from '../lib/api';
 import { useNavigate, Link } from 'react-router-dom';
 import FormField from '../components/ui/FormField';
-import { Button } from 'antd';
+import { Button, Input } from 'antd';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -46,22 +46,40 @@ export default function Register() {
   }
 
   return (
-    <div className="container py-4" style={{ maxWidth: 480 }}>
-      <h3 className="mb-3">Register</h3>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <FormField label="Username" htmlFor="reg-username" error={errors.username?.message}>
-          <input id="reg-username" className="form-control" {...rfRegister('username')} />
-        </FormField>
-        <FormField label="Password" htmlFor="reg-password" error={errors.password?.message}>
-          <input id="reg-password" type="password" className="form-control" {...rfRegister('password')} />
-        </FormField>
-        <FormField label="Display Name" htmlFor="reg-display" error={errors.display_name?.message}>
-          <input id="reg-display" className="form-control" {...rfRegister('display_name')} />
-        </FormField>
-        <Button type="primary" htmlType="submit" block loading={loading}>Create Account</Button>
+    <div className="form-container">
+      <div className="form-description">
+        <h3>Create Account</h3>
+        <p>Join GPU Market to buy and sell graphics cards.</p>
+      </div>
+      
+      <form onSubmit={handleSubmit(onSubmit)} className="modern-form">
+        <div className="form-section">
+          <div className="form-field">
+            <FormField label="Username" htmlFor="reg-username" error={errors.username?.message}>
+              <Input id="reg-username" {...rfRegister('username')} />
+            </FormField>
+          </div>
+          <div className="form-field">
+            <FormField label="Password" htmlFor="reg-password" error={errors.password?.message}>
+              <Input.Password id="reg-password" {...rfRegister('password')} />
+            </FormField>
+          </div>
+          <div className="form-field">
+            <FormField label="Display Name (Optional)" htmlFor="reg-display" error={errors.display_name?.message}>
+              <Input id="reg-display" {...rfRegister('display_name')} />
+            </FormField>
+          </div>
+        </div>
+
+        <div className="form-actions">
+          <Button type="primary" htmlType="submit" loading={loading} className="submit-btn" block>
+            Create Account
+          </Button>
+        </div>
       </form>
-      <div className="mt-3">
-        Already have an account? <Link to="/login">Login</Link>
+      
+      <div className="text-center mt-4">
+        <p>Already have an account? <Link to="/login">Login</Link></p>
       </div>
     </div>
   );

@@ -7,7 +7,7 @@ import { z } from 'zod';
 import FormField from '../components/ui/FormField';
 import { Controller, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Button } from 'antd';
+import { Button, Input, Select, Spin } from 'antd';
 
 const allowedBrands = ['NVIDIA', 'AMD'] as const;
 const EditSchema = z.object({
@@ -73,51 +73,97 @@ export default function Edit() {
     navigate(`/g/${id}`);
   }
 
-  if (loading) return <div className="container py-3">Loading...</div>;
+  if (loading) return (
+    <div className="container py-3">
+      <div className="d-flex justify-content-center">
+        <Spin size="large" />
+      </div>
+    </div>
+  );
 
   return (
-    <div className="container py-3" style={{ maxWidth: 720 }}>
-      <h3>Edit Listing</h3>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <div className="row g-3">
-          <div className="col-md-8">
-            <FormField label="Title" htmlFor="title" error={errors.title?.message}>
-              <input id="title" className="form-control" {...register('title')} />
-            </FormField>
-            <FormField label="Description" htmlFor="desc" error={errors.desc?.message}>
-              <textarea id="desc" className="form-control" rows={6} {...register('desc')} />
-            </FormField>
+    <div className="form-container">
+      <div className="form-description">
+        <h3>Edit Listing</h3>
+        <p>Update your GPU listing information below.</p>
+      </div>
+      
+      <form onSubmit={handleSubmit(onSubmit)} className="modern-form">
+        <div className="form-section">
+          <div className="section-title">Basic Information</div>
+          <div className="form-grid">
+            <div className="form-field">
+              <FormField label="Title" htmlFor="title" error={errors.title?.message}>
+                <Input id="title" {...register('title')} />
+              </FormField>
+            </div>
+            <div className="form-field">
+              <FormField label="Price (£)" htmlFor="price" error={errors.price?.message} hint="≥ 1">
+                <Input id="price" type="number" {...register('price')} />
+              </FormField>
+            </div>
+            <div className="form-field">
+              <FormField label="Condition" htmlFor="cond" error={errors.condition?.message}>
+                <Controller
+                  name="condition"
+                  control={control}
+                  render={({ field }) => (
+                    <Select id="cond" value={field.value} onChange={field.onChange}>
+                      <Select.Option value="New">New</Select.Option>
+                      <Select.Option value="Used">Used</Select.Option>
+                    </Select>
+                  )}
+                />
+              </FormField>
+            </div>
+            <div className="form-field">
+              <FormField label="Brand" htmlFor="brand" error={errors.brand?.message} hint="NVIDIA, AMD, or Intel">
+                <Controller
+                  name="brand"
+                  control={control}
+                  render={({ field }) => (
+                    <Select id="brand" value={field.value} onChange={field.onChange} allowClear>
+                      <Select.Option value="NVIDIA">NVIDIA</Select.Option>
+                      <Select.Option value="AMD">AMD</Select.Option>
+                      <Select.Option value="Intel">Intel</Select.Option>
+                    </Select>
+                  )}
+                />
+              </FormField>
+            </div>
+            <div className="form-field">
+              <FormField label="VRAM (GB)" htmlFor="vram" error={errors.vram?.message} hint="0 - 64">
+                <Input id="vram" type="number" {...register('vram')} />
+              </FormField>
+            </div>
           </div>
-          <div className="col-md-4">
-            <FormField label="Price" htmlFor="price" error={errors.price?.message} hint="In USD, ≥ 1">
-              <input id="price" className="form-control" {...register('price')} />
-            </FormField>
-            <FormField label="Condition" htmlFor="cond" error={errors.condition?.message}>
+        </div>
+
+        <div className="form-section">
+          <div className="section-title">Description</div>
+          <div className="form-field form-field-full">
+            <FormField label="Description" htmlFor="desc" error={errors.desc?.message}>
               <Controller
-                name="condition"
+                name="desc"
                 control={control}
-                render={({ field }) => (
-                  <select id="cond" className="form-select" value={field.value} onChange={(e) => field.onChange(e.target.value)}>
-                    <option value="New">New</option>
-                    <option value="Used">Used</option>
-                  </select>
-                )}
+                render={({ field }) => <Input.TextArea id="desc" rows={6} {...field} />}
               />
-            </FormField>
-            <FormField label="Brand" htmlFor="brand" error={errors.brand?.message} hint="NVIDIA or AMD">
-              <input id="brand" className="form-control" {...register('brand')} />
-            </FormField>
-            <FormField label="VRAM (GB)" htmlFor="vram" error={errors.vram?.message} hint="0 - 64">
-              <input id="vram" className="form-control" {...register('vram')} />
             </FormField>
           </div>
         </div>
-        <div className="mb-3">
-          <Suspense fallback={null}>
+
+        <div className="form-section">
+          <div className="section-title">Images</div>
+          <Suspense fallback={<Spin />}>
             <ImageUploader onChange={setFiles} />
           </Suspense>
         </div>
-        <Button type="primary" htmlType="submit">Save</Button>
+
+        <div className="form-actions">
+          <Button type="primary" htmlType="submit" className="submit-btn">
+            Save Changes
+          </Button>
+        </div>
       </form>
     </div>
   );

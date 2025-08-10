@@ -1,9 +1,22 @@
+import { Link } from 'react-router-dom';
+import { Button, Result } from 'antd';
+import { HomeOutlined } from '@ant-design/icons';
+
 export default function ServerError() {
   return (
-    <div className="container py-5 text-center">
-      <h1 className="display-5">500</h1>
-      <p className="lead">Unexpected server error.</p>
-      <a className="btn btn-primary" href="/">Go Home</a>
+    <div className="container py-5">
+      <Result
+        status="500"
+        title="Server Error"
+        subTitle="Something went wrong on our end. Please try again later."
+        extra={
+          <Button type="primary" icon={<HomeOutlined />}>
+            <Link to="/" style={{ color: 'inherit', textDecoration: 'none' }}>
+              Go Home
+            </Link>
+          </Button>
+        }
+      />
     </div>
   );
 }

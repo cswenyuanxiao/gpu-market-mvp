@@ -2,6 +2,7 @@ import { FormEvent, useEffect, useState } from 'react';
 import { apiFetch } from '../lib/api';
 import FormField from '../components/ui/FormField';
 import { Button, Input, Upload, Avatar } from 'antd';
+import { UploadOutlined, UserOutlined } from '@ant-design/icons';
 import type { UploadProps } from 'antd';
 import { useAuth } from '../store/auth';
 
@@ -87,41 +88,78 @@ export default function ProfileEdit() {
   }
 
   return (
-    <div className="container py-3" style={{ maxWidth: 520 }}>
-      <h3>Edit Profile</h3>
-      <form onSubmit={onSubmit}>
-        <div className="d-flex align-items-center gap-3 mb-3">
-          <Avatar size={64} src={avatarPreview || undefined}>
-            {display?.[0]}
-          </Avatar>
-          <Input
-            value={display}
-            onChange={(e) => setDisplay(e.target.value)}
-            style={{ maxWidth: 260 }}
-            placeholder="Display name"
-          />
-        </div>
-        <FormField label="Avatar" htmlFor="avatar">
-          <input
-            id="avatar"
-            type="file"
-            accept="image/*"
-            className="form-control"
-            onChange={onAvatar}
-          />
-        </FormField>
-        {avatarPreview && (
-          <div className="mb-3">
-            <img
-              src={avatarPreview}
-              style={{ width: 96, height: 96, objectFit: 'cover' }}
-              className="rounded"
-            />
+    <div className="form-container">
+      <div className="form-description">
+        <h3>Edit Profile</h3>
+        <p>Update your profile information and avatar.</p>
+      </div>
+      
+      <form onSubmit={onSubmit} className="modern-form">
+        <div className="form-section">
+          <div className="section-title">Profile Information</div>
+          <div className="form-field">
+            <FormField label="Display Name" htmlFor="display-name">
+              <div className="d-flex align-items-center gap-3">
+                <Avatar 
+                  size={64} 
+                  src={avatarPreview || undefined}
+                  icon={<UserOutlined />}
+                >
+                  {display?.[0]}
+                </Avatar>
+                <Input
+                  id="display-name"
+                  value={display}
+                  onChange={(e) => setDisplay(e.target.value)}
+                  placeholder="Enter your display name"
+                />
+              </div>
+            </FormField>
           </div>
-        )}
-        <Button type="primary" loading={loading} htmlType="submit">
-          Save
-        </Button>
+        </div>
+
+        <div className="form-section">
+          <div className="section-title">Avatar</div>
+          <div className="form-field">
+            <FormField label="Upload New Avatar" htmlFor="avatar">
+              <Upload
+                accept="image/*"
+                showUploadList={false}
+                beforeUpload={(file) => {
+                  setAvatarFile(file);
+                  setAvatarPreview(URL.createObjectURL(file));
+                  return false; // Prevent auto upload
+                }}
+              >
+                <Button icon={<UploadOutlined />}>Choose Image</Button>
+              </Upload>
+            </FormField>
+          </div>
+          
+          {avatarPreview && (
+            <div className="form-field">
+              <FormField label="Preview">
+                <div className="d-flex align-items-center gap-3">
+                  <img
+                    src={avatarPreview}
+                    style={{ width: 96, height: 96, objectFit: 'cover' }}
+                    className="rounded-lg border"
+                  />
+                  <div className="text-sm text-gray-500">
+                    <p>New avatar preview</p>
+                    <p>Click "Save" to apply changes</p>
+                  </div>
+                </div>
+              </FormField>
+            </div>
+          )}
+        </div>
+
+        <div className="form-actions">
+          <Button type="primary" loading={loading} htmlType="submit" className="submit-btn">
+            Save Changes
+          </Button>
+        </div>
       </form>
     </div>
   );

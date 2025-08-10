@@ -3,7 +3,7 @@ import { apiFetch } from '../lib/api';
 import { useNavigate, useLocation, Link } from 'react-router-dom';
 import { useAuth } from '../store/auth';
 import FormField from '../components/ui/FormField';
-import { Button } from 'antd';
+import { Button, Input } from 'antd';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -62,26 +62,35 @@ export default function Login() {
   }
 
   return (
-    <div className="container py-4" style={{ maxWidth: 420 }}>
-      <h3 className="mb-3">Login</h3>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <FormField label="Username" htmlFor="login-username" error={errors.username?.message}>
-          <input id="login-username" className="form-control" {...register('username')} />
-        </FormField>
-        <FormField label="Password" htmlFor="login-password" error={errors.password?.message}>
-          <input
-            id="login-password"
-            type="password"
-            className="form-control"
-            {...register('password')}
-          />
-        </FormField>
-        <Button type="primary" htmlType="submit" block loading={loading}>
-          Sign In
-        </Button>
+    <div className="form-container">
+      <div className="form-description">
+        <h3>Welcome Back</h3>
+        <p>Sign in to your GPU Market account to continue.</p>
+      </div>
+      
+      <form onSubmit={handleSubmit(onSubmit)} className="modern-form">
+        <div className="form-section">
+          <div className="form-field">
+            <FormField label="Username" htmlFor="login-username" error={errors.username?.message}>
+              <Input id="login-username" {...register('username')} />
+            </FormField>
+          </div>
+          <div className="form-field">
+            <FormField label="Password" htmlFor="login-password" error={errors.password?.message}>
+              <Input.Password id="login-password" {...register('password')} />
+            </FormField>
+          </div>
+        </div>
+
+        <div className="form-actions">
+          <Button type="primary" htmlType="submit" loading={loading} className="submit-btn" block>
+            Sign In
+          </Button>
+        </div>
       </form>
-      <div className="mt-3">
-        New here? <Link to="/register">Create an account</Link>
+      
+      <div className="text-center mt-4">
+        <p>New here? <Link to="/register">Create an account</Link></p>
       </div>
     </div>
   );
