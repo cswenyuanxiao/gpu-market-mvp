@@ -1189,3 +1189,101 @@ html, body {
     gap: 20px;
   }
 }
+
+/* FormField structural styles */
+.form-field-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.form-label-modern {
+  color: #0f172a;
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+.form-control-slot .ant-input,
+.form-control-slot .ant-input-affix-wrapper,
+.form-control-slot .ant-input-number,
+.form-control-slot .ant-select-selector,
+.form-control-slot textarea.ant-input {
+  width: 100%;
+  border: 1px solid #d1d5db !important;
+  border-radius: 10px !important;
+  background: #fff !important;
+  padding: 10px 12px !important;
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.03);
+  transition: border-color .2s ease, box-shadow .2s ease, background .2s ease;
+}
+
+.form-control-slot .ant-select-selector {
+  height: 44px !important;
+  display: flex;
+  align-items: center;
+}
+
+.form-control-slot .ant-input:focus,
+.form-control-slot .ant-input-affix-wrapper-focused,
+.form-control-slot .ant-input-number-focused,
+.form-control-slot .ant-select-focused .ant-select-selector,
+.form-control-slot textarea.ant-input:focus {
+  border-color: var(--modern-blue) !important;
+  box-shadow: 0 0 0 4px rgba(91, 125, 177, 0.15) !important;
+}
+
+/* Placeholder & text */
+.form-control-slot .ant-input::placeholder,
+.form-control-slot textarea.ant-input::placeholder {
+  color: #9ca3af;
+}
+
+/* Error states */
+.form-field-wrapper.has-error .form-label-modern {
+  color: #b91c1c;
+}
+.form-error {
+  color: #b91c1c;
+  font-size: 0.85rem;
+}
+.form-field-wrapper.has-error .ant-input,
+.form-field-wrapper.has-error .ant-select-selector,
+.form-field-wrapper.has-error textarea.ant-input {
+  border-color: #ef4444 !important;
+  box-shadow: 0 0 0 4px rgba(239, 68, 68, 0.12) !important;
+}
+
+/* Hint */
+.form-hint {
+  color: #6b7280;
+  font-size: 0.85rem;
+}
+
+/* Dropdown menu polish */
+.ant-select-dropdown {
+  border-radius: 10px !important;
+  box-shadow: 0 10px 30px rgba(2, 6, 23, 0.15) !important;
+  padding: 6px 0 !important;
+}
+.ant-select-item {
+  font-size: 0.95rem !important;
+  padding: 8px 12px !important;
+}
+.ant-select-item-option-active:not(.ant-select-item-option-disabled),
+.ant-select-item-option-selected {
+  background: rgba(91, 125, 177, 0.12) !important;
+}
+
+/* Section title tweaks */
+.section-title {
+  letter-spacing: 0.2px;
+  border-bottom-color: #e5e7eb;
+}
+
+/* Larger inputs for better ergonomics */
+.form-control-slot .ant-input,
+.form-control-slot .ant-input-affix-wrapper,
+.form-control-slot .ant-input-number,
+.form-control-slot .ant-select-selector {
+  min-height: 44px;
+}

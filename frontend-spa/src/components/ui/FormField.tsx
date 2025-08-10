@@ -13,14 +13,17 @@ export default function FormField({
   hint?: string;
   error?: string;
 }) {
+  const wrapperClass = `form-field-wrapper ${error ? 'has-error' : ''}`;
   return (
-    <div className="mb-3">
-      <label className="form-label" htmlFor={htmlFor}>
-        {label}
-      </label>
-      {children}
-      {hint && !error && <div className="form-text">{hint}</div>}
-      {error && <div className="text-danger small mt-1">{error}</div>}
+    <div className={wrapperClass}>
+      {label && (
+        <label className="form-label-modern" htmlFor={htmlFor}>
+          {label}
+        </label>
+      )}
+      <div className="form-control-slot">{children}</div>
+      {hint && !error && <div className="form-hint">{hint}</div>}
+      {error && <div className="form-error" role="alert">{error}</div>}
     </div>
   );
 }
