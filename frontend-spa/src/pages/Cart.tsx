@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
-import { apiFetch } from '../lib/api';
-import { getCartItems, removeFromCart } from '../lib/cart';
-import { Button, Result, Spin, Empty, InputNumber } from 'antd';
+import { getCartItems, removeFromCart, updateCartQuantity } from '../lib/cart';
+import { Button, Empty, InputNumber } from 'antd';
 import { DeleteOutlined } from '@ant-design/icons';
 import { formatPrice } from '../lib/format';
 
@@ -17,157 +16,50 @@ type CartItem = {
 
 export default function Cart() {
   const [items, setItems] = useState<CartItem[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-  const [updating, setUpdating] = useState<number | null>(null);
 
-  async function loadCart() {
-    setLoading(true);
-    setError(null);
-    try {
-      const res = await apiFetch('/api/cart');
-      const json = await res.json().catch(() => ({}));
-      const arr = Array.isArray(json.items) ? json.items : [];
-      setItems(arr);
+  function loadCart() {
+    const local = getCartItems();
+    setItems(local as any);
 
-      // Update cart count in header
-      const totalQty = arr.reduce((sum: number, item: any) => {
-        return sum + (Number(item.quantity) || 0);
-      }, 0);
-
-      window.dispatchEvent(
-        new CustomEvent('cart-loaded', {
-          detail: { count: totalQty },
-        }),
-      );
-    } catch (e: any) {
-      // Fallback to local cart when API is unavailable
-      const local = getCartItems();
-      setItems(local as any);
-      setError(null);
-
-      // Update cart count from local
-      const totalQty = local.reduce((sum, item) => sum + (Number(item.quantity) || 0), 0);
-      window.dispatchEvent(
-        new CustomEvent('cart-loaded', {
-          detail: { count: totalQty },
-        }),
-      );
-    } finally {
-      setLoading(false);
-    }
+    const totalQty = local.reduce((sum, item) => sum + (Number(item.quantity) || 0), 0);
+    window.dispatchEvent(
+      new CustomEvent('cart-loaded', {
+        detail: { count: totalQty },
+      }),
+    );
   }
 
-  async function updateQuantity(gpuId: number, quantity: number) {
+  function handleUpdateQuantity(gpuId: number, quantity: number) {
     if (quantity < 1) return;
-
-    setUpdating(gpuId);
-    try {
-      const res = await apiFetch('/api/cart', {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ gpu_id: gpuId, quantity }),
-      });
-
-      if (res.ok) {
-        await loadCart();
-        window.dispatchEvent(
-          new CustomEvent('app-toast', {
-            detail: { text: 'Cart updated', type: 'success' },
-          }),
-        );
-      }
-    } catch (error) {
-      // Fallback to local cart update
-      const updated = removeFromCart(gpuId, 1);
-      const newItem = updated.find((item) => item.gpu_id === gpuId);
-      if (newItem) {
-        newItem.quantity = quantity;
-        setItems(updated as any);
-        window.dispatchEvent(
-          new CustomEvent('cart-changed', {
-            detail: { delta: quantity - (items.find((i) => i.gpu_id === gpuId)?.quantity || 0) },
-          }),
-        );
-      }
-      window.dispatchEvent(
-        new CustomEvent('app-toast', {
-          detail: { text: 'Cart updated (offline)', type: 'success' },
-        }),
-      );
-    } finally {
-      setUpdating(null);
-    }
+    updateCartQuantity(gpuId, quantity);
+    loadCart();
+    window.dispatchEvent(
+      new CustomEvent('app-toast', {
+        detail: { text: 'Cart updated', type: 'success' },
+      }),
+    );
   }
 
-  async function removeItem(gpuId: number) {
-    setUpdating(gpuId);
-    try {
-      const res = await apiFetch(`/api/cart/${gpuId}`, {
-        method: 'DELETE',
-      });
-
-      if (res.ok) {
-        const removedItem = items.find((item) => item.gpu_id === gpuId);
-        const removedQty = removedItem?.quantity || 0;
-
-        await loadCart();
-
-        window.dispatchEvent(
-          new CustomEvent('cart-changed', {
-            detail: { delta: -removedQty },
-          }),
-        );
-
-        window.dispatchEvent(
-          new CustomEvent('app-toast', {
-            detail: { text: 'Item removed', type: 'success' },
-          }),
-        );
-      }
-    } catch (error) {
-      // Fallback to local cart removal
-      const removedItem = items.find((item) => item.gpu_id === gpuId);
-      const removedQty = removedItem?.quantity || 0;
-
-      const updated = removeFromCart(gpuId, removedQty);
-      setItems(updated as any);
-
-      window.dispatchEvent(
-        new CustomEvent('cart-changed', {
-          detail: { delta: -removedQty },
-        }),
-      );
-
-      window.dispatchEvent(
-        new CustomEvent('app-toast', {
-          detail: { text: 'Item removed (offline)', type: 'success' },
-        }),
-      );
-    } finally {
-      setUpdating(null);
-    }
+  function handleRemoveItem(gpuId: number) {
+    const removedItem = items.find((i) => i.gpu_id === gpuId);
+    const removedQty = removedItem?.quantity || 0;
+    const updated = removeFromCart(gpuId, removedQty);
+    setItems(updated as any);
+    window.dispatchEvent(
+      new CustomEvent('cart-changed', {
+        detail: { delta: -removedQty },
+      }),
+    );
+    window.dispatchEvent(
+      new CustomEvent('app-toast', {
+        detail: { text: 'Item removed', type: 'success' },
+      }),
+    );
   }
 
   useEffect(() => {
     loadCart();
   }, []);
-
-  if (loading) {
-    return (
-      <div className="container py-5 text-center">
-        <Spin size="large" />
-      </div>
-    );
-  }
-
-  if (error) {
-    return (
-      <div className="container py-4">
-        <Result status="error" title="Failed to load cart" subTitle={error} />
-      </div>
-    );
-  }
 
   if (items.length === 0) {
     return (
@@ -215,14 +107,12 @@ export default function Cart() {
                   <InputNumber
                     min={1}
                     value={item.quantity}
-                    onChange={(value) => value && updateQuantity(item.gpu_id, value)}
-                    disabled={updating === item.gpu_id}
+                    onChange={(v) => v && handleUpdateQuantity(item.gpu_id, v)}
                   />
                   <Button
                     danger
                     icon={<DeleteOutlined />}
-                    onClick={() => removeItem(item.gpu_id)}
-                    loading={updating === item.gpu_id}
+                    onClick={() => handleRemoveItem(item.gpu_id)}
                   >
                     Remove
                   </Button>

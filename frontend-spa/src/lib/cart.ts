@@ -48,18 +48,37 @@ export function addToCart(item: LocalCartItem): LocalCartItem[] {
   return items;
 }
 
-export function removeFromCart(gpuId: number, qty = 1): LocalCartItem[] {
+export function removeFromCart(gpuId: number, qty?: number): LocalCartItem[] {
   const items = readCart();
   const idx = items.findIndex((it) => it.gpu_id === gpuId);
   if (idx >= 0) {
-    const nextQty = (Number(items[idx].quantity) || 0) - (Number(qty) || 0);
-    if (nextQty <= 0) items.splice(idx, 1);
-    else items[idx].quantity = nextQty;
+    if (qty === undefined) {
+      items.splice(idx, 1);
+    } else {
+      const nextQty = (Number(items[idx].quantity) || 0) - (Number(qty) || 0);
+      if (nextQty <= 0) items.splice(idx, 1);
+      else items[idx].quantity = nextQty;
+    }
   }
   writeCart(items);
   return items;
 }
 
-export function clearCart() {
+export function updateCartQuantity(gpuId: number, quantity: number): LocalCartItem[] {
+  const items = readCart();
+  const idx = items.findIndex((it) => it.gpu_id === gpuId);
+  if (idx >= 0) {
+    if (quantity <= 0) {
+      items.splice(idx, 1);
+    } else {
+      items[idx].quantity = quantity;
+    }
+  }
+  writeCart(items);
+  return items;
+}
+
+export function clearCart(): LocalCartItem[] {
   writeCart([]);
+  return [];
 }
