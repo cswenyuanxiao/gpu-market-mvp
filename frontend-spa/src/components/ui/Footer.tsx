@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 export default function Footer() {
   const year = new Date().getFullYear();
   return (
-    <footer style={{ background: '#1f5f62', color: '#e7f2f2' }}>
+    <footer style={{ background: '#5B7DB1', color: '#e7f2f2' }}>
       <div className="container py-5 small">
         <div className="row g-4">
           <div className="col-12 col-md-4">
@@ -13,12 +13,12 @@ export default function Footer() {
             <ul className="list-unstyled m-0">
               <li className="mb-2">
                 <Link className="footer-link" to="/everything?sort=price_desc">
-                  Buy from GPU-MARK
+                  Buy from GPU Market
                 </Link>
               </li>
               <li className="mb-2">
                 <Link className="footer-link" to="/sell-to-us">
-                  Sell to GPU-MARK
+                  Sell to GPU Market
                 </Link>
               </li>
               <li className="mb-2">
@@ -110,7 +110,7 @@ export default function Footer() {
         <div className="pt-4 mt-4" style={{ borderTop: '1px solid rgba(255,255,255,0.2)' }}>
           <div className="row align-items-center g-2">
             <div className="col-12 col-md-6">
-              <small>© {year}, GPU-MARK</small>
+              <small>© {year}, GPU Market</small>
             </div>
             <div className="col-12 col-md-6 text-md-end">
               <div className="d-inline-flex flex-wrap gap-2 align-items-center opacity-75">

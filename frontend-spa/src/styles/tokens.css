@@ -321,6 +321,48 @@ html, body {
   box-shadow: 0 4px 12px rgba(47, 127, 130, 0.3);
 }
 
+/* Modern Blue Theme */
+:root {
+  --modern-blue: #5B7DB1;
+  --modern-blue-hover: #4A6B9A;
+  --modern-blue-light: #7A94C4;
+}
+
+/* Custom button styles for modern blue theme */
+.welcome-btn.ant-btn-primary {
+  background-color: var(--modern-blue) !important;
+  border-color: var(--modern-blue) !important;
+  color: white !important;
+}
+
+.welcome-btn.ant-btn-primary:hover {
+  background-color: var(--modern-blue-hover) !important;
+  border-color: var(--modern-blue-hover) !important;
+}
+
+.welcome-btn.ant-btn-primary:focus {
+  background-color: var(--modern-blue) !important;
+  border-color: var(--modern-blue) !important;
+  box-shadow: 0 0 0 2px rgba(91, 125, 177, 0.2) !important;
+}
+
+/* Override Ant Design primary button globally for consistency */
+.ant-btn-primary {
+  background-color: var(--modern-blue) !important;
+  border-color: var(--modern-blue) !important;
+}
+
+.ant-btn-primary:hover {
+  background-color: var(--modern-blue-hover) !important;
+  border-color: var(--modern-blue-hover) !important;
+}
+
+.ant-btn-primary:focus {
+  background-color: var(--modern-blue) !important;
+  border-color: var(--modern-blue) !important;
+  box-shadow: 0 0 0 2px rgba(91, 125, 177, 0.2) !important;
+}
+
 /* Mobile responsive for welcome section */
 @media (max-width: 768px) {
   .welcome-section {
