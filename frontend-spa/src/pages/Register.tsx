@@ -3,7 +3,7 @@ import { apiFetch } from '../lib/api';
 import { useNavigate, Link } from 'react-router-dom';
 import FormField from '../components/ui/FormField';
 import { Button, Input } from 'antd';
-import { useForm } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 
@@ -17,8 +17,15 @@ type RegisterValues = z.infer<typeof RegisterSchema>;
 export default function Register() {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-  const { register: rfRegister, handleSubmit, formState: { errors } } = useForm<RegisterValues>({
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<RegisterValues>({
     resolver: zodResolver(RegisterSchema),
+    mode: 'onChange',
+    reValidateMode: 'onChange',
+    defaultValues: { username: '', password: '', display_name: '' },
   });
 
   async function onSubmit(values: RegisterValues) {
@@ -35,10 +42,16 @@ export default function Register() {
       });
       if (res.status !== 201) {
         const msg = (await res.json().catch(() => ({})))?.error || 'Register failed';
-        window.dispatchEvent(new CustomEvent('app-toast', { detail: { text: msg, type: 'error' } }));
+        window.dispatchEvent(
+          new CustomEvent('app-toast', { detail: { text: msg, type: 'error' } }),
+        );
         return;
       }
-      window.dispatchEvent(new CustomEvent('app-toast', { detail: { text: 'Registered, please login', type: 'success' } }));
+      window.dispatchEvent(
+        new CustomEvent('app-toast', {
+          detail: { text: 'Registered, please login', type: 'success' },
+        }),
+      );
       navigate('/login');
     } finally {
       setLoading(false);
@@ -51,22 +64,54 @@ export default function Register() {
         <h3>Create Account</h3>
         <p>Join GPU Market to buy and sell graphics cards.</p>
       </div>
-      
+
       <form onSubmit={handleSubmit(onSubmit)} className="modern-form">
         <div className="form-section">
           <div className="form-field">
             <FormField label="Username" htmlFor="reg-username" error={errors.username?.message}>
-              <Input id="reg-username" {...rfRegister('username')} />
+              <Controller
+                name="username"
+                control={control}
+                render={({ field }) => (
+                  <Input
+                    {...field}
+                    id="reg-username"
+                    placeholder="Enter username"
+                    status={errors.username ? 'error' : ''}
+                  />
+                )}
+              />
             </FormField>
           </div>
           <div className="form-field">
             <FormField label="Password" htmlFor="reg-password" error={errors.password?.message}>
-              <Input.Password id="reg-password" {...rfRegister('password')} />
+              <Controller
+                name="password"
+                control={control}
+                render={({ field }) => (
+                  <Input.Password
+                    {...field}
+                    id="reg-password"
+                    placeholder="Enter password"
+                    status={errors.password ? 'error' : ''}
+                  />
+                )}
+              />
             </FormField>
           </div>
           <div className="form-field">
-            <FormField label="Display Name (Optional)" htmlFor="reg-display" error={errors.display_name?.message}>
-              <Input id="reg-display" {...rfRegister('display_name')} />
+            <FormField
+              label="Display Name (Optional)"
+              htmlFor="reg-display"
+              error={errors.display_name?.message}
+            >
+              <Controller
+                name="display_name"
+                control={control}
+                render={({ field }) => (
+                  <Input {...field} id="reg-display" placeholder="Enter display name" />
+                )}
+              />
             </FormField>
           </div>
         </div>
@@ -77,12 +122,12 @@ export default function Register() {
           </Button>
         </div>
       </form>
-      
+
       <div className="text-center mt-4">
-        <p>Already have an account? <Link to="/login">Login</Link></p>
+        <p>
+          Already have an account? <Link to="/login">Login</Link>
+        </p>
       </div>
     </div>
   );
 }
-
-

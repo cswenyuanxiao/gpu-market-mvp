@@ -9,8 +9,21 @@ export async function apiFetch(input: string, init: RequestInit = {}) {
   if (token && !headers.has('Authorization')) headers.set('Authorization', 'Bearer ' + token);
   let res: Response;
   try {
-    res = await fetch(input.startsWith('http') ? input : API_BASE + input, { ...init, headers, credentials: 'include' });
+    res = await fetch(input.startsWith('http') ? input : API_BASE + input, {
+      ...init,
+      headers,
+      credentials: 'include',
+    });
   } catch (e: any) {
+    // Network fallback for cart endpoints: allow UI to degrade gracefully
+    const url = typeof input === 'string' ? input : '';
+    if (url.includes('/api/cart')) {
+      // Simulate an empty 200 response so callers can fallback to local cart
+      return new Response(JSON.stringify({ items: [] }), {
+        status: 200,
+        headers: { 'Content-Type': 'application/json' },
+      }) as any;
+    }
     if (typeof window !== 'undefined') {
       window.dispatchEvent(
         new CustomEvent('app-toast', {

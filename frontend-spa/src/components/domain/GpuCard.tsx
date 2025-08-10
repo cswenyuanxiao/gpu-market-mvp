@@ -2,6 +2,7 @@ import { formatDate, formatPrice } from '../../lib/format';
 import type { Gpu } from '../../types';
 import LazyImg from '../ui/LazyImg';
 import { apiFetch } from '../../lib/api';
+import { addToCart } from '../../lib/cart';
 
 export default function GpuCard({ gpu, onDetails }: { gpu: Gpu; onDetails: (id: number) => void }) {
   const isNewlyAdded = (() => {
@@ -11,7 +12,11 @@ export default function GpuCard({ gpu, onDetails }: { gpu: Gpu; onDetails: (id: 
   })();
 
   return (
-    <div className="modern-gpu-card" onClick={() => onDetails(gpu.id)} style={{ cursor: 'pointer' }}>
+    <div
+      className="modern-gpu-card"
+      onClick={() => onDetails(gpu.id)}
+      style={{ cursor: 'pointer' }}
+    >
       {/* Product Image */}
       {gpu.image_path && (
         <div className="card-image">
@@ -33,25 +38,17 @@ export default function GpuCard({ gpu, onDetails }: { gpu: Gpu; onDetails: (id: 
           <h3 className="product-title" title={gpu.title}>
             {gpu.title}
           </h3>
-          <div className="product-price">
-            {formatPrice(gpu.price)}
-          </div>
+          <div className="product-price">{formatPrice(gpu.price)}</div>
         </div>
 
         {/* Status Tags */}
         <div className="status-tags">
-          {isNewlyAdded && (
-            <span className="tag tag-new">Just added</span>
-          )}
+          {isNewlyAdded && <span className="tag tag-new">Just added</span>}
           <span className={`tag tag-condition ${gpu.condition === 'New' ? 'tag-new' : 'tag-used'}`}>
             {gpu.condition}
           </span>
-          {gpu.brand && (
-            <span className="tag tag-brand">{gpu.brand}</span>
-          )}
-          {gpu.vram_gb && gpu.vram_gb > 0 && (
-            <span className="tag tag-vram">{gpu.vram_gb}GB</span>
-          )}
+          {gpu.brand && <span className="tag tag-brand">{gpu.brand}</span>}
+          {gpu.vram_gb && gpu.vram_gb > 0 && <span className="tag tag-vram">{gpu.vram_gb}GB</span>}
         </div>
 
         {/* Description */}
@@ -64,7 +61,8 @@ export default function GpuCard({ gpu, onDetails }: { gpu: Gpu; onDetails: (id: 
                 onClick={(e) => {
                   e.preventDefault();
                   const el = e.currentTarget.previousSibling as any;
-                  (e.currentTarget.parentElement as HTMLElement).textContent = gpu.description || '';
+                  (e.currentTarget.parentElement as HTMLElement).textContent =
+                    gpu.description || '';
                 }}
               >
                 Read more
@@ -103,19 +101,42 @@ export default function GpuCard({ gpu, onDetails }: { gpu: Gpu; onDetails: (id: 
                   body: JSON.stringify({ gpu_id: gpu.id, quantity: 1 }),
                 });
                 if (res.ok) {
-                  let addedQty = 1;
                   try {
-                    const row = await res.json();
-                    if (row && typeof row.quantity === 'number') addedQty = Number(row.quantity) ? 1 : 1;
+                    // Try to parse, ignore content
+                    await res.json().catch(() => ({}) as any);
                   } catch {}
+                  // Keep local cart in sync for offline/SSR scenarios
+                  addToCart({
+                    gpu_id: gpu.id,
+                    quantity: 1,
+                    title: gpu.title,
+                    price: gpu.price,
+                    image_path: gpu.image_path || undefined,
+                    brand: gpu.brand as any,
+                    vram_gb: gpu.vram_gb as any,
+                  });
+                  window.dispatchEvent(new CustomEvent('cart-changed', { detail: { delta: 1 } }));
                   window.dispatchEvent(
-                    new CustomEvent('app-toast', { detail: { text: 'Added to cart', type: 'success' } }),
+                    new CustomEvent('app-toast', {
+                      detail: { text: 'Added to cart', type: 'success' },
+                    }),
                   );
-                  window.dispatchEvent(new CustomEvent('cart-changed', { detail: { delta: addedQty } }));
                 } else {
-                  const json = await res.json().catch(() => ({} as any));
+                  // Fallback: local cart
+                  addToCart({
+                    gpu_id: gpu.id,
+                    quantity: 1,
+                    title: gpu.title,
+                    price: gpu.price,
+                    image_path: gpu.image_path || undefined,
+                    brand: gpu.brand as any,
+                    vram_gb: gpu.vram_gb as any,
+                  });
+                  window.dispatchEvent(new CustomEvent('cart-changed', { detail: { delta: 1 } }));
                   window.dispatchEvent(
-                    new CustomEvent('app-toast', { detail: { text: json?.error || 'Failed to add to cart', type: 'error' } }),
+                    new CustomEvent('app-toast', {
+                      detail: { text: 'Added to cart (offline)', type: 'success' },
+                    }),
                   );
                 }
               } catch {}

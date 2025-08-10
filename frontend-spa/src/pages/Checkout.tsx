@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState } from 'react';
 import { apiFetch } from '../lib/api';
+import { getCartItems } from '../lib/cart';
 import { Button, Form, Input, Result, Spin } from 'antd';
 import { formatPrice } from '../lib/format';
 
@@ -27,7 +28,9 @@ export default function Checkout() {
       const json = await res.json();
       setItems(Array.isArray(json.items) ? json.items : []);
     } catch (e: any) {
-      setError(e?.message || 'Failed to load cart');
+      // fallback to local cart
+      setItems(getCartItems() as any);
+      setError(null);
     } finally {
       setLoading(false);
     }
@@ -60,7 +63,9 @@ export default function Checkout() {
         window.location.href = json.url;
       } else {
         window.dispatchEvent(
-          new CustomEvent('app-toast', { detail: { text: json?.error || 'Failed to start checkout', type: 'error' } }),
+          new CustomEvent('app-toast', {
+            detail: { text: json?.error || 'Failed to start checkout', type: 'error' },
+          }),
         );
       }
     } finally {
@@ -68,8 +73,18 @@ export default function Checkout() {
     }
   }
 
-  if (loading) return (<div className="container py-4 d-flex justify-content-center"><Spin /></div>);
-  if (error) return (<div className="container py-4"><Result status="error" title="Failed to load" subTitle={error} /></div>);
+  if (loading)
+    return (
+      <div className="container py-4 d-flex justify-content-center">
+        <Spin />
+      </div>
+    );
+  if (error)
+    return (
+      <div className="container py-4">
+        <Result status="error" title="Failed to load" subTitle={error} />
+      </div>
+    );
 
   return (
     <div className="page-checkout container py-3">
@@ -78,9 +93,21 @@ export default function Checkout() {
           <h3>Order Summary</h3>
           {items.length === 0 && <div className="text-muted">Cart is empty</div>}
           {items.map((it) => (
-            <div key={it.gpu_id} className="d-flex align-items-center justify-content-between py-2" style={{ borderBottom: '1px solid #f1f5f9' }}>
+            <div
+              key={it.gpu_id}
+              className="d-flex align-items-center justify-content-between py-2"
+              style={{ borderBottom: '1px solid #f1f5f9' }}
+            >
               <div className="d-flex align-items-center gap-2">
-                {it.image_path && <img src={it.image_path} alt={it.title} width={56} height={56} style={{ objectFit: 'cover', borderRadius: 8 }} />}
+                {it.image_path && (
+                  <img
+                    src={it.image_path}
+                    alt={it.title}
+                    width={56}
+                    height={56}
+                    style={{ objectFit: 'cover', borderRadius: 8 }}
+                  />
+                )}
                 <div>
                   <div style={{ fontWeight: 600 }}>{it.title}</div>
                   <div className="text-muted small">Qty {it.quantity}</div>
@@ -119,7 +146,12 @@ export default function Checkout() {
             <Form.Item label="Country" name="country" initialValue="GB">
               <Input />
             </Form.Item>
-            <Button type="primary" htmlType="submit" loading={submitting} disabled={items.length === 0}>
+            <Button
+              type="primary"
+              htmlType="submit"
+              loading={submitting}
+              disabled={items.length === 0}
+            >
               Continue to payment
             </Button>
           </Form>
@@ -128,5 +160,3 @@ export default function Checkout() {
     </div>
   );
 }
-
-

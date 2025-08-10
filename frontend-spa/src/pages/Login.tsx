@@ -4,7 +4,7 @@ import { useNavigate, useLocation, Link } from 'react-router-dom';
 import { useAuth } from '../store/auth';
 import FormField from '../components/ui/FormField';
 import { Button, Input } from 'antd';
-import { useForm } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 
@@ -20,11 +20,16 @@ export default function Login() {
   const location = useLocation() as any;
   const { login } = useAuth();
   const {
-    register,
+    control,
     handleSubmit,
     formState: { errors },
   } = useForm<LoginValues>({
     resolver: zodResolver(LoginSchema),
+    mode: 'onChange',
+    defaultValues: {
+      username: '',
+      password: '',
+    },
   });
 
   async function onSubmit(values: LoginValues) {
@@ -67,17 +72,39 @@ export default function Login() {
         <h3>Welcome Back</h3>
         <p>Sign in to your GPU Market account to continue.</p>
       </div>
-      
+
       <form onSubmit={handleSubmit(onSubmit)} className="modern-form">
         <div className="form-section">
           <div className="form-field">
             <FormField label="Username" htmlFor="login-username" error={errors.username?.message}>
-              <Input id="login-username" {...register('username')} />
+              <Controller
+                name="username"
+                control={control}
+                render={({ field }) => (
+                  <Input
+                    {...field}
+                    id="login-username"
+                    placeholder="Enter username"
+                    status={errors.username ? 'error' : ''}
+                  />
+                )}
+              />
             </FormField>
           </div>
           <div className="form-field">
             <FormField label="Password" htmlFor="login-password" error={errors.password?.message}>
-              <Input.Password id="login-password" {...register('password')} />
+              <Controller
+                name="password"
+                control={control}
+                render={({ field }) => (
+                  <Input.Password
+                    {...field}
+                    id="login-password"
+                    placeholder="Enter password"
+                    status={errors.password ? 'error' : ''}
+                  />
+                )}
+              />
             </FormField>
           </div>
         </div>
@@ -88,9 +115,11 @@ export default function Login() {
           </Button>
         </div>
       </form>
-      
+
       <div className="text-center mt-4">
-        <p>New here? <Link to="/register">Create an account</Link></p>
+        <p>
+          New here? <Link to="/register">Create an account</Link>
+        </p>
       </div>
     </div>
   );

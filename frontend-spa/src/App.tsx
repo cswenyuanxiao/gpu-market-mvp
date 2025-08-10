@@ -30,6 +30,7 @@ import { Badge, Button, Dropdown, Drawer, Menu } from 'antd';
 import type { MenuProps } from 'antd';
 import FloatingWhatsApp from './components/ui/FloatingWhatsApp';
 import { apiFetch } from './lib/api';
+import { getCartCount } from './lib/cart';
 import { useRef } from 'react';
 import Footer from './components/ui/Footer';
 import CollapsibleNav from './components/ui/CollapsibleNav';
@@ -71,23 +72,26 @@ export default function App() {
     async function loadCart(bump = false) {
       try {
         const res = await apiFetch('/api/cart');
-        const json = await res.json().catch(() => ({} as any));
+        const json = await res.json().catch(() => ({}) as any);
         const items = Array.isArray(json?.items) ? json.items : [];
         const totalQty = items.reduce((s: number, it: any) => s + (Number(it.quantity) || 0), 0);
         setCartCount(totalQty);
         if (bump && cartBtnRef.current) {
           try {
             cartBtnRef.current.animate(
-              [
-                { transform: 'scale(1)' },
-                { transform: 'scale(1.15)' },
-                { transform: 'scale(1)' },
-              ],
+              [{ transform: 'scale(1)' }, { transform: 'scale(1.15)' }, { transform: 'scale(1)' }],
               { duration: 220, easing: 'ease-out' },
             );
           } catch {}
         }
-      } catch {}
+      } catch {
+      } finally {
+        // Fallback to local cart count if API fails or returns 0
+        setCartCount((c) => {
+          const local = getCartCount();
+          return Math.max(c || 0, local || 0);
+        });
+      }
     }
     loadCart();
     function onChanged(e: any) {
@@ -110,8 +114,18 @@ export default function App() {
       }
       loadCart(true);
     }
+
+    function onCartLoaded(e: any) {
+      const count = Number(e?.detail?.count || 0);
+      setCartCount(count);
+    }
+
     window.addEventListener('cart-changed', onChanged);
-    return () => window.removeEventListener('cart-changed', onChanged);
+    window.addEventListener('cart-loaded', onCartLoaded);
+    return () => {
+      window.removeEventListener('cart-changed', onChanged);
+      window.removeEventListener('cart-loaded', onCartLoaded);
+    };
   }, []);
   const seriesItems: MenuProps['items'] = [
     { key: 'nvidia-40', label: 'NVIDIA 40 Series' },
@@ -121,10 +135,13 @@ export default function App() {
   ];
   return (
     <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
-      <div className="w-100 py-1 text-center text-white" style={{ background: '#5B7DB1', padding: '18px 0' }}>
-        <a 
-          href="https://www.google.com/search?q=GPU+Market+Reviews" 
-          target="_blank" 
+      <div
+        className="w-100 py-1 text-center text-white"
+        style={{ background: '#5B7DB1', padding: '18px 0' }}
+      >
+        <a
+          href="https://www.google.com/search?q=GPU+Market+Reviews"
+          target="_blank"
           rel="noopener noreferrer"
           className="text-white text-decoration-none"
         >
@@ -134,23 +151,30 @@ export default function App() {
       {/* Mobile header: menu / logo / search */}
       <div className="container d-flex d-md-none align-items-center justify-content-between py-2 px-3">
         <CollapsibleNav isMobile={true} />
-        <Link to="/" className="d-flex align-items-center text-decoration-none" onClick={(e) => {
-          try {
-            const img = (e.currentTarget.querySelector('img') as HTMLElement | null);
-            if (img) {
-              img.animate([
-                { transform: 'scale(1)' },
-                { transform: 'scale(0.95)' },
-                { transform: 'scale(1)' }
-              ], { duration: 180, easing: 'ease-out' });
-            }
-          } catch {}
-        }}>
+        <Link
+          to="/"
+          className="d-flex align-items-center text-decoration-none"
+          onClick={(e) => {
+            try {
+              const img = e.currentTarget.querySelector('img') as HTMLElement | null;
+              if (img) {
+                img.animate(
+                  [
+                    { transform: 'scale(1)' },
+                    { transform: 'scale(0.95)' },
+                    { transform: 'scale(1)' },
+                  ],
+                  { duration: 180, easing: 'ease-out' },
+                );
+              }
+            } catch {}
+          }}
+        >
           <img src="/logo.png" alt="GPU-MARK" width={120} height={120} />
         </Link>
-        <Button 
-          className="nav-icon-btn" 
-          type="text" 
+        <Button
+          className="nav-icon-btn"
+          type="text"
           icon={<SearchOutlined style={{ fontSize: 20, color: '#111' }} />}
           onClick={() => setSearchOpen(true)}
         />
@@ -171,18 +195,21 @@ export default function App() {
             setSearchOpen(true);
           }}
         />
-        <div 
-          className="d-flex align-items-center gap-2 text-decoration-none" 
+        <div
+          className="d-flex align-items-center gap-2 text-decoration-none"
           style={{ cursor: 'pointer' }}
           onClick={(e) => {
             try {
-              const img = (e.currentTarget.querySelector('img') as HTMLElement | null);
+              const img = e.currentTarget.querySelector('img') as HTMLElement | null;
               if (img) {
-                img.animate([
-                  { transform: 'scale(1)' },
-                  { transform: 'scale(0.97)' },
-                  { transform: 'scale(1)' }
-                ], { duration: 180, easing: 'ease-out' });
+                img.animate(
+                  [
+                    { transform: 'scale(1)' },
+                    { transform: 'scale(0.97)' },
+                    { transform: 'scale(1)' },
+                  ],
+                  { duration: 180, easing: 'ease-out' },
+                );
               }
             } catch {}
             // 延迟导航，让动画先执行
@@ -246,7 +273,9 @@ export default function App() {
                     case 'logout':
                       logout();
                       window.dispatchEvent(
-                        new CustomEvent('app-toast', { detail: { text: 'Logged out', type: 'info' } }),
+                        new CustomEvent('app-toast', {
+                          detail: { text: 'Logged out', type: 'info' },
+                        }),
                       );
                       break;
                   }
@@ -295,12 +324,12 @@ export default function App() {
         <div className="container-fluid d-flex justify-content-center align-items-center px-3 px-md-4">
           <div className="d-none d-md-flex gap-4 align-items-center">
             <Link to="/" className="text-decoration-none">
-              <span 
-                className="text-dark" 
-                style={{ 
+              <span
+                className="text-dark"
+                style={{
                   fontSize: '16px',
                   borderBottom: location.pathname === '/' ? '2px solid #222' : 'none',
-                  paddingBottom: '2px'
+                  paddingBottom: '2px',
                 }}
               >
                 Home
@@ -309,12 +338,12 @@ export default function App() {
             <CollapsibleNav isMobile={false} />
 
             <Link to="/sell" className="text-decoration-none">
-              <span 
-                className="text-dark" 
-                style={{ 
+              <span
+                className="text-dark"
+                style={{
                   fontSize: '16px',
                   borderBottom: location.pathname === '/sell' ? '2px solid #222' : 'none',
-                  paddingBottom: '2px'
+                  paddingBottom: '2px',
                 }}
               >
                 Sell
@@ -331,8 +360,6 @@ export default function App() {
               </span>
             </Link>
           </div>
-
-
         </div>
       </nav>
       <div style={{ borderBottom: '1px solid #e3e3e3' }}></div>
