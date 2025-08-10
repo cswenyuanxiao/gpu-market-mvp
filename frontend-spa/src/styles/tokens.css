@@ -333,6 +333,13 @@ html, body {
   background-color: var(--modern-blue) !important;
   border-color: var(--modern-blue) !important;
   color: white !important;
+  white-space: normal !important;
+  word-wrap: break-word !important;
+  height: auto !important;
+  min-height: 40px !important;
+  padding: 8px 12px !important;
+  font-size: 0.875rem !important;
+  line-height: 1.4 !important;
 }
 
 .welcome-btn.ant-btn-primary:hover {
@@ -346,18 +353,18 @@ html, body {
   box-shadow: 0 0 0 2px rgba(91, 125, 177, 0.2) !important;
 }
 
-/* Override Ant Design primary button globally for consistency */
-.ant-btn-primary {
+/* Override Ant Design primary button globally for consistency - but exclude welcome buttons */
+.ant-btn-primary:not(.welcome-btn) {
   background-color: var(--modern-blue) !important;
   border-color: var(--modern-blue) !important;
 }
 
-.ant-btn-primary:hover {
+.ant-btn-primary:not(.welcome-btn):hover {
   background-color: var(--modern-blue-hover) !important;
   border-color: var(--modern-blue-hover) !important;
 }
 
-.ant-btn-primary:focus {
+.ant-btn-primary:not(.welcome-btn):focus {
   background-color: var(--modern-blue) !important;
   border-color: var(--modern-blue) !important;
   box-shadow: 0 0 0 2px rgba(91, 125, 177, 0.2) !important;
@@ -887,9 +894,10 @@ html, body {
 /* Product grid container */
 .product-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 24px;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
   margin: 0;
+  width: 100%;
 }
 
 @media (max-width: 576px) {
@@ -915,7 +923,56 @@ html, body {
 
 @media (min-width: 1201px) {
   .product-grid {
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
     gap: 24px;
+  }
+}
+
+/* Ensure cards fill available space */
+.modern-gpu-card {
+  width: 100%;
+  min-height: 400px;
+}
+
+/* Responsive adjustments for better space utilization */
+@media (min-width: 1400px) {
+  .product-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+@media (min-width: 1600px) {
+  .product-grid {
+    grid-template-columns: repeat(5, 1fr);
+  }
+}
+
+/* Homepage welcome buttons grid */
+.welcome-buttons-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+@media (max-width: 576px) {
+  .welcome-buttons-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+  }
+}
+
+@media (min-width: 577px) and (max-width: 768px) {
+  .welcome-buttons-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+}
+
+@media (min-width: 769px) {
+  .welcome-buttons-grid {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
   }
 }

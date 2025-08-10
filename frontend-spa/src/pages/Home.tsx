@@ -15,47 +15,39 @@ export default function Home() {
         </p>
         <p className="welcome-shortcuts mb-5">USE THESE SHORTCUTS TO GET AROUND</p>
         <div className="welcome-buttons">
-          <div className="row g-3 justify-content-center">
-            <div className="col-6 col-md-3">
-              <Button 
-                type="primary" 
-                size="large" 
-                className="welcome-btn"
-                onClick={() => window.location.href = '/everything'}
-              >
-                Buy from GPU Market
-              </Button>
-            </div>
-            <div className="col-6 col-md-3">
-              <Button 
-                type="primary" 
-                size="large" 
-                className="welcome-btn"
-                onClick={() => window.location.href = '/sell-to-us'}
-              >
-                Sell to GPU Market
-              </Button>
-            </div>
-            <div className="col-6 col-md-3">
-              <Button 
-                type="primary" 
-                size="large" 
-                className="welcome-btn"
-                onClick={() => window.location.href = '/sell'}
-              >
-                Part Exchange
-              </Button>
-            </div>
-            <div className="col-6 col-md-3">
-              <Button 
-                type="primary" 
-                size="large" 
-                className="welcome-btn"
-                onClick={() => window.location.href = '/contact'}
-              >
-                Contact
-              </Button>
-            </div>
+          <div className="welcome-buttons-grid">
+            <Button 
+              type="primary" 
+              size="large" 
+              className="welcome-btn"
+              onClick={() => window.location.href = '/everything'}
+            >
+              Buy from GPU Market
+            </Button>
+            <Button 
+              type="primary" 
+              size="large" 
+              className="welcome-btn"
+              onClick={() => window.location.href = '/sell-to-us'}
+            >
+              Sell to GPU Market
+            </Button>
+            <Button 
+              type="primary" 
+              size="large" 
+              className="welcome-btn"
+              onClick={() => window.location.href = '/sell'}
+            >
+              Part Exchange
+            </Button>
+            <Button 
+              type="primary" 
+              size="large" 
+              className="welcome-btn"
+              onClick={() => window.location.href = '/contact'}
+            >
+              Contact
+            </Button>
           </div>
         </div>
       </div>
