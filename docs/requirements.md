@@ -27,22 +27,42 @@ Priority: build all pages and core functionality first, then add tests and optim
 
 Done:
 
-- Global nav/header/drawer aligned with Ant Design; footer links present.
-- Home `/` and `/everything`: list, filters (q/min/max/brand/VRAM/condition), sort mapping, pagination; empty/error states.
-- Detail `/g/:id`: main image, thumbnail gallery, description, price, seller info, copy link, back to home.
-- Auth: login/register forms; logout; AuthGuard redirects unauthenticated users and returns after login.
+- Global nav/header/drawer aligned with Ant Design; footer links present and restyled to match new brand tone.
+- Home `/`: simplified landing page with Welcome, Best Selling Category, Reviews and FAQs sections; removed product grid from the home route.
+- New `Shop Everything` page mounted at `/everything` (`frontend-spa/src/pages/ShopEverything.tsx`) containing the full product listing, search input, sort, filters, pagination and empty/error states.
+- Detail `/g/:id`: main image, thumbnail gallery, description, price, seller info, copy link (with transient "Copied!" status), back to home.
+- Auth: login/register forms; logout; AuthGuard redirects unauthenticated users and returns after login. Fixed login issues caused by password field name mismatch.
 - My listings `/my`: list own items, navigate to edit, delete with confirm.
 - Sell `/sell` and Edit `/edit/:id`: forms with title/price/condition/brand/VRAM/description; multiple images; create/update then redirect to detail.
-- Profile `/profile` and `/profile/edit`: view display name/avatar; upload avatar (instant feedback).
+- Profile `/profile` and `/profile/edit`: view display name/avatar; upload avatar with immediate preview and refresh of top-nav display name (refresh JWT on display_name change).
 - Sell to us `/sell-to-us`: form and image upload; backend persists quotes and images.
 - Contact `/contact`: form; backend persists messages.
-- Static pages `/about`, `/privacy`, `/terms`.
+- Static pages `/about`, `/privacy`, `/terms` (added "Warranty & Support" content to Terms per request).
 - SEO basics: page titles, `/robots.txt`, `/sitemap.xml`; static asset cache headers.
-- Backend: validation with Zod, image MIME+magic checks, pixel limit, sharp resize/WebP, rate limiting, metrics (HTTP + quotes/contact), structured logs.
+- Backend improvements:
+  - Introduced `DatabaseAdapter` to support SQLite (local) and PostgreSQL (production) with a unified async `prepare().run/get/all` wrapper.
+  - Added `force-seed.js` to populate production DB with ~10 sample GPU items and a few users (render hook runs it during start to ensure demo data present).
+  - Fixed async DB call issues (awaiting prepared statements) that caused `login failed` and `failed to load list` errors in production.
+  - Image upload hardening: MIME + magic checks, pixel limit, Sharp resizing/WebP conversion.
+  - Exposed metrics at `/metrics`, health at `/health`.
+- Deployment and infra:
+  - `render.yaml` updated to install frontend dev deps and run `npx vite build` during deploy; start command adjusted to run `force-seed.js` before server start.
+  - Docker healthcheck added for backend to use Node's fetch to check `/health`.
+- Frontend/UI:
+  - Replaced previous SVG logo with provided PNG (`public/logo.png`) and wired favicon; logo enlarged per spec.
+  - Header redesigned to match gpused style (announcement bar, centered logo, left search, right cart, centered nav text-only links with active underline, avatar moved to top-right, faint divider under menu).
+  - Global search overlay implemented (full-screen/large box, autofocus, ESC to close, suggestions and products, CTA "Search for '{keyword}'").
+  - Floating WhatsApp FAB added and wired to env var (VITE_CONTACT_WHATSAPP).
+  - Thumbnail selection in Details updates main image; placeholder image when no main image available.
+  - Removed raffles pages and related routes/components.
+  - Mobile optimizations applied (`tokens.css` updates, overflow-x fixes, responsive GpuCard adjustments) to eliminate horizontal scrolling.
 
 Remaining for M0 (ship-ready basics):
 
-- Minor UI consistency passes in footer styling if needed.
+- Final UI polish for header/menu to reach pixel parity with reference site (minor spacing/underline weight tweaks).
+- Ensure all Seed images are present on production static host and image URLs are correct (some sample models still missing remote images — task: fetch and include representative images for seeded models).
+- Small accessibility fixes (skip-link focus, DetailsModal focus/ESC behaviour refinement) — low risk.
+
 
 Out of scope for M0 (defer to M1):
 
