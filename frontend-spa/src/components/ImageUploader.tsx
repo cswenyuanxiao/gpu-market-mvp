@@ -1,6 +1,12 @@
 import { useEffect, useRef, useState } from 'react';
 import { Button, Upload, Badge } from 'antd';
-import { PlusOutlined, DeleteOutlined, StarOutlined, LeftOutlined, RightOutlined } from '@ant-design/icons';
+import {
+  PlusOutlined,
+  DeleteOutlined,
+  StarOutlined,
+  LeftOutlined,
+  RightOutlined,
+} from '@ant-design/icons';
 
 export type LocalImage = {
   file: File;
@@ -41,23 +47,41 @@ export default function ImageUploader({
     if (!files) return;
     const toAdd: LocalImage[] = [];
     const urlsToRevoke: string[] = [];
+    const allowedTypes = ['image/jpeg', 'image/png', 'image/webp'];
     try {
       for (let i = 0; i < files.length; i++) {
         const f: File = files.item(i)!;
         if (!f) continue;
         if (!f.type.startsWith('image/')) continue;
+        if (!allowedTypes.includes(f.type)) {
+          window.dispatchEvent(
+            new CustomEvent('app-toast', {
+              detail: { text: 'Only JPEG, PNG and WebP images are allowed', type: 'warning' },
+            }),
+          );
+          continue;
+        }
         if (images.length + toAdd.length >= maxImages) break;
         const tooBig = f.size > maxSizeMb * 1024 * 1024;
         const url = URL.createObjectURL(f as Blob);
         urlsToRevoke.push(url);
         const dims = await readImageDims(url).catch(() => ({ width: 0, height: 0 }));
         const tooLarge = dims.width * dims.height > pixelLimit;
-        toAdd.push({ file: f as File, url, width: dims.width, height: dims.height, tooLarge: tooBig || tooLarge });
+        toAdd.push({
+          file: f as File,
+          url,
+          width: dims.width,
+          height: dims.height,
+          tooLarge: tooBig || tooLarge,
+        });
       }
       if (toAdd.some((x) => x.tooLarge)) {
         window.dispatchEvent(
           new CustomEvent('app-toast', {
-            detail: { text: `Some images exceed limit (${maxSizeMb}MB or ${pixelLimit.toLocaleString()} px)`, type: 'warning' },
+            detail: {
+              text: `Some images exceed limit (${maxSizeMb}MB or ${pixelLimit.toLocaleString()} px)`,
+              type: 'warning',
+            },
           }),
         );
       }
@@ -121,24 +145,19 @@ export default function ImageUploader({
         className="d-none"
         onChange={(e) => handleFiles(e.target.files)}
       />
-      
+
       <div className="d-flex align-items-center gap-2 mb-3">
-        <Button 
-          type="default" 
-          icon={<PlusOutlined />} 
-          onClick={openPicker}
-          size="small"
-        >
+        <Button type="default" icon={<PlusOutlined />} onClick={openPicker} size="small">
           Add Images
         </Button>
-        <small className="text-muted">Up to {maxImages} images, ≤ {maxSizeMb}MB, ≤ {pixelLimit.toLocaleString()} px</small>
+        <small className="text-muted">
+          Up to {maxImages} images, ≤ {maxSizeMb}MB, ≤ {pixelLimit.toLocaleString()} px
+        </small>
       </div>
-      
+
       <div
         className={`p-4 border-2 border-dashed rounded-lg transition-colors ${
-          dragOver 
-            ? 'border-blue-500 bg-blue-50' 
-            : 'border-gray-300 hover:border-gray-400'
+          dragOver ? 'border-blue-500 bg-blue-50' : 'border-gray-300 hover:border-gray-400'
         }`}
         onDrop={onDrop}
         onDragOver={onDragOver}
@@ -152,7 +171,7 @@ export default function ImageUploader({
             <p className="ant-upload-text">Drag & drop images here</p>
           </Upload.Dragger>
         </div>
-        
+
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-3">
           {images.map((img, idx) => (
             <div key={idx} className="relative group">
@@ -167,19 +186,19 @@ export default function ImageUploader({
                     img.tooLarge ? 'border-red-500' : 'border-gray-200'
                   }`}
                 />
-                
+
                 {/* Cover badge */}
                 <div className="absolute top-1 left-1">
-                  <Badge 
-                    count={idx === 0 ? 'Cover' : idx + 1} 
-                    style={{ 
+                  <Badge
+                    count={idx === 0 ? 'Cover' : idx + 1}
+                    style={{
                       backgroundColor: idx === 0 ? '#1890ff' : '#666',
                       fontSize: '10px',
-                      padding: '2px 6px'
-                    }} 
+                      padding: '2px 6px',
+                    }}
                   />
                 </div>
-                
+
                 {/* Action buttons */}
                 <div className="absolute bottom-1 left-1 flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
                   <Button
@@ -210,7 +229,7 @@ export default function ImageUploader({
                     style={{ padding: '2px', minWidth: 'auto' }}
                   />
                 </div>
-                
+
                 {/* Remove button */}
                 <Button
                   type="text"
@@ -239,5 +258,3 @@ function readImageDims(url: string): Promise<{ width: number; height: number }> 
     img.src = url;
   });
 }
-
-

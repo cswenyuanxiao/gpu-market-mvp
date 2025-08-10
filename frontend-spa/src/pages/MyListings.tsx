@@ -25,16 +25,33 @@ export default function MyListings() {
   const navigate = useNavigate();
   async function onDelete(id: number) {
     if (!confirm('Delete this listing?')) return;
-    const r = await apiFetch(`/api/gpus/${id}`, { method: 'DELETE' });
-    if (!r.ok) {
-      const msg = (await r.json().catch(() => ({})))?.error || 'Delete failed';
-      window.dispatchEvent(new CustomEvent('app-toast', { detail: { text: msg, type: 'error' } }));
-      return;
-    }
-    window.dispatchEvent(
-      new CustomEvent('app-toast', { detail: { text: 'Deleted', type: 'success' } }),
-    );
+    // optimistic update
     setItems((curr) => curr.filter((x) => x.id !== id));
+    try {
+      const r = await apiFetch(`/api/gpus/${id}`, { method: 'DELETE' });
+      if (!r.ok) {
+        const msg = (await r.json().catch(() => ({})))?.error || 'Delete failed';
+        window.dispatchEvent(
+          new CustomEvent('app-toast', { detail: { text: msg, type: 'error' } }),
+        );
+        // rollback
+        setItems((curr) => (Array.isArray(curr) ? [...curr, { id }] : [{ id }]));
+        return;
+      }
+      window.dispatchEvent(
+        new CustomEvent('app-toast', { detail: { text: 'Deleted', type: 'success' } }),
+      );
+    } catch (e) {
+      window.dispatchEvent(
+        new CustomEvent('app-toast', { detail: { text: 'Network error', type: 'error' } }),
+      );
+      // reload listings
+      try {
+        const res = await apiFetch('/api/my/gpus');
+        const data = await res.json();
+        setItems(Array.isArray(data) ? data : []);
+      } catch {}
+    }
   }
 
   return (
