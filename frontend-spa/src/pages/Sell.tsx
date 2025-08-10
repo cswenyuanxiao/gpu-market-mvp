@@ -19,7 +19,10 @@ const SellSchema = z.object({
   brand: z
     .string()
     .optional()
-    .refine((v) => !v || (allowedBrands as readonly string[]).includes(v), 'Brand must be NVIDIA, AMD, or Intel'),
+    .refine(
+      (v) => !v || (allowedBrands as readonly string[]).includes(v),
+      'Brand must be NVIDIA, AMD, or Intel',
+    ),
   vram: z.coerce.number().int().min(0, 'VRAM must be ≥ 0').max(64, 'VRAM must be ≤ 64').optional(),
   desc: z.string().max(2000).optional(),
 });
@@ -29,12 +32,18 @@ export default function Sell() {
   const [files, setFiles] = useState<File[]>([]);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-  const { register, handleSubmit, formState: { errors }, control } = useForm<SellValues>({
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    control,
+  } = useForm<SellValues>({
     resolver: zodResolver(SellSchema),
     defaultValues: { condition: 'Used' },
   });
 
   async function onSubmit(values: SellValues) {
+    if (loading) return;
     const fd = new FormData();
     fd.set('title', values.title);
     fd.set('price', String(values.price));
@@ -48,11 +57,15 @@ export default function Sell() {
       const r = await apiFetch('/api/gpus', { method: 'POST', body: fd });
       if (!r.ok) {
         const msg = (await r.json().catch(() => ({})))?.error || 'Create failed';
-        window.dispatchEvent(new CustomEvent('app-toast', { detail: { text: msg, type: 'error' } }));
+        window.dispatchEvent(
+          new CustomEvent('app-toast', { detail: { text: msg, type: 'error' } }),
+        );
         return;
       }
       const created = await r.json();
-      window.dispatchEvent(new CustomEvent('app-toast', { detail: { text: 'Created', type: 'success' } }));
+      window.dispatchEvent(
+        new CustomEvent('app-toast', { detail: { text: 'Created', type: 'success' } }),
+      );
       navigate(`/g/${created.id}`);
     } finally {
       setLoading(false);
@@ -68,7 +81,12 @@ export default function Sell() {
           <h4 className="section-title">Basic Information</h4>
           <div className="form-grid">
             <div className="form-field">
-              <FormField label="Title" htmlFor="title" error={errors.title?.message} hint="Short, descriptive title">
+              <FormField
+                label="Title"
+                htmlFor="title"
+                error={errors.title?.message}
+                hint="Short, descriptive title"
+              >
                 <Controller
                   name="title"
                   control={control}
@@ -95,14 +113,22 @@ export default function Sell() {
                       id="cond"
                       value={field.value}
                       onChange={(v) => field.onChange(v)}
-                      options={[{ value: 'New', label: 'New' }, { value: 'Used', label: 'Used' }]}
+                      options={[
+                        { value: 'New', label: 'New' },
+                        { value: 'Used', label: 'Used' },
+                      ]}
                     />
                   )}
                 />
               </FormField>
             </div>
             <div className="form-field">
-              <FormField label="Brand" htmlFor="brand" error={errors.brand?.message} hint="NVIDIA, AMD, or Intel">
+              <FormField
+                label="Brand"
+                htmlFor="brand"
+                error={errors.brand?.message}
+                hint="NVIDIA, AMD, or Intel"
+              >
                 <Controller
                   name="brand"
                   control={control}
@@ -111,7 +137,11 @@ export default function Sell() {
                       id="brand"
                       value={field.value}
                       onChange={(v) => field.onChange(v)}
-                      options={[{ value: 'NVIDIA', label: 'NVIDIA' }, { value: 'AMD', label: 'AMD' }, { value: 'Intel', label: 'Intel' }]}
+                      options={[
+                        { value: 'NVIDIA', label: 'NVIDIA' },
+                        { value: 'AMD', label: 'AMD' },
+                        { value: 'Intel', label: 'Intel' },
+                      ]}
                       allowClear
                     />
                   )}
@@ -119,7 +149,12 @@ export default function Sell() {
               </FormField>
             </div>
             <div className="form-field">
-              <FormField label="VRAM (GB)" htmlFor="vram" error={errors.vram?.message} hint="0 - 64">
+              <FormField
+                label="VRAM (GB)"
+                htmlFor="vram"
+                error={errors.vram?.message}
+                hint="0 - 64"
+              >
                 <Controller
                   name="vram"
                   control={control}
@@ -134,7 +169,12 @@ export default function Sell() {
         <div className="form-section">
           <h4 className="section-title">Description</h4>
           <div className="form-field-full">
-            <FormField label="Description" htmlFor="desc" error={errors.desc?.message} hint="Optional. Up to 2000 characters">
+            <FormField
+              label="Description"
+              htmlFor="desc"
+              error={errors.desc?.message}
+              hint="Optional. Up to 2000 characters"
+            >
               <Controller
                 name="desc"
                 control={control}
@@ -164,5 +204,3 @@ export default function Sell() {
     </div>
   );
 }
-
-

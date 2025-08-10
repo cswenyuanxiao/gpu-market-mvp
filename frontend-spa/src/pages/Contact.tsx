@@ -25,8 +25,11 @@ export default function Contact() {
     resolver: zodResolver(Schema),
     defaultValues: { consent: false },
   });
+  const [submitting, setSubmitting] = useState(false);
 
   async function onSubmit(values: Values) {
+    if (submitting) return;
+    setSubmitting(true);
     const r = await apiFetch('/api/contact', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -35,12 +38,14 @@ export default function Contact() {
     if (!r.ok) {
       const msg = (await r.json().catch(() => ({})))?.error || 'Submit failed';
       window.dispatchEvent(new CustomEvent('app-toast', { detail: { text: msg, type: 'error' } }));
+      setSubmitting(false);
       return;
     }
     window.dispatchEvent(
       new CustomEvent('app-toast', { detail: { text: 'Message sent', type: 'success' } }),
     );
     reset();
+    setSubmitting(false);
   }
 
   return (
@@ -108,7 +113,7 @@ export default function Contact() {
             )}
           />
         </div>
-        <Button type="primary" htmlType="submit">
+        <Button type="primary" htmlType="submit" loading={submitting} disabled={submitting}>
           Send
         </Button>
       </form>

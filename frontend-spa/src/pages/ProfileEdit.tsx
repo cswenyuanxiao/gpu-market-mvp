@@ -35,6 +35,7 @@ export default function ProfileEdit() {
 
   async function onSubmit(e: FormEvent) {
     e.preventDefault();
+    if (loading) return;
     setLoading(true);
     try {
       // 1) Update display name if changed
@@ -97,18 +98,14 @@ export default function ProfileEdit() {
         <h3>Edit Profile</h3>
         <p>Update your profile information and avatar.</p>
       </div>
-      
+
       <form onSubmit={onSubmit} className="modern-form">
         <div className="form-section">
           <div className="section-title">Profile Information</div>
           <div className="form-field">
             <FormField label="Display Name" htmlFor="display-name">
               <div className="d-flex align-items-center gap-3">
-                <Avatar 
-                  size={64} 
-                  src={avatarPreview || undefined}
-                  icon={<UserOutlined />}
-                >
+                <Avatar size={64} src={avatarPreview || undefined} icon={<UserOutlined />}>
                   {display?.[0]}
                 </Avatar>
                 <Input
@@ -139,7 +136,7 @@ export default function ProfileEdit() {
               </Upload>
             </FormField>
           </div>
-          
+
           {avatarPreview && (
             <div className="form-field">
               <FormField label="Preview">

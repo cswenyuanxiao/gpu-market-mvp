@@ -17,7 +17,10 @@ const EditSchema = z.object({
   brand: z
     .string()
     .optional()
-    .refine((v) => !v || (allowedBrands as readonly string[]).includes(v), 'Brand must be NVIDIA or AMD'),
+    .refine(
+      (v) => !v || (allowedBrands as readonly string[]).includes(v),
+      'Brand must be NVIDIA or AMD',
+    ),
   vram: z.coerce.number().int().min(0, 'VRAM must be ≥ 0').max(64, 'VRAM must be ≤ 64').optional(),
   desc: z.string().max(2000).optional(),
 });
@@ -28,7 +31,13 @@ export default function Edit() {
   const [loading, setLoading] = useState(true);
   const [files, setFiles] = useState<File[]>([]);
   const navigate = useNavigate();
-  const { register, handleSubmit, formState: { errors }, reset, control } = useForm<EditValues>({
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    reset,
+    control,
+  } = useForm<EditValues>({
     resolver: zodResolver(EditSchema),
     defaultValues: { condition: 'Used' },
   });
@@ -54,6 +63,7 @@ export default function Edit() {
   }, [id, reset]);
 
   async function onSubmit(values: EditValues) {
+    if (loading) return;
     if (!id) return;
     const fd = new FormData();
     fd.set('title', values.title);
@@ -69,17 +79,20 @@ export default function Edit() {
       window.dispatchEvent(new CustomEvent('app-toast', { detail: { text: msg, type: 'error' } }));
       return;
     }
-    window.dispatchEvent(new CustomEvent('app-toast', { detail: { text: 'Updated', type: 'success' } }));
+    window.dispatchEvent(
+      new CustomEvent('app-toast', { detail: { text: 'Updated', type: 'success' } }),
+    );
     navigate(`/g/${id}`);
   }
 
-  if (loading) return (
-    <div className="container py-3">
-      <div className="d-flex justify-content-center">
-        <Spin size="large" />
+  if (loading)
+    return (
+      <div className="container py-3">
+        <div className="d-flex justify-content-center">
+          <Spin size="large" />
+        </div>
       </div>
-    </div>
-  );
+    );
 
   return (
     <div className="form-container">
@@ -87,7 +100,7 @@ export default function Edit() {
         <h3>Edit Listing</h3>
         <p>Update your GPU listing information below.</p>
       </div>
-      
+
       <form onSubmit={handleSubmit(onSubmit)} className="modern-form">
         <div className="form-section">
           <div className="section-title">Basic Information</div>
@@ -117,7 +130,12 @@ export default function Edit() {
               </FormField>
             </div>
             <div className="form-field">
-              <FormField label="Brand" htmlFor="brand" error={errors.brand?.message} hint="NVIDIA, AMD, or Intel">
+              <FormField
+                label="Brand"
+                htmlFor="brand"
+                error={errors.brand?.message}
+                hint="NVIDIA, AMD, or Intel"
+              >
                 <Controller
                   name="brand"
                   control={control}
@@ -132,7 +150,12 @@ export default function Edit() {
               </FormField>
             </div>
             <div className="form-field">
-              <FormField label="VRAM (GB)" htmlFor="vram" error={errors.vram?.message} hint="0 - 64">
+              <FormField
+                label="VRAM (GB)"
+                htmlFor="vram"
+                error={errors.vram?.message}
+                hint="0 - 64"
+              >
                 <Input id="vram" type="number" {...register('vram')} />
               </FormField>
             </div>
@@ -168,5 +191,3 @@ export default function Edit() {
     </div>
   );
 }
-
-
