@@ -105,40 +105,55 @@ export default function ShopEverything() {
 
   return (
     <div className="page-shop-everything container py-3">
-      <div className="d-flex gap-2 my-3 align-items-center">
-        <Input
-          id="globalSearchInput"
-          placeholder="Search GPUs..."
-          value={q}
-          onChange={(e) => setQ(e.target.value)}
-          style={{ flex: 1 }}
-        />
-        <Select
-          value={uiSort}
-          style={{ width: 180 }}
-          onChange={(v) => setUiSort(v as UiSort)}
-          options={[
-            { value: 'featured', label: 'Featured' },
-            { value: 'best', label: 'Best selling' },
-            { value: 'alpha_asc', label: 'Alphabetically, A-Z' },
-            { value: 'alpha_desc', label: 'Alphabetically, Z-A' },
-            { value: 'price_asc', label: 'Price, low to high' },
-            { value: 'price_desc', label: 'Price, high to low' },
-            { value: 'date_old', label: 'Date, old to new' },
-            { value: 'date_new', label: 'Date, new to old' },
-          ]}
-        />
-        <Button
-          onClick={() => {
-            setUiSort('price_desc');
-          }}
-        >
-          Reset sort
-        </Button>
-        <Button type="primary" onClick={() => refetch()}>
-          Search
-        </Button>
-        <Button onClick={() => setDrawerOpen(true)}>Filters</Button>
+      {/* Mobile-friendly filter toolbar */}
+      <div className="filter-toolbar">
+        <div className="filter-row">
+          <Input
+            id="globalSearchInput"
+            placeholder="Search GPUs..."
+            value={q}
+            onChange={(e) => setQ(e.target.value)}
+            className="search-input"
+          />
+          <Button 
+            type="primary" 
+            onClick={() => refetch()}
+            className="search-btn"
+          >
+            Search
+          </Button>
+        </div>
+        <div className="filter-row">
+          <Select
+            value={uiSort}
+            className="sort-select"
+            onChange={(v) => setUiSort(v as UiSort)}
+            options={[
+              { value: 'featured', label: 'Featured' },
+              { value: 'best', label: 'Best selling' },
+              { value: 'alpha_asc', label: 'Alphabetically, A-Z' },
+              { value: 'alpha_desc', label: 'Alphabetically, Z-A' },
+              { value: 'price_asc', label: 'Price, low to high' },
+              { value: 'price_desc', label: 'Price, high to low' },
+              { value: 'date_old', label: 'Date, old to new' },
+              { value: 'date_new', label: 'Date, new to old' },
+            ]}
+          />
+          <Button
+            onClick={() => {
+              setUiSort('price_desc');
+            }}
+            className="reset-btn"
+          >
+            Reset sort
+          </Button>
+          <Button 
+            onClick={() => setDrawerOpen(true)}
+            className="filter-btn"
+          >
+            Filters
+          </Button>
+        </div>
       </div>
 
       <div>
@@ -242,8 +257,15 @@ export default function ShopEverything() {
           </div>
         </div>
       </div>
-      <AntDrawer open={drawerOpen} onClose={() => setDrawerOpen(false)}>
-        <h5 className="mb-3">Filters</h5>
+      <AntDrawer 
+        open={drawerOpen} 
+        onClose={() => setDrawerOpen(false)}
+        placement="right"
+        width="100%"
+        className="filter-drawer"
+        title="Filter and sort"
+        closeIcon={<span style={{ fontSize: '24px' }}>×</span>}
+      >
         <SearchFilters
           onApply={(patch) => {
             setDrawerOpen(false);

@@ -21,44 +21,57 @@ export default function SearchFilters({ onApply }: { onApply: (q: Partial<Search
   }, [q, min, max, brand, vram, condition, setAll]);
 
   return (
-    <div>
-      <Input
-        className="mb-2"
-        placeholder="Search title or description"
-        value={q}
-        onChange={(e) => setQ(e.target.value)}
-      />
-      <div className="d-flex gap-2 mb-2">
-        <InputNumber
-          placeholder="Min price"
-          value={min === '' ? undefined : Number(min)}
-          onChange={(v) => setMin(v == null ? '' : String(v))}
-          min={0}
-          style={{ width: '100%' }}
-        />
-        <InputNumber
-          placeholder="Max price"
-          value={max === '' ? undefined : Number(max)}
-          onChange={(v) => setMax(v == null ? '' : String(v))}
-          min={0}
-          style={{ width: '100%' }}
+    <div className="search-filters-container">
+      <div className="filter-section">
+        <label className="filter-label">Search</label>
+        <Input
+          placeholder="Search title or description"
+          value={q}
+          onChange={(e) => setQ(e.target.value)}
+          className="filter-input"
         />
       </div>
-      <div className="d-flex gap-2 mb-2">
+      
+      <div className="filter-section">
+        <label className="filter-label">Price Range</label>
+        <div className="price-inputs">
+          <InputNumber
+            placeholder="Min price"
+            value={min === '' ? undefined : Number(min)}
+            onChange={(v) => setMin(v == null ? '' : String(v))}
+            min={0}
+            className="price-input"
+          />
+          <InputNumber
+            placeholder="Max price"
+            value={max === '' ? undefined : Number(max)}
+            onChange={(v) => setMax(v == null ? '' : String(v))}
+            min={0}
+            className="price-input"
+          />
+        </div>
+      </div>
+      
+      <div className="filter-section">
+        <label className="filter-label">Brand</label>
         <Select
           value={brand}
-          style={{ minWidth: 140 }}
           onChange={(v) => setBrand(v)}
+          className="filter-select"
           options={[
             { value: '', label: 'Any brand' },
             { value: 'NVIDIA', label: 'NVIDIA' },
             { value: 'AMD', label: 'AMD' },
           ]}
         />
+      </div>
+      
+      <div className="filter-section">
+        <label className="filter-label">VRAM</label>
         <Select
           value={vram}
-          style={{ minWidth: 140 }}
           onChange={(v) => setVram(String(v))}
+          className="filter-select"
           options={[
             { value: '', label: 'Any VRAM' },
             { value: '4', label: '≥ 4GB' },
@@ -69,22 +82,28 @@ export default function SearchFilters({ onApply }: { onApply: (q: Partial<Search
           ]}
         />
       </div>
-      <Select
-        className="mb-2"
-        value={condition}
-        onChange={(v) => setCondition(v as Condition)}
-        options={[
-          { value: '', label: 'Any condition' },
-          { value: 'New', label: 'New' },
-          { value: 'Used', label: 'Used' },
-        ]}
-      />
-      <div className="d-flex gap-2 align-items-center">
+      
+      <div className="filter-section">
+        <label className="filter-label">Condition</label>
+        <Select
+          value={condition}
+          onChange={(v) => setCondition(v as Condition)}
+          className="filter-select"
+          options={[
+            { value: '', label: 'Any condition' },
+            { value: 'New', label: 'New' },
+            { value: 'Used', label: 'Used' },
+          ]}
+        />
+      </div>
+      
+      <div className="filter-actions">
         <Button
           type="primary"
           onClick={() => onApply({ q, min, max, brand, vram_min: vram, condition, page: '1' })}
+          className="apply-btn"
         >
-          Search
+          Apply Filters
         </Button>
         <Button
           onClick={() => {
@@ -96,6 +115,7 @@ export default function SearchFilters({ onApply }: { onApply: (q: Partial<Search
             setCondition('');
             onApply({ q: '', min: '', max: '', brand: '', vram_min: '', condition: '', page: '1' });
           }}
+          className="clear-btn"
         >
           Clear all
         </Button>
