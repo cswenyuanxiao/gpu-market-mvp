@@ -1287,3 +1287,50 @@ html, body {
 .form-control-slot .ant-select-selector {
   min-height: 44px;
 }
+
+/* Ensure Select shows full text */
+.form-control-slot .ant-select-selector .ant-select-selection-item,
+.form-control-slot .ant-select-selector .ant-select-selection-placeholder {
+  white-space: nowrap !important;
+  overflow: visible !important;
+  text-overflow: unset !important;
+}
+
+/* Dropdown width and text */
+.ant-select-dropdown {
+  min-width: 220px !important;
+}
+.ant-select-item-option-content {
+  white-space: nowrap !important;
+}
+
+/* ShopEverything 4-column layout like GPUUsed */
+.page-shop-everything .product-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 24px;
+}
+
+@media (max-width: 1400px) {
+  .page-shop-everything .product-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+@media (max-width: 992px) {
+  .page-shop-everything .product-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (max-width: 576px) {
+  .page-shop-everything .product-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Page padding (left/right white space) */
+.page-shop-everything .container {
+  max-width: 1600px;
+  margin: 0 auto;
+  padding-left: 24px;
+  padding-right: 24px;
+}

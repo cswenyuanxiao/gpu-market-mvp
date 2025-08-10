@@ -104,7 +104,7 @@ export default function ShopEverything() {
   }
 
   return (
-    <div className="container py-3">
+    <div className="page-shop-everything container py-3">
       <div className="d-flex gap-2 my-3 align-items-center">
         <Input
           id="globalSearchInput"

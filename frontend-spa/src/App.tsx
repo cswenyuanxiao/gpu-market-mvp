@@ -61,7 +61,7 @@ export default function App() {
   ];
   return (
     <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
-      <div className="w-100 py-1 text-center text-white" style={{ background: '#5B7DB1', padding: '12px 0' }}>
+      <div className="w-100 py-1 text-center text-white" style={{ background: '#5B7DB1', padding: '18px 0' }}>
         <a 
           href="https://www.google.com/search?q=GPU+Market+Reviews" 
           target="_blank" 
