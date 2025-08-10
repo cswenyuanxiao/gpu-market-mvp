@@ -4,8 +4,23 @@ import type { SearchQuery } from '../types';
 import { Input, Select, Button, InputNumber } from 'antd';
 
 type Condition = '' | 'New' | 'Used';
+type UiSort =
+  | 'featured'
+  | 'best'
+  | 'alpha_asc'
+  | 'alpha_desc'
+  | 'date_new'
+  | 'date_old'
+  | 'price_asc'
+  | 'price_desc';
 
-export default function SearchFilters({ onApply }: { onApply: (q: Partial<SearchQuery>) => void }) {
+export default function SearchFilters({ 
+  onApply, 
+  onSortChange 
+}: { 
+  onApply: (q: Partial<SearchQuery>) => void;
+  onSortChange: (sort: UiSort) => void;
+}) {
   const { getAll, setAll } = useQueryState<SearchQuery>();
   const init = getAll();
   const [q, setQ] = useState(init.q || '');
@@ -14,11 +29,14 @@ export default function SearchFilters({ onApply }: { onApply: (q: Partial<Search
   const [brand, setBrand] = useState(init.brand || '');
   const [vram, setVram] = useState(init.vram_min || '');
   const [condition, setCondition] = useState<Condition>(init.condition || '');
+  const [uiSort, setUiSort] = useState<UiSort>(
+    ((init.sort as any) || 'price_desc') as UiSort,
+  );
 
   useEffect(() => {
     // keep URL in sync
-    setAll({ q, min, max, brand, vram_min: vram, condition });
-  }, [q, min, max, brand, vram, condition, setAll]);
+    setAll({ q, min, max, brand, vram_min: vram, condition, sort: uiSort });
+  }, [q, min, max, brand, vram, condition, uiSort, setAll]);
 
   return (
     <div className="search-filters-container">
@@ -29,6 +47,28 @@ export default function SearchFilters({ onApply }: { onApply: (q: Partial<Search
           value={q}
           onChange={(e) => setQ(e.target.value)}
           className="filter-input"
+        />
+      </div>
+      
+      <div className="filter-section">
+        <label className="filter-label">Sort by</label>
+        <Select
+          value={uiSort}
+          onChange={(v) => {
+            setUiSort(v as UiSort);
+            onSortChange(v as UiSort);
+          }}
+          className="filter-select"
+          options={[
+            { value: 'featured', label: 'Featured' },
+            { value: 'best', label: 'Best selling' },
+            { value: 'alpha_asc', label: 'Alphabetically, A-Z' },
+            { value: 'alpha_desc', label: 'Alphabetically, Z-A' },
+            { value: 'price_asc', label: 'Price, low to high' },
+            { value: 'price_desc', label: 'Price, high to low' },
+            { value: 'date_old', label: 'Date, old to new' },
+            { value: 'date_new', label: 'Date, new to old' },
+          ]}
         />
       </div>
       
@@ -113,6 +153,8 @@ export default function SearchFilters({ onApply }: { onApply: (q: Partial<Search
             setBrand('');
             setVram('');
             setCondition('');
+            setUiSort('price_desc');
+            onSortChange('price_desc');
             onApply({ q: '', min: '', max: '', brand: '', vram_min: '', condition: '', page: '1' });
           }}
           className="clear-btn"

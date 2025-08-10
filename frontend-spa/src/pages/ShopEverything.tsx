@@ -105,54 +105,19 @@ export default function ShopEverything() {
 
   return (
     <div className="page-shop-everything container py-3">
-      {/* Mobile-friendly filter toolbar */}
-      <div className="filter-toolbar">
-        <div className="filter-row">
-          <Input
-            id="globalSearchInput"
-            placeholder="Search GPUs..."
-            value={q}
-            onChange={(e) => setQ(e.target.value)}
-            className="search-input"
-          />
-          <Button 
-            type="primary" 
-            onClick={() => refetch()}
-            className="search-btn"
-          >
-            Search
-          </Button>
-        </div>
-        <div className="filter-row">
-          <Select
-            value={uiSort}
-            className="sort-select"
-            onChange={(v) => setUiSort(v as UiSort)}
-            options={[
-              { value: 'featured', label: 'Featured' },
-              { value: 'best', label: 'Best selling' },
-              { value: 'alpha_asc', label: 'Alphabetically, A-Z' },
-              { value: 'alpha_desc', label: 'Alphabetically, Z-A' },
-              { value: 'price_asc', label: 'Price, low to high' },
-              { value: 'price_desc', label: 'Price, high to low' },
-              { value: 'date_old', label: 'Date, old to new' },
-              { value: 'date_new', label: 'Date, new to old' },
-            ]}
-          />
-          <Button
-            onClick={() => {
-              setUiSort('price_desc');
-            }}
-            className="reset-btn"
-          >
-            Reset sort
-          </Button>
+      {/* GPUsed-style filter toolbar */}
+      <div className="filter-toolbar-gpused">
+        <div className="filter-header">
           <Button 
             onClick={() => setDrawerOpen(true)}
-            className="filter-btn"
+            className="filter-sort-btn"
+            icon={<span className="filter-icon">☰</span>}
           >
-            Filters
+            Filter and sort
           </Button>
+          <span className="product-count">
+            {data?.total || 0} products
+          </span>
         </div>
       </div>
 
@@ -271,6 +236,9 @@ export default function ShopEverything() {
             setDrawerOpen(false);
             setFilters((f) => ({ ...f, ...patch }));
             setPage(1);
+          }}
+          onSortChange={(sort) => {
+            setUiSort(sort);
           }}
         />
       </AntDrawer>
