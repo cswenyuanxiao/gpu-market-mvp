@@ -533,6 +533,39 @@ html, body {
   border-color: #ff7875;
 }
 
+/* Auth buttons in nav footer */
+.nav-auth-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+}
+
+.nav-login-btn {
+  width: 100%;
+  color: #666;
+  border: 1px solid #d9d9d9;
+  background: transparent;
+}
+
+.nav-login-btn:hover {
+  color: #1890ff;
+  border-color: #1890ff;
+  background: #f0f8ff;
+}
+
+.nav-register-btn {
+  width: 100%;
+  background: var(--modern-blue) !important;
+  border-color: var(--modern-blue) !important;
+  color: white !important;
+}
+
+.nav-register-btn:hover {
+  background: var(--modern-blue-hover) !important;
+  border-color: var(--modern-blue-hover) !important;
+}
+
 /* Desktop trigger styles */
 .nav-trigger-text {
   cursor: pointer;

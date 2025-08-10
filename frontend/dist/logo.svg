@@ -1,19 +1,7 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="512" height="220" viewBox="0 0 512 220" role="img" aria-label="GPU-MARK">
-  <defs>
-    <style>
-      .brand{fill:#2d3a5a;font-family:Arial,Helvetica,sans-serif;font-weight:600}
-    </style>
-  </defs>
-  <rect width="100%" height="100%" fill="#fff"/>
-  <g transform="translate(24,24)">
-    <g transform="translate(0,30)">
-      <!-- Outer hexagon (medium blue) -->
-      <polygon points="0,56 56,24 112,56 112,120 56,152 0,120" fill="#0a79b8"/>
-      <!-- Inner hexagon (darker blue) -->
-      <polygon points="20,67 56,46 92,67 92,109 56,130 20,109" fill="#1e3a8a"/>
-    </g>
-    <text class="brand" x="140" y="110" font-size="64">GPU-MARK</text>
-  </g>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256">
+  <rect width="256" height="256" fill="#ffffff"></rect>
+  <!-- Outer hex ring -->
+  <polygon points="128,20 221.531,74 221.531,182 128,236 34.469,182 34.469,74" fill="none" stroke="#0086CB" stroke-width="36" stroke-linejoin="miter"></polygon>
+  <!-- Inner hex ring -->
+  <polygon points="128,62 185.158,95 185.158,161 128,194 70.842,161 70.842,95" fill="none" stroke="#0086CB" stroke-width="28" stroke-linejoin="miter"></polygon>
 </svg>
-
-

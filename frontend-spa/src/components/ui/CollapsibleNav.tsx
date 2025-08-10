@@ -256,6 +256,32 @@ export default function CollapsibleNav({ isMobile = false }: CollapsibleNavProps
       </div>
       <div className="nav-content">
         {navItems.map(item => renderNavItem(item))}
+        {!user && (
+          <div className="nav-footer">
+            <div className="nav-auth-buttons">
+              <Button 
+                type="text"
+                onClick={() => {
+                  navigate('/login');
+                  setOpen(false);
+                }}
+                className="nav-login-btn"
+              >
+                Login
+              </Button>
+              <Button 
+                type="primary"
+                onClick={() => {
+                  navigate('/register');
+                  setOpen(false);
+                }}
+                className="nav-register-btn"
+              >
+                Register
+              </Button>
+            </div>
+          </div>
+        )}
         {user && (
           <div className="nav-footer">
             <Button 

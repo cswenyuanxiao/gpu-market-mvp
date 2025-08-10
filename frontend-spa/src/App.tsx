@@ -51,7 +51,6 @@ export default function App() {
     // Run once on mount to avoid re-registering and re-calling init()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  const [mobileOpen, setMobileOpen] = useState(false);
   const [searchOpen, setSearchOpen] = useState(false);
   const seriesItems: MenuProps['items'] = [
     { key: 'nvidia-40', label: 'NVIDIA 40 Series' },
@@ -271,67 +270,7 @@ export default function App() {
         </div>
       </nav>
       <div style={{ borderBottom: '1px solid #e3e3e3' }}></div>
-      <Drawer
-        open={mobileOpen}
-        onClose={() => setMobileOpen(false)}
-        afterOpenChange={(open) => {
-          try {
-            document.body.style.overflow = open ? 'hidden' : '';
-          } catch {}
-        }}
-      >
-        <div className="d-flex flex-column gap-2">
-          <Link to="/" onClick={() => setMobileOpen(false)}>
-            Home
-          </Link>
-          <Link to="/everything?sort=price_desc" onClick={() => setMobileOpen(false)}>
-            Shop Everything
-          </Link>
-          <div className="fw-bold">Shop Graphics Cards</div>
-          <Link to="/?brand=NVIDIA" onClick={() => setMobileOpen(false)}>
-            NVIDIA
-          </Link>
-          <Link to="/?brand=AMD" onClick={() => setMobileOpen(false)}>
-            AMD
-          </Link>
-          <Link to="/sell" onClick={() => setMobileOpen(false)}>
-            Sell
-          </Link>
-          <Link to="/sell-to-us" onClick={() => setMobileOpen(false)}>
-            Sell to us
-          </Link>
-          <Link to="/my" onClick={() => setMobileOpen(false)}>
-            My Listings
-          </Link>
-          <Link to="/profile" onClick={() => setMobileOpen(false)}>
-            My Profile
-          </Link>
-          {!user && (
-            <Link to="/login" onClick={() => setMobileOpen(false)}>
-              Login
-            </Link>
-          )}
-          {!user && (
-            <Link to="/register" onClick={() => setMobileOpen(false)}>
-              Register
-            </Link>
-          )}
-          {user && (
-            <button
-              className="btn btn-outline-danger btn-sm"
-              onClick={() => {
-                setMobileOpen(false);
-                logout();
-                window.dispatchEvent(
-                  new CustomEvent('app-toast', { detail: { text: 'Logged out', type: 'info' } }),
-                );
-              }}
-            >
-              Logout
-            </button>
-          )}
-        </div>
-      </Drawer>
+
       <div style={{ flex: 1 }}>
         <Suspense fallback={<div className="container py-3">Loading...</div>}>
           <Routes>
