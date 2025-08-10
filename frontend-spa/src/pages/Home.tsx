@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { Button } from 'antd';
+import { Button, Collapse } from 'antd';
 import { useTitle } from '../lib/seo';
 
 export default function Home() {
@@ -83,40 +83,22 @@ export default function Home() {
       {/* FAQs - compact */}
       <div className="py-4">
         <h2 className="h4 text-center mb-3">FAQs -</h2>
-        <div className="accordion" id="faq-accordion">
-          <div className="accordion-item">
-            <h2 className="accordion-header" id="faq1">
-              <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq1c">
-                Are all of your items used?
-              </button>
-            </h2>
-            <div id="faq1c" className="accordion-collapse collapse" data-bs-parent="#faq-accordion">
-              <div className="accordion-body">
-                Mostly used; we test each item thoroughly to ensure quality and reliability.
-              </div>
-            </div>
-          </div>
-          <div className="accordion-item">
-            <h2 className="accordion-header" id="faq2">
-              <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq2c">
-                What's the best way to get in touch?
-              </button>
-            </h2>
-            <div id="faq2c" className="accordion-collapse collapse" data-bs-parent="#faq-accordion">
-              <div className="accordion-body">Use the Contact page form; messages go straight to our inbox.</div>
-            </div>
-          </div>
-          <div className="accordion-item">
-            <h2 className="accordion-header" id="faq3">
-              <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq3c">
-                What's your return policy?
-              </button>
-            </h2>
-            <div id="faq3c" className="accordion-collapse collapse" data-bs-parent="#faq-accordion">
-              <div className="accordion-body">30-day return policy if the item does not meet the advertised standard.</div>
-            </div>
-          </div>
-        </div>
+        <Collapse 
+          defaultActiveKey={[]} 
+          ghost
+          className="faq-collapse"
+          style={{ maxWidth: 800, margin: '0 auto' }}
+        >
+          <Collapse.Panel header="Are all of your items used?" key="1">
+            <p>Mostly used; we test each item thoroughly to ensure quality and reliability.</p>
+          </Collapse.Panel>
+          <Collapse.Panel header="What's the best way to get in touch?" key="2">
+            <p>Use the Contact page form; messages go straight to our inbox.</p>
+          </Collapse.Panel>
+          <Collapse.Panel header="What's your return policy?" key="3">
+            <p>30-day return policy if the item does not meet the advertised standard.</p>
+          </Collapse.Panel>
+        </Collapse>
       </div>
     </div>
   );

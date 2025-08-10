@@ -1099,6 +1099,27 @@ html, body {
   }
 }
 
+/* FAQs Collapse Styles */
+.faq-collapse .ant-collapse-header {
+  font-weight: 500 !important;
+  color: #1e293b !important;
+  font-size: 1rem !important;
+}
+
+.faq-collapse .ant-collapse-content-box {
+  color: #64748b !important;
+  line-height: 1.6 !important;
+  padding: 16px 0 !important;
+}
+
+.faq-collapse .ant-collapse-item {
+  border-bottom: 1px solid #f1f5f9 !important;
+}
+
+.faq-collapse .ant-collapse-item:last-child {
+  border-bottom: none !important;
+}
+
 /* FormField structural styles */
 .form-field-wrapper {
   display: flex;
