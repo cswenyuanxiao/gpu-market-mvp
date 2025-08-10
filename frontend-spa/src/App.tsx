@@ -16,6 +16,7 @@ const NotFound = lazy(() => import('./pages/NotFound'));
 const ProfileEdit = lazy(() => import('./pages/ProfileEdit'));
 const SellToUs = lazy(() => import('./pages/SellToUs'));
 const Contact = lazy(() => import('./pages/Contact'));
+const ShopEverything = lazy(() => import('./pages/ShopEverything'));
 import { useScrollRestoration } from './lib/useScrollRestoration';
 import About from './pages/About';
 import Privacy from './pages/Privacy';
@@ -425,7 +426,7 @@ export default function App() {
         <Suspense fallback={<div className="container py-3">Loading...</div>}>
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/everything" element={<Home />} />
+            <Route path="/everything" element={<ShopEverything />} />
             <Route path="/profile" element={<Profile />} />
             <Route
               path="/profile/edit"
