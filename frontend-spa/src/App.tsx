@@ -59,7 +59,7 @@ export default function App() {
   ];
   return (
     <div style={{ display: 'flex', flexDirection: 'column', minHeight: '100vh' }}>
-      <div className="w-100 py-1 text-center text-white" style={{ background: '#2f7f82' }}>
+      <div className="w-100 py-1 text-center text-white" style={{ background: '#1f5f62' }}>
         <a 
           href="https://www.google.com/search?q=GPU+Market+Reviews" 
           target="_blank" 
@@ -109,7 +109,7 @@ export default function App() {
         />
       </div>
       <nav className="navbar navbar-expand" style={{ background: 'white', boxShadow: 'none' }}>
-        <div className="container-fluid d-flex justify-content-between align-items-center px-3 px-md-4">
+        <div className="container-fluid d-flex justify-content-center align-items-center px-3 px-md-4">
           <div className="d-none d-md-flex gap-4 align-items-center">
             <Link to="/" className="text-decoration-none">
               <span 
@@ -264,7 +264,7 @@ export default function App() {
               </span>
             </Link>
           </div>
-          <div className="d-none d-md-flex align-items-center">
+          <div className="d-none">
             {user ? (
               <Dropdown
                 trigger={['click']}

@@ -111,13 +111,7 @@ export default function Home() {
 
   return (
     <div className="container py-3 px-3 px-md-4">
-      <nav className="navbar navbar-light">
-        <div className="container-fluid">
-          <a className="navbar-brand" href="#">
-            GPU Market
-          </a>
-        </div>
-      </nav>
+      {/* remove top-left GPU Market text brand */}
 
       {isEverything && <h1 className="h4 mt-3">All Products</h1>}
 
@@ -170,6 +164,79 @@ export default function Home() {
                 >
                   Contact
                 </Button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Divider */}
+      {!isEverything && <div className="section-divider" />}
+
+      {/* Best Selling Category - simple CTA */}
+      {!isEverything && (
+        <div className="text-center py-4">
+          <h2 className="h4 mb-3">Best Selling Category -</h2>
+          <p className="text-muted mb-3">Our best selling category is graphics cards.</p>
+          <Button type="default" onClick={() => (window.location.href = '/everything?sort=price_desc')}>
+            View All GPUs Here!
+          </Button>
+        </div>
+      )}
+
+      {!isEverything && <div className="section-divider" />}
+
+      {/* A Few Reviews - placeholder links to Google search */}
+      {!isEverything && (
+        <div className="text-center py-4">
+          <h2 className="h4 mb-3">A Few Reviews -</h2>
+          <p className="text-muted mb-3">See all of our reviews here (We're rated 5/5!).</p>
+          <Button
+            type="default"
+            onClick={() => window.open('https://www.google.com/search?q=GPU+Market+Reviews', '_blank')}
+          >
+            See Reviews on Google
+          </Button>
+        </div>
+      )}
+
+      {!isEverything && <div className="section-divider" />}
+
+      {/* FAQs - compact */}
+      {!isEverything && (
+        <div className="py-4">
+          <h2 className="h4 text-center mb-3">FAQs -</h2>
+          <div className="accordion" id="faq-accordion">
+            <div className="accordion-item">
+              <h2 className="accordion-header" id="faq1">
+                <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq1c">
+                  Are all of your items used?
+                </button>
+              </h2>
+              <div id="faq1c" className="accordion-collapse collapse" data-bs-parent="#faq-accordion">
+                <div className="accordion-body">
+                  Mostly used; we test each item thoroughly to ensure quality and reliability.
+                </div>
+              </div>
+            </div>
+            <div className="accordion-item">
+              <h2 className="accordion-header" id="faq2">
+                <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq2c">
+                  What's the best way to get in touch?
+                </button>
+              </h2>
+              <div id="faq2c" className="accordion-collapse collapse" data-bs-parent="#faq-accordion">
+                <div className="accordion-body">Use the Contact page form; messages go straight to our inbox.</div>
+              </div>
+            </div>
+            <div className="accordion-item">
+              <h2 className="accordion-header" id="faq3">
+                <button className="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#faq3c">
+                  What's your return policy?
+                </button>
+              </h2>
+              <div id="faq3c" className="accordion-collapse collapse" data-bs-parent="#faq-accordion">
+                <div className="accordion-body">30-day return policy if the item does not meet the advertised standard.</div>
               </div>
             </div>
           </div>

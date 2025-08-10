@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 export default function Footer() {
   const year = new Date().getFullYear();
   return (
-    <footer style={{ background: '#2f7f82', color: '#e7f2f2' }}>
+    <footer style={{ background: '#1f5f62', color: '#e7f2f2' }}>
       <div className="container py-5 small">
         <div className="row g-4">
           <div className="col-12 col-md-4">

@@ -267,6 +267,12 @@ html, body {
   border-radius: 12px;
   padding: 40px 20px;
   margin: 20px 0;
+  border: 1px solid #e3e3e3;
+}
+
+.section-divider {
+  border-bottom: 1px solid #e3e3e3;
+  margin: 24px 0;
 }
 
 .welcome-title {
