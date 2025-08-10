@@ -874,12 +874,18 @@ html, body {
   }
 }
 
-/* Page-scoped container paddings for ShopEverything - reduced padding like GPUsed */
-.page-shop-everything .container { max-width: 1600px; margin: 0 auto; width: 100%; box-sizing: border-box; }
-@media (min-width: 1200px) { .page-shop-everything .container { padding-left: 32px; padding-right: 32px; } }
-@media (min-width: 768px) and (max-width: 1199px) { .page-shop-everything .container { padding-left: 24px; padding-right: 24px; } }
-@media (min-width: 576px) and (max-width: 767px) { .page-shop-everything .container { padding-left: 16px; padding-right: 16px; } }
-@media (max-width: 575px) { .page-shop-everything .container { padding-left: 12px; padding-right: 12px; } }
+/* Page-scoped container paddings for ShopEverything */
+.page-shop-everything .container { 
+  max-width: 1600px; 
+  margin: 0 auto; 
+  width: 100%; 
+  box-sizing: border-box; 
+  overflow-x: hidden; /* Prevent horizontal scroll */
+}
+@media (min-width: 1200px) { .page-shop-everything .container { padding-left: 48px; padding-right: 48px; } }
+@media (min-width: 768px) and (max-width: 1199px) { .page-shop-everything .container { padding-left: 32px; padding-right: 32px; } }
+@media (min-width: 576px) and (max-width: 767px) { .page-shop-everything .container { padding-left: 24px; padding-right: 24px; } }
+@media (max-width: 575px) { .page-shop-everything .container { padding-left: 16px; padding-right: 16px; } }
 
 /* Modern Form Styles */
 .form-container {
@@ -1207,53 +1213,54 @@ html, body {
   white-space: nowrap !important;
 }
 
-/* ShopEverything 4-column layout like GPUUsed - increased scaling */
+/* ShopEverything 4-column layout like GPUUsed */
 .page-shop-everything .product-grid {
   display: grid;
   grid-template-columns: repeat(4, minmax(0, 1fr));
-  gap: 20px;
-  transform: scale(1.1);
-  transform-origin: top center;
+  gap: 24px;
+  width: 100%;
+  max-width: 100%;
+  margin: 0;
+  padding: 0;
 }
 
 @media (max-width: 1400px) {
   .page-shop-everything .product-grid {
     grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 18px;
+    gap: 20px;
   }
 }
 @media (max-width: 992px) {
   .page-shop-everything .product-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 16px;
+    gap: 18px;
   }
 }
 @media (max-width: 576px) {
   .page-shop-everything .product-grid {
     grid-template-columns: 1fr;
-    gap: 14px;
-    transform: scale(1.05);
+    gap: 16px;
   }
 }
 
-/* Page padding (left/right white space) - reduced like GPUsed */
+/* Page padding (left/right white space) */
 .page-shop-everything .container {
   max-width: 1600px;
   margin: 0 auto;
-  padding-left: 16px;
-  padding-right: 16px;
+  padding-left: 24px;
+  padding-right: 24px;
+  overflow-x: hidden; /* Prevent horizontal scroll */
 }
 
-/* Overall page scaling to match GPUsed size */
-.page-shop-everything {
-  transform: scale(1.1);
-  transform-origin: top center;
-  margin-bottom: 10vh; /* Add bottom margin to account for scaling */
-}
-
-@media (max-width: 768px) {
+/* Ensure mobile layout is properly contained */
+@media (max-width: 576px) {
   .page-shop-everything {
-    transform: scale(1.05);
-    margin-bottom: 5vh;
+    overflow-x: hidden;
+    width: 100%;
+  }
+  
+  .page-shop-everything .container {
+    padding-left: 16px;
+    padding-right: 16px;
   }
 }

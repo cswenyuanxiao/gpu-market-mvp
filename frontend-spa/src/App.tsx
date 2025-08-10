@@ -77,9 +77,12 @@ export default function App() {
         <Link to="/" className="d-flex align-items-center text-decoration-none">
           <img src="/logo.png" alt="GPU-MARK" width={120} height={120} />
         </Link>
-        <Button className="nav-icon-btn" type="text" onClick={() => setSearchOpen(true)}>
-          Search
-        </Button>
+        <Button 
+          className="nav-icon-btn" 
+          type="text" 
+          icon={<SearchOutlined style={{ fontSize: 20, color: '#111' }} />}
+          onClick={() => setSearchOpen(true)}
+        />
       </div>
       {/* Center logo row with search and cart */}
       <div className="container py-3 d-none d-md-flex justify-content-between align-items-center px-3 px-md-4">
@@ -236,11 +239,7 @@ export default function App() {
               </div>
             )}
           </div>
-          <div className="ms-auto d-md-none">
-            <Button size="small" onClick={() => setMobileOpen(true)}>
-              Menu
-            </Button>
-          </div>
+
         </div>
       </nav>
       <div style={{ borderBottom: '1px solid #e3e3e3' }}></div>
