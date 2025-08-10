@@ -130,13 +130,102 @@ export default function App() {
         >
           <img src="/logo.png" alt="GPU-MARK" width={180} height={180} />
         </div>
-        <Button
-          className="nav-icon-btn"
-          type="text"
-          aria-label="Cart"
-          icon={<ShoppingOutlined style={{ fontSize: 22, color: '#111' }} />}
-          onClick={() => navigate('/cart')}
-        />
+        <div className="d-flex align-items-center gap-2">
+          <Button
+            className="nav-icon-btn"
+            type="text"
+            aria-label="Cart"
+            icon={<ShoppingOutlined style={{ fontSize: 22, color: '#111' }} />}
+            onClick={() => navigate('/cart')}
+          />
+          {user ? (
+            <Dropdown
+              trigger={['click']}
+              menu={{
+                items: [
+                  {
+                    key: 'profile',
+                    label: user.display_name || user.username,
+                    disabled: true,
+                  },
+                  { type: 'divider' },
+                  {
+                    key: 'my-listings',
+                    label: 'My Listings',
+                  },
+                  {
+                    key: 'my-profile',
+                    label: 'My Profile',
+                  },
+                  {
+                    key: 'edit-profile',
+                    label: 'Edit Profile',
+                  },
+                  { type: 'divider' },
+                  {
+                    key: 'logout',
+                    label: 'Logout',
+                    danger: true,
+                  },
+                ],
+                onClick: (info) => {
+                  switch (info.key) {
+                    case 'my-listings':
+                      navigate('/my');
+                      break;
+                    case 'my-profile':
+                      navigate('/profile');
+                      break;
+                    case 'edit-profile':
+                      navigate('/profile/edit');
+                      break;
+                    case 'logout':
+                      logout();
+                      window.dispatchEvent(
+                        new CustomEvent('app-toast', { detail: { text: 'Logged out', type: 'info' } }),
+                      );
+                      break;
+                  }
+                },
+              }}
+            >
+              <Button
+                className="nav-icon-btn"
+                type="text"
+                aria-label="Profile"
+                style={{
+                  borderRadius: '50%',
+                  width: '40px',
+                  height: '40px',
+                  padding: 0,
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  fontSize: '14px',
+                  fontWeight: 'bold',
+                  backgroundColor: '#2f7f82',
+                  color: 'white',
+                  border: 'none',
+                }}
+              >
+                {(user.display_name || user.username).charAt(0).toUpperCase()}
+              </Button>
+            </Dropdown>
+          ) : (
+            <div className="d-flex gap-2">
+              <Link to="/login">
+                <Button size="small" type="primary">
+                  Login
+                </Button>
+              </Link>
+              <Link to="/register">
+                <Button size="small" type="primary">
+                  Register
+                </Button>
+              </Link>
+            </div>
+          )}
+        </div>
       </div>
       <nav className="navbar navbar-expand" style={{ background: 'white', boxShadow: 'none' }}>
         <div className="container-fluid d-flex justify-content-center align-items-center px-3 px-md-4">
@@ -178,95 +267,7 @@ export default function App() {
               </span>
             </Link>
           </div>
-          <div className="d-none d-md-flex">
-            {user ? (
-              <Dropdown
-                trigger={['click']}
-                menu={{
-                  items: [
-                    {
-                      key: 'profile',
-                      label: user.display_name || user.username,
-                      disabled: true,
-                    },
-                    { type: 'divider' },
-                    {
-                      key: 'my-listings',
-                      label: 'My Listings',
-                    },
-                    {
-                      key: 'my-profile',
-                      label: 'My Profile',
-                    },
-                    {
-                      key: 'edit-profile',
-                      label: 'Edit Profile',
-                    },
-                    { type: 'divider' },
-                    {
-                      key: 'logout',
-                      label: 'Logout',
-                      danger: true,
-                    },
-                  ],
-                  onClick: (info) => {
-                    switch (info.key) {
-                      case 'my-listings':
-                        navigate('/my');
-                        break;
-                      case 'my-profile':
-                        navigate('/profile');
-                        break;
-                      case 'edit-profile':
-                        navigate('/profile/edit');
-                        break;
-                      case 'logout':
-                        logout();
-                        window.dispatchEvent(
-                          new CustomEvent('app-toast', { detail: { text: 'Logged out', type: 'info' } }),
-                        );
-                        break;
-                    }
-                  },
-                }}
-              >
-                <Button
-                  className="nav-icon-btn"
-                  type="text"
-                  aria-label="Profile"
-                  style={{
-                    borderRadius: '50%',
-                    width: '40px',
-                    height: '40px',
-                    padding: 0,
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    fontSize: '14px',
-                    fontWeight: 'bold',
-                    backgroundColor: '#2f7f82',
-                    color: 'white',
-                    border: 'none',
-                  }}
-                >
-                  {(user.display_name || user.username).charAt(0).toUpperCase()}
-                </Button>
-              </Dropdown>
-            ) : (
-              <div className="d-flex gap-2">
-                <Link to="/login">
-                  <Button size="small" type="primary">
-                    Login
-                  </Button>
-                </Link>
-                <Link to="/register">
-                  <Button size="small" type="primary">
-                    Register
-                  </Button>
-                </Link>
-              </div>
-            )}
-          </div>
+
 
         </div>
       </nav>
