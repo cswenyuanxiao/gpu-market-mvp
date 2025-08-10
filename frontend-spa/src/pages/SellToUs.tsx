@@ -64,150 +64,177 @@ export default function SellToUs() {
   }
 
   return (
-    <div className="container py-3" style={{ maxWidth: 800 }}>
+    <div className="form-container">
       <h3>Sell to us</h3>
-      <div className="mb-3">
+      <div className="form-description">
         <p>
-          Get a no-obligation quote for your GPU. Share basic details and photos. We’ll email you
+          Get a no-obligation quote for your GPU. Share basic details and photos. We'll email you
           with an offer and next steps.
         </p>
       </div>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <div className="row g-3">
-          <div className="col-md-6">
-            <FormField
-              label="Your Name"
-              htmlFor="contact_name"
-              error={errors.contact_name?.message}
-            >
-              <Controller
-                name="contact_name"
-                control={control}
-                render={({ field }) => <Input id="contact_name" {...field} />}
-              />
-            </FormField>
-          </div>
-          <div className="col-md-6">
-            <FormField label="Email" htmlFor="email" error={errors.email?.message}>
-              <Controller
-                name="email"
-                control={control}
-                render={({ field }) => <Input id="email" type="email" {...field} />}
-              />
-            </FormField>
-          </div>
-          <div className="col-md-6">
-            <FormField label="Phone" htmlFor="phone" error={errors.phone?.message}>
-              <Controller
-                name="phone"
-                control={control}
-                render={({ field }) => <Input id="phone" {...field} />}
-              />
-            </FormField>
-          </div>
-          <div className="col-md-6">
-            <FormField label="Brand" htmlFor="brand" error={errors.brand?.message}>
-              <Controller
-                name="brand"
-                control={control}
-                render={({ field }) => (
-                  <Select
-                    id="brand"
-                    value={field.value}
-                    onChange={(v) => field.onChange(v)}
-                    options={[
-                      { value: 'NVIDIA', label: 'NVIDIA' },
-                      { value: 'AMD', label: 'AMD' },
-                    ]}
-                  />
-                )}
-              />
-            </FormField>
-          </div>
-          <div className="col-md-6">
-            <FormField label="Model" htmlFor="model" error={errors.model?.message}>
-              <Controller
-                name="model"
-                control={control}
-                render={({ field }) => <Input id="model" {...field} />}
-              />
-            </FormField>
-          </div>
-          <div className="col-md-6">
-            <FormField label="Grade" htmlFor="grade" error={errors.grade?.message}>
-              <Controller
-                name="grade"
-                control={control}
-                render={({ field }) => (
-                  <Select
-                    id="grade"
-                    value={field.value}
-                    onChange={(v) => field.onChange(v)}
-                    options={[
-                      { value: 'A', label: 'A' },
-                      { value: 'B', label: 'B' },
-                      { value: 'C', label: 'C' },
-                    ]}
-                  />
-                )}
-              />
-            </FormField>
-          </div>
-          <div className="col-md-6">
-            <FormField label="Warranty" htmlFor="warranty" error={errors.warranty?.message}>
-              <Controller
-                name="warranty"
-                control={control}
-                render={({ field }) => (
-                  <Switch id="warranty" checked={field.value} onChange={(v) => field.onChange(v)} />
-                )}
-              />
-            </FormField>
-          </div>
-          <div className="col-md-6">
-            <FormField
-              label="Accessories"
-              htmlFor="accessories"
-              error={errors.accessories?.message}
-            >
-              <Controller
-                name="accessories"
-                control={control}
-                render={({ field }) => <Input id="accessories" {...field} />}
-              />
-            </FormField>
-          </div>
-          <div className="col-md-6">
-            <FormField
-              label="Expected Price"
-              htmlFor="expected_price"
-              error={errors.expected_price?.message}
-            >
-              <Controller
-                name="expected_price"
-                control={control}
-                render={({ field }) => <Input id="expected_price" {...field} />}
-              />
-            </FormField>
-          </div>
-          <div className="col-12">
-            <FormField label="Note" htmlFor="note" error={errors.note?.message}>
-              <Controller
-                name="note"
-                control={control}
-                render={({ field }) => <Input.TextArea id="note" rows={5} {...field} />}
-              />
-            </FormField>
+      <form onSubmit={handleSubmit(onSubmit)} className="modern-form">
+        {/* Personal Information Section */}
+        <div className="form-section">
+          <h4 className="section-title">Personal Information</h4>
+          <div className="form-grid">
+            <div className="form-field">
+              <FormField
+                label="Your Name"
+                htmlFor="contact_name"
+                error={errors.contact_name?.message}
+              >
+                <Controller
+                  name="contact_name"
+                  control={control}
+                  render={({ field }) => <Input id="contact_name" {...field} />}
+                />
+              </FormField>
+            </div>
+            <div className="form-field">
+              <FormField label="Email" htmlFor="email" error={errors.email?.message}>
+                <Controller
+                  name="email"
+                  control={control}
+                  render={({ field }) => <Input id="email" type="email" {...field} />}
+                />
+              </FormField>
+            </div>
+            <div className="form-field">
+              <FormField label="Phone" htmlFor="phone" error={errors.phone?.message}>
+                <Controller
+                  name="phone"
+                  control={control}
+                  render={({ field }) => <Input id="phone" {...field} />}
+                />
+              </FormField>
+            </div>
           </div>
         </div>
-        <div className="mb-3">
-          <Suspense fallback={null}>
-            <ImageUploader onChange={setFiles} />
-          </Suspense>
+
+        {/* Product Information Section */}
+        <div className="form-section">
+          <h4 className="section-title">Product Information</h4>
+          <div className="form-grid">
+            <div className="form-field">
+              <FormField label="Brand" htmlFor="brand" error={errors.brand?.message}>
+                <Controller
+                  name="brand"
+                  control={control}
+                  render={({ field }) => (
+                    <Select
+                      id="brand"
+                      value={field.value}
+                      onChange={(v) => field.onChange(v)}
+                      options={[
+                        { value: 'NVIDIA', label: 'NVIDIA' },
+                        { value: 'AMD', label: 'AMD' },
+                      ]}
+                    />
+                  )}
+                />
+              </FormField>
+            </div>
+            <div className="form-field">
+              <FormField label="Model" htmlFor="model" error={errors.model?.message}>
+                <Controller
+                  name="model"
+                  control={control}
+                  render={({ field }) => <Input id="model" {...field} />}
+                />
+              </FormField>
+            </div>
+            <div className="form-field">
+              <FormField label="Grade" htmlFor="grade" error={errors.grade?.message}>
+                <Controller
+                  name="grade"
+                  control={control}
+                  render={({ field }) => (
+                    <Select
+                      id="grade"
+                      value={field.value}
+                      onChange={(v) => field.onChange(v)}
+                      options={[
+                        { value: 'A', label: 'A' },
+                        { value: 'B', label: 'B' },
+                        { value: 'C', label: 'C' },
+                      ]}
+                    />
+                  )}
+                />
+              </FormField>
+            </div>
+            <div className="form-field">
+              <FormField label="Warranty" htmlFor="warranty" error={errors.warranty?.message}>
+                <Controller
+                  name="warranty"
+                  control={control}
+                  render={({ field }) => (
+                    <Switch id="warranty" checked={field.value} onChange={(v) => field.onChange(v)} />
+                  )}
+                />
+              </FormField>
+            </div>
+            <div className="form-field">
+              <FormField
+                label="Accessories"
+                htmlFor="accessories"
+                error={errors.accessories?.message}
+              >
+                <Controller
+                  name="accessories"
+                  control={control}
+                  render={({ field }) => <Input id="accessories" {...field} />}
+                />
+              </FormField>
+            </div>
+          </div>
         </div>
-        <Button type="primary" htmlType="submit" loading={loading}>
-          Submit
-        </Button>
+
+        {/* Price & Note Section */}
+        <div className="form-section">
+          <h4 className="section-title">Price & Note</h4>
+          <div className="form-grid">
+            <div className="form-field">
+              <FormField
+                label="Expected Price"
+                htmlFor="expected_price"
+                error={errors.expected_price?.message}
+              >
+                <Controller
+                  name="expected_price"
+                  control={control}
+                  render={({ field }) => <Input id="expected_price" {...field} />}
+                />
+              </FormField>
+            </div>
+            <div className="form-field-full">
+              <FormField label="Note" htmlFor="note" error={errors.note?.message}>
+                <Controller
+                  name="note"
+                  control={control}
+                  render={({ field }) => <Input.TextArea id="note" rows={5} {...field} />}
+                />
+              </FormField>
+            </div>
+          </div>
+        </div>
+
+        {/* Images Section */}
+        <div className="form-section">
+          <h4 className="section-title">Images</h4>
+          <div className="form-field-full">
+            <Suspense fallback={null}>
+              <ImageUploader onChange={setFiles} />
+            </Suspense>
+          </div>
+        </div>
+
+        {/* Submit Button */}
+        <div className="form-actions">
+          <Button type="primary" htmlType="submit" loading={loading} className="submit-btn">
+            Submit
+          </Button>
+        </div>
       </form>
     </div>
   );

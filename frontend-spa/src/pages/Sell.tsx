@@ -60,18 +60,80 @@ export default function Sell() {
   }
 
   return (
-    <div className="container py-3" style={{ maxWidth: 720 }}>
+    <div className="form-container">
       <h3>Create Listing</h3>
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <div className="row g-3">
-          <div className="col-md-8">
-            <FormField label="Title" htmlFor="title" error={errors.title?.message} hint="Short, descriptive title">
-              <Controller
-                name="title"
-                control={control}
-                render={({ field }) => <Input id="title" {...field} />}
-              />
-            </FormField>
+      <form onSubmit={handleSubmit(onSubmit)} className="modern-form">
+        {/* Basic Information Section */}
+        <div className="form-section">
+          <h4 className="section-title">Basic Information</h4>
+          <div className="form-grid">
+            <div className="form-field">
+              <FormField label="Title" htmlFor="title" error={errors.title?.message} hint="Short, descriptive title">
+                <Controller
+                  name="title"
+                  control={control}
+                  render={({ field }) => <Input id="title" {...field} />}
+                />
+              </FormField>
+            </div>
+            <div className="form-field">
+              <FormField label="Price" htmlFor="price" error={errors.price?.message} hint="In USD, ≥ 1">
+                <Controller
+                  name="price"
+                  control={control}
+                  render={({ field }) => <Input id="price" {...field} />}
+                />
+              </FormField>
+            </div>
+            <div className="form-field">
+              <FormField label="Condition" htmlFor="cond" error={errors.condition?.message}>
+                <Controller
+                  name="condition"
+                  control={control}
+                  render={({ field }) => (
+                    <Select
+                      id="cond"
+                      value={field.value}
+                      onChange={(v) => field.onChange(v)}
+                      options={[{ value: 'New', label: 'New' }, { value: 'Used', label: 'Used' }]}
+                    />
+                  )}
+                />
+              </FormField>
+            </div>
+            <div className="form-field">
+              <FormField label="Brand" htmlFor="brand" error={errors.brand?.message} hint="NVIDIA or AMD">
+                <Controller
+                  name="brand"
+                  control={control}
+                  render={({ field }) => (
+                    <Select
+                      id="brand"
+                      value={field.value}
+                      onChange={(v) => field.onChange(v)}
+                      options={[{ value: 'NVIDIA', label: 'NVIDIA' }, { value: 'AMD', label: 'AMD' }]}
+                      allowClear
+                    />
+                  )}
+                />
+              </FormField>
+            </div>
+            <div className="form-field">
+              <FormField label="VRAM (GB)" htmlFor="vram" error={errors.vram?.message} hint="0 - 64">
+                <Controller
+                  name="vram"
+                  control={control}
+                  render={({ field }) => <Input id="vram" {...field} />}
+                />
+              </FormField>
+            </div>
+          </div>
+        </div>
+
+        {/* Description Section */}
+        <div className="form-section">
+          <h4 className="section-title">Description</h4>
+          <div className="form-field-full">
             <FormField label="Description" htmlFor="desc" error={errors.desc?.message} hint="Optional. Up to 2000 characters">
               <Controller
                 name="desc"
@@ -80,58 +142,24 @@ export default function Sell() {
               />
             </FormField>
           </div>
-          <div className="col-md-4">
-            <FormField label="Price" htmlFor="price" error={errors.price?.message} hint="In USD, ≥ 1">
-              <Controller
-                name="price"
-                control={control}
-                render={({ field }) => <Input id="price" {...field} />}
-              />
-            </FormField>
-            <FormField label="Condition" htmlFor="cond" error={errors.condition?.message}>
-              <Controller
-                name="condition"
-                control={control}
-                render={({ field }) => (
-                  <Select
-                    id="cond"
-                    value={field.value}
-                    onChange={(v) => field.onChange(v)}
-                    options={[{ value: 'New', label: 'New' }, { value: 'Used', label: 'Used' }]}
-                  />
-                )}
-              />
-            </FormField>
-            <FormField label="Brand" htmlFor="brand" error={errors.brand?.message} hint="NVIDIA or AMD">
-              <Controller
-                name="brand"
-                control={control}
-                render={({ field }) => (
-                  <Select
-                    id="brand"
-                    value={field.value}
-                    onChange={(v) => field.onChange(v)}
-                    options={[{ value: 'NVIDIA', label: 'NVIDIA' }, { value: 'AMD', label: 'AMD' }]}
-                    allowClear
-                  />
-                )}
-              />
-            </FormField>
-            <FormField label="VRAM (GB)" htmlFor="vram" error={errors.vram?.message} hint="0 - 64">
-              <Controller
-                name="vram"
-                control={control}
-                render={({ field }) => <Input id="vram" {...field} />}
-              />
-            </FormField>
+        </div>
+
+        {/* Images Section */}
+        <div className="form-section">
+          <h4 className="section-title">Images</h4>
+          <div className="form-field-full">
+            <Suspense fallback={null}>
+              <ImageUploader onChange={setFiles} />
+            </Suspense>
           </div>
         </div>
-        <div className="mb-3">
-          <Suspense fallback={null}>
-            <ImageUploader onChange={setFiles} />
-          </Suspense>
+
+        {/* Submit Button */}
+        <div className="form-actions">
+          <Button type="primary" htmlType="submit" loading={loading} className="submit-btn">
+            Submit
+          </Button>
         </div>
-        <Button type="primary" htmlType="submit" loading={loading}>Submit</Button>
       </form>
     </div>
   );
