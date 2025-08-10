@@ -14,12 +14,12 @@ type UiSort =
   | 'price_asc'
   | 'price_desc';
 
-export default function SearchFilters({ 
-  onApply, 
-  onSortChange 
-}: { 
+export default function SearchFilters({
+  onApply,
+  onSortChange,
+}: {
   onApply: (q: Partial<SearchQuery>) => void;
-  onSortChange: (sort: UiSort) => void;
+  onSortChange?: (sort: UiSort) => void;
 }) {
   const { getAll, setAll } = useQueryState<SearchQuery>();
   const init = getAll();
@@ -29,9 +29,7 @@ export default function SearchFilters({
   const [brand, setBrand] = useState(init.brand || '');
   const [vram, setVram] = useState(init.vram_min || '');
   const [condition, setCondition] = useState<Condition>(init.condition || '');
-  const [uiSort, setUiSort] = useState<UiSort>(
-    ((init.sort as any) || 'price_desc') as UiSort,
-  );
+  const [uiSort, setUiSort] = useState<UiSort>(((init.sort as any) || 'price_desc') as UiSort);
 
   useEffect(() => {
     // keep URL in sync
@@ -49,14 +47,14 @@ export default function SearchFilters({
           className="filter-input"
         />
       </div>
-      
+
       <div className="filter-section">
         <label className="filter-label">Sort by</label>
         <Select
           value={uiSort}
           onChange={(v) => {
             setUiSort(v as UiSort);
-            onSortChange(v as UiSort);
+            onSortChange?.(v as UiSort);
           }}
           className="filter-select"
           options={[
@@ -71,7 +69,7 @@ export default function SearchFilters({
           ]}
         />
       </div>
-      
+
       <div className="filter-section">
         <label className="filter-label">Price Range</label>
         <div className="price-inputs">
@@ -91,7 +89,7 @@ export default function SearchFilters({
           />
         </div>
       </div>
-      
+
       <div className="filter-section">
         <label className="filter-label">Brand</label>
         <Select
@@ -105,7 +103,7 @@ export default function SearchFilters({
           ]}
         />
       </div>
-      
+
       <div className="filter-section">
         <label className="filter-label">VRAM</label>
         <Select
@@ -122,7 +120,7 @@ export default function SearchFilters({
           ]}
         />
       </div>
-      
+
       <div className="filter-section">
         <label className="filter-label">Condition</label>
         <Select
@@ -136,20 +134,20 @@ export default function SearchFilters({
           ]}
         />
       </div>
-      
+
       <div className="filter-actions">
         <Button
           type="primary"
           onClick={() => {
-            onApply({ 
-              q, 
-              min, 
-              max, 
-              brand, 
-              vram_min: vram, 
-              condition, 
+            onApply({
+              q,
+              min,
+              max,
+              brand,
+              vram_min: vram,
+              condition,
               sort: uiSort,
-              page: '1' 
+              page: '1',
             });
           }}
           className="apply-btn"
@@ -165,16 +163,16 @@ export default function SearchFilters({
             setVram('');
             setCondition('');
             setUiSort('price_desc');
-            onSortChange('price_desc');
-            onApply({ 
-              q: '', 
-              min: '', 
-              max: '', 
-              brand: '', 
-              vram_min: '', 
-              condition: '', 
+            onSortChange?.('price_desc');
+            onApply({
+              q: '',
+              min: '',
+              max: '',
+              brand: '',
+              vram_min: '',
+              condition: '',
               sort: 'price_desc',
-              page: '1' 
+              page: '1',
             });
           }}
           className="clear-btn"

@@ -11,8 +11,7 @@ export default function Profile() {
   );
   const [mine, setMine] = useState<any[]>([]);
   useEffect(() => {
-    const t = localStorage.getItem('token');
-    if (!t) return;
+    if (!token) return;
     (async () => {
       try {
         const r1 = await apiFetch(`/api/users/me`);
@@ -29,7 +28,7 @@ export default function Profile() {
       }
     })();
   }, [token]);
-  if (!localStorage.getItem('token')) return <div className="container py-3">Please login</div>;
+  if (!token) return <div className="container py-3">Please login</div>;
   return (
     <div className="container py-3">
       <h3>My Profile</h3>
@@ -38,7 +37,9 @@ export default function Profile() {
           <Avatar size={64} src={me.avatar_path}>
             {me.display_name?.[0]}
           </Avatar>
-          <div className="fw-bold">{me?.display_name || user?.display_name || user?.username || ''}</div>
+          <div className="fw-bold">
+            {me?.display_name || user?.display_name || user?.username || ''}
+          </div>
           <div className="ms-auto">
             <Link to="/profile/edit">
               <Button size="small">Edit Profile</Button>

@@ -14,6 +14,7 @@ const Sell = lazy(() => import('./pages/Sell'));
 const Edit = lazy(() => import('./pages/Edit'));
 const NotFound = lazy(() => import('./pages/NotFound'));
 const ProfileEdit = lazy(() => import('./pages/ProfileEdit'));
+const Checkout = lazy(() => import('./pages/Checkout'));
 const SellToUs = lazy(() => import('./pages/SellToUs'));
 const Contact = lazy(() => import('./pages/Contact'));
 const ShopEverything = lazy(() => import('./pages/ShopEverything'));
@@ -219,7 +220,7 @@ export default function App() {
           <img src="/logo.png" alt="GPU-MARK" width={180} height={180} />
         </div>
         <div className="d-flex align-items-center gap-2">
-          <Badge count={cartCount} offset={[-2, 2]} ref={badgeRef as any}>
+          <Badge count={cartCount} showZero={false} offset={[-2, 2]} ref={badgeRef as any}>
             <Button
               className="nav-icon-btn"
               type="text"
@@ -392,6 +393,14 @@ export default function App() {
             <Route path="/b2b" element={<B2B />} />
 
             <Route path="/cart" element={<Cart />} />
+            <Route
+              path="/checkout"
+              element={
+                <AuthGuard>
+                  <Checkout />
+                </AuthGuard>
+              }
+            />
             <Route
               path="/edit/:id"
               element={
