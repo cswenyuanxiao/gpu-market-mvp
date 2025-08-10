@@ -19,3 +19,6 @@ coverage/
 # Editor
 .vscode/
 .idea/
+
+# Build artifacts
+frontend/dist/

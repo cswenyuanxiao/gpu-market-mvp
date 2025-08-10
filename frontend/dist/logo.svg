@@ -1,7 +1,0 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256">
-  <rect width="256" height="256" fill="#ffffff"></rect>
-  <!-- Outer hex ring -->
-  <polygon points="128,20 221.531,74 221.531,182 128,236 34.469,182 34.469,74" fill="none" stroke="#0086CB" stroke-width="36" stroke-linejoin="miter"></polygon>
-  <!-- Inner hex ring -->
-  <polygon points="128,62 185.158,95 185.158,161 128,194 70.842,161 70.842,95" fill="none" stroke="#0086CB" stroke-width="28" stroke-linejoin="miter"></polygon>
-</svg>
