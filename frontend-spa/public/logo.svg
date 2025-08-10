@@ -1,11 +1,7 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="256" height="256" viewBox="0 0 160 160" role="img" aria-label="GPU Market Mark">
-  <rect width="100%" height="100%" fill="#ffffff"/>
-  <!-- Outer hexagon (brand blue) -->
-  <polygon points="16,80 80,43 144,80 144,136 80,173 16,136" fill="#0a79b8"/>
-  <!-- Inner hexagon (white gap) -->
-  <polygon points="34,90 80,63 126,90 126,126 80,153 34,126" fill="#ffffff"/>
-  <!-- Core hexagon (dark blue) -->
-  <polygon points="56,100 80,86 104,100 104,116 80,130 56,116" fill="#1e3a8a"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256">
+  <rect width="256" height="256" fill="#ffffff"></rect>
+  <!-- Outer hex ring -->
+  <polygon points="128,20 221.531,74 221.531,182 128,236 34.469,182 34.469,74" fill="none" stroke="#0086CB" stroke-width="36" stroke-linejoin="miter"></polygon>
+  <!-- Inner hex ring -->
+  <polygon points="128,62 185.158,95 185.158,161 128,194 70.842,161 70.842,95" fill="none" stroke="#0086CB" stroke-width="28" stroke-linejoin="miter"></polygon>
 </svg>
-
-
