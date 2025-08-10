@@ -234,7 +234,14 @@ export default function ShopEverything() {
         <SearchFilters
           onApply={(patch) => {
             setDrawerOpen(false);
-            setFilters((f) => ({ ...f, ...patch }));
+            // Handle sort separately from other filters
+            if (patch.sort) {
+              setUiSort(patch.sort as UiSort);
+              const { sort, ...otherFilters } = patch;
+              setFilters((f) => ({ ...f, ...otherFilters }));
+            } else {
+              setFilters((f) => ({ ...f, ...patch }));
+            }
             setPage(1);
           }}
           onSortChange={(sort) => {

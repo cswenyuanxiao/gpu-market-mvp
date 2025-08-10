@@ -140,7 +140,18 @@ export default function SearchFilters({
       <div className="filter-actions">
         <Button
           type="primary"
-          onClick={() => onApply({ q, min, max, brand, vram_min: vram, condition, page: '1' })}
+          onClick={() => {
+            onApply({ 
+              q, 
+              min, 
+              max, 
+              brand, 
+              vram_min: vram, 
+              condition, 
+              sort: uiSort,
+              page: '1' 
+            });
+          }}
           className="apply-btn"
         >
           Apply Filters
@@ -155,7 +166,16 @@ export default function SearchFilters({
             setCondition('');
             setUiSort('price_desc');
             onSortChange('price_desc');
-            onApply({ q: '', min: '', max: '', brand: '', vram_min: '', condition: '', page: '1' });
+            onApply({ 
+              q: '', 
+              min: '', 
+              max: '', 
+              brand: '', 
+              vram_min: '', 
+              condition: '', 
+              sort: 'price_desc',
+              page: '1' 
+            });
           }}
           className="clear-btn"
         >
