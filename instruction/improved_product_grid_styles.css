@@ -1,0 +1,110 @@
+/* 移除冲突的样式，使用统一的布局方案 */
+
+/* 主要的商品网格布局 - 桌面端4列，移动端1列 */
+.page-shop-everything .product-grid {
+  display: grid;
+  gap: 24px;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  
+  /* 桌面端：4列，平均分配宽度 */
+  grid-template-columns: repeat(4, 1fr);
+}
+
+/* 响应式断点 */
+@media (max-width: 1400px) {
+  .page-shop-everything .product-grid {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+}
+
+@media (max-width: 992px) {
+  .page-shop-everything .product-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 18px;
+  }
+}
+
+@media (max-width: 576px) {
+  .page-shop-everything .product-grid {
+    grid-template-columns: 1fr;
+    gap: 16px;
+  }
+}
+
+/* 容器样式 - 控制整体宽度和留白 */
+.page-shop-everything .container {
+  max-width: 1600px;
+  margin: 0 auto;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* 响应式容器内边距 */
+@media (min-width: 1200px) {
+  .page-shop-everything .container {
+    padding-left: 48px;
+    padding-right: 48px;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1199px) {
+  .page-shop-everything .container {
+    padding-left: 32px;
+    padding-right: 32px;
+  }
+}
+
+@media (min-width: 576px) and (max-width: 767px) {
+  .page-shop-everything .container {
+    padding-left: 24px;
+    padding-right: 24px;
+  }
+}
+
+@media (max-width: 575px) {
+  .page-shop-everything .container {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+}
+
+/* 商品卡片样式 */
+.modern-gpu-card {
+  width: 100%;
+  min-height: 450px;
+  display: flex;
+  flex-direction: column;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+  transition: all 0.3s ease;
+  border: 1px solid #f1f5f9;
+}
+
+.modern-gpu-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+}
+
+/* 移动端卡片调整 */
+@media (max-width: 576px) {
+  .modern-gpu-card {
+    min-height: 400px;
+  }
+}
+
+/* 清除其他可能冲突的 grid 样式 */
+.page-shop-everything .row {
+  display: block;
+  margin: 0;
+}
+
+/* 如果使用了 Bootstrap 的 col 系统，也要重置 */
+.page-shop-everything .col-12 {
+  width: 100%;
+  padding: 0;
+}

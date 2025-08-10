@@ -835,92 +835,16 @@ html, body {
   }
 }
 
-/* Grid layout improvements */
-.row {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 24px;
-  margin: 0;
-}
+/* Reset Bootstrap row/grid inside ShopEverything to avoid conflicts */
+.page-shop-everything .row { display: block; margin: 0; }
+.page-shop-everything .col-12 { width: 100%; padding: 0; }
 
-@media (max-width: 576px) {
-  .row {
-    grid-template-columns: 1fr;
-    gap: 16px;
-  }
-}
-
-@media (min-width: 577px) and (max-width: 768px) {
-  .row {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 16px;
-  }
-}
-
-@media (min-width: 769px) and (max-width: 1200px) {
-  .row {
-    grid-template-columns: repeat(3, 1fr);
-    gap: 20px;
-  }
-}
-
-@media (min-width: 1201px) {
-  .row {
-    grid-template-columns: repeat(4, 1fr);
-    gap: 24px;
-  }
-}
-
-/* Loading placeholder styles */
-.loading-card {
-  background: #ffffff;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-  overflow: hidden;
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  border: 1px solid #f1f5f9;
-}
-
-.loading-placeholder {
-  padding: 20px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 200px;
-}
-
-/* Improved product grid layout - consistent card width with auto-fit */
-.product-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-  gap: 24px;
-  margin: 0;
-  width: 100%;
-  max-width: 100%;
-}
+/* Remove generic .product-grid so page-scoped rules take effect */
 
 /* Ensure cards have consistent width and height */
-.modern-gpu-card {
-  width: 100%;
-  min-height: 450px;
-  max-width: 100%;
-  display: flex;
-  flex-direction: column;
-}
+.modern-gpu-card { width: 100%; min-height: 450px; display: flex; flex-direction: column; }
 
-/* Responsive grid adjustments */
-@media (max-width: 576px) {
-  .product-grid {
-    grid-template-columns: 1fr;
-    gap: 16px;
-  }
-  
-  .modern-gpu-card {
-    min-height: 400px;
-  }
-}
+@media (max-width: 576px) { .modern-gpu-card { min-height: 400px; } }
 
 @media (min-width: 577px) and (max-width: 768px) {
   .product-grid {
@@ -950,33 +874,12 @@ html, body {
   }
 }
 
-/* Container adjustments for better width utilization */
-.container {
-  max-width: 100%;
-  padding-left: 16px;
-  padding-right: 16px;
-}
-
-@media (min-width: 576px) {
-  .container {
-    padding-left: 24px;
-    padding-right: 24px;
-  }
-}
-
-@media (min-width: 768px) {
-  .container {
-    padding-left: 32px;
-    padding-right: 32px;
-  }
-}
-
-@media (min-width: 1200px) {
-  .container {
-    padding-left: 48px;
-    padding-right: 48px;
-  }
-}
+/* Page-scoped container paddings for ShopEverything */
+.page-shop-everything .container { max-width: 1600px; margin: 0 auto; width: 100%; box-sizing: border-box; }
+@media (min-width: 1200px) { .page-shop-everything .container { padding-left: 48px; padding-right: 48px; } }
+@media (min-width: 768px) and (max-width: 1199px) { .page-shop-everything .container { padding-left: 32px; padding-right: 32px; } }
+@media (min-width: 576px) and (max-width: 767px) { .page-shop-everything .container { padding-left: 24px; padding-right: 24px; } }
+@media (max-width: 575px) { .page-shop-everything .container { padding-left: 16px; padding-right: 16px; } }
 
 /* Modern Form Styles */
 .form-container {
