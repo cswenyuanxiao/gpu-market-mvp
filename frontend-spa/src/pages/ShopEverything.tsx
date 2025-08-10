@@ -155,8 +155,8 @@ export default function ShopEverything() {
           <div className="row" onMouseEnter={prefetchDetailsChunk}>
             {(isLoading || isFetching) && (
               <>
-                {Array.from({ length: 4 }).map((_, i) => (
-                  <div className="col-md-6 mb-3" key={i}>
+                {Array.from({ length: 8 }).map((_, i) => (
+                  <div className="col-12 col-sm-6 col-lg-4 col-xl-3 mb-3" key={i}>
                     <div className="card p-3">
                       <Spin />
                     </div>
@@ -166,7 +166,7 @@ export default function ShopEverything() {
             )}
             {!isLoading &&
               (Array.isArray(data?.results) ? (data?.results as Gpu[]) : []).map((gpu: Gpu) => (
-                <div className="col-md-6" key={gpu.id}>
+                <div className="col-12 col-sm-6 col-lg-4 col-xl-3 mb-3" key={gpu.id}>
                   <GpuCard
                     gpu={gpu}
                     onDetails={async (id) => {
