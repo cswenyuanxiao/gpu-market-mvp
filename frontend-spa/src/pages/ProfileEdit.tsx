@@ -59,6 +59,8 @@ export default function ProfileEdit() {
           new CustomEvent('app-toast', { detail: { text: 'Profile updated', type: 'success' } }),
         );
         setInitialDisplay(display);
+        // 告知头部刷新用户信息（首字母/菜单）
+        window.dispatchEvent(new Event('profile-updated'));
       }
       // 2) Upload avatar if selected
       if (avatarFile) {
@@ -80,6 +82,8 @@ export default function ProfileEdit() {
           const me = await (await apiFetch('/api/users/me')).json();
           setAvatarPreview(me.avatar_path || null);
           setAvatarFile(null);
+          // 也触发一次全局事件，让其它组件（如头像首字母、下拉菜单标题）刷新
+          window.dispatchEvent(new Event('profile-updated'));
         } catch {}
       }
     } finally {

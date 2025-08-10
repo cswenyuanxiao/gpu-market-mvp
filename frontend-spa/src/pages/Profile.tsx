@@ -5,13 +5,14 @@ import { useAuth } from '../store/auth';
 import { Avatar, Button, Card, Empty, Skeleton } from 'antd';
 
 export default function Profile() {
+  const { user, token } = useAuth();
   const [me, setMe] = useState<{ id: number; display_name: string; avatar_path?: string } | null>(
     null,
   );
   const [mine, setMine] = useState<any[]>([]);
   useEffect(() => {
-    const token = localStorage.getItem('token');
-    if (!token) return;
+    const t = localStorage.getItem('token');
+    if (!t) return;
     (async () => {
       try {
         const r1 = await apiFetch(`/api/users/me`);
@@ -19,10 +20,15 @@ export default function Profile() {
       } catch {}
       try {
         const r2 = await apiFetch('/api/my/gpus');
-        if (r2.ok) setMine(await r2.json());
-      } catch {}
+        if (r2.ok) {
+          const arr = await r2.json();
+          setMine(Array.isArray(arr) ? arr : []);
+        }
+      } catch {
+        setMine([]);
+      }
     })();
-  }, []);
+  }, [token]);
   if (!localStorage.getItem('token')) return <div className="container py-3">Please login</div>;
   return (
     <div className="container py-3">
@@ -32,7 +38,7 @@ export default function Profile() {
           <Avatar size={64} src={me.avatar_path}>
             {me.display_name?.[0]}
           </Avatar>
-          <div className="fw-bold">{me.display_name}</div>
+          <div className="fw-bold">{me?.display_name || user?.display_name || user?.username || ''}</div>
           <div className="ms-auto">
             <Link to="/profile/edit">
               <Button size="small">Edit Profile</Button>
@@ -42,7 +48,7 @@ export default function Profile() {
       )}
       <h5>My Listings</h5>
       <div className="product-grid">
-        {mine.map((gpu) => (
+        {(Array.isArray(mine) ? mine : []).map((gpu) => (
           <div key={gpu.id}>
             <Card
               className="mb-3"
@@ -56,7 +62,9 @@ export default function Profile() {
             </Card>
           </div>
         ))}
-        {mine.length === 0 && <Empty description="No listings" className="my-3" />}
+        {(Array.isArray(mine) ? mine.length : 0) === 0 && (
+          <Empty description="No listings" className="my-3" />
+        )}
       </div>
     </div>
   );

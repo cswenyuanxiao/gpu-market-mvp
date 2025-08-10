@@ -26,9 +26,11 @@ const B2B = lazy(() => import('./pages/B2B'));
 
 const Cart = lazy(() => import('./pages/Cart'));
 import ServerError from './pages/ServerError';
-import { Button, Dropdown, Drawer, Menu } from 'antd';
+import { Badge, Button, Dropdown, Drawer, Menu } from 'antd';
 import type { MenuProps } from 'antd';
 import FloatingWhatsApp from './components/ui/FloatingWhatsApp';
+import { apiFetch } from './lib/api';
+import { useRef } from 'react';
 import Footer from './components/ui/Footer';
 import CollapsibleNav from './components/ui/CollapsibleNav';
 import { SearchOutlined, ShoppingOutlined } from '@ant-design/icons';
@@ -42,16 +44,75 @@ export default function App() {
   useScrollRestoration();
   useEffect(() => {
     init();
+    function onProfileUpdated() {
+      // 重新从 localStorage 解码最新 token
+      try {
+        init();
+      } catch {}
+    }
+    window.addEventListener('profile-updated', onProfileUpdated);
     function onToast(e: Event) {
       const detail = (e as CustomEvent).detail || {};
       api.push(detail.text || '', detail.type || 'info');
     }
     window.addEventListener('app-toast', onToast as any);
-    return () => window.removeEventListener('app-toast', onToast as any);
+    return () => {
+      window.removeEventListener('app-toast', onToast as any);
+      window.removeEventListener('profile-updated', onProfileUpdated);
+    };
     // Run once on mount to avoid re-registering and re-calling init()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   const [searchOpen, setSearchOpen] = useState(false);
+  const [cartCount, setCartCount] = useState(0);
+  const cartBtnRef = useRef<HTMLButtonElement | null>(null);
+  const badgeRef = useRef<HTMLSpanElement | null>(null);
+  useEffect(() => {
+    async function loadCart(bump = false) {
+      try {
+        const res = await apiFetch('/api/cart');
+        const json = await res.json().catch(() => ({} as any));
+        const items = Array.isArray(json?.items) ? json.items : [];
+        const totalQty = items.reduce((s: number, it: any) => s + (Number(it.quantity) || 0), 0);
+        setCartCount(totalQty);
+        if (bump && cartBtnRef.current) {
+          try {
+            cartBtnRef.current.animate(
+              [
+                { transform: 'scale(1)' },
+                { transform: 'scale(1.15)' },
+                { transform: 'scale(1)' },
+              ],
+              { duration: 220, easing: 'ease-out' },
+            );
+          } catch {}
+        }
+      } catch {}
+    }
+    loadCart();
+    function onChanged(e: any) {
+      const delta = Number(e?.detail?.delta || 0);
+      if (delta) {
+        setCartCount((c) => Math.max(0, c + delta));
+        // 数字泡泡放大动画
+        if (badgeRef.current) {
+          try {
+            badgeRef.current.animate(
+              [
+                { transform: 'scale(1)', offset: 0 },
+                { transform: 'scale(1.2)', offset: 0.4 },
+                { transform: 'scale(1)', offset: 1 },
+              ],
+              { duration: 260, easing: 'ease-out' },
+            );
+          } catch {}
+        }
+      }
+      loadCart(true);
+    }
+    window.addEventListener('cart-changed', onChanged);
+    return () => window.removeEventListener('cart-changed', onChanged);
+  }, []);
   const seriesItems: MenuProps['items'] = [
     { key: 'nvidia-40', label: 'NVIDIA 40 Series' },
     { key: 'nvidia-30', label: 'NVIDIA 30 Series' },
@@ -131,13 +192,16 @@ export default function App() {
           <img src="/logo.png" alt="GPU-MARK" width={180} height={180} />
         </div>
         <div className="d-flex align-items-center gap-2">
-          <Button
-            className="nav-icon-btn"
-            type="text"
-            aria-label="Cart"
-            icon={<ShoppingOutlined style={{ fontSize: 22, color: '#111' }} />}
-            onClick={() => navigate('/cart')}
-          />
+          <Badge count={cartCount} offset={[-2, 2]} ref={badgeRef as any}>
+            <Button
+              className="nav-icon-btn"
+              type="text"
+              aria-label="Cart"
+              icon={<ShoppingOutlined style={{ fontSize: 22, color: '#111' }} />}
+              ref={cartBtnRef as any}
+              onClick={() => navigate('/cart')}
+            />
+          </Badge>
           {user ? (
             <Dropdown
               trigger={['click']}
@@ -208,7 +272,7 @@ export default function App() {
                   border: 'none',
                 }}
               >
-                {(user.display_name || user.username).charAt(0).toUpperCase()}
+                {(((user?.display_name || user?.username) ?? 'U')[0] || 'U').toUpperCase()}
               </Button>
             </Dropdown>
           ) : (

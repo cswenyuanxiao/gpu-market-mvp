@@ -1,6 +1,7 @@
 import { formatDate, formatPrice } from '../../lib/format';
 import type { Gpu } from '../../types';
 import LazyImg from '../ui/LazyImg';
+import { apiFetch } from '../../lib/api';
 
 export default function GpuCard({ gpu, onDetails }: { gpu: Gpu; onDetails: (id: number) => void }) {
   const isNewlyAdded = (() => {
@@ -10,7 +11,7 @@ export default function GpuCard({ gpu, onDetails }: { gpu: Gpu; onDetails: (id: 
   })();
 
   return (
-    <div className="modern-gpu-card">
+    <div className="modern-gpu-card" onClick={() => onDetails(gpu.id)} style={{ cursor: 'pointer' }}>
       {/* Product Image */}
       {gpu.image_path && (
         <div className="card-image">
@@ -91,11 +92,36 @@ export default function GpuCard({ gpu, onDetails }: { gpu: Gpu; onDetails: (id: 
               )}
             </div>
           </div>
-          <button 
+          <button
             className="details-btn"
-            onClick={() => onDetails(gpu.id)}
+            onClick={async (e) => {
+              e.stopPropagation();
+              try {
+                const res = await apiFetch('/api/cart', {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify({ gpu_id: gpu.id, quantity: 1 }),
+                });
+                if (res.ok) {
+                  let addedQty = 1;
+                  try {
+                    const row = await res.json();
+                    if (row && typeof row.quantity === 'number') addedQty = Number(row.quantity) ? 1 : 1;
+                  } catch {}
+                  window.dispatchEvent(
+                    new CustomEvent('app-toast', { detail: { text: 'Added to cart', type: 'success' } }),
+                  );
+                  window.dispatchEvent(new CustomEvent('cart-changed', { detail: { delta: addedQty } }));
+                } else {
+                  const json = await res.json().catch(() => ({} as any));
+                  window.dispatchEvent(
+                    new CustomEvent('app-toast', { detail: { text: json?.error || 'Failed to add to cart', type: 'error' } }),
+                  );
+                }
+              } catch {}
+            }}
           >
-            Details
+            Add to Cart
           </button>
         </div>
       </div>

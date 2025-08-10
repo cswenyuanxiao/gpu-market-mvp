@@ -9,7 +9,7 @@ export async function apiFetch(input: string, init: RequestInit = {}) {
   if (token && !headers.has('Authorization')) headers.set('Authorization', 'Bearer ' + token);
   let res: Response;
   try {
-    res = await fetch(input.startsWith('http') ? input : API_BASE + input, { ...init, headers });
+    res = await fetch(input.startsWith('http') ? input : API_BASE + input, { ...init, headers, credentials: 'include' });
   } catch (e: any) {
     if (typeof window !== 'undefined') {
       window.dispatchEvent(

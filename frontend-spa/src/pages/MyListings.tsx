@@ -13,7 +13,7 @@ export default function MyListings() {
       try {
         const res = await apiFetch('/api/my/gpus');
         const data = await res.json();
-        if (mounted) setItems(data);
+        if (mounted) setItems(Array.isArray(data) ? data : []);
       } finally {
         if (mounted) setLoading(false);
       }
@@ -41,7 +41,7 @@ export default function MyListings() {
     <div className="container py-3">
       <h3>My Listings</h3>
       {loading && <Spin className="my-3" />}
-      {!loading && items.length === 0 && (
+      {!loading && (Array.isArray(items) ? items.length : 0) === 0 && (
         <div className="my-4 d-flex flex-column align-items-center">
           <Empty description="No items" />
           <div className="mt-3">
@@ -52,7 +52,7 @@ export default function MyListings() {
         </div>
       )}
       <div className="product-grid">
-        {items.map((gpu) => (
+        {(Array.isArray(items) ? items : []).map((gpu) => (
           <div key={gpu.id}>
             <GpuCard gpu={gpu} onDetails={(id) => navigate(`/g/${id}`)} />
             <div className="d-flex gap-2 mt-2">

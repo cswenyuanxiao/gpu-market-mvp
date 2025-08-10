@@ -13,15 +13,16 @@ export class AppErrorBoundary extends Component<{ children: ReactNode }, { hasEr
   }
   render() {
     if (this.state.hasError) {
-      // Try a soft-reload of app shell once（避免陷入白屏循环）
-      if (typeof window !== 'undefined') {
-        try {
-          const url = new URL(window.location.href);
-          url.searchParams.set('ts', String(Date.now()));
-          window.location.replace(url.toString());
-        } catch {}
-      }
-      return null;
+      // Show a stable fallback instead of reloading to avoid refresh loop
+      return (
+        <div className="container py-5" role="alert" aria-live="assertive">
+          <h2 style={{ marginBottom: 8 }}>Something went wrong</h2>
+          <p className="text-muted" style={{ marginBottom: 16 }}>
+            An unexpected error occurred. Please go back to the homepage or try again.
+          </p>
+          <a href="/" className="ant-btn ant-btn-primary">Go Home</a>
+        </div>
+      );
     }
     return this.props.children;
   }
