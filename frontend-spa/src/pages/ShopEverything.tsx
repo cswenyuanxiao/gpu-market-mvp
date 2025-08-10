@@ -141,8 +141,8 @@ export default function ShopEverything() {
         <Button onClick={() => setDrawerOpen(true)}>Filters</Button>
       </div>
 
-      <div className="row">
-        <div className="col-12">
+      <div>
+        <div>
           {isError && (
             <div className="my-4">
               <Result
@@ -178,7 +178,7 @@ export default function ShopEverything() {
                 </div>
               ))}
             {!isLoading && (data?.results?.length || 0) === 0 && (
-              <div className="col-12">
+              <div>
                 <div className="my-4">
                   <Result
                     status="info"

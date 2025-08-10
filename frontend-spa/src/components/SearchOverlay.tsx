@@ -3,7 +3,7 @@ import { createPortal } from 'react-dom';
 import { apiFetch } from '../lib/api';
 import type { Gpu } from '../types';
 import { CloseOutlined, SearchOutlined } from '@ant-design/icons';
-import { Spin } from 'antd';
+import { Button, Input, Spin } from 'antd';
 
 type Props = {
   open: boolean;
@@ -78,7 +78,7 @@ export default function SearchOverlay({ open, onClose }: Props) {
       onClick={onClose}
     >
       <div
-        className="bg-white"
+        className="bg-white search-overlay-panel"
         style={{
           width: 'calc(100% - 48px)',
           margin: '16px auto 0',
@@ -90,57 +90,17 @@ export default function SearchOverlay({ open, onClose }: Props) {
         }}
         onClick={(e) => e.stopPropagation()}
       >
-        <div
-          className="d-flex align-items-center rounded-pill px-3"
-          style={{
-            height: 56,
-            backgroundColor: '#f8f9fa',
-            border: '2px solid transparent',
-            transition: 'border-color 0.2s ease',
-          }}
-        >
-          <SearchOutlined style={{ fontSize: 20, color: '#6c757d', marginRight: 12 }} />
-          <input
-            ref={inputRef}
+        <div className="d-flex align-items-center gap-2">
+          <Input
+            ref={inputRef as any}
             value={q}
             onChange={(e) => setQ(e.target.value)}
             placeholder="Search products..."
-            className="form-control border-0 bg-transparent"
-            style={{
-              fontSize: 16,
-              fontWeight: 400,
-              boxShadow: 'none',
-              outline: 'none',
-            }}
+            allowClear
+            prefix={<SearchOutlined style={{ color: '#6c757d' }} />}
+            size="large"
           />
-          {q && (
-            <button
-              className="btn p-1 ms-2"
-              onClick={() => setQ('')}
-              aria-label="Clear"
-              style={{
-                backgroundColor: 'transparent',
-                border: 'none',
-                color: '#6c757d',
-                fontSize: 18,
-                lineHeight: 1,
-              }}
-            >
-              ×
-            </button>
-          )}
-          <button
-            className="btn p-1 ms-2"
-            onClick={onClose}
-            aria-label="Close"
-            style={{
-              backgroundColor: 'transparent',
-              border: 'none',
-              color: '#6c757d',
-            }}
-          >
-            <CloseOutlined style={{ fontSize: 16 }} />
-          </button>
+          <Button type="text" aria-label="Close" onClick={onClose} icon={<CloseOutlined />} />
         </div>
 
         <div className="py-3" style={{ minHeight: 180 }}>
@@ -153,8 +113,8 @@ export default function SearchOverlay({ open, onClose }: Props) {
             </div>
           )}
           {!loading && (
-            <div className="row g-0">
-              <div className="col-12 col-md-6 pe-md-3">
+            <div className="search-overlay-columns">
+              <div>
                 <div
                   className="text-uppercase fw-semibold mb-3"
                   style={{
@@ -186,7 +146,7 @@ export default function SearchOverlay({ open, onClose }: Props) {
                   <div className="text-muted px-3 py-4 text-center">Type to see suggestions…</div>
                 )}
               </div>
-              <div className="col-12 col-md-6 ps-md-3 mt-4 mt-md-0">
+              <div>
                 <div
                   className="text-uppercase fw-semibold mb-3"
                   style={{
