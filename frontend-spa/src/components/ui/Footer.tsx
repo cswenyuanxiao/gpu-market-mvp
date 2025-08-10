@@ -5,7 +5,7 @@ export default function Footer() {
   return (
     <footer style={{ background: '#5B7DB1', color: '#e7f2f2' }}>
       <div className="container py-5 small">
-        <div className="footer-grid g-4" style={{ display: 'grid', gridTemplateColumns: 'repeat(1, 1fr)', gap: 16 }}>
+        <div className="footer-grid g-4" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: 32 }}>
           <div>
             <div className="fw-bold mb-3" style={{ color: '#ffffff' }}>
               Useful Pages
@@ -108,7 +108,7 @@ export default function Footer() {
           </div>
         </div>
         <div className="pt-4 mt-4" style={{ borderTop: '1px solid rgba(255,255,255,0.2)' }}>
-          <div className="footer-bottom" style={{ display: 'grid', gridTemplateColumns: '1fr', gap: 12 }}>
+          <div className="footer-bottom" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12, alignItems: 'center' }}>
             <div>
               <small>© {year}, GPU Market</small>
             </div>

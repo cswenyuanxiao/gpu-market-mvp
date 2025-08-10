@@ -175,6 +175,23 @@
   text-decoration: underline;
 }
 
+/* Footer responsive grid */
+@media (max-width: 768px) {
+  .footer-grid {
+    grid-template-columns: 1fr !important;
+    gap: 24px !important;
+  }
+  
+  .footer-bottom {
+    grid-template-columns: 1fr !important;
+    text-align: center !important;
+  }
+  
+  .footer-bottom > div:last-child {
+    text-align: center !important;
+  }
+}
+
 /* Mobile responsive improvements */
 @media (max-width: 768px) {
   .container,

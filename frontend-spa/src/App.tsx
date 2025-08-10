@@ -178,7 +178,7 @@ export default function App() {
               </span>
             </Link>
           </div>
-          <div className="d-none">
+          <div className="d-none d-md-flex">
             {user ? (
               <Dropdown
                 trigger={['click']}
@@ -231,8 +231,9 @@ export default function App() {
                 }}
               >
                 <Button
-                  size="small"
-                  type="default"
+                  className="nav-icon-btn"
+                  type="text"
+                  aria-label="Profile"
                   style={{
                     borderRadius: '50%',
                     width: '40px',
