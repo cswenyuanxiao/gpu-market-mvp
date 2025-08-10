@@ -82,7 +82,12 @@ export default function Home() {
 
       {/* FAQs - compact */}
       <div className="py-4">
-        <h2 className="h4 text-center mb-3">FAQs -</h2>
+        <h2 className="h4 text-center mb-4" style={{ 
+          fontFamily: 'ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", Segoe UI Symbol, "Noto Color Emoji"',
+          fontSize: '1.5rem',
+          fontWeight: '600',
+          color: '#1e293b'
+        }}>FAQs -</h2>
         <Collapse 
           defaultActiveKey={[]} 
           ghost
