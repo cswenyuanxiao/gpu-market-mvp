@@ -111,20 +111,26 @@ export default function App() {
             setSearchOpen(true);
           }}
         />
-        <Link to="/" className="d-flex align-items-center gap-2 text-decoration-none" onClick={(e) => {
-          try {
-            const img = (e.currentTarget.querySelector('img') as HTMLElement | null);
-            if (img) {
-              img.animate([
-                { transform: 'scale(1)' },
-                { transform: 'scale(0.97)' },
-                { transform: 'scale(1)' }
-              ], { duration: 180, easing: 'ease-out' });
-            }
-          } catch {}
-        }}>
+        <div 
+          className="d-flex align-items-center gap-2 text-decoration-none" 
+          style={{ cursor: 'pointer' }}
+          onClick={(e) => {
+            try {
+              const img = (e.currentTarget.querySelector('img') as HTMLElement | null);
+              if (img) {
+                img.animate([
+                  { transform: 'scale(1)' },
+                  { transform: 'scale(0.97)' },
+                  { transform: 'scale(1)' }
+                ], { duration: 180, easing: 'ease-out' });
+              }
+            } catch {}
+            // 延迟导航，让动画先执行
+            setTimeout(() => navigate('/'), 100);
+          }}
+        >
           <img src="/logo.png" alt="GPU-MARK" width={180} height={180} />
-        </Link>
+        </div>
         <Button
           className="nav-icon-btn"
           type="text"
