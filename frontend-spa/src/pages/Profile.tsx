@@ -41,9 +41,9 @@ export default function Profile() {
         </div>
       )}
       <h5>My Listings</h5>
-      <div className="row">
+      <div className="product-grid">
         {mine.map((gpu) => (
-          <div className="col-md-6" key={gpu.id}>
+          <div key={gpu.id}>
             <Card
               className="mb-3"
               cover={

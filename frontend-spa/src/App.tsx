@@ -74,7 +74,18 @@ export default function App() {
       {/* Mobile header: menu / logo / search */}
       <div className="container d-flex d-md-none align-items-center justify-content-between py-2 px-3">
         <CollapsibleNav isMobile={true} />
-        <Link to="/" className="d-flex align-items-center text-decoration-none">
+        <Link to="/" className="d-flex align-items-center text-decoration-none" onClick={(e) => {
+          try {
+            const img = (e.currentTarget.querySelector('img') as HTMLElement | null);
+            if (img) {
+              img.animate([
+                { transform: 'scale(1)' },
+                { transform: 'scale(0.95)' },
+                { transform: 'scale(1)' }
+              ], { duration: 180, easing: 'ease-out' });
+            }
+          } catch {}
+        }}>
           <img src="/logo.png" alt="GPU-MARK" width={120} height={120} />
         </Link>
         <Button 
@@ -100,7 +111,18 @@ export default function App() {
             setSearchOpen(true);
           }}
         />
-        <Link to="/" className="d-flex align-items-center gap-2 text-decoration-none">
+        <Link to="/" className="d-flex align-items-center gap-2 text-decoration-none" onClick={(e) => {
+          try {
+            const img = (e.currentTarget.querySelector('img') as HTMLElement | null);
+            if (img) {
+              img.animate([
+                { transform: 'scale(1)' },
+                { transform: 'scale(0.97)' },
+                { transform: 'scale(1)' }
+              ], { duration: 180, easing: 'ease-out' });
+            }
+          } catch {}
+        }}>
           <img src="/logo.png" alt="GPU-MARK" width={180} height={180} />
         </Link>
         <Button

@@ -51,11 +51,11 @@ export default function MyListings() {
           </div>
         </div>
       )}
-      <div className="row">
+      <div className="product-grid">
         {items.map((gpu) => (
-          <div className="col-md-6" key={gpu.id}>
+          <div key={gpu.id}>
             <GpuCard gpu={gpu} onDetails={(id) => navigate(`/g/${id}`)} />
-            <div className="d-flex gap-2 mb-4">
+            <div className="d-flex gap-2 mt-2">
               <Button size="small" onClick={() => navigate(`/edit/${gpu.id}`)}>
                 Edit
               </Button>
