@@ -36,6 +36,7 @@ export default function SellToUs() {
   });
 
   async function onSubmit(values: Values) {
+    if (loading) return;
     const fd = new FormData();
     Object.entries(values).forEach(([k, v]) => {
       if (v === undefined || v === null) return;
@@ -122,6 +123,7 @@ export default function SellToUs() {
                   control={control}
                   render={({ field }) => (
                     <Select
+                      aria-label="brand"
                       id="brand"
                       value={field.value}
                       onChange={(v) => field.onChange(v)}
@@ -170,7 +172,11 @@ export default function SellToUs() {
                   name="warranty"
                   control={control}
                   render={({ field }) => (
-                    <Switch id="warranty" checked={field.value} onChange={(v) => field.onChange(v)} />
+                    <Switch
+                      id="warranty"
+                      checked={field.value}
+                      onChange={(v) => field.onChange(v)}
+                    />
                   )}
                 />
               </FormField>

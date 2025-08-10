@@ -19,4 +19,9 @@ window.matchMedia = (query: string) => ({
   dispatchEvent: () => false,
 });
 
-
+// Polyfill URL.createObjectURL for jsdom (used by avatar preview in tests)
+// @ts-ignore
+if (!global.URL.createObjectURL) {
+  // @ts-ignore
+  global.URL.createObjectURL = () => 'blob://test';
+}

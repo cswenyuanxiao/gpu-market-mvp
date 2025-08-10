@@ -4,8 +4,13 @@ import { config } from '../../lib/config';
 
 export default function FloatingWhatsApp() {
   const num = config.contactWhatsApp || '447747310027';
-  const href = `https://wa.me/${num}?text=Hi%20:)`;
-  const { pathname } = useLocation();
+  const href = `https://wa.me/${num}?text=Hi%20%3A%29`;
+  let pathname = '/';
+  try {
+    pathname = useLocation().pathname;
+  } catch {
+    // In tests or non-router envs, default is '/'
+  }
 
   // Hide on specific routes (login/register/error pages)
   const hiddenRoutes = ['/login', '/register', '/500'];

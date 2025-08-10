@@ -181,24 +181,26 @@ export default function App() {
         />
       </div>
       {/* Center logo row with search and cart */}
-      <div className="container py-3 d-none d-md-flex justify-content-between align-items-center px-3 px-md-4">
-        <Button
-          className="nav-icon-btn"
-          type="text"
-          aria-label="Search"
-          icon={<SearchOutlined style={{ fontSize: 22, color: '#111' }} />}
-          onClick={() => {
-            if (location.pathname !== '/' && location.pathname !== '/everything') {
-              navigate('/everything');
-            } else {
-              // no-op
-            }
-            setSearchOpen(true);
-          }}
-        />
+      <div className="container py-3 d-none d-md-flex align-items-center px-3 px-md-4">
+        <div className="d-flex align-items-center justify-content-start" style={{ flex: 1 }}>
+          <Button
+            className="nav-icon-btn"
+            type="text"
+            aria-label="Search"
+            icon={<SearchOutlined style={{ fontSize: 22, color: '#111' }} />}
+            onClick={() => {
+              if (location.pathname !== '/' && location.pathname !== '/everything') {
+                navigate('/everything');
+              } else {
+                // no-op
+              }
+              setSearchOpen(true);
+            }}
+          />
+        </div>
         <div
-          className="d-flex align-items-center gap-2 text-decoration-none"
-          style={{ cursor: 'pointer' }}
+          className="d-flex align-items-center justify-content-center"
+          style={{ flex: 1, cursor: 'pointer' }}
           onClick={(e) => {
             try {
               const img = e.currentTarget.querySelector('img') as HTMLElement | null;
@@ -219,7 +221,7 @@ export default function App() {
         >
           <img src="/logo.png" alt="GPU-MARK" width={180} height={180} />
         </div>
-        <div className="d-flex align-items-center gap-2">
+        <div className="d-flex align-items-center justify-content-end" style={{ flex: 1 }}>
           <Badge count={cartCount} showZero={false} offset={[-2, 2]} ref={badgeRef as any}>
             <Button
               className="nav-icon-btn"
