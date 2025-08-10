@@ -11,7 +11,7 @@ import { Controller, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Button } from 'antd';
 
-const allowedBrands = ['NVIDIA', 'AMD'] as const;
+const allowedBrands = ['NVIDIA', 'AMD', 'Intel'] as const;
 const SellSchema = z.object({
   title: z.string().min(1, 'Title is required'),
   price: z.coerce.number().min(1, 'Price must be ≥ 1').max(500000, 'Price too large'),
@@ -19,7 +19,7 @@ const SellSchema = z.object({
   brand: z
     .string()
     .optional()
-    .refine((v) => !v || (allowedBrands as readonly string[]).includes(v), 'Brand must be NVIDIA or AMD'),
+    .refine((v) => !v || (allowedBrands as readonly string[]).includes(v), 'Brand must be NVIDIA, AMD, or Intel'),
   vram: z.coerce.number().int().min(0, 'VRAM must be ≥ 0').max(64, 'VRAM must be ≤ 64').optional(),
   desc: z.string().max(2000).optional(),
 });
@@ -77,7 +77,7 @@ export default function Sell() {
               </FormField>
             </div>
             <div className="form-field">
-              <FormField label="Price" htmlFor="price" error={errors.price?.message} hint="In USD, ≥ 1">
+              <FormField label="Price" htmlFor="price" error={errors.price?.message} hint="£">
                 <Controller
                   name="price"
                   control={control}
@@ -102,7 +102,7 @@ export default function Sell() {
               </FormField>
             </div>
             <div className="form-field">
-              <FormField label="Brand" htmlFor="brand" error={errors.brand?.message} hint="NVIDIA or AMD">
+              <FormField label="Brand" htmlFor="brand" error={errors.brand?.message} hint="NVIDIA, AMD, or Intel">
                 <Controller
                   name="brand"
                   control={control}
@@ -111,7 +111,7 @@ export default function Sell() {
                       id="brand"
                       value={field.value}
                       onChange={(v) => field.onChange(v)}
-                      options={[{ value: 'NVIDIA', label: 'NVIDIA' }, { value: 'AMD', label: 'AMD' }]}
+                      options={[{ value: 'NVIDIA', label: 'NVIDIA' }, { value: 'AMD', label: 'AMD' }, { value: 'Intel', label: 'Intel' }]}
                       allowClear
                     />
                   )}

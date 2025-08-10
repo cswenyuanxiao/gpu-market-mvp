@@ -13,7 +13,7 @@ const Schema = z.object({
   contact_name: z.string().min(1, 'Name is required'),
   email: z.string().email('Invalid email'),
   phone: z.string().optional(),
-  brand: z.enum(['NVIDIA', 'AMD'], { required_error: 'Brand is required' }),
+  brand: z.enum(['NVIDIA', 'AMD', 'Intel'], { required_error: 'Brand is required' }),
   model: z.string().min(1, 'Model is required'),
   grade: z.enum(['A', 'B', 'C']).default('B'),
   warranty: z.boolean().default(false),
@@ -128,6 +128,7 @@ export default function SellToUs() {
                       options={[
                         { value: 'NVIDIA', label: 'NVIDIA' },
                         { value: 'AMD', label: 'AMD' },
+                        { value: 'Intel', label: 'Intel' },
                       ]}
                     />
                   )}
