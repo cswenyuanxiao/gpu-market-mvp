@@ -154,6 +154,13 @@ const db = new DatabaseAdapter();
 (async () => {
   try {
     await db.init();
+    // Idempotent ecommerce tables migration
+    try {
+      const runMigration = require('./migrations/add-ecommerce-tables');
+      await runMigration();
+    } catch (e) {
+      console.warn('Ecommerce migration skipped or failed:', e?.message || e);
+    }
     console.log('✅ Database initialized');
   } catch (error) {
     console.error('❌ Database initialization failed:', error);
@@ -316,6 +323,10 @@ if (staticDir && fs.existsSync(staticDir)) {
     '/sell-to-us',
     '/contact',
     '/everything',
+    '/cart',
+    '/checkout',
+    '/orders',
+    /^\/orders\/.+/,
     /^\/edit\/.+/,
     /^\/g\/.+/,
     '/about',
@@ -1114,5 +1125,13 @@ app.get('/api/my/gpus', authenticateToken, (req, res) => {
     .all(req.user.id);
   res.json(rows);
 });
+
+// E-commerce routes
+try {
+  const createEcommerceRoutes = require('./routes/ecommerce');
+  app.use('/api', createEcommerceRoutes(authenticateToken));
+} catch (e) {
+  console.warn('E-commerce routes not mounted:', e?.message || e);
+}
 
 module.exports = { app };

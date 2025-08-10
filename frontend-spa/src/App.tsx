@@ -15,6 +15,8 @@ const Edit = lazy(() => import('./pages/Edit'));
 const NotFound = lazy(() => import('./pages/NotFound'));
 const ProfileEdit = lazy(() => import('./pages/ProfileEdit'));
 const Checkout = lazy(() => import('./pages/Checkout'));
+const Orders = lazy(() => import('./pages/Orders'));
+const OrderDetail = lazy(() => import('./pages/OrderDetail'));
 const SellToUs = lazy(() => import('./pages/SellToUs'));
 const Contact = lazy(() => import('./pages/Contact'));
 const ShopEverything = lazy(() => import('./pages/ShopEverything'));
@@ -400,6 +402,22 @@ export default function App() {
               element={
                 <AuthGuard>
                   <Checkout />
+                </AuthGuard>
+              }
+            />
+            <Route
+              path="/orders"
+              element={
+                <AuthGuard>
+                  <Orders />
+                </AuthGuard>
+              }
+            />
+            <Route
+              path="/orders/:id"
+              element={
+                <AuthGuard>
+                  <OrderDetail />
                 </AuthGuard>
               }
             />
