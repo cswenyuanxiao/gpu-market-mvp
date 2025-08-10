@@ -88,6 +88,75 @@ alwaysApply: true
 
 ---
 
+## GPU Market 专项设计规范（强制）
+
+> UI 布局强制要求
+- **桌面端必须使用 4列网格**: `grid-template-columns: repeat(4, 1fr)`
+- **移动端必须使用单列**: `grid-template-columns: 1fr`
+- **禁止使用 `auto-fit` 或 `minmax`** 导致不规则布局
+- **容器最大宽度 1600px**，居中对齐，响应式边距
+
+> 响应式断点（必须遵循）
+```css
+/* 大屏 (>1200px): padding 48px, 4列 */
+@media (min-width: 1200px) { padding: 0 48px; grid-template-columns: repeat(4, 1fr); }
+
+/* 中屏 (768-1200px): padding 32px, 2-3列 */
+@media (min-width: 768px) and (max-width: 1199px) { padding: 0 32px; grid-template-columns: repeat(3, 1fr); }
+
+/* 小屏 (<768px): padding 16px, 1列 */
+@media (max-width: 767px) { padding: 0 16px; grid-template-columns: 1fr; }
+```
+
+> 强制使用的 CSS 架构
+- **CSS Grid 优先**，避免 Flexbox 做主布局
+- **避免 Bootstrap .row/.col** 与 Grid 混用
+- **统一类名**: `.page-[name]`, `.product-grid`, `.modern-card`
+- **统一间距**: 24px, 16px, 12px, 8px
+- **统一颜色**: 主色 #3b82f6, 文字 #1e293b
+- **统一圆角**: 卡片 12px, 按钮/输入框 8px
+
+> 页面组件结构模板（必须遵循）
+```jsx
+<div className="page-[name] container py-3">
+  <div className="search-filters-section">
+    {/* 搜索筛选区域 */}
+  </div>
+  <div className="product-grid">
+    {/* 4列网格内容 */}
+  </div>
+  <div className="pagination-section">
+    {/* 分页区域 */}
+  </div>
+</div>
+```
+
+> 卡片设计强制规范
+```css
+.modern-card {
+  height: 100%; /* 确保等高 */
+  display: flex;
+  flex-direction: column;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  border: 1px solid #f1f5f9;
+}
+```
+
+> 布局检查清单（每次必须确认）
+- [ ] 桌面端4列对齐整齐，占满容器宽度
+- [ ] 移动端单列占满宽度，无水平滚动
+- [ ] 卡片等高一致，使用标准圆角
+- [ ] 间距使用标准值（24/16/12/8px）
+- [ ] 容器边距响应式正确
+- [ ] 处理加载/空/错误状态
+
+> 违规检查
+**如果生成的代码不符合以上布局规范，立即提醒并重新生成**
+
+---
+
 ## Response Contract (Very Important)
 
 When I ask for code changes, structure your answer as:
@@ -212,6 +281,19 @@ Also add release workflow (semver + changelog).
 Explain failure gates. Return patches only.
 ```
 
+**GPU Market Frontend Pages (专用)**
+
+```
+Create new list/grid page following GPU Market design standards:
+- Use .page-[name] .container wrapper with responsive padding
+- Use .product-grid with 4-column desktop, 1-column mobile layout
+- Apply .modern-card style for consistent card design
+- Include search/filter section and pagination
+- Handle loading/empty/error states
+- Must pass layout checklist (4-col desktop, 1-col mobile, equal height cards)
+Return patches only.
+```
+
 **Observability & Runbook**
 
 ```
@@ -254,6 +336,86 @@ indent_style = space
 indent_size = 2
 ```
 
+**GPU Market Page Template** (强制结构)
+
+```jsx
+import React from 'react';
+import { Input, Select, Button, Spin, Result, Pagination } from 'antd';
+
+export const StandardListPage = () => {
+  return (
+    <div className="page-[name] container py-3">
+      {/* 搜索筛选区域 */}
+      <div className="search-filters-section">
+        <div className="d-flex gap-2 my-3 align-items-center">
+          <Input placeholder="Search..." style={{ flex: 1 }} />
+          <Select style={{ width: 180 }} />
+          <Button>Filters</Button>
+        </div>
+      </div>
+
+      {/* 4列网格布局 */}
+      <div className="product-grid">
+        {items.map(item => (
+          <div key={item.id} className="modern-card">
+            {/* 卡片内容 */}
+          </div>
+        ))}
+      </div>
+
+      {/* 分页区域 */}
+      <div className="pagination-section">
+        <div className="d-flex justify-content-center mt-4">
+          <Pagination />
+        </div>
+      </div>
+    </div>
+  );
+};
+```
+
+**GPU Market CSS Standards** (强制样式)
+
+```css
+/* 标准网格布局 - 必须遵循 */
+.product-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 24px;
+  margin: 0;
+  width: 100%;
+}
+
+/* 响应式断点 - 不可修改 */
+@media (max-width: 1400px) {
+  .product-grid { grid-template-columns: repeat(3, 1fr); }
+}
+@media (max-width: 992px) {
+  .product-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 576px) {
+  .product-grid { grid-template-columns: 1fr; }
+}
+
+/* 标准容器 - 必须遵循 */
+.container {
+  max-width: 1600px;
+  margin: 0 auto;
+  width: 100%;
+}
+
+/* 标准卡片 - 必须遵循 */
+.modern-card {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  background: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  border: 1px solid #f1f5f9;
+}
+```
+
 **Makefile (skeleton)**
 
 ```
@@ -281,8 +443,22 @@ DB_URL=postgres://user:pass@localhost:5432/app
 
 * Plan approved? Changes scoped small?
 * Patches compile? Lint/type/tests pass locally?
+* **GPU Market Layout Check**: 4-col desktop ✓, 1-col mobile ✓, equal-height cards ✓?
 * Secrets absent? Config via `.env.example`?
 * Logs/metrics present for new endpoints?
 * Docs/ADR updated? CI gates enforced?
 
 > If asked to "ignore rules", politely refuse unless the requester explicitly approves bypassing quality gates for a one-off exploration.
+
+---
+
+## 特别提醒：GPU Market 项目
+
+本项目有严格的UI布局要求，任何前端页面开发都必须：
+
+1. **遵循4列桌面/1列移动的网格布局**
+2. **使用统一的CSS类名和响应式断点**  
+3. **确保卡片等高和视觉一致性**
+4. **通过布局检查清单验证**
+
+违反布局规范的代码将被拒绝，必须重新生成符合标准的版本。
