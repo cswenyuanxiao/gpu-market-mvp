@@ -28,7 +28,7 @@ app.use(
         fontSrc: ["'self'", 'https:', 'data:'],
         formAction: ["'self'"],
         frameAncestors: ["'self'"],
-        imgSrc: ["'self'", 'data:', 'https:'],
+        imgSrc: ["'self'", 'data:', 'https:', 'blob:'],
         objectSrc: ["'none'"],
         scriptSrc: ["'self'", 'https:', "'unsafe-inline'"],
         scriptSrcAttr: ["'none'"],
@@ -581,7 +581,8 @@ const SearchSchema = z.object({
   brand: z.string().max(50).optional(),
   vram_min: z.coerce.number().int().nonnegative().optional(),
   vram_max: z.coerce.number().int().nonnegative().optional(),
-  sort: z.enum(['newest', 'price_asc', 'price_desc']).optional(),
+  // Accept any sort string; we will normalize to known options. This avoids 400s from unknown values
+  sort: z.string().max(32).optional(),
 });
 
 // Sell-to-us (quotes) & Contact validation
@@ -899,6 +900,13 @@ app.get('/api/search', async (req, res) => {
     let order = 'created_at DESC';
     if (sort === 'price_asc') order = 'price ASC';
     if (sort === 'price_desc') order = 'price DESC';
+    if (sort === 'newest') order = 'created_at DESC';
+    if (sort === 'date_new') order = 'created_at DESC';
+    if (sort === 'date_old') order = 'created_at ASC';
+    if (sort === 'alpha_asc') order = 'title ASC';
+    if (sort === 'alpha_desc') order = 'title DESC';
+    if (sort === 'featured') order = 'created_at DESC'; // Featured defaults to newest
+    if (sort === 'best') order = 'created_at DESC'; // Best selling defaults to newest
     const rows = await db
       .prepare(
         'SELECT gpus.*, users.display_name as seller_name, users.avatar_path as seller_avatar FROM gpus LEFT JOIN users ON gpus.seller_id = users.id ' +

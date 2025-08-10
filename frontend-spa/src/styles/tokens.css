@@ -191,6 +191,17 @@
     text-align: center !important;
   }
 }
+/* Ensure mobile footer text always centered */
+.footer-bottom {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+@media (max-width: 768px) {
+  .footer-bottom {
+    grid-template-columns: 1fr !important;
+    justify-items: center;
+  }
+}
 
 /* GPUsed-style filter toolbar */
 .filter-toolbar-gpused {
@@ -360,6 +371,15 @@
 }
 
 .price-input {
+  flex: 1;
+}
+
+.vram-inputs {
+  display: flex;
+  gap: 12px;
+}
+
+.vram-input {
   flex: 1;
 }
 
